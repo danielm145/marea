@@ -69,7 +69,7 @@ async function mensajeWA(nombre: string) {
   const primer = (nombre || "").trim().split(/\s+/)[0] || "";
   const { data: cfg } = await admin.from("config").select("valor").eq("clave", "viaje").maybeSingle();
   const v = (cfg?.valor as Record<string, string>) || {};
-  const lugar = v.lugar || "la playa", app = v.nombre || "Beach Trip";
+  const lugar = v.lugar || "la playa", app = v.nombre || "Casablanca";
   return `¡Hola ${primer}! 🌴☀️\nYa está lista ${app}, la app de nuestro viaje a ${lugar}.\n\n` +
     `👉 Entra desde tu celular: ${APP}\n📱 Usuario: tu número de celular\n🔑 Clave: el día y el mes de tu cumpleaños (4 números: si naciste el 7 de marzo, es 0703)\n\n` +
     `Ahí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El plan de cada día y el look de cada noche\n` +

@@ -2,6 +2,11 @@
 
 > Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v8**.
 
+## v17 (7-oct) · el viaje se llama Casablanca
+- Logo oficial del viaje: **Casablanca** (`public/img/logo-casablanca.webp`, fondo transparente) en login, portada de Hoy,
+  encabezado e íconos de la app (`icon-192/512.png`). Nombre por defecto «Casablanca»; `sql/009_nombre_casablanca.sql`
+  lo cambia en la base. El logo Beach Trip (SVG) queda en el código sin usarse.
+
 ## v16 (7-oct) · lo de los mockups nuevos + stickers
 - **Stickers** (hoja «Our Beach Era» de Daniel) recortados con fondo transparente en `public/img/stickers/*.webp`
   y el logo **Casablanca**. Salen en login, Hoy, Más, Info, Mapa, Álbum, Gastos, Equipo, Checklist y Looks.
@@ -106,7 +111,7 @@ scripts/deploy.sh wrangler.dominio.toml     # una vez, para marea.fieldbuil.ai
 ```
 
 ## Conectar Supabase fieldbuilt-lab (para que todos compartan los datos)
-1. SQL editor: `sql/001` → `002` → … → `008` (en ese orden; se pueden repetir).
+1. SQL editor: `sql/001` → `002` → … → `009` (en ese orden; se pueden repetir).
 2. Project Settings → Data API → Exposed schemas → agregar `marea`.
 3. En `public/index.html` pegar `SB_URL` y `SB_ANON`, subir `BUILD_TAG`, `scripts/deploy.sh`.
 4. `scripts/funciones.sh` (necesita el `.env`): despliega `marea-admin-personas`, `marea-leer-gasto` (facturas con Claude), `marea-menu` (fichas de platos) y `marea-info` (lo esencial).

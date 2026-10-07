@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!--ART-START-->
-<title>Beach Trip</title>
+<title>Casablanca · Same</title>
 <meta name="description" content="El viaje a la playa: gastos compartidos, tareas y noches temáticas.">
 <meta name="theme-color" content="#FFF9F1">
 <meta name="color-scheme" content="light">
@@ -428,6 +428,8 @@ a.item{text-decoration:none;color:inherit}
 .chat-in{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(68px + env(safe-area-inset-bottom,0px));width:min(680px,100%);padding:8px 12px;display:flex;gap:8px;align-items:center;background:var(--bg);border-top:1px solid var(--line);z-index:30}
 .chat-in .send{background:var(--tide);color:#fff}
 .check-h{display:flex;align-items:center;gap:12px;margin-top:14px}
+.logo-cb{display:block;margin:0 auto;max-width:100%;border-radius:0!important}.top2-t .logo-cb{margin:0 auto 2px}
+.hh-logo{display:inline-block;background:rgba(255,253,247,.0)}.hh-logo .logo-cb{filter:drop-shadow(0 8px 20px rgba(0,0,0,.35))}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -464,7 +466,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v16';
+const BUILD_TAG='v17';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -562,7 +564,9 @@ const LOGO_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" ro
 <circle cx="200" cy="200" r="195" fill="none" stroke="#0B2547" stroke-width="2"/>
 </svg>`;
 let LOGO_PNG=false, LOGO_N=0;
-function logo(px){if(LOGO_PNG)return `<img class="logo" src="img/logo.png" width="${px}" height="${px}" alt="Beach Trip">`;const k='l'+(++LOGO_N);return `<span class="logo" style="width:${px}px;height:${px}px">${LOGO_SVG.replace(/bt-/g,k+'-')}</span>`}
+/* el logo del viaje: Casablanca (Daniel, 7-oct). Es ancho (1,7 : 1): px es el alto aproximado */
+const LOGO_CB='img/logo-casablanca.webp';
+function logo(px){return `<img class="logo logo-cb" src="${LOGO_CB}" alt="Casablanca" style="height:${Math.round(px*.62)}px;width:auto" onerror="this.remove()">`}
 function logoOriginal(){try{const i=new Image();i.onload=()=>{LOGO_PNG=true;ME?render():pintarLogin()};i.src='img/logo.png'}catch(e){}}
 const LOGO=logo(40);
 
@@ -578,7 +582,7 @@ const TALLAS=['XS','S','M','L','XL','XXL'];
 const AVC=[['#D5EDEA','#075A56'],['#FCE5DC','#B23C1C'],['#E6E3FA','#4B3BA8'],['#FBEFD3','#8A5A0B'],['#DDF0FB','#1A5F8A'],['#F6DFEB','#9A2E64'],['#E3F2D9','#3F6B1C']];
 
 /* ---------- estado ---------- */
-let ME=null, PERSONAS=[], PMAP={}, CFG={nombre:'Beach Trip',lugar:'',desde:null,hasta:null,moneda:'USD'};
+let ME=null, PERSONAS=[], PMAP={}, CFG={nombre:'Casablanca',lugar:'',desde:null,hasta:null,moneda:'USD'};
 let GASTOS=[], TAREAS=[], EVENTOS=[], VOTOS=[], ETIQUETAS=[], COMIDAS=[], PLATOS=[], ASIST=[], PRESU=[], INSPI=[], MURO=[], EQUIPO=[], VEHICULOS=[], PASAJEROS=[], COMERCIOS=[], MENSAJES=[];
 let TAB='hoy', SUBG='mov', SUBE='programa', FILT={cat:'',per:'',q:''}, FILTT={grupo:'',solo:false};
 const FOTOS={}; // ref → url resuelta
@@ -799,7 +803,7 @@ function seedDemo(){
   const vehiculos=[{id:uid(),nombre:'Camioneta de Daniel',conductor:autor,puestos:7,maletas:6,salida:'Quito, 6:00 a.m.',nota:'',creado_por:autor},{id:uid(),nombre:'Carro de Kevin',conductor:id('Kevin López'),puestos:5,maletas:4,salida:'Quito, 7:00 a.m.',nota:'',creado_por:id('Kevin López')}];
   const pasajeros=[]; const sube=(v,ns,t)=>ns.forEach(n=>pasajeros.push({vehiculo_id:vehiculos[v].id,persona_id:id(n),trayecto:t,maletas:1}));
   ['ida','regreso'].forEach(t=>{sube(0,['Daniel Martínez','Ana Paula','Alegría','Ana Cristina Grijalva'],t);sube(1,['Kevin López','Domenika Pérez','Natalia Vásquez','Amelia Camacho'],t)});
-  return {personas,config:{nombre:'Beach Trip',lugar:'Same, Esmeraldas',desde,hasta,moneda:'USD',ejemplo:true,info:{...CASA_AIRBNB,casa_fotos:[],direccion:'Condominio Alcazaba del Río, Casablanca · Same, Esmeraldas',mapa_url:'',checkin:'15:00',checkout:'12:00',wifi_red:'',wifi_clave:'',
+  return {personas,config:{nombre:'Casablanca',lugar:'Same, Esmeraldas',desde,hasta,moneda:'USD',ejemplo:true,info:{...CASA_AIRBNB,casa_fotos:[],direccion:'Condominio Alcazaba del Río, Casablanca · Same, Esmeraldas',mapa_url:'',checkin:'15:00',checkout:'12:00',wifi_red:'',wifi_clave:'',
     que_llevar:['Protector solar y repelente','Traje de baño y toalla de playa','Todo blanco para la Welcome White Night','Pijama elegante para la Pizza & Game Night','Look dorado o beige para la Golden Hour (día 2)','Camisa hawaiana o look boho para el Tiki Boho Funny (día 3)','Algo elegante para la Restaurant Night','Tu número para el Talent Show','Medicinas personales'], /* las gafas de la sesión las pone Freaky Monkey */
     reglas:['Cero café soluble: se pasa café de verdad','Cada quien lava lo que usa en las cenas colaborativas','Todo gasto se sube con foto a la app','Silencio después de la 1 a.m. por los vecinos'],
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
@@ -816,7 +820,7 @@ const MESES_L=['enero','febrero','marzo','abril','mayo','junio','julio','agosto'
 const cumpleTxt=c=>c?`${+c.slice(3,5)} de ${MESES_L[+c.slice(0,2)-1]}`:'';
 /* 593985576470 → 098 557 6470 (Ecuador); los demás, con su + */
 const telLocal=t=>!t?'':/^593\d{9}$/.test(t)?('0'+t.slice(3)).replace(/^(\d{3})(\d{3})(\d{4})$/,'$1 $2 $3'):'+'+t;
-function mensajeWA(nombre){const primer=(nombre||'').trim().split(/\s+/)[0]||'';const lugar=(typeof CFG!=='undefined'&&CFG.lugar)||'la playa',app=(typeof CFG!=='undefined'&&CFG.nombre)||'Beach Trip';
+function mensajeWA(nombre){const primer=(nombre||'').trim().split(/\s+/)[0]||'';const lugar=(typeof CFG!=='undefined'&&CFG.lugar)||'la playa',app=(typeof CFG!=='undefined'&&CFG.nombre)||'Casablanca';
   return `¡Hola ${primer}! 🌴☀️\nYa está lista ${app}, la app de nuestro viaje a ${lugar}.\n\n👉 Entra desde tu celular: ${APP_URL}\n📱 Usuario: tu número de celular\n🔑 Clave: el día y el mes de tu cumpleaños (4 números: si naciste el 7 de marzo, es 0703)\n\nAhí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El plan de cada día y el look de cada noche\n🍽️ El menú de los 4 días (márcanos si no comes algo)\n📸 El álbum para subir las fotos del viaje\n🙋 Tu ficha: alergias, tu talento y tu canción de karaoke\n\nTip: ábrela y en el menú del navegador elige "Agregar a pantalla de inicio" para tenerla como app.`}
 function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`https://wa.me/${t}?text=${encodeURIComponent(msg)}`:null}
 
@@ -1062,7 +1066,7 @@ if(MODO==='supabase'){setInterval(()=>{if(document.visibilityState==='visible')r
 
 function pintarLogin(msg){
   $('#app').innerHTML=`<div class="login">
-    <div class="login-logo">${logo(200)}</div>
+    <div class="login-logo">${logo(260)}</div>
     <div class="stk-row login-stk">${['goodVibes','salty','vitamin','paradise'].map(k=>stk(k)).join('')}</div>
     <div style="text-align:center"><h1>¡Nos vamos a la playa!</h1><p class="tag">Same, Esmeraldas · buenos amigos, mejores historias.</p></div>
     <form id="lf" class="stack" autocomplete="on">
@@ -1091,9 +1095,9 @@ function render(){
   const enHoy=TAB==='hoy', activa=EN_MAS.includes(TAB)?'mas':TAB;
   $('#app').innerHTML=`<div class="wrap ${enHoy?'en-hoy':''}">
     ${enHoy?'':`<header class="top2"><button class="x" onclick="${EN_MAS.includes(TAB)&&TAB!=='mas'?"irA('mas')":"irA('hoy')"}" aria-label="Atrás">${ic('back')}</button>
-      <div class="top2-t"><b>${esc(CFG.nombre||'Beach Trip')}</b><small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
+      <div class="top2-t">${logo(58)}<small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
     <main id="main">${(views[TAB]||vHoy)()}</main>
-    <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Beach Trip ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
+    <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Casablanca ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     ${TAB==='chat'?'':`<button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>`}
     <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===activa?'aria-current="page"':''} onclick="irA('${k}')">${ic(TAB_IC[k]||k)}<span>${l}</span></button>`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
@@ -1163,7 +1167,7 @@ function vHoy(){
   const b=balances().find(x=>x.id===ME.id)||{saldo:0};
   const stat=(i,num,l,c,click)=>`<button class="st" onclick="${click}"><span class="st-i" style="background:${c}1f;color:${c}">${ic(i)}</span><b>${num}</b><span>${l}</span></button>`;
   return `<section class="hh">${imgTag([portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
-      <div class="hh-in">${logo(78)}<h1>${esc(CFG.nombre||'Beach Trip')}</h1><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
+      <div class="hh-in"><div class="hh-logo">${logo(190)}</div><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
         <div class="script hh-s">${n>0?`Faltan ${n} día${n===1?'':'s'}`:fin?'Gracias por venir':'Buenas vibras, grandes momentos'}</div></div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'días','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
     ${instalarCard()}
@@ -1804,7 +1808,7 @@ async function guardarPerfil(seguir){try{await API.saveMiPerfil(PF.apodo.trim(),
 
 /* ---------- ADMIN ---------- */
 let ADM=null, FADM='';
-const recordatorioFicha=()=>`🙋 Falta llenar tu ficha en Beach Trip: alergias o lo que no comes, tu talento para el show y tu canción de karaoke. Sirve para armar el menú y el itinerario. Entra aquí: ${APP_URL}`;
+const recordatorioFicha=()=>`🙋 Falta llenar tu ficha en la app del viaje: alergias o lo que no comes, tu talento para el show y tu canción de karaoke. Sirve para armar el menú y el itinerario. Entra aquí: ${APP_URL}`;
 function vAdmin(){
   if(!esAdmin()) return '';
   if(!ADM){API.admin('listar').then(r=>{ADM=r.personas;render()}).catch(e=>{ADM=[];toast(e.message)});return `<div class="card flat empty">Cargando invitados…</div>`}
@@ -1893,7 +1897,7 @@ async function cargaMasiva(){
   $('#cmr').innerHTML=`<div class="card"><div class="list">${out.map((o,i)=>`<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(o.nombre)}</div><div class="s">${o.ok?'Clave (cumpleaños) '+esc(o.r.pin):esc(o.err)}</div></div>${o.ok?`<button class="btn sm" onclick="copiar(CM[${i}].r.mensaje,'Mensaje copiado')">${ic('copy')}</button>`:'<span class="pill bad">error</span>'}</div>`).join('')}</div></div>
     <button class="btn primary block" style="margin-top:10px" onclick="copiar(CM.filter(o=>o.ok).map(o=>o.r.mensaje).join('\\n\\n———\\n\\n'),'Todos los mensajes copiados')">Copiar todos los mensajes</button>`;
 }
-async function guardarViaje(){const c={nombre:$('#cv_n').value.trim()||'Beach Trip',lugar:$('#cv_l').value.trim(),desde:$('#cv_d').value||null,hasta:$('#cv_h').value||null,moneda:$('#cv_m').value};
+async function guardarViaje(){const c={nombre:$('#cv_n').value.trim()||'Casablanca',lugar:$('#cv_l').value.trim(),desde:$('#cv_d').value||null,hasta:$('#cv_h').value||null,moneda:$('#cv_m').value};
   if(c.desde&&c.hasta&&c.hasta<c.desde){toast('La fecha final va después de la inicial');return}
   try{await API.saveConfig(c);await cargar();toast('Viaje guardado');render()}catch(e){toast(e.message)}}
 function respaldoJSON(){const j=JSON.stringify({exportado:new Date().toISOString(),config:CFG,personas:PERSONAS,gastos:GASTOS,tareas:TAREAS,eventos:EVENTOS,votos:VOTOS,etiquetas:ETIQUETAS,comidas:COMIDAS,platos:PLATOS,asistencia:ASIST,presupuesto:PRESU},null,1);
