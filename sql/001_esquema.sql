@@ -1,8 +1,16 @@
 -- ============================================================================
 -- MAREA ALTA · esquema v1 (idempotente: seguro de correr dos veces)
--- Proyecto Supabase NUEVO, solo para el viaje. Pegar completo en el SQL editor
--- o `supabase db push`. Si una transacción queda abortada: ROLLBACK; y repetir.
+-- Vive en el proyecto Supabase COMPARTIDO `fieldbuilt-lab`, dentro del esquema
+-- propio `marea` (varias apps comparten el proyecto: NADA de Marea va en public).
+-- Pegar completo en el SQL editor. Si una transacción queda abortada: ROLLBACK; y repetir.
+-- Después de correrlo: Project Settings → Data API → Exposed schemas → agregar `marea`.
 -- ============================================================================
+create schema if not exists marea;
+grant usage on schema marea to authenticated, anon, service_role;
+alter default privileges in schema marea grant all on tables to authenticated, service_role;
+alter default privileges in schema marea grant all on sequences to authenticated, service_role;
+alter default privileges in schema marea grant execute on functions to authenticated, service_role;
+set search_path = marea, public;
 
 -- ---------- 1. tablas --------------------------------------------------------
 create table if not exists personas (
@@ -96,7 +104,7 @@ create table if not exists gastos (
   --   igual      → valor se ignora, monto/n
   --   porcentaje → valor en %, deben sumar 100
   --   monto      → valor en dinero, deben sumar monto
-  respaldo_path text,                           -- storage respaldos/<id>.jpg
+  respaldo_path text,                           -- storage marea-respaldos/<persona_id>/<uuid>.jpg
   origen text check (origen in ('texto','foto','manual')),
   lectura_ia jsonb,                             -- lo que propuso el modelo (auditoría)
   nota text,
@@ -148,19 +156,19 @@ alter table gastos   add column if not exists nota text;
 alter table eventos  add column if not exists lista jsonb not null default '[]'::jsonb;
 
 -- ---------- 2b. helpers de identidad (después de las tablas: SQL las valida al crear) ----
-create or replace function public.mi_persona() returns uuid
-language sql stable security definer set search_path = public as $$
+create or replace function marea.mi_persona() returns uuid
+language sql stable security definer set search_path = marea, public as $$
   select id from personas where auth_id = auth.uid() and activo limit 1
 $$;
 
-create or replace function public.es_admin() returns boolean
-language sql stable security definer set search_path = public as $$
+create or replace function marea.es_admin() returns boolean
+language sql stable security definer set search_path = marea, public as $$
   select exists(select 1 from personas where auth_id = auth.uid() and activo and rol = 'admin')
 $$;
 
 -- ---------- 3. historial de gastos (trigger) ---------------------------------
-create or replace function public.gastos_historial_tg() returns trigger
-language plpgsql security definer set search_path = public as $$
+create or replace function marea.gastos_historial_tg() returns trigger
+language plpgsql security definer set search_path = marea, public as $$
 begin
   insert into gastos_historial(gasto_id, version, cambiado_por)
   values (old.id, to_jsonb(old), mi_persona());
@@ -171,7 +179,7 @@ drop trigger if exists gastos_historial_trg on gastos;
 create trigger gastos_historial_trg before update or delete on gastos
   for each row execute function gastos_historial_tg();
 
-create or replace function public.touch_updated_at() returns trigger
+create or replace function marea.touch_updated_at() returns trigger
 language plpgsql as $$ begin new.updated_at = now(); return new; end $$;
 drop trigger if exists tareas_touch on tareas;
 create trigger tareas_touch before update on tareas for each row execute function touch_updated_at();
@@ -262,8 +270,8 @@ create policy personas_upd on personas for update to authenticated
   with check (auth_id = auth.uid() or es_admin());
 -- Un invitado solo puede tocar perfil/apodo/telefono de SU fila. Se protege con trigger
 -- (no con subconsultas en la policy: Postgres las rechaza por "infinite recursion").
-create or replace function public.personas_guard_tg() returns trigger
-language plpgsql security definer set search_path = public as $$
+create or replace function marea.personas_guard_tg() returns trigger
+language plpgsql security definer set search_path = marea, public as $$
 begin
   if not es_admin() then
     if new.rol is distinct from old.rol or new.cedula is distinct from old.cedula
@@ -323,23 +331,23 @@ drop policy if exists au_sel on admin_audit; create policy au_sel on admin_audit
 
 -- ---------- 6. storage -------------------------------------------------------
 insert into storage.buckets (id, name, public) values
-  ('respaldos', 'respaldos', false),
-  ('perfiles',  'perfiles',  false),
-  ('muro',      'muro',      false)
+  ('marea-respaldos', 'marea-respaldos', false),
+  ('marea-perfiles',  'marea-perfiles',  false),
+  ('marea-muro',      'marea-muro',      false)
 on conflict (id) do nothing;
 
 -- leer: cualquier autenticado (URL firmada desde el front); subir: a su propia carpeta <persona_id>/...
-drop policy if exists st_sel on storage.objects;
-create policy st_sel on storage.objects for select to authenticated
-  using (bucket_id in ('respaldos','perfiles','muro'));
-drop policy if exists st_ins on storage.objects;
-create policy st_ins on storage.objects for insert to authenticated
-  with check (bucket_id in ('respaldos','perfiles','muro')
-              and (storage.foldername(name))[1] = mi_persona()::text);
-drop policy if exists st_del on storage.objects;
-create policy st_del on storage.objects for delete to authenticated
-  using (bucket_id in ('respaldos','perfiles','muro')
-         and ((storage.foldername(name))[1] = mi_persona()::text or es_admin()));
+drop policy if exists marea_st_sel on storage.objects;
+create policy marea_st_sel on storage.objects for select to authenticated
+  using (bucket_id in ('marea-respaldos','marea-perfiles','marea-muro'));
+drop policy if exists marea_st_ins on storage.objects;
+create policy marea_st_ins on storage.objects for insert to authenticated
+  with check (bucket_id in ('marea-respaldos','marea-perfiles','marea-muro')
+              and (storage.foldername(name))[1] = marea.mi_persona()::text);
+drop policy if exists marea_st_del on storage.objects;
+create policy marea_st_del on storage.objects for delete to authenticated
+  using (bucket_id in ('marea-respaldos','marea-perfiles','marea-muro')
+         and ((storage.foldername(name))[1] = marea.mi_persona()::text or marea.es_admin()));
 
 -- ---------- 7. semilla de etiquetas y propuestas de noches temáticas ----------
 insert into etiquetas(nombre, color) values
@@ -369,5 +377,5 @@ select * from (values
 where not exists (select 1 from eventos e where e.titulo = v.titulo);
 
 -- ---------- 8. verificación rápida -------------------------------------------
--- select tablename, rowsecurity from pg_tables where schemaname='public' order by 1;
+-- select tablename, rowsecurity from pg_tables where schemaname='marea' order by 1;
 -- select * from vw_balances;  select * from vw_fondo;

@@ -19,8 +19,8 @@ public/index.html         ← TODA la app (login, pestañas, gastos, tareas, eve
 public/sw.js              ← service worker red-primero (ya escrito)
 public/manifest.webmanifest, icon-192.png, icon-512.png, _headers
 sql/001_esquema.sql       ← tablas, RLS, vistas, storage, semilla (ya escrito)
-supabase/functions/admin-personas   ← crear invitados / PIN / WhatsApp (ya escrita)
-supabase/functions/leer-gasto       ← IA: foto o texto → propuesta (ya escrita)
+supabase/functions/marea-admin-personas   ← crear invitados / PIN / WhatsApp (ya escrita)
+supabase/functions/marea-leer-gasto       ← IA: foto o texto → propuesta (ya escrita)
 scripts/deploy.sh, scripts/funciones.sh
 tests/*.spec.ts           ← Playwright, como invitado y como admin
 docs/SPEC.md (este), docs/ESTADO.md (bitácora para Daniel)
@@ -29,6 +29,12 @@ docs/SPEC.md (este), docs/ESTADO.md (bitácora para Daniel)
 - Supabase JS v2 por CDN (`https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2`).
   `SUPABASE_URL` y `SUPABASE_ANON_KEY` van **escritas en el HTML** (son públicas por diseño;
   la seguridad es RLS). La service role **jamás**.
+- **Proyecto compartido `fieldbuilt-lab`**: el cliente se crea con
+  `createClient(URL, ANON, { db: { schema: 'marea' } })`; todas las tablas y vistas están en
+  el esquema `marea`. Para que la API lo sirva, en el dashboard: Project Settings → Data API
+  → **Exposed schemas** → agregar `marea` (una sola vez; el agente lo anota en ESTADO.md si
+  no tiene acceso al dashboard). Buckets: `marea-respaldos`, `marea-perfiles`, `marea-muro`.
+  Edge Functions: `marea-admin-personas`, `marea-leer-gasto`. Email de Auth: `<cedula>@marea.local`.
 - Estado global en JS: `SESSION` (persona actual, desde `personas` fila propia),
   `PERSONAS` (desde `personas_publicas`), `CFG` (config.viaje), `GASTOS`, `TAREAS`,
   `EVENTOS`, `ETIQUETAS`. `refreshData()` recarga todo sin reload; **Realtime** de
@@ -66,7 +72,7 @@ si no nombre + inicial del apellido cuando hay repetidos.
 - Pantalla: logo (ola + luna, SVG inline), "Marea Alta", input **cédula** (`inputmode=
   numeric`), input **PIN** (4 dígitos, teclado numérico, `type=password`), botón Entrar.
   Enlace "¿No tienes clave? Escríbele a Daniel".
-- `supabase.auth.signInWithPassword({ email: cedula+'@playa.local', password: cedula+'#'+pin })`.
+- `supabase.auth.signInWithPassword({ email: cedula+'@marea.local', password: cedula+'#'+pin })`.
 - Tras entrar: `personas` fila propia (`select ... eq('auth_id', uid)`), luego
   `personas_publicas`, `config`, datos. Si la persona está `activo=false` → cerrar sesión
   con mensaje.
@@ -119,10 +125,10 @@ function simplificar(balances){ // [{persona_id, saldo}]
   una (crea un gasto `tipo=pago` prellenado; confirma antes). Tarjeta del **fondo común**
   (aportado / gastado / disponible) con botón "Registrar aporte".
 - **Agregar** (hoja inferior desde el botón ＋ del Home y de Gastos):
-  1. **Escribir**: textarea "Cuéntalo como quieras" → `leer-gasto` → formulario prellenado.
+  1. **Escribir**: textarea "Cuéntalo como quieras" → `marea-leer-gasto` → formulario prellenado.
   2. **Foto de factura**: `<input type=file accept="image/*" capture="environment">` →
      **redimensionar en el navegador** (canvas, lado mayor 1600 px, JPEG 0.82) → subir a
-     `respaldos/<mi_persona_id>/<uuid>.jpg` → `leer-gasto` con `archivo_path` →
+     `marea-respaldos/<mi_persona_id>/<uuid>.jpg` → `marea-leer-gasto` con `archivo_path` →
      formulario prellenado con la miniatura.
   3. **Manual**: formulario vacío.
 - **Formulario** (el mismo para los tres caminos): descripción, monto, moneda, fecha,
@@ -145,7 +151,7 @@ function simplificar(balances){ // [{persona_id, saldo}]
   subtareas (2/5). Toque → detalle con checklist editable, botón **"Yo me encargo"**
   (pone `responsable = yo`), mover de estado, editar, borrar (mío o admin).
 - Agregar: botón ＋ → texto libre ("comprar hielo, carbón y limones para el asado;
-  Andrés prende la parrilla a las 7") → `leer-gasto` devuelve `tareas[]` → lista
+  Andrés prende la parrilla a las 7") → `marea-leer-gasto` devuelve `tareas[]` → lista
   confirmable con checkbox por tarea → insert. También formulario manual.
 - **Turnos**: en Admin, generador de turnos: elegir días y roles (cocina desayuno, lavar,
   mercado, hielo, basura) → asigna rotando entre activos → crea tareas `grupo='Turnos'`
@@ -170,7 +176,7 @@ function simplificar(balances){ // [{persona_id, saldo}]
 
 ## 7 · Nosotros (hoja de vida)
 
-- Grid de tarjetas: foto (bucket `perfiles/<id>/avatar.jpg`, firmada) o inicial, apodo,
+- Grid de tarjetas: foto (bucket `marea-perfiles/<id>/avatar.jpg`, firmada) o inicial, apodo,
   ciudad, "superpoder". Toque → ficha: cumpleaños, alergias/restricciones (**destacado**,
   lo usan los cocineros), bebida favorita, canción de karaoke, juego favorito, talla,
   bio. Insignias calculadas al vuelo: "El que más pagó" (max pagado en `vw_balances`),
@@ -200,7 +206,7 @@ Arriba: "Día 3 de 7 · jueves 12" (o "Faltan N días" antes del viaje). Bloques
 - **Turnos**: generador (§ 5).
 - **Exportar**: CSV completo + respaldo JSON de todas las tablas.
 
-Todas las llamadas a `admin-personas` llevan `Authorization: Bearer <access_token de la
+Todas las llamadas a `marea-admin-personas` llevan `Authorization: Bearer <access_token de la
 sesión>` y `apikey: <anon>`.
 
 ## 10 · Diseño
@@ -221,14 +227,14 @@ sesión>` y `apikey: <anon>`.
 Crear dos usuarios de prueba por script (admin y un invitado) con la Edge Function.
 Casos mínimos:
 1. Login con cédula + PIN correcto entra; PIN malo muestra error.
-2. Invitado **no** ve la pestaña Admin ni puede llamar `admin-personas` (403).
+2. Invitado **no** ve la pestaña Admin ni puede llamar `marea-admin-personas` (403).
 3. Invitado crea un gasto manual; aparece en la lista; `vw_balances` cuadra (comparar con
    cálculo esperado a mano para 3 gastos fijos).
 4. Invitado **no** puede editar un gasto ajeno (botón oculto y update rechazado por RLS).
 5. Invitado edita su perfil; **no** puede editar el de otro.
 6. `personas_publicas` no expone `cedula`, `telefono`, `emergencia`.
 7. Foto de factura (usar `tests/fixtures/factura.jpg`, generar una con texto claro si no
-   hay) → `leer-gasto` devuelve `gastos[0].monto > 0`. Si no hay `ANTHROPIC_API_KEY`,
+   hay) → `marea-leer-gasto` devuelve `gastos[0].monto > 0`. Si no hay `ANTHROPIC_API_KEY`,
    la prueba se marca *skipped*, no fallida.
 8. Voto: toggle suma y resta.
 

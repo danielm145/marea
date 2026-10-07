@@ -1,7 +1,7 @@
 // ============================================================================
-// MAREA ALTA · Edge Function leer-gasto
+// MAREA ALTA · Edge Function marea-leer-gasto
 // ----------------------------------------------------------------------------
-// Recibe texto libre y/o la ruta de una foto (bucket privado `respaldos`) y
+// Recibe texto libre y/o la ruta de una foto (bucket privado `marea-respaldos`) y
 // devuelve una PROPUESTA estructurada de gastos / tareas / eventos usando
 // Claude Opus 5.5 con salida estructurada. La propuesta NUNCA se guarda aquí:
 // el front la pinta en un formulario y la persona confirma.
@@ -21,9 +21,9 @@ import { zodOutputFormat } from "npm:@anthropic-ai/sdk/helpers/zod";
 
 const URL = Deno.env.get("SUPABASE_URL")!;
 const SRK = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const APP = Deno.env.get("APP_ORIGIN") ?? "https://marea.fieldbuil.ai";
+const APP = Deno.env.get("MAREA_APP_ORIGIN") ?? "https://marea.fieldbuil.ai";
 const MODELO = "claude-opus-5-5";
-const admin = createClient(URL, SRK, { auth: { persistSession: false, autoRefreshToken: false } });
+const admin = createClient(URL, SRK, { auth: { persistSession: false, autoRefreshToken: false }, db: { schema: "marea" } });  // proyecto compartido fieldbuilt-lab → esquema propio
 const claude = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY")! });
 
 const ORIGENES = new Set([APP, "https://marea.daniel-martinez9094.workers.dev", "http://localhost:8787", "http://localhost:3000"]);
@@ -85,7 +85,7 @@ estructurada que una persona va a revisar antes de guardar. Reglas:
 8. Responde en español neutro, descripciones cortas (máx. 60 caracteres), sin emojis.`;
 
 async function imagenBase64(path: string): Promise<{ data: string; media_type: string } | null> {
-  const { data, error } = await admin.storage.from("respaldos").download(path);
+  const { data, error } = await admin.storage.from("marea-respaldos").download(path);
   if (error || !data) return null;
   const buf = new Uint8Array(await data.arrayBuffer());
   let bin = ""; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));

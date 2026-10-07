@@ -1,10 +1,10 @@
 // ============================================================================
-// MAREA ALTA · Edge Function admin-personas
+// MAREA ALTA · Edge Function marea-admin-personas
 // ----------------------------------------------------------------------------
 // Crea y administra a los invitados usando auth.admin con la service_role que
 // Supabase inyecta (SUPABASE_SERVICE_ROLE_KEY). Jamás viaja al navegador.
 //
-// Identidad: email sintético <cedula>@playa.local. La persona escribe su cédula
+// Identidad: email sintético <cedula>@marea.local. La persona escribe su cédula
 // y un PIN de 4 dígitos; la contraseña REAL en Auth es `${cedula}#${pin}`
 // (así cumplimos el mínimo de longitud de Auth sin pedirle 6 dígitos a nadie).
 // El front compone exactamente esa cadena al hacer login. El PIN NO se guarda
@@ -25,8 +25,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const URL = Deno.env.get("SUPABASE_URL")!;
 const SRK = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const APP = Deno.env.get("APP_ORIGIN") ?? "https://marea.fieldbuil.ai";
-const admin = createClient(URL, SRK, { auth: { persistSession: false, autoRefreshToken: false } });
+const APP = Deno.env.get("MAREA_APP_ORIGIN") ?? "https://marea.fieldbuil.ai";
+const admin = createClient(URL, SRK, { auth: { persistSession: false, autoRefreshToken: false }, db: { schema: "marea" } });  // proyecto compartido fieldbuilt-lab → esquema propio
 
 const ORIGENES = new Set([APP, "https://marea.daniel-martinez9094.workers.dev", "http://localhost:8787", "http://localhost:3000"]);
 function cors(req: Request) {
@@ -51,7 +51,7 @@ function pinNuevo(): string {
     if (!TRIVIALES.has(p)) return p;
   }
 }
-export const emailDe = (cedula: string) => `${cedula}@playa.local`;
+export const emailDe = (cedula: string) => `${cedula}@marea.local`;
 export const passwordDe = (cedula: string, pin: string) => `${cedula}#${pin}`;
 
 function mensajeWA(nombre: string, pin: string) {

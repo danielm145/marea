@@ -1,3 +1,4 @@
+set search_path = marea, public;
 insert into auth.users values ('11111111-1111-1111-1111-111111111111','a'),('22222222-2222-2222-2222-222222222222','b'),('33333333-3333-3333-3333-333333333333','c');
 insert into personas(id,auth_id,cedula,nombre,rol) values
  ('aaaaaaaa-0000-0000-0000-000000000001','11111111-1111-1111-1111-111111111111','1','Ana','admin'),

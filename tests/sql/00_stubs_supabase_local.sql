@@ -1,6 +1,8 @@
 -- Prueba local (Postgres 16 sin Supabase): imita auth/storage y los grants que Supabase da por defecto.
 -- Uso: psql -f tests/sql/00_stubs_supabase_local.sql && psql -f sql/001_esquema.sql && psql -f tests/sql/10_balances_y_rls.sql
+-- Verificado 2026-10-07 en Postgres 16: 0 tablas en public, 11 en marea, balances y RLS correctos.
 do $$ begin if not exists (select 1 from pg_roles where rolname='authenticated') then create role authenticated nologin; create role anon nologin; end if; end $$;
+do $$ begin if not exists (select 1 from pg_roles where rolname='service_role') then create role service_role nologin bypassrls; end if; end $$;
 create schema auth; create table auth.users(id uuid primary key, email text);
 create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub', true),'')::uuid $$;
 create schema storage;

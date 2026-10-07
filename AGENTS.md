@@ -13,12 +13,18 @@ y anótalo en `docs/ESTADO.md`. No le preguntes a Daniel durante la noche: él l
 ## Stack (no cambiar)
 - Front: **un solo archivo** `public/index.html` (HTML + CSS + JS vanilla) + Supabase JS por
   CDN. Sin framework ni bundler. Cloudflare Workers publica solo `public/`.
-- Base: Supabase (Postgres + Auth + Storage + Edge Functions en Deno). Esquema en
-  `sql/001_esquema.sql`; cambios posteriores en `sql/00N_*.sql`, **idempotentes**.
+- Base: Supabase, **proyecto compartido `fieldbuilt-lab`** (otras apps van a vivir ahí).
+  Marea usa SOLO el esquema `marea`, los buckets `marea-*` y las funciones `marea-*`.
+  Esquema en `sql/001_esquema.sql`; cambios posteriores en `sql/00N_*.sql`, **idempotentes**,
+  siempre con `set search_path = marea, public;` arriba. El front y las funciones abren el
+  cliente con `db: { schema: 'marea' }` (o `supabase.schema('marea')`).
 - IA: Edge Function `leer-gasto` con Claude (`claude-opus-5-5`, SDK oficial). Solo propone.
 - Deploy: `scripts/deploy.sh` (front) y `scripts/funciones.sh` (Edge Functions).
 
 ## Reglas duras
+0. **Proyecto Supabase compartido**: jamás tocar `public` ni objetos que no empiecen por
+   `marea`; jamás `supabase db reset`, `db push` ni migraciones automáticas. El SQL se aplica
+   pegándolo en el SQL editor (o con `psql` sobre `SUPABASE_DB_URL`).
 1. **Nunca** guardes el PIN ni la contraseña en una tabla. La contraseña de Auth es
    `${cedula}#${pin}`; el front la compone al hacer login.
 2. **Nunca** `select('*')` de `personas` desde el front. El front usa `personas_publicas`.
@@ -40,7 +46,7 @@ y anótalo en `docs/ESTADO.md`. No le preguntes a Daniel durante la noche: él l
 ```
 scripts/deploy.sh            # deploy front + verificación
 scripts/funciones.sh         # link + secrets + deploy de Edge Functions
-npx supabase db push         # o pegar el SQL en el editor del proyecto
+psql "$SUPABASE_DB_URL" -f sql/001_esquema.sql   # o pegar el SQL en el editor (NUNCA db push/reset: proyecto compartido)
 node --check <(sed -n '/<script>/,/<\/script>/p' public/index.html | sed '1d;$d')   # sintaxis JS
 npx playwright test          # pruebas (tests/)
 # SQL local sin Supabase (Postgres 16): tests/sql/00_stubs_supabase_local.sql → sql/001_esquema.sql → tests/sql/10_balances_y_rls.sql
