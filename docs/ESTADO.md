@@ -2,6 +2,14 @@
 
 > Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v8**.
 
+## v13 (7-oct) · fotos de ambiente
+- `node scripts/fotos-stock.mjs` (en la Mac): baja fotos reales con licencia libre desde **Openverse** (sin llave) para
+  cada plan y comida — gente en la playa, atardeceres, piscina, BBQ, tapas — a `public/img/playa/<nombre>.jpg`, y anota
+  autor y licencia en `creditos.json` (la app los muestra en «Créditos de las fotos», abajo de todo).
+  `--siguiente yoga` cambia una que no guste. Este entorno de la nube no puede bajarlas: su red bloquea esos dominios.
+- Portada de cada plan: primero la foto de gente; si no está, la comida de esa noche o el collage del look.
+- `imgTag` acepta varias fuentes y prueba la siguiente si una no existe.
+
 ## v8 (7-oct) · el menú de Kevin, los looks y los 8 invitados
 - **Invitados: solo 8** (Daniel lo confirmó con sus Instagram): Daniel Martínez (admin), Ana Paula, Alegría, Kevin López,
   Ana Cristina **Grijalva**, **Domenika** Pérez, Natalia **Vásquez**, Amelia Camacho. Justo la capacidad del Airbnb.

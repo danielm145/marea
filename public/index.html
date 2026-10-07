@@ -318,6 +318,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .rsvp button{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;font:inherit;font-weight:700;cursor:pointer;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
 .rsvp button svg{width:16px;height:16px}.rsvp button.si{background:var(--ok);border-color:var(--ok);color:#fff}.rsvp button.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .rsvp-n{margin-left:auto;font-size:12.5px;color:var(--ink-3);font-weight:600}
+.link-x{border:0;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer;padding:0}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -354,7 +355,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v12';
+const BUILD_TAG='v13';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -973,7 +974,7 @@ function render(){
     <header class="top"><div class="brand">${logo(42)}<div class="grow"><b>${esc(CFG.nombre||'Beach Trip')}</b><small>${sub}</small></div></div>
       ${esAdmin()?`<button class="x" onclick="irA('admin')" aria-label="Administrar" ${TAB==='admin'?'style="background:var(--tide);color:var(--tide-ink)"':''}>${ic('admin')}</button>`:''}<button class="me-btn" onclick="abrirMiPerfil()" aria-label="Mi perfil">${av(ME.id)}</button></header>
     <main id="main">${(views[TAB]||vHoy)()}</main>
-    <p class="foot">Beach Trip ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
+    <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Beach Trip ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     <button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>
     <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===TAB?'aria-current="page"':''} onclick="irA('${k}')">${ic(k==='nosotros'?'cam':k)}<span>${l}</span></button>`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
@@ -2023,6 +2024,8 @@ const LOOK_IMG=[[/welcome|white/i,'welcome-white'],[/golden/i,'golden-hour'],[/t
 const LOOK_SRC={'welcome-white':'img/looks/welcome-white.jpg','golden-hour':'img/looks/golden-hour.jpg','tiki-boho':'img/looks/tiki-boho.jpg'};
 function lookImg(nombre){const f=(LOOK_IMG.find(([re])=>re.test(nombre||''))||[])[1];if(!f)return '';
   return `<img class="look-img" src="${LOOK_SRC[f]}" alt="Inspiración ${esc(nombre)}" loading="lazy" onclick="verLook(this.src)" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='img/playa/estilo-${f}.jpg'}else this.remove()">`}
+async function verCreditos(){let c={};try{const r=await fetch('img/playa/creditos.json',{cache:'no-store'});if(r.ok)c=await r.json()}catch(e){}
+  const L=Object.entries(c);openSheet(sheetH('Créditos de las fotos')+`<div class="stack"><p class="muted tiny" style="margin:0">Menú: Kevin. Looks: collages del grupo. Condominio: @sameclubcasablanca.</p>${L.length?`<div class="card"><div class="list">${L.map(([k,x])=>`<a class="item" href="${esc(x.pagina||x.url)}" target="_blank" rel="noopener"><div class="grow"><div class="t">${esc(x.titulo||k)}</div><div class="s">${esc(x.autor)} · ${esc(x.licencia)}${x.fuente?' · '+esc(x.fuente):''}</div></div></a>`).join('')}</div></div>`:'<p class="muted">Las fotos de ambiente se bajan con scripts/fotos-stock.mjs.</p>'}</div>`)}
 function verLook(src){openSheet(sheetH('Inspiración')+`<img src="${esc(src)}" alt="" style="width:100%;border-radius:16px">`)}
 function vDress(){
   const L=EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&(e.estilo||e.dress_code)).sort((a,b)=>(String(a.dia||'9')+(a.hora||'')).localeCompare(String(b.dia||'9')+(b.hora||'')));
@@ -2254,12 +2257,17 @@ async function borrarCarro(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';b
    img/playa/*.jpg: ilustraciones vintage generadas con scripts/generar-imagenes.mjs (Gemini o Vertex).
    img/casa/*.jpg: fotos reales de la casa. Si un archivo no existe, la imagen se quita sola y queda el ícono. */
 const IMG='img/playa/', CASA_DEF=['img/casa/piscina.jpg','img/casa/playa.jpg','img/casa/condominio.jpg'];  /* del video del condominio (Sameclub Casa Blanca) */
-const imgTag=(src,cls='',alt='')=>`<img class="${cls}" src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()">`;
-function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));
-  if(/intenciones/.test(t))return LOOK_SRC['welcome-white']; if(/freaky|gafas/.test(t))return LOOK_SRC['tiki-boho'];
-  for(const[re,f]of [[/pizza/,'d1-cena'],[/bbq|cocktail/,'d2-cena'],[/tapas/,'d3-cena'],[/restaurant/,'d4-cena']])if(re.test(t))return 'img/menu/'+f+'.jpg';
-  for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill|bbq|cocktail/,'sunset-grill'],[/restaurant/,'restaurante'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas|freaky/,'fotos-gafas'],[/pizza|juegos de mesa|board|game night/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t))return IMG+f+'.jpg';
-  return IMG+'portada.jpg'}
+/* src puede ser una lista: si la primera no existe prueba la siguiente; si ninguna, la imagen se quita y queda el ícono */
+const imgTag=(src,cls='',alt='')=>{const L=[].concat(src).filter(Boolean);if(!L.length)return'';return `<img class="${cls}" src="${esc(L[0])}" data-alt="${esc(L.slice(1).join('|'))}" alt="${esc(alt)}" loading="lazy" onerror="imgFalla(this)">`};
+function imgFalla(el){const r=(el.dataset.alt||'').split('|').filter(Boolean);if(r.length){el.src=r.shift();el.dataset.alt=r.join('|')}else el.remove()}
+const CENA_FOTO={'d1-cena':'img/menu/d1-cena.jpg','d2-cena':'img/menu/d2-cena.jpg','d3-cena':'img/menu/d3-cena.jpg','d4-cena':'img/menu/d4-cena.jpg'};
+/* portada de un plan: primero la foto de gente (img/playa, de scripts/fotos-stock.mjs o de la IA),
+   si no está, la comida de esa noche o el collage del look */
+function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));let gente=IMG+'portada.jpg';
+  for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill|bbq|cocktail/,'sunset-grill'],[/restaurant/,'restaurante'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas|freaky/,'fotos-gafas'],[/pizza|juegos de mesa|board|game night/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t)){gente=IMG+f+'.jpg';break}
+  const otra=/intenciones/.test(t)?LOOK_SRC['welcome-white']:/freaky|gafas/.test(t)?LOOK_SRC['tiki-boho']:
+    (([[/pizza/,'d1-cena'],[/bbq|cocktail/,'d2-cena'],[/tapas/,'d3-cena'],[/restaurant/,'d4-cena']].find(([re])=>re.test(t))||[])[1]);
+  return [gente,otra&&(CENA_FOTO[otra]||otra)].filter(Boolean)}
 function imgPlato(p){const f=FOTO_MENU[norm(p.nombre)];if(f)return f;const t=norm(p.nombre+' '+(p.ingredientes||[]).join(' '));
   for(const[re,f]of [[/ceviche/,'ceviche'],[/cafe/,'cafe'],[/yogur|bowl|avena|avocado|toast|fruta/,'desayuno-healthy'],[/tigrillo|bolon|pancakes de queso/,'desayuno-tradicional'],[/encocado|seco de|marinero|carne asada|menestra|patacon|pescado a la plancha/,'almuerzo-costeno'],[/taco|parrillada/,'sunset-grill'],[/pizza|picada/,'pizza-juegos'],[/tapa|queso|vino|sangria/,'tapas'],[/hamburgues|papas/,'hamburguesas'],[/margarita|jugo|agua de coco|cerveza/,'bebidas']])if(re.test(t))return IMG+'comida-'+f+'.jpg';
   return ''}
