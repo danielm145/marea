@@ -95,6 +95,6 @@ Validado en Postgres 16 local: los 7 SQL corren dos veces sin error, 20 tablas e
 - [ ] Conectar Supabase (pasos de arriba)
 - [ ] Celular y cumpleaños de los 8 en Admin, y enviar las invitaciones
 - [x] Collages de los 3 looks en `public/img/looks/` (v10)
-- [ ] Fotos de la casa (la descripción ya está)
+- [x] Fotos del condominio sacadas del video de @sameclubcasablanca (v11: piscina, playa, jardines). Faltan las de adentro del departamento.
 - [x] Cupo: son 8 invitados y el Airbnb es para 8
 - [ ] Poner el repo en privado (GitHub → Settings → Make private)

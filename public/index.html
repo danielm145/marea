@@ -332,7 +332,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v10';
+const BUILD_TAG='v11';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -974,7 +974,7 @@ function vHoy(){
   const sinDueno=TAREAS.filter(t=>estadoAuto(t)==='por_hacer').length;
   const ult=GASTOS.slice().sort((a,c)=>String(c.created_at||c.fecha).localeCompare(String(a.created_at||a.fecha))).slice(0,3);
   const props=EVENTOS.filter(e=>e.estado==='propuesta'), sinVoto=props.filter(e=>!VOTOS.some(v=>v.evento_id===e.id&&v.persona_id===ME.id)).length;
-  const portada=fotoUrl(infoV().casa_fotos[0])||IMG+'portada.jpg';
+  const portada=fotoUrl(infoV().casa_fotos[0])||'img/casa/piscina.jpg';
   return `<section class="hero ${portada?'con-foto':''}" style="--lvl:${lvl}%">${portada?`<img class="hero-img" src="${esc(portada)}" alt="" onerror="this.parentElement.classList.remove('con-foto');this.remove()">`:''}<div class="in-hero">
       <div class="eyebrow" style="color:inherit;opacity:.8">Hola, ${esc(nom(ME.id))}</div>
       <div class="row" style="align-items:flex-end;gap:12px;margin-top:6px"><span class="big num">${esc(String(big))}</span><span class="sub" style="padding-bottom:6px">${esc(lbl)}</span></div>
@@ -2079,7 +2079,7 @@ function esencialChips(){const I=infoV();const hay=k=>({casa:true,donde:I.direcc
 function verEsencial(k){
   const I=infoV(), li=a=>a.map(x=>`<div class="sub-item">${esc(x)}</div>`).join('');
   const cuerpo={
-    casa:`<div class="casa-g">${[...I.casa_fotos.map(fotoUrl).filter(Boolean),...CASA_DEF].map(u=>imgTag(u,'','La casa')).join('')}</div>
+    casa:`<div class="casa-g">${[...I.casa_fotos.map(fotoUrl).filter(Boolean),...CASA_DEF].map(u=>imgTag(u,'','La casa')).join('')}</div><div class="muted tiny">Fotos del condominio: @sameclubcasablanca</div>
       ${I.casa_titulo?`<h3 style="font-size:22px">${esc(I.casa_titulo)}</h3>`:''}${I.casa_desc?`<p style="margin:0;white-space:pre-line">${esc(I.casa_desc)}</p>`:''}
       ${I.amenidades.length?`<div class="chips">${I.amenidades.map(a=>`<span class="pill tide">${esc(a)}</span>`).join('')}</div>`:''}
       ${/^https:\/\/(www\.)?airbnb\./.test(I.airbnb_url)?`<a class="btn primary block" href="${esc(I.airbnb_url)}" target="_blank" rel="noopener">Ver la casa en Airbnb</a>`:''}`,
@@ -2216,7 +2216,7 @@ async function borrarCarro(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';b
 /* ---------- imágenes del viaje ----------
    img/playa/*.jpg: ilustraciones vintage generadas con scripts/generar-imagenes.mjs (Gemini o Vertex).
    img/casa/*.jpg: fotos reales de la casa. Si un archivo no existe, la imagen se quita sola y queda el ícono. */
-const IMG='img/playa/', CASA_DEF=['img/casa/sala.jpg','img/casa/terraza.jpg','img/casa/cuarto.jpg','img/casa/playa.jpg'];
+const IMG='img/playa/', CASA_DEF=['img/casa/piscina.jpg','img/casa/playa.jpg','img/casa/condominio.jpg'];  /* del video del condominio (Sameclub Casa Blanca) */
 const imgTag=(src,cls='',alt='')=>`<img class="${cls}" src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()">`;
 function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));
   if(/intenciones/.test(t))return LOOK_SRC['welcome-white']; if(/freaky|gafas/.test(t))return LOOK_SRC['tiki-boho'];
