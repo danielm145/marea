@@ -1,6 +1,23 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v23**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v24**.
+
+## v24 (7-oct) · Vertex de la empresa, una imagen por evento, caras y eventos completos
+- **IA con Vertex como en AERO EC**: el Worker usa la cuenta de servicio (secreto `GOOGLE_SA_B64`, JWT RS256
+  con crypto.subtle, token cacheado 50 min, `gemini-2.5-flash` en us-central1). Quedan de respaldo
+  `VERTEX_API_KEY` y `GEMINI_API_KEY`. `scripts/ia.sh` encuentra la cuenta de servicio en el Mac y la sube.
+- **Imágenes con Vertex**: `scripts/generar-imagenes.mjs` usa la misma cuenta de servicio (Imagen 4; si no está
+  habilitado, `gemini-2.5-flash-image` en Vertex). Una imagen por evento en `public/img/eventos/<slug>.jpg`
+  (prompt según su tema, look y lugar) + comida + portada-hero.
+- **La app ya no pide fotos que no existen**: `public/img/generadas.js` (lo escribe `scripts/listar-fotos.mjs`)
+  dice qué fotos opcionales hay. Antes cada foto faltante de `img/playa` hacía que Cloudflare devolviera la app
+  entera (~440 KB) por cada una, varias veces por pantalla.
+- **Caras**: si alguien no ha subido foto, se usa `img/gente/<nombre>.jpg` (sacada de su Instagram).
+- **Eventos con toda la info**: los 15 traen descripción completa (qué es, cómo va, horario) y su lista de qué
+  llevar o comprar (se puede convertir en tareas). `sql/010_eventos_completos.sql` hace lo mismo en Supabase
+  (idempotente, no pisa lo que alguien llenó). Demo resembrada (v14).
+- Lo que necesita el Mac (cuenta de servicio, generar imágenes, recortar caras, publicar en casablanca):
+  **`docs/PROMPT-CLAUDE-LOCAL.md`** — prompt listo para Claude Code local.
 
 ## v23 (7-oct) · la IA en la URL + casablanca.fieldbuil.ai + home limpio
 - **Dominio oficial: https://casablanca.fieldbuil.ai** (`wrangler.dominio.toml` amarra casablanca y deja vivo marea).

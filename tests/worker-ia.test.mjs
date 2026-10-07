@@ -71,3 +71,22 @@ await caso("esquema rechazado → reintenta sin esquema", async () => {
   assert.equal(ultima.body.generationConfig.responseSchema, undefined);
 });
 console.log(`\n${ok} casos OK`);
+await caso("cuenta de servicio (GOOGLE_SA_B64): firma JWT, pide token y usa Vertex del proyecto", async () => {
+  const { generateKeyPairSync } = await import("node:crypto");
+  const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048 });
+  const sa = { project_id: "aero-ia", client_email: "ia@aero-ia.iam.gserviceaccount.com", private_key: privateKey.export({ type: "pkcs8", format: "pem" }) };
+  const env = { GOOGLE_SA_B64: Buffer.from(JSON.stringify(sa)).toString("base64"), ASSETS };
+  const vistas = [];
+  respuesta = () => { if (ultimaUrl.includes("oauth2")) return new Response(JSON.stringify({ access_token: "tok-123", expires_in: 3600 })); return gem({ resumen: "ok", gastos: [], tareas: [], eventos: [] })(); };
+  let ultimaUrl = "";
+  const orig = globalThis.fetch;
+  globalThis.fetch = async (url, init) => { ultimaUrl = String(url); vistas.push({ url: ultimaUrl, auth: init.headers?.authorization, body: init.body }); return respuesta(); };
+  const s = await (await w.fetch(new Request("https://x/api/ia/salud"), env)).json(); assert.equal(s.motor, "vertex");
+  const r = await pedir({ texto: "x", contexto: ctx }, { env, ip: "8.8.8.8" }); assert.equal(r.status, 200);
+  assert.ok(vistas[0].url.startsWith("https://oauth2.googleapis.com/token")); assert.match(String(vistas[0].body), /assertion=[\w-]+\.[\w-]+\.[\w-]+/);
+  assert.equal(vistas[1].url, "https://us-central1-aiplatform.googleapis.com/v1/projects/aero-ia/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent");
+  assert.equal(vistas[1].auth, "Bearer tok-123");
+  await pedir({ texto: "y", contexto: ctx }, { env, ip: "8.8.8.8" }); assert.equal(vistas.filter((v) => v.url.includes("oauth2")).length, 1, "el token se reusa");
+  globalThis.fetch = orig;
+});
+console.log(`${ok} casos OK (con cuenta de servicio)`);

@@ -6,9 +6,11 @@
 //   GET  /api/ia/salud  ¿hay IA conectada? (sin gastar nada)
 //
 // Motor (el primero que tenga llave, como secreto del Worker — nunca en el código):
-//   1. VERTEX_API_KEY  → Vertex AI (modo express) · aiplatform.googleapis.com
-//   2. GEMINI_API_KEY  → Gemini API · generativelanguage.googleapis.com
-// Se cargan con scripts/ia.sh (lee la llave del Mac y la sube como secreto).
+//   1. GOOGLE_SA_B64   → Vertex AI con la cuenta de servicio de la empresa (la misma de AERO EC:
+//                         JWT RS256 firmado aquí con crypto.subtle → token de 1 h, cacheado)
+//   2. VERTEX_API_KEY  → Vertex AI (modo express)
+//   3. GEMINI_API_KEY  → Gemini API · generativelanguage.googleapis.com
+// Se cargan con scripts/ia.sh (busca la cuenta de servicio en el Mac y la sube como secreto).
 //
 // La IA NUNCA guarda nada: devuelve una propuesta que la persona revisa y confirma en la app.
 // ============================================================================
@@ -94,8 +96,34 @@ function frenado(ip) {
   return v.length > TOPE.max;
 }
 
+// Token de Vertex desde la cuenta de servicio (mismo camino que vertexToken() de AERO EC).
+let TOKEN = { valor: null, vence: 0, sa: "" };
+export async function vertexToken(env) {
+  if (TOKEN.valor && TOKEN.sa === env.GOOGLE_SA_B64 && Date.now() < TOKEN.vence) return TOKEN.valor;
+  const sa = JSON.parse(atob(env.GOOGLE_SA_B64));
+  const b64u = (u8) => btoa(String.fromCharCode(...u8)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const ahora = Math.floor(Date.now() / 1000), enc = (o) => b64u(new TextEncoder().encode(JSON.stringify(o)));
+  const cab = enc({ alg: "RS256", typ: "JWT" });
+  const cue = enc({ iss: sa.client_email, scope: "https://www.googleapis.com/auth/cloud-platform", aud: "https://oauth2.googleapis.com/token", iat: ahora, exp: ahora + 3600 });
+  const der = Uint8Array.from(atob(sa.private_key.replace(/-----[A-Z ]+-----/g, "").replace(/\s/g, "")), (x) => x.charCodeAt(0));
+  const k = await crypto.subtle.importKey("pkcs8", der, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["sign"]);
+  const fir = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", k, new TextEncoder().encode(cab + "." + cue));
+  const r = await fetch("https://oauth2.googleapis.com/token", { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=" + cab + "." + cue + "." + b64u(new Uint8Array(fir)) });
+  const t = await r.json().catch(() => ({}));
+  if (!t.access_token) throw new Error("Vertex no dio token (" + (t.error_description || t.error || r.status) + ")");
+  TOKEN = { valor: t.access_token, vence: Date.now() + 50 * 60 * 1000, sa: env.GOOGLE_SA_B64 };
+  return t.access_token;
+}
+
 function motorDe(env) {
   const modelo = env.IA_MODELO || MODELO_DEF;
+  if (env.GOOGLE_SA_B64) {
+    let proyecto = null; try { proyecto = JSON.parse(atob(env.GOOGLE_SA_B64)).project_id; } catch { /* secreto mal pegado */ }
+    if (proyecto) { const loc = env.VERTEX_LOCATION || "us-central1";
+      return { nombre: "vertex", modelo, sa: true,
+        url: `https://${loc}-aiplatform.googleapis.com/v1/projects/${proyecto}/locations/${loc}/publishers/google/models/${modelo}:generateContent` }; }
+  }
   if (env.VERTEX_API_KEY) return { nombre: "vertex", modelo, key: env.VERTEX_API_KEY,
     url: `https://aiplatform.googleapis.com/v1/publishers/google/models/${modelo}:generateContent` };
   if (env.GEMINI_API_KEY) return { nombre: "gemini", modelo, key: env.GEMINI_API_KEY,
@@ -180,9 +208,10 @@ async function pensar(env, motor, cuerpo) {
   if (img) partes.push({ inlineData: img });
   partes.push({ text: `CONTEXTO:\n${JSON.stringify(contexto)}${pista}\n\nMENSAJE DE ${contexto.autor || "alguien"}:\n${txt(cuerpo.texto, 4000) || "(solo la foto)"}` });
 
+  const auth = motor.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": motor.key };
   const llamar = (conEsquema) => fetch(motor.url, {
     method: "POST",
-    headers: { "content-type": "application/json", "x-goog-api-key": motor.key },
+    headers: { "content-type": "application/json", ...auth },
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: SISTEMA + (conEsquema ? "" : "\nDevuelve SOLO un JSON con: resumen, gastos[], tareas[], eventos[], album (o null).") }] },
       contents: [{ role: "user", parts: partes }],

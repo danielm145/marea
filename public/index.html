@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="img/generadas.js"></script>
 <!--ART-START-->
 <title>Casablanca · Same</title>
 <meta name="description" content="El viaje a la playa: gastos compartidos, tareas y noches temáticas.">
@@ -498,7 +499,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v23';
+const BUILD_TAG='v24';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -613,10 +614,13 @@ function nom(id){
   const dup=PERSONAS.filter(x=>(x.nombre||'').split(/\s+/)[0]===first).length>1;
   return dup&&parts[1]?first+' '+parts[1].slice(0,parts[1].length>3?2:1)+'.':first;
 }
+/* la cara de alguien: img/gente/<nombre-completo>.jpg o img/gente/<primer-nombre>.jpg, si existe */
+function caraDe(p){const a=slugTxt(p.nombre),b=slugTxt(String(p.nombre||'').split(' ')[0]);return ['img/gente/'+a+'.jpg','img/gente/'+b+'.jpg'].find(u=>FOTOS_GEN.has(u))||''}
 function av(id,cls=''){
   const p=PMAP[id]; const n=p?(p.apodo||p.nombre||'?'):'?';
   let h=0; for(const c of String(id)) h=(h*31+c.charCodeAt(0))>>>0; const [bg,fg]=AVC[h%AVC.length];
-  const foto=p&&p.perfil&&p.perfil.foto; const url=foto?(FOTOS[foto]||(foto.startsWith('data:')?foto:'')):'';
+  const foto=p&&p.perfil&&p.perfil.foto; let url=foto?(FOTOS[foto]||(foto.startsWith('data:')?foto:'')):'';
+  if(!url&&!foto&&p)url=caraDe(p);
   if(foto&&!url) resolverFoto(foto);
   return `<span class="av ${cls}" style="background:${bg};color:${fg}" title="${esc(nom(id))}">${url?`<img src="${esc(url)}" alt="">`:esc(n.trim().charAt(0).toUpperCase())}</span>`;
 }
@@ -683,21 +687,47 @@ const ESTILOS={
  'Gafas de sol y blanco':{nombre:'Gafas de sol y blanco',descripcion:'Base blanca o negra; las gafas de sol son las protagonistas de la foto.',paleta:['#FFFFFF','#141414','#F2C14E'],ideas:['Gafas de sol','Camisa blanca','Sombrero']}};
 /* noches temáticas y actividades de día. dia = índice del día del viaje (sin dia = propuesta) */
 const SEMILLA_EVENTOS=[
- {titulo:'Llegada y check-in',tematica:'Llegada',bloque:'tarde',hora:'15:00',lugar:'casa',dress_code:'',descripcion:'Llegamos, repartimos cuartos, guardamos la despensa en los coolers y conocemos la casa.',dia:0},
- {titulo:'Círculo de intenciones bajo las estrellas',tematica:'Bienvenida',bloque:'noche',hora:'21:30',lugar:'playa',dress_code:'Welcome White Night',descripcion:'Welcome White Night: después de la cena ligera costeña: fogata, mantas y una ronda de intenciones para abrir el viaje.',dia:0},
- {titulo:'Yoga matutino',tematica:'Bienestar',bloque:'manana',hora:'07:00',lugar:'playa',dress_code:'Ropa deportiva',descripcion:'Sesión suave frente al mar antes del desayuno.',dia:1},
- {titulo:'Torneo de panzazos en la piscina',tematica:'Piscina',bloque:'tarde',hora:'15:00',lugar:'piscina',dress_code:'Traje de baño',descripcion:'Jurado de tres, notas del 1 al 10 por salpicadura y estilo.',dia:1},
- {titulo:'Pizza & Game Night',tematica:'Pizza y juegos',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',descripcion:'Pizzas caseras armadas entre todos (margarita, pepperoni, prosciutto con rúcula, cuatro quesos y libre). Juegos: UNO, Jenga, Pictionary, charadas y Heads Up! Competencia a la mejor y a la peor pizza. Monopoly y Risk quedan en la mesa para los valientes.',dia:1},
- {titulo:'Spike ball, red y paletas de playa',tematica:'Juegos de playa',bloque:'tarde',hora:'16:00',lugar:'playa',dress_code:'Color del equipo',descripcion:'Red, pelota, paletas y spike ball. Parejas sorteadas y eliminación directa.',dia:2},
- {titulo:'BBQ & Cocktail Night',tematica:'Parrillada y cócteles',bloque:'atardecer',hora:'18:00',lugar:'terraza',dress_code:'Golden Hour',descripcion:'Parrillada al atardecer: picaña o entraña, pollo, chorizos, mazorcas, maduros y papas, con chimichurri. Barra de cócteles (mojitos, margaritas, cuba libre) y opciones sin alcohol.',dia:2},
- {titulo:'Karaoke y Talent Show',tematica:'Karaoke y talentos',bloque:'noche',hora:'21:30',lugar:'sala',dress_code:'Golden Hour',descripcion:'Después de la parrillada: proyector y dos micrófonos. Primero el karaoke, una canción obligatoria por persona; luego el show: cada quien presenta el talento que anotó en su ficha.',dia:2},
- {titulo:'Sesión de fotos Freaky Monkey',tematica:'Fotos con gafas',bloque:'atardecer',hora:'17:00',lugar:'playa',dress_code:'Tiki Boho Funny',descripcion:'Al atardecer con las gafas de Freaky Monkey: fotos de grupo, por parejas y de cerca a las gafas, con el look Tiki Boho del día 3.',dia:3},
- {titulo:'Tapas & Wine Night',tematica:'Tapas, vino e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Tiki Boho Funny',descripcion:'Gambas al ajillo, patatas bravas, tortilla española, pan con tomate y jamón, croquetas; quesos, embutidos y aceitunas. Vino blanco y tinto Tempranillo o Rioja, con una clase corta de enología. Cierra con la sesión de hipnosis.',dia:3},
- {titulo:'Restaurant Night',tematica:'Cena de despedida',bloque:'noche',hora:'20:00',lugar:'restaurante',dress_code:'De gala playera',descripcion:'Última noche fuera de casa: cena tranquila para cerrar el viaje. Sin cocinar ni limpiar.',dia:4},
- {titulo:'Throwback 2000s',tematica:'Década',bloque:'noche',lugar:'casa',dress_code:'Y2K',descripcion:'Ropa de la época, reguetón viejo y trivia de la década.'},
- {titulo:'Cine bajo las estrellas',tematica:'Cine',bloque:'noche',lugar:'terraza',dress_code:'Cobija',descripcion:'Proyector afuera, canguil y mantas; la película se vota.'},
- {titulo:'Búsqueda del tesoro',tematica:'Juego',bloque:'tarde',lugar:'playa',dress_code:'',descripcion:'Pistas en QR escondidas por la casa y la playa.'},
- {titulo:'Olimpiadas de playa',tematica:'Deporte',bloque:'tarde',lugar:'playa',dress_code:'Color del equipo',descripcion:'Vóley, carrera de sacos, relevos con baldes y castillo de arena.'}];
+ {titulo:'Llegada y check-in',tematica:'Llegada',bloque:'tarde',hora:'15:00',lugar:'casa',dress_code:'',dia:0,
+  descripcion:'Llegamos a Casablanca a eso de las 3. Repartimos cuartos, guardamos la despensa en la cocina y las bebidas en los coolers, primer chapuzón en la piscina y foto de llegada en la terraza. A las 7, cena ligera costeña en casa.',
+  lista:['Despensa del primer día','Hielo y coolers','Toallas de playa','Bloqueador','Parlante']},
+ {titulo:'Círculo de intenciones bajo las estrellas',tematica:'Bienvenida',bloque:'noche',hora:'21:30',lugar:'playa',dress_code:'Welcome White Night',dia:0,
+  descripcion:'Welcome White Night: después de la cena bajamos a la playa todos de blanco. Fogata, mantas y velas; una ronda donde cada quien dice qué quiere llevarse de este viaje. Cierra con la primera foto del grupo.',
+  lista:['Leña o carbón para la fogata','Encendedor','Mantas','Velas o lucecitas','Parlante con música suave']},
+ {titulo:'Yoga matutino',tematica:'Bienestar',bloque:'manana',hora:'07:00',lugar:'playa',dress_code:'Ropa deportiva',dia:1,
+  descripcion:'Cuarenta minutos de yoga suave frente al mar, con el sol todavía amable. Nadie tiene que saber: es para estirar y despertar. Después, desayuno internacional con café ilimitado, jugo de naranja, agua de coco y fruta.',
+  lista:['Esteras o toallas grandes','Agua','Bloqueador','Playlist tranquila']},
+ {titulo:'Torneo de panzazos en la piscina',tematica:'Piscina',bloque:'tarde',hora:'15:00',lugar:'piscina',dress_code:'Traje de baño',dia:1,
+  descripcion:'Tres jurados con cartelitos del 1 al 10 califican salpicadura, estilo y valentía. Tres rondas; quien gana elige la playlist de la noche. Ojo: la piscina del condominio tiene horario.',
+  lista:['Cartelitos del 1 al 10','Marcadores','Premio para el ganador','Toallas']},
+ {titulo:'Pizza & Game Night',tematica:'Pizza y juegos',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',dia:1,
+  descripcion:'En pijama elegante: armamos pizzas caseras entre todos (margarita, pepperoni, prosciutto con rúcula, cuatro quesos y libre) y competimos por la mejor y la peor. Después UNO, Jenga, Pictionary, charadas y Heads Up!; Monopoly y Risk para los valientes.',
+  lista:['Masa y salsa de tomate','Quesos y toppings','UNO','Jenga','Pictionary','Heads Up!']},
+ {titulo:'Spike ball, red y paletas de playa',tematica:'Juegos de playa',bloque:'tarde',hora:'16:00',lugar:'playa',dress_code:'Color del equipo',dia:2,
+  descripcion:'Red, pelota, paletas y spike ball en la playa. Parejas sorteadas, partidos de 10 minutos y eliminación directa. Los que pierden traen las bebidas de los que ganan.',
+  lista:['Spike ball','Red y pelota','Paletas','Cooler con agua y hielo','Bloqueador']},
+ {titulo:'BBQ & Cocktail Night',tematica:'Parrillada y cócteles',bloque:'atardecer',hora:'18:00',lugar:'terraza',dress_code:'Golden Hour',dia:2,
+  descripcion:'Parrillada en la terraza mientras se esconde el sol: picaña o entraña, pollo, chorizos, mazorcas, maduros y papas, con chimichurri. Barra de cócteles (mojitos, margaritas, cuba libre) y opciones sin alcohol. Foto de grupo cuando el sol toque el mar.',
+  lista:['Carbón','Carnes, pollo y chorizos','Mazorcas y maduros','Chimichurri','Ron, tequila y limones','Hielo']},
+ {titulo:'Karaoke y Talent Show',tematica:'Karaoke y talentos',bloque:'noche',hora:'21:30',lugar:'sala',dress_code:'Golden Hour',dia:2,
+  descripcion:'Después de la parrillada: proyector y dos micrófonos. Primero el karaoke, una canción obligatoria por persona; luego el show, donde cada quien presenta el talento que anotó en su ficha. Hay premio al mejor.',
+  lista:['Proyector','Dos micrófonos','Parlante','Lista de canciones','Premio al mejor talento']},
+ {titulo:'Sesión de fotos Freaky Monkey',tematica:'Fotos con gafas',bloque:'atardecer',hora:'17:00',lugar:'playa',dress_code:'Tiki Boho Funny',dia:3,
+  descripcion:'Al atardecer, con las gafas de Freaky Monkey y el look Tiki Boho: fotos de grupo, por parejas y de cerca a las gafas. Cuarenta minutos aprovechando la golden hour.',
+  lista:['Gafas Freaky Monkey','Trípode','Celulares cargados','Collares de flores']},
+ {titulo:'Tapas & Wine Night',tematica:'Tapas, vino e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Tiki Boho Funny',dia:3,
+  descripcion:'Gambas al ajillo, patatas bravas, tortilla española, pan con tomate y jamón, croquetas; quesos, embutidos y aceitunas. Vino blanco y tinto Tempranillo o Rioja, con una clase corta de enología. Cierra con la sesión de hipnosis.',
+  lista:['Vino blanco y tinto','Quesos y embutidos','Pan y tomate','Copas','Velas']},
+ {titulo:'Restaurant Night',tematica:'Cena de despedida',bloque:'noche',hora:'20:00',lugar:'restaurante',dress_code:'De gala playera',dia:4,
+  descripcion:'La última noche fuera de casa: mesa para ocho frente al mar, un brindis por el viaje y los mejores momentos. Nadie cocina ni lava.',
+  lista:['Reservar mesa para 8','Transporte de ida y vuelta','Efectivo para la propina']},
+ {titulo:'Throwback 2000s',tematica:'Década',bloque:'noche',lugar:'casa',dress_code:'Y2K',
+  descripcion:'Ropa de la época, reguetón viejo y trivia de la década. Gana quien llegue más fiel a 2005.',lista:['Playlist de los 2000','Preguntas de trivia']},
+ {titulo:'Cine bajo las estrellas',tematica:'Cine',bloque:'noche',lugar:'terraza',dress_code:'Cobija',
+  descripcion:'Proyector afuera entre las palmeras, canguil y mantas; la película se vota en el chat.',lista:['Proyector y sábana blanca','Canguil','Mantas']},
+ {titulo:'Búsqueda del tesoro',tematica:'Juego',bloque:'tarde',lugar:'playa',dress_code:'',
+  descripcion:'Pistas escondidas por la casa y la playa, dos equipos y un premio al final.',lista:['Pistas impresas','Premio']},
+ {titulo:'Olimpiadas de playa',tematica:'Deporte',bloque:'tarde',lugar:'playa',dress_code:'Color del equipo',
+  descripcion:'Vóley, carrera de sacos, relevos con baldes y concurso de castillos de arena.',lista:['Sacos','Baldes','Pelota de vóley']}];
 /* el menú base: desayuno dual (A healthy / B tradicional), almuerzo costeño de la cocinera,
    estaciones de todos los días (café pasado, fruta, ceviche bar) y cenas colaborativas temáticas */
 const MENU_BASE={
@@ -777,7 +807,7 @@ function seedDemo(){
   const desde=addDias(hoyISO(),21), hasta=addDias(desde,4), dias=Array.from({length:5},(_,i)=>addDias(desde,i));
   const autor=id('Daniel Martínez');
   const ev=SEMILLA_EVENTOS.map(s=>({id:uid(),titulo:s.titulo,tematica:s.tematica,descripcion:s.descripcion,bloque:s.bloque,lugar:s.lugar,dress_code:s.dress_code,estilo:ESTILOS[s.dress_code]||null,
-    dia:s.dia!=null?dias[s.dia]:null,hora:s.hora||null,playlist_url:'',estado:s.dia!=null?'oficial':'propuesta',anfitriones:[],etiquetas:[],lista:[],menu:[],creado_por:autor,created_at:new Date().toISOString()}));
+    dia:s.dia!=null?dias[s.dia]:null,hora:s.hora||null,playlist_url:'',estado:s.dia!=null?'oficial':'propuesta',anfitriones:[],etiquetas:[],lista:(s.lista||[]).map(txt=>({txt,ok:false})),menu:[],creado_por:autor,created_at:new Date().toISOString()}));
   const evT=t=>ev.find(x=>x.titulo===t), anf=(t,ns)=>evT(t).anfitriones=ns.map(id);
   anf('Círculo de intenciones bajo las estrellas',['Daniel Martínez']); anf('BBQ & Cocktail Night',['Daniel Martínez','Ana Paula']); anf('Karaoke y Talent Show',['Alegría','Amelia Camacho']); anf('Pizza & Game Night',['Kevin López','Domenika Pérez']);
   anf('Tapas & Wine Night',['Ana Cristina Grijalva','Ana Paula']); anf('Yoga matutino',['Natalia Vásquez']); anf('Torneo de panzazos en la piscina',['Kevin López','Amelia Camacho']);
@@ -826,7 +856,7 @@ function seedDemo(){
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
     faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
     comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],
-    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:13};
+    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:14};
 }
 /* se entra con el CELULAR + clave = día y mes del cumpleaños (DDMM). Mismas reglas que marea-admin-personas */
 function normTel(t){let d=String(t??'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d.startsWith('0'))d='593'+d.slice(1);else if(d.length===9&&d.startsWith('9'))d='593'+d;else if(d.length===10&&d.startsWith('3'))d='57'+d;return /^[0-9]{11,15}$/.test(d)?d:null}
@@ -843,7 +873,7 @@ function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`http
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==13){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==14){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
   async login(tel,pin){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p||!p.cumple||pinDe(p.cumple)!==pin)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
@@ -2536,19 +2566,24 @@ async function borrarCarro(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';b
    img/casa/*.jpg: fotos reales de la casa. Si un archivo no existe, la imagen se quita sola y queda el ícono. */
 const IMG='img/playa/', CASA_DEF=['img/casa/piscina.jpg','img/casa/playa.jpg','img/casa/condominio.jpg'];  /* del video del condominio (Sameclub Casa Blanca) */
 /* src puede ser una lista: si la primera no existe prueba la siguiente; si ninguna, la imagen se quita y queda el ícono */
-const imgTag=(src,cls='',alt='')=>{const L=[].concat(src).filter(Boolean);if(!L.length)return'';return `<img class="${cls}" src="${esc(L[0])}" data-alt="${esc(L.slice(1).join('|'))}" alt="${esc(alt)}" loading="lazy" onerror="imgFalla(this)">`};
+/* fotos opcionales (generadas por Vertex o caras): solo las que existen según img/generadas.js.
+   Una que falta en Cloudflare devuelve la app entera (~440 KB), así que no se piden a ciegas. */
+const FOTOS_GEN=new Set(window.FOTOS_GEN||[]);
+const opcional=u=>!/^img\/(playa|eventos|gente)\//.test(u)||FOTOS_GEN.has(u);
+const slugTxt=t=>norm(t).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const imgTag=(src,cls='',alt='')=>{const L=[].concat(src).filter(Boolean).filter(opcional);if(!L.length)return'';return `<img class="${cls}" src="${esc(L[0])}" data-alt="${esc(L.slice(1).join('|'))}" alt="${esc(alt)}" loading="lazy" onerror="imgFalla(this)">`};
 function imgFalla(el){const r=(el.dataset.alt||'').split('|').filter(Boolean);if(r.length){el.src=r.shift();el.dataset.alt=r.join('|')}else el.remove()}
 const STK={beachEra:'img/stickers/beach-era.webp',casablanca:'img/stickers/casablanca.webp',goodVibes:'img/stickers/good-vibes.webp',salty:'img/stickers/salty.webp',vitamin:'img/stickers/vitamin.webp',paradise:'img/stickers/paradise.webp',goodFriends:'img/stickers/good-friends.webp',amigas:'img/stickers/amigas.webp',collect:'img/stickers/collect.webp',ocean:'img/stickers/ocean.webp',beachCrew:'img/stickers/beach-crew.webp',newStories:'img/stickers/new-stories.webp',hibiscus:'img/stickers/hibiscus.webp',sunSand:'img/stickers/sun-sand.webp',beachMode:'img/stickers/beach-mode.webp',goodPeople:'img/stickers/good-people.webp',same:'img/stickers/same.webp'};
 const stk=(k,cls='',w)=>`<img class="stk ${cls}" src="${STK[k]}" alt="" loading="lazy"${w?` style="width:${w}px"`:''} onerror="this.remove()">`;
 const CENA_FOTO={'d1-cena':'img/menu/d1-cena.jpg','d2-cena':'img/menu/d2-cena.jpg','d3-cena':'img/menu/d3-cena.jpg','d4-cena':'img/menu/d4-cena.jpg'};
 /* portada de un plan: primero la foto de gente (img/playa, de scripts/fotos-stock.mjs o de la IA),
    si no está, la comida de esa noche o el collage del look */
-function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));let gente=IMG+'portada.jpg';
+function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));let gente=IMG+'portada.jpg';const propia='img/eventos/'+slugTxt(e.titulo)+'.jpg';
   for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill|bbq|cocktail/,'sunset-grill'],[/restaurant/,'restaurante'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas|freaky/,'fotos-gafas'],[/pizza|juegos de mesa|board|game night/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t)){gente=IMG+f+'.jpg';break}
   const otra=/intenciones/.test(t)?LOOK_SRC['welcome-white']:/freaky|gafas/.test(t)?LOOK_SRC['tiki-boho']:
     (([[/pizza/,'d1-cena'],[/bbq|cocktail/,'d2-cena'],[/tapas/,'d3-cena'],[/restaurant/,'d4-cena']].find(([re])=>re.test(t))||[])[1]);
   const casa=CASA_DEF[[...t].reduce((a,ch)=>a+ch.charCodeAt(0),0)%CASA_DEF.length];
-  return [gente,otra&&(CENA_FOTO[otra]||otra),casa].filter(Boolean)}
+  return [propia,gente,otra&&(CENA_FOTO[otra]||otra),casa].filter(Boolean).filter(opcional)}
 function imgPlato(p){const f=FOTO_MENU[norm(p.nombre)];if(f)return f;const t=norm(p.nombre+' '+(p.ingredientes||[]).join(' '));
   for(const[re,f]of [[/ceviche/,'ceviche'],[/cafe/,'cafe'],[/yogur|bowl|avena|avocado|toast|fruta/,'desayuno-healthy'],[/tigrillo|bolon|pancakes de queso/,'desayuno-tradicional'],[/encocado|seco de|marinero|carne asada|menestra|patacon|pescado a la plancha/,'almuerzo-costeno'],[/taco|parrillada/,'sunset-grill'],[/pizza|picada/,'pizza-juegos'],[/tapa|queso|vino|sangria/,'tapas'],[/hamburgues|papas/,'hamburguesas'],[/margarita|jugo|agua de coco|cerveza/,'bebidas']])if(re.test(t))return IMG+'comida-'+f+'.jpg';
   return ''}
