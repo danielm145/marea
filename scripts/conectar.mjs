@@ -35,11 +35,13 @@ function leerEnv(f) {
   for (const l of t.split("\n")) { const m = l.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*(#.*)?$/); if (m) o[m[1]] = m[2].replace(/^["'`]|["'`]$/g, ""); }
   return o;
 }
-const falta = ["SUPABASE_PROJECT_REF", "SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_ACCESS_TOKEN", "ADMIN_CELULAR", "ADMIN_CUMPLE"].filter((k) => !env[k]);
+// --ci (GitHub Actions): solo base de datos y esquema expuesto; el admin ya existe y no hace falta la service_role
+const CI = process.argv.includes("--ci");
+const falta = (CI ? ["SUPABASE_PROJECT_REF", "SUPABASE_ACCESS_TOKEN"] : ["SUPABASE_PROJECT_REF", "SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_ACCESS_TOKEN", "ADMIN_CELULAR"]).filter((k) => !env[k]);
 if (falta.length) { console.error("Falta en .env: " + falta.join(", ") + "\n(ver .env.example: de dónde sale cada una)"); process.exit(1); }
 
-const REF = env.SUPABASE_PROJECT_REF, URLSB = env.SUPABASE_URL.replace(/\/$/, ""), SRK = env.SUPABASE_SERVICE_ROLE_KEY;
-const API = "https://api.supabase.com/v1/projects/" + REF, H = { authorization: "Bearer " + env.SUPABASE_ACCESS_TOKEN, "content-type": "application/json" };
+const REF = env.SUPABASE_PROJECT_REF, URLSB = String(env.SUPABASE_URL || "").replace(/\/$/, ""), SRK = env.SUPABASE_SERVICE_ROLE_KEY;
+const API = (env.SUPABASE_API_BASE || "https://api.supabase.com") + "/v1/projects/" + REF, H = { authorization: "Bearer " + env.SUPABASE_ACCESS_TOKEN, "content-type": "application/json" };
 const ok = (m) => console.log("  ✓ " + m), paso = (m) => console.log("\n" + m);
 
 async function sql(query) {
@@ -64,13 +66,22 @@ function normCumple(c) {
   return String(mm).padStart(2, "0") + "-" + String(dd).padStart(2, "0");
 }
 
-// 1 · SQL
+// 1 · SQL — cada archivo corre UNA sola vez (queda anotado en marea._migraciones).
+// Así un archivo que siembra datos (ej. 014 viajeros) no vuelve a crear a alguien que el admin cambió después.
+// Un cambio nuevo a la base = un archivo nuevo (016_…), nunca editar uno ya aplicado.
 paso("1/3 · Base de datos (esquema marea)");
+await sql(`create schema if not exists marea;
+  create table if not exists marea._migraciones (archivo text primary key, aplicado_at timestamptz not null default now());
+  revoke all on marea._migraciones from anon, authenticated;`);
+const hechos = new Set((await sql("select archivo from marea._migraciones;")).map((x) => x.archivo));
 const archivos = fs.readdirSync(path.join(RAIZ, "sql")).filter((f) => /^\d{3}_.*\.sql$/.test(f)).sort();
+let nuevos = 0;
 for (const f of archivos) {
-  try { await sql(fs.readFileSync(path.join(RAIZ, "sql", f), "utf8")); ok(f); }
+  if (hechos.has(f)) continue;
+  try { await sql(fs.readFileSync(path.join(RAIZ, "sql", f), "utf8")); await sql(`insert into marea._migraciones (archivo) values (${q(f)}) on conflict do nothing;`); ok(f); nuevos++; }
   catch (e) { console.error("  ✗ " + f + "\n    " + e.message); process.exit(1); }
 }
+if (!nuevos) ok(`nada nuevo (${archivos.length} archivos ya aplicados)`);
 
 // 2 · exponer el esquema marea a la API
 paso("2/3 · Exponer el esquema marea a la app");
@@ -88,12 +99,13 @@ paso("2/3 · Exponer el esquema marea a la app");
 }
 
 // 3 · el admin
+if (CI) { console.log("\nBase lista (modo automático)."); process.exit(0); }
 paso("3/3 · Tu usuario de admin");
 {
   const tel = normTel(env.ADMIN_CELULAR), cumple = normCumple(env.ADMIN_CUMPLE), nombre = env.ADMIN_NOMBRE || "Daniel Martínez";
   if (!tel) { console.error("  ✗ ADMIN_CELULAR no parece un celular (ej. 0985576470)"); process.exit(1); }
-  if (!cumple) { console.error("  ✗ ADMIN_CUMPLE no parece día/mes (ej. 07/03)"); process.exit(1); }
-  const pin = cumple.slice(3, 5) + cumple.slice(0, 2), email = tel + "@marea.local", password = tel + "#" + pin;
+  if (env.ADMIN_CUMPLE && !cumple) { console.error("  ✗ ADMIN_CUMPLE no parece día/mes (ej. 1806)"); process.exit(1); }
+  const pin = cumple ? cumple.slice(3, 5) + cumple.slice(0, 2) : "", email = tel + "@marea.local", password = tel + "#" + (pin || crypto.randomUUID());
   const AH = { apikey: SRK, authorization: "Bearer " + SRK, "content-type": "application/json" };
   let r = await fetch(URLSB + "/auth/v1/admin/users", { method: "POST", headers: AH, body: JSON.stringify({ email, password, email_confirm: true, user_metadata: { nombre } }) });
   let j = await r.json().catch(() => ({})), uid = j.id;
@@ -106,6 +118,6 @@ paso("3/3 · Tu usuario de admin");
   await sql(`with u as (update marea.personas set auth_id = ${q(uid)}, rol = 'admin', activo = true where telefono = ${q(tel)} returning id)
     insert into marea.personas (auth_id, telefono, cumple, nombre, rol, activo)
     select ${q(uid)}, ${q(tel)}, ${q(cumple)}, ${q(nombre)}, 'admin', true where not exists (select 1 from u);`);
-  ok(`${nombre}: entra con el celular ${env.ADMIN_CELULAR} y la clave ${pin} (día y mes de tu cumpleaños)`);
+  ok(`${nombre}: entra solo con el celular ${env.ADMIN_CELULAR}`);
 }
 console.log("\nBase lista.");

@@ -319,3 +319,8 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - Al entrar solo con el celular salía «solo el admin puede cambiar ese campo»: la Edge Function (llave de servicio) no podía anotar `auth_id`, porque `es_admin()` mira `auth.uid()`.
 - `sql/015_guard_permite_servidor.sql`: el guard deja pasar a la llave de servicio, a la conexión directa (sin API) y al admin; un invitado sigue bloqueado (probado en Postgres local).
 - Se aplica con `node scripts/conectar.mjs`.
+
+## Publicación automática (GitHub Actions)
+- `.github/workflows/publicar.yml`: cada push a `main` aplica los SQL nuevos (`conectar.mjs --ci`), despliega `marea-admin-personas` y publica la página; al final verifica el `BUILD_TAG` en casablanca.fieldbuil.ai.
+- `conectar.mjs` ahora anota cada SQL en `marea._migraciones` y no lo vuelve a correr (la primera vez re-aplica los 15, todos idempotentes). **Regla: un cambio nuevo a la base = un archivo nuevo, nunca editar uno ya aplicado.**
+- Secretos que Daniel pone en GitHub: `SUPABASE_ACCESS_TOKEN` y `CLOUDFLARE_API_TOKEN`. Los secretos del Worker (SB_URL, SB_ANON, GOOGLE_SA_B64) siguen en Cloudflare y el deploy no los toca.

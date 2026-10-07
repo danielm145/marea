@@ -1,0 +1,51 @@
+# Casablanca · cada vez que entra un cambio a main, se publica solo:
+#   1. la base (los sql/0NN nuevos, una sola vez cada uno)
+#   2. la función de invitados (marea-admin-personas)
+#   3. la página en casablanca.fieldbuil.ai
+# Necesita dos secretos en GitHub (Settings → Secrets and variables → Actions):
+#   SUPABASE_ACCESS_TOKEN  (el sbp_… del .env)
+#   CLOUDFLARE_API_TOKEN   (Cloudflare → My Profile → API Tokens → plantilla «Edit Cloudflare Workers»)
+# Si falta uno, ese paso se salta (no rompe los demás). También se puede correr a mano: Actions → Publicar → Run workflow.
+name: Publicar
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_PROJECT_REF: mycgyvegfrdwbdcjuxse
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 1 · Base de datos
+        if: env.SUPABASE_ACCESS_TOKEN != ''
+        run: node scripts/conectar.mjs --ci
+      - name: 2 · Función de invitados
+        if: env.SUPABASE_ACCESS_TOKEN != ''
+        run: npx -y supabase@latest functions deploy marea-admin-personas --project-ref "$SUPABASE_PROJECT_REF" --no-verify-jwt
+      - name: 3 · Página (casablanca.fieldbuil.ai)
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npx -y wrangler@4 deploy --config wrangler.dominio.toml
+      - name: 4 · Verificar que la versión nueva ya se ve
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: |
+          TAG=$(grep -oE "BUILD_TAG='[^']+'" public/index.html | head -1 | cut -d"'" -f2)
+          for i in 1 2 3 4 5 6; do
+            if curl -s "https://casablanca.fieldbuil.ai/?v=$RANDOM" | grep -q "BUILD_TAG='$TAG'"; then echo "✓ Publicada la $TAG"; exit 0; fi
+            sleep 10
+          done
+          echo "::warning::La página todavía no muestra la $TAG (puede ser caché, revisa en unos minutos)"
+      - name: Resumen
+        if: always()
+        run: |
+          [ -n "$SUPABASE_ACCESS_TOKEN" ] || echo "::warning::Falta el secreto SUPABASE_ACCESS_TOKEN: no se actualizó la base ni la función."
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || echo "::warning::Falta el secreto CLOUDFLARE_API_TOKEN: no se publicó la página."
