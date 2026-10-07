@@ -1,0 +1,14 @@
+# MAREA ALTA · igual que wrangler.toml pero amarrando marea.fieldbuil.ai.
+# Requiere que la zona fieldbuil.ai esté en esta misma cuenta de Cloudflare.
+# Uso (una vez): npx wrangler@4 deploy --config wrangler.dominio.toml
+# Si falla por permisos, el sitio sigue vivo en workers.dev y el dominio se amarra en
+# dash.cloudflare.com → Workers & Pages → marea → Settings → Domains & Routes → Add → Custom domain.
+name = "marea"
+account_id = "f4c891395f3372f5816572768e1096f7"
+compatibility_date = "2025-01-01"
+workers_dev = true
+routes = [{ pattern = "marea.fieldbuil.ai", custom_domain = true }]
+
+[assets]
+directory = "./public"
+not_found_handling = "single-page-application"
