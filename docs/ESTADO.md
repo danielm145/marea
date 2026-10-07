@@ -295,3 +295,7 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - [x] Fotos del condominio sacadas del video de @sameclubcasablanca (v11: piscina, playa, jardines). Faltan las de adentro del departamento.
 - [x] Cupo: son 8 invitados y el Airbnb es para 8
 - [ ] Poner el repo en privado (GitHub → Settings → Make private)
+
+## v31 · cara de Kevin
+- `public/img/gente/kevin-lopez.jpg` (foto que mandó Daniel, recortada 400×400). Sale sola en el perfil, eventos y gastos si el invitado se llama «Kevin López».
+- Kevin se crea como invitado desde la app (Más → Administrar → Invitados): celular 0988441247, cumpleaños 18/06 → su clave es 1806.
