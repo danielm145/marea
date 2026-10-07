@@ -296,6 +296,28 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .ev-gasto{display:flex;align-items:baseline;gap:10px;width:100%;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit}.ev-gasto b{font-size:20px;margin-left:auto}
 .ev-acc{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}.ev-mas summary{list-style:none;cursor:pointer}.ev-mas summary::-webkit-details-marker{display:none}
 .ev-mas-in{display:flex;flex-direction:column;gap:6px;margin-top:8px;min-width:200px}
+.cev{background:var(--surface);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.cev-h{padding:16px 16px 0}.cev-h h3{font-family:var(--f-disp);font-weight:800;font-size:22px;margin-top:2px}
+.incl{display:flex;flex-wrap:wrap;gap:6px;padding:10px 16px 0}.incl span{background:var(--sol-soft);color:#7A5600;font-weight:700;font-size:13px;padding:5px 10px;border-radius:999px}
+.cev>.muted{padding:0 16px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+.opt{border:2px solid transparent;background:var(--surface-2);border-radius:18px;overflow:hidden;padding:0 0 10px;text-align:left;cursor:pointer;display:flex;flex-direction:column;font:inherit;color:inherit}
+.opt[aria-pressed="true"]{border-color:var(--sun);background:var(--sun-soft)}
+.opt-img{position:relative;display:block;aspect-ratio:4/3;background:var(--line);overflow:hidden}.opt-img img{width:100%;height:100%;object-fit:cover;display:block}
+.opt-ok{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:var(--sun);color:#fff;display:none;place-items:center}.opt-ok svg{width:16px;height:16px}
+.opt[aria-pressed="true"] .opt-ok{display:grid}
+.opt .sem-l{margin:8px 10px 0}.opt-n{font-weight:700;font-size:13.5px;line-height:1.25;padding:4px 10px 0}.opt-c{font-size:12px;color:var(--ink-3);padding:2px 10px 0}
+.cev-ban{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;background:var(--hero);cursor:pointer;overflow:hidden}
+.cev-ban img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cev-ban::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,0) 35%,rgba(6,20,45,.78))}
+.cev-ov{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;color:#fff;text-align:left}
+.cev-ov b{font-family:var(--f-disp);font-weight:800;font-size:22px;line-height:1.1}.cev-ov span:last-child{font-size:13px;opacity:.9}
+.cev-b{padding:12px 16px 0}
+.cev-menu{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.cev-menu button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 11px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;color:inherit}
+.rsvp{display:flex;align-items:center;gap:8px;padding:12px 16px 16px;flex-wrap:wrap}.cev-b .rsvp{padding:0 0 16px}
+.rsvp button{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 16px;font:inherit;font-weight:700;cursor:pointer;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
+.rsvp button svg{width:16px;height:16px}.rsvp button.si{background:var(--ok);border-color:var(--ok);color:#fff}.rsvp button.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.rsvp-n{margin-left:auto;font-size:12.5px;color:var(--ink-3);font-weight:600}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -332,7 +354,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v11';
+const BUILD_TAG='v12';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -561,9 +583,9 @@ const MENU_BASE={
     {nombre:'Arroz marinero',img:'img/menu/d3-almuerzo.jpg',ingredientes:['Arroz','Camarón','Pescado fresco','Calamar','Pimiento','Patacones','Ensalada'],tags:['#Costeño'],estilo:'Costeño, en paila',descripcion:'Arroz marinero con camarón, pescado y calamar, patacones y ensalada.'},
     {nombre:'Carne asada con menestra',img:'img/menu/d4-almuerzo.jpg',ingredientes:['Carne de res','Menestra','Arroz','Patacones','Ensalada'],tags:['#Tradicional','#SinMariscos'],estilo:'A la plancha',descripcion:'Carne asada con menestra, arroz, patacones y ensalada.'}],
  estaciones:[
-   {nombre:'Café pasado de especialidad',turno:'desayuno',ingredientes:['Café de altura molido','Agua'],tags:['#ZeroAlcohol'],estilo:'Filtrado o pasado, nunca soluble',descripcion:'Café de especialidad pasado todos los días. Regla de la casa: cero café soluble.'},
+   {nombre:'Café ilimitado',turno:'desayuno',ingredientes:['Café de altura molido','Agua'],tags:['#ZeroAlcohol'],estilo:'Filtrado o pasado, nunca soluble',descripcion:'Café de especialidad pasado todos los días. Regla de la casa: cero café soluble.'},
    {nombre:'Fruta fresca del día',turno:'desayuno',ingredientes:['Mango','Piña','Papaya','Sandía'],tags:['#Healthy'],estilo:'Picada cada mañana',descripcion:'Fruta picada, siempre en la mesa.'},
-   {nombre:'Jugos y bebidas de la mañana',turno:'desayuno',ingredientes:['Naranja','Maracuyá','Agua de coco'],tags:['#ZeroAlcohol'],estilo:'Natural',descripcion:'Jugo de naranja o maracuyá y agua de coco.'},
+   {nombre:'Jugo de naranja y agua de coco',turno:'desayuno',ingredientes:['Naranja','Agua de coco'],tags:['#ZeroAlcohol'],estilo:'Natural',descripcion:'Jugo de naranja recién exprimido y agua de coco, todas las mañanas.'},
    {nombre:'Ceviche bar',turno:'almuerzo',ingredientes:['Camarón','Pescado fresco','Limón','Cebolla colorada','Tomate','Cilantro','Chifles','Canguil'],tags:['#Costeño','#Compartir'],estilo:'Bol grande para todos',descripcion:'Ceviche mixto de camarón y pescado fresco: la entrada fija de todos los almuerzos.'}],
  cenas:{
   'Círculo de intenciones bajo las estrellas':[
@@ -602,7 +624,7 @@ function generarMenuBase({dias,eventos,gente,autor,conEstaciones}){
   let k=0;
   dias.forEach((d,i)=>{
     if(i===0&&dias.length>1){ /* día de llegada: solo la cena */ }else{
-    const des=cm({dia:d,turno:'desayuno',titulo:'Desayuno dual',modalidad:'dual',hora:'08:30',notas:'Café pasado y fruta fresca todos los días.'});
+    const des=cm({dia:d,turno:'desayuno',titulo:'Desayuno internacional',modalidad:'dual',hora:'08:30',notas:'Incluye jugo de naranja, agua de coco, café ilimitado y fruta.'});
     comidas.push(des); const j=(i-(dias.length>1?1:0))%4; platos.push(mk(MENU_BASE.A[j],{comida_id:des.id,opcion:'A'})); platos.push(mk(MENU_BASE.B[j],{comida_id:des.id,opcion:'B'}));
     const alm=cm({dia:d,turno:'almuerzo',titulo:'Almuerzo costeño',modalidad:'cocinera',hora:'13:30',notas:'Lo prepara la cocinera local. Ceviche bar de entrada.'});
     comidas.push(alm); platos.push(mk(MENU_BASE.alm[j],{comida_id:alm.id}));
@@ -671,7 +693,7 @@ function seedDemo(){
     reglas:['Cero café soluble: se pasa café de verdad','Cada quien lava lo que usa en las cenas colaborativas','Todo gasto se sube con foto a la app','Silencio después de la 1 a.m. por los vecinos'],
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
     faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
-    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],v:9};
+    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],v:10};
 }
 /* se entra con el CELULAR + clave = día y mes del cumpleaños (DDMM). Mismas reglas que marea-admin-personas */
 function normTel(t){let d=String(t??'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d.startsWith('0'))d='593'+d.slice(1);else if(d.length===9&&d.startsWith('9'))d='593'+d;else if(d.length===10&&d.startsWith('3'))d='57'+d;return /^[0-9]{11,15}$/.test(d)?d:null}
@@ -688,7 +710,7 @@ function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`http
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==9){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==10){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
   async login(tel,pin){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p||!p.cumple||pinDe(p.cumple)!==pin)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
@@ -1715,7 +1737,7 @@ function respaldoJSON(){const j=JSON.stringify({exportado:new Date().toISOString
 const TURNOS=[['desayuno','Desayuno','08:30'],['almuerzo','Almuerzo','13:30'],['cena','Cena','20:00']];
 const TURNON=Object.fromEntries(TURNOS.map(t=>[t[0],t[1]]));
 const ordTurno=t=>({desayuno:1,almuerzo:2,cena:3}[t]||4);
-const MODAL={dual:'Dos opciones: A healthy o B tradicional',cocinera:'Lo prepara la cocinera local',colaborativa:'Cocinamos entre todos',libre:'Libre o en un restaurante'};
+const MODAL={dual:'Dos opciones: Healthy o Normal',cocinera:'Lo prepara la cocinera local',colaborativa:'Cocinamos entre todos',libre:'Libre o en un restaurante'};
 /* restricción del perfil → alérgenos que esa persona no puede comer */
 const RESTR=[['sin_mariscos','Sin mariscos',['mariscos','conchas','oscuros']],['sin_conchas','Sin conchas',['conchas']],['sin_oscuros','Sin mariscos oscuros',['oscuros']],
   ['sin_pescado','Sin pescado',['pescado']],['vegetariano','Vegetariano',['carne','cerdo','pescado','mariscos','conchas','oscuros']],['sin_cerdo','Sin cerdo',['cerdo']],
@@ -1768,18 +1790,33 @@ function vMenu(){
 }
 function chipsDias(dias){return `<div class="chips scroll" style="margin-top:14px">${dias.map((d,i)=>`<button class="chip" aria-pressed="${DIA_MENU===d}" onclick="DIA_MENU='${d}';render()">${nomDia(i,dias.length)} · ${diaSem(d).slice(0,3)} ${fechaCorta(d)}</button>`).join('')}</div>`}
 /* el menú completo de un vistazo, como el que armó Kevin: por día, desayuno healthy / normal, almuerzo y cena */
+/* el menú completo de un vistazo, cada comida como un evento: qué incluye, qué opciones hay y si vas o no */
 const SEM_COL={A:['Healthy','#5E8B5A'],B:['Normal','#B8902F'],alm:['Almuerzo','#C8643F'],cena:['Cena','#1F4466']};
+const INCLUYE_DES=['Jugo de naranja','Agua de coco','Café ilimitado','Fruta fresca'];
 function vSemana(dias){
-  const tile=(k,p,tit,img,click)=>`<button class="sem-t" onclick="${click}"><span class="sem-img"><span class="sem-ic">${ic('menu')}</span>${img?imgTag(img):''}</span><span class="sem-l" style="background:${SEM_COL[k][1]}">${SEM_COL[k][0]}</span><span class="sem-c">${esc(tit)}</span></button>`;
-  const dia=(d,i)=>{const cs=comidasDia(d),des=cs.find(c=>c.turno==='desayuno'),alm=cs.find(c=>c.turno==='almuerzo'),cen=cs.find(c=>c.turno==='cena');
-    const pd=des?platosDe(des.id):[],A=pd.find(p=>p.opcion==='A'),B=pd.find(p=>p.opcion==='B'),L=alm&&platosDe(alm.id)[0],C=cen&&platosDe(cen.id)[0],ev=cen&&EVENTOS.find(e=>e.id===cen.evento_id);
-    const vis=p=>p&&(fotoUrl(p.foto)||imgPlato(p)), ir=`DIA_MENU='${d}';SUBM='carta';render()`;
-    const ts=[A&&tile('A',A,A.nombre,vis(A),`abrirPlato('${A.id}')`),B&&tile('B',B,B.nombre,vis(B),`abrirPlato('${B.id}')`),L&&tile('alm',L,L.nombre,vis(L),`abrirPlato('${L.id}')`),
-      cen&&tile('cena',C,cen.titulo,vis(C)||(ev?imgEvento(ev):''),C?`abrirPlato('${C.id}')`:ir)].filter(Boolean);
-    if(!ts.length)return'';
-    return `<section class="sem-d"><div class="sem-h"><span class="sem-n">${nomDia(i,dias.length)}</span><span class="muted tiny">${diaSem(d)} ${fechaCorta(d)}${ev&&ev.dress_code?' · '+esc(ev.dress_code):''}</span><button class="link" onclick="${ir}">Ver el día</button></div><div class="sem-g">${ts.join('')}</div></section>`};
+  const vis=p=>p&&(fotoUrl(p.foto)||imgPlato(p));
+  const rsvp=(c,yo,van)=>`<div class="rsvp"><button class="${yo.va!==false?'si':''}" onclick="setAsis('${c.id}',{va:true})">${ic('tareas')} Voy</button><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:false})">No voy</button><span class="rsvp-n">${van.length} de ${activos().length} van</span></div>`;
+  const desayuno=(c)=>{const ps=platosDe(c.id),A=ps.find(p=>p.opcion==='A'),B=ps.find(p=>p.opcion==='B'),yo=miAsis(c.id),as=ASIST.filter(a=>a.comida_id===c.id&&a.va!==false),van=vanA(c.id);
+    const opt=(k,p)=>!p?'':`<button class="opt" aria-pressed="${yo.va!==false&&yo.opcion===k}" onclick="setAsis('${c.id}',{opcion:'${k}'})"><span class="opt-img">${vis(p)?imgTag(vis(p)):''}<span class="opt-ok">${ic('tareas')}</span></span><span class="sem-l" style="background:${SEM_COL[k][1]}">${SEM_COL[k][0]}</span><span class="opt-n">${esc(p.nombre)}</span><span class="opt-c">${as.filter(a=>a.opcion===k).length} la eligen</span></button>`;
+    return `<article class="cev"><div class="cev-h"><div><div class="eyebrow">Desayuno · ${esc(String(c.hora||'08:30').slice(0,5))}</div><h3>Desayuno internacional</h3></div></div>
+      <div class="incl">${INCLUYE_DES.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
+      <div class="muted tiny" style="margin:10px 0 8px">Elige tu plato:</div>
+      <div class="opts">${opt('A',A)}${opt('B',B)}</div>
+      <div class="rsvp"><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:false})">${yo.va===false?'No desayuno':'Hoy no desayuno'}</button><span class="rsvp-n">${van.length} de ${activos().length} desayunan</span></div></article>`};
+  const comida=(c,ev)=>{const ps=platosDe(c.id),P=ps[0],yo=miAsis(c.id),van=vanA(c.id),cena=c.turno==='cena';
+    const img=vis(P)||(ev?imgEvento(ev):''), titulo=cena&&ev?ev.titulo:(P?P.nombre:c.titulo);
+    const sub=cena?(c.modalidad==='libre'?'Cena fuera de casa · sin cocinar ni limpiar':MODAL[c.modalidad]||''):'Lo cocina la cocinera · ceviche bar de entrada';
+    return `<article class="cev"><button class="cev-ban" onclick="${ev&&cena?`abrirEvento('${ev.id}')`:P?`abrirPlato('${P.id}')`:''}">${img?imgTag(img):''}<span class="cev-ov"><span class="sem-l" style="background:${SEM_COL[cena?'cena':'alm'][1]};margin:0">${cena?'Cena':'Almuerzo'} · ${esc(String(c.hora||'').slice(0,5))}</span><b>${esc(titulo)}</b><span>${esc(sub)}</span></span></button>
+      <div class="cev-b">${cena&&ps.length?`<div class="cev-menu">${ps.map(p=>`<button onclick="abrirPlato('${p.id}')">${esc(p.nombre)}</button>`).join('')}</div>`:!cena&&P&&P.descripcion?`<p class="muted tiny" style="margin:0 0 8px">${esc(P.descripcion)}</p>`:''}
+      ${cena&&ev&&ev.dress_code?`<div class="tiny" style="margin-bottom:8px">Look: <b>${esc((ev.estilo&&ev.estilo.nombre||ev.dress_code).replace(/ · Día \d+$/,''))}</b></div>`:''}
+      ${rsvp(c,yo,van)}</div></article>`};
+  const dia=(d,i)=>{const cs=comidasDia(d),des=cs.find(c=>c.turno==='desayuno'),alm=cs.find(c=>c.turno==='almuerzo'),cen=cs.find(c=>c.turno==='cena'),ev=cen&&EVENTOS.find(e=>e.id===cen.evento_id);
+    if(!des&&!alm&&!cen)return'';
+    return `<section class="sem-d"><div class="sem-h"><span class="sem-n">${nomDia(i,dias.length)}</span><span class="muted tiny">${diaSem(d)} ${fechaCorta(d)}</span></div>
+      <div class="stack">${des?desayuno(des):''}${alm?comida(alm,null):''}${cen?comida(cen,ev):''}</div></section>`};
   return `<button class="card sem-poster" onclick="verMenuKevin()"><img src="img/menu/menu-same-fotos.jpg" alt="" loading="lazy" onerror="this.remove()"><div><div class="eyebrow" style="color:var(--sun)">Menú Same</div><b>${Math.max(1,dias.length-1)} días de buena comida, playa y amigos</b><div class="muted tiny">Lo armó Kevin · toca para verlo completo</div></div></button>
-    <div class="stack" style="margin-top:14px">${dias.map(dia).join('')||'<div class="card flat empty">Todavía no hay comidas cargadas.</div>'}</div>`;
+    <p class="muted" style="margin:12px 0 0">Marca si vas a cada comida y qué desayuno quieres. Así se compra y se cocina lo justo.</p>
+    <div class="stack" style="margin-top:6px">${dias.map(dia).join('')||'<div class="card flat empty">Todavía no hay comidas cargadas.</div>'}</div>`;
 }
 function verMenuKevin(){openSheet(sheetH('El menú de Kevin')+`<div class="stack"><img src="img/menu/menu-same-fotos.jpg" alt="Menú Same con fotos" style="width:100%;border-radius:16px"><img src="img/menu/menu-same.jpg" alt="Menú Same" style="width:100%;border-radius:16px"><p class="muted tiny">Cada plato ya está en la carta del día, con sus ingredientes y alertas de alergias.</p></div>`)}
 function vCarta(dias){
