@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.wrangler/
+supabase/.temp/
+playwright-report/
+test-results/

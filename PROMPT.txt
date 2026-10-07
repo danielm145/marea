@@ -1,0 +1,26 @@
+Estás en el repo ~/marea, recién creado a partir de la carpeta entrega-codex/repo. Vas a
+construir de corrido, SIN pedir confirmaciones, la app "Marea Alta" (marea.fieldbuil.ai):
+gastos compartidos tipo Splitwise + tareas + eventos y noches temáticas + perfil de cada
+invitado, para un viaje a la playa de 12 amigos. Comunicación en español.
+
+Lee primero, completos y en este orden: AGENTS.md, docs/SPEC.md, sql/001_esquema.sql,
+supabase/functions/admin-personas/index.ts, supabase/functions/leer-gasto/index.ts,
+scripts/deploy.sh, scripts/funciones.sh. El esquema y las dos Edge Functions YA están
+escritos: úsalos, no los reescribas; si encuentras un error real, corrígelo y anótalo.
+
+Credenciales: están en .env (ya lleno). No las imprimas. Si falta alguna, haz todo lo que
+no dependa de ella y anótalo en docs/ESTADO.md bajo "Le toca a Daniel".
+
+Entrega por bloques siguiendo docs/SPEC.md § 12 (los 10 bloques, en orden). Cada bloque
+termina con: BUILD_TAG subido → commit → push → scripts/deploy.sh → confirmar que la URL
+publicada muestra el tag nuevo → actualizar docs/ESTADO.md. Si un bloque se traba más de
+45 minutos, anótalo y sigue con el siguiente. Al amanecer quiero los 10 bloques
+intentados, no 3 perfectos.
+
+Reglas que no se negocian (están en AGENTS.md): el PIN nunca se guarda en una tabla; el
+front nunca lee la tabla personas completa (usa personas_publicas); buckets privados con
+URL firmada; la IA solo propone y la persona confirma; los gastos no se borran, se marcan
+eliminado; permisos probados con un usuario invitado, no solo con el admin.
+
+Al terminar, docs/ESTADO.md debe decir: URL publicada, BUILD_TAG, qué funciona, qué falta,
+y la lista exacta de lo que le toca a Daniel. Empieza por el bloque 1.
