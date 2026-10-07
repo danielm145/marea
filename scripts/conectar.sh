@@ -16,7 +16,12 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 [ -f .env ] || { echo "Falta .env: cp .env.example .env y llénalo."; exit 1; }
-set -a; source .env; set +a
+# lee el .env sin ejecutarlo: tolera espacios después del "=", comillas y comentarios
+while IFS= read -r l || [ -n "$l" ]; do
+  [[ "$l" =~ ^[[:space:]]*([A-Z0-9_]+)[[:space:]]*=(.*)$ ]] || continue
+  k=${BASH_REMATCH[1]}; v=$(printf '%s' "${BASH_REMATCH[2]}" | sed -e 's/[[:space:]]#.*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e "s/^[\"'\`]//" -e "s/[\"'\`]$//")
+  export "$k=$v"
+done < .env
 : "${SUPABASE_URL:=https://${SUPABASE_PROJECT_REF:-}.supabase.co}"   # la URL sale sola del Project ID
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then unset CLOUDFLARE_API_TOKEN; fi
 

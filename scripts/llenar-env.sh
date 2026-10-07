@@ -51,14 +51,20 @@ while ! okTK; do
 done
 echo "✓ token"
 
-# 3 · celular
+# 3 · celular (mismas reglas que la app: Ecuador 09…, Colombia 3…, o con +593 / +57)
+celOk() { local d; d=$(printf '%s' "$1" | tr -cd '0-9'); d=${d#00}
+  if [ ${#d} -eq 10 ] && [[ $d == 0* ]]; then d=593${d:1}; elif [ ${#d} -eq 9 ] && [[ $d == 9* ]]; then d=593$d; elif [ ${#d} -eq 10 ] && [[ $d == 3* ]]; then d=57$d; fi
+  [[ $d =~ ^[0-9]{11,15}$ ]]; }
+if celOk "$(val ADMIN_CELULAR)"; then put ADMIN_CELULAR "$(val ADMIN_CELULAR)"
+else [ -n "$(val ADMIN_CELULAR)" ] && echo && echo "   «$(val ADMIN_CELULAR)» no parece un celular (¿es la cédula?). La app entra con el CELULAR."; put ADMIN_CELULAR ""; fi
 while [ -z "$(val ADMIN_CELULAR)" ]; do
   echo; printf "3) Tu celular (ej. 0985576470): "; read -r v
-  d=$(printf '%s' "$v" | tr -cd '0-9'); if [ ${#d} -ge 9 ]; then put ADMIN_CELULAR "$v"; else echo "   ✗ Escríbelo completo."; fi
+  if celOk "$v"; then put ADMIN_CELULAR "$v"; else echo "   ✗ Eso no parece un celular. Ej. 0985576470"; fi
 done
 echo "✓ celular"
 
 # 4 · cumpleaños
+[[ "$(val ADMIN_CUMPLE)" =~ ^[0-9]{1,2}[/.-][0-9]{1,2}$ ]] && put ADMIN_CUMPLE "$(val ADMIN_CUMPLE)" || put ADMIN_CUMPLE ""
 while [ -z "$(val ADMIN_CUMPLE)" ]; do
   echo; printf "4) Tu cumpleaños, día/mes (ej. 07/03): "; read -r v
   if [[ "$v" =~ ^[0-9]{1,2}[/.-][0-9]{1,2}$ ]]; then put ADMIN_CUMPLE "$v"; else echo "   ✗ Escríbelo como día/mes, ej. 07/03."; fi
@@ -66,5 +72,6 @@ done
 echo "✓ cumpleaños"
 [ -n "$(val ADMIN_NOMBRE)" ] || put ADMIN_NOMBRE "Daniel Martínez"
 
+for k in SUPABASE_PROJECT_REF SUPABASE_URL SUPABASE_ANON_KEY ADMIN_NOMBRE VERTEX_SA_JSON ANTHROPIC_API_KEY; do grep -qE "^[[:space:]]*$k[[:space:]]*=" .env && put "$k" "$(val "$k")"; done
 echo
 echo "Listo, el .env quedó completo. Ahora corre:  scripts/conectar.sh"
