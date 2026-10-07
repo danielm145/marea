@@ -53,8 +53,8 @@ const ESQUEMA = O({
   }, ["titulo", "grupo", "prioridad", "subtareas"])),
   eventos: A(O({
     titulo: S(), tematica: S({ nullable: true }), descripcion: S({ nullable: true }),
-    dia: S({ nullable: true }), bloque: S({ enum: ["manana", "tarde", "noche"], nullable: true }),
-    lugar: S({ nullable: true }), dress_code: S({ nullable: true }),
+    dia: S({ nullable: true }), hora: S({ nullable: true }), bloque: S({ enum: ["manana", "tarde", "atardecer", "noche"], nullable: true }),
+    lugar: S({ nullable: true }), dress_code: S({ nullable: true }), lista: A(S()), menu: A(S()),
   }, ["titulo"])),
   album: O({ pie: S(), evento_id: S({ nullable: true }) }, ["pie"], { nullable: true }),
 }, ["resumen", "gastos", "tareas", "eventos"]);
@@ -77,7 +77,13 @@ Gastos y comprobantes:
 
 Tareas (si es una lista o un pendiente): una por acción; si comparten verbo ("comprar hielo, carbón y…") repite el verbo. Prioridad alta si dice urgente, hoy, ya o antes de algo. responsable_id solo si se nombra a alguien sin duda.
 
-Planes: solo si proponen una actividad nueva (titulo corto, dia AAAA-MM-DD si lo dicen).
+Planes (si proponen una actividad o piden cambiar una): titulo corto y con gracia; tematica en 2-4 palabras;
+descripcion de 2 o 3 frases cálidas que digan qué se hace y cómo va; bloque (manana, tarde, atardecer o noche);
+hora HH:MM si se dice o se deduce; dia AAAA-MM-DD solo si lo dicen; lugar uno de: casa, playa, piscina, terraza,
+sala, restaurante; dress_code de preferencia uno de "looks" del contexto (o uno corto que inventes si piden otro);
+lista = hasta 8 cosas que hay que llevar o comprar; menu = platos y bebidas si hay comida.
+Si el contexto trae "plan_actual", la persona quiere CAMBIAR ese plan: devuelve en eventos UN solo plan, el mismo
+completo, con todos sus campos y solo lo que pidió cambiado. Nada de gastos ni tareas en ese caso.
 
 Foto del viaje (gente, playa, comida servida, paisaje — NO una factura ni un ticket): llena "album" con un pie de foto corto, cálido y sin emojis (máx. 70 caracteres) y su evento_id si se nota. Si la foto es un comprobante, album = null.
 
@@ -144,6 +150,15 @@ const txt = (v, n = 200) => (typeof v === "string" ? v.trim().slice(0, n) : "");
 const num = (v) => (typeof v === "number" && isFinite(v) ? Math.round(v * 100) / 100 : 0);
 const fechaOk = (v) => (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null);
 
+// un plan, con solo los campos y valores que la app entiende
+function planDe(e) {
+  const lista = (v, n) => (Array.isArray(v) ? v : []).map((x) => txt(typeof x === "string" ? x : x?.txt, 80)).filter(Boolean).slice(0, n);
+  return { titulo: txt(e.titulo, 80), tematica: txt(e.tematica, 80) || null, descripcion: txt(e.descripcion, 600) || null,
+    dia: fechaOk(e.dia), hora: /^\d{2}:\d{2}/.test(e.hora || "") ? String(e.hora).slice(0, 5) : null,
+    bloque: ["manana", "tarde", "atardecer", "noche"].includes(e.bloque) ? e.bloque : null,
+    lugar: txt(e.lugar, 80) || null, dress_code: txt(e.dress_code, 80) || null, lista: lista(e.lista, 12), menu: lista(e.menu, 15) };
+}
+
 // La IA propone; aquí se revisa que solo use ids reales y valores permitidos.
 export function limpiar(p, ctx) {
   const ids = new Set((ctx.personas || []).map((x) => x.id)), evs = new Set((ctx.eventos || []).map((x) => x.id));
@@ -185,8 +200,7 @@ export function limpiar(p, ctx) {
   }
   for (const e of (Array.isArray(p?.eventos) ? p.eventos : []).slice(0, 5)) {
     if (!txt(e?.titulo)) continue;
-    out.eventos.push({ titulo: txt(e.titulo, 80), tematica: txt(e.tematica, 80) || null, descripcion: txt(e.descripcion, 400) || null,
-      dia: fechaOk(e.dia), bloque: ["manana", "tarde", "noche"].includes(e.bloque) ? e.bloque : null, lugar: txt(e.lugar, 80) || null, dress_code: txt(e.dress_code, 80) || null });
+    out.eventos.push(planDe(e));
   }
   if (p?.album && txt(p.album.pie)) out.album = { pie: txt(p.album.pie, 90), evento_id: evento(p.album.evento_id) };
   return out;
@@ -196,12 +210,14 @@ async function pensar(env, motor, cuerpo) {
   const ctx = cuerpo.contexto || {};
   const contexto = {
     autor_id: txt(ctx.autor_id, 64), autor: txt(ctx.autor, 60), hoy: fechaOk(ctx.hoy), moneda: txt(ctx.moneda, 5) || "USD",
-    modo: ["gasto", "tareas", "auto"].includes(cuerpo.modo) ? cuerpo.modo : "auto",
+    modo: ["gasto", "tareas", "plan", "auto"].includes(cuerpo.modo) ? cuerpo.modo : "auto",
+    looks: (Array.isArray(ctx.looks) ? ctx.looks : []).slice(0, 20).map((x) => txt(x, 60)).filter(Boolean),
+    plan_actual: ctx.plan_actual && typeof ctx.plan_actual === "object" ? planDe(ctx.plan_actual) : undefined,
     personas: (Array.isArray(ctx.personas) ? ctx.personas : []).slice(0, 40).map((x) => ({ id: txt(x?.id, 64), nombre: txt(x?.nombre, 60), apodo: txt(x?.apodo, 40) || undefined })),
     eventos: (Array.isArray(ctx.eventos) ? ctx.eventos : []).slice(0, 60).map((x) => ({ id: txt(x?.id, 64), titulo: txt(x?.titulo, 80), dia: fechaOk(x?.dia) })),
     comercios_conocidos: (Array.isArray(ctx.comercios) ? ctx.comercios : []).slice(0, 40),
   };
-  const pista = contexto.modo === "tareas" ? "\nLa persona dijo que es una LISTA DE TAREAS." : contexto.modo === "gasto" ? "\nLa persona dijo que es un GASTO o comprobante." : "";
+  const pista = contexto.plan_actual ? "\nLa persona quiere CAMBIAR el plan_actual." : contexto.modo === "plan" ? "\nLa persona propone un PLAN o actividad." : contexto.modo === "tareas" ? "\nLa persona dijo que es una LISTA DE TAREAS." : contexto.modo === "gasto" ? "\nLa persona dijo que es un GASTO o comprobante." : "";
   const partes = [];
   const img = cuerpo.imagen ? partirDataUrl(cuerpo.imagen) : null;
   if (cuerpo.imagen && !img) return { status: 400, cuerpo: { error: "La foto no se pudo leer (formato no válido)." } };

@@ -1,6 +1,18 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v25**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v26**.
+
+## v26 (7-oct) · los planes también con IA, nada a mano
+- «Cuéntale a la IA» ahora tiene 4 modos: **Lo que sea · Un gasto · Pendientes · Un plan**. La foto va abajo,
+  después del texto y los chips. Fuera «Una tarea a mano» y «XML de la factura» (queda «Varias fotos al álbum»).
+- **Proponer un plan = contárselo a la IA**: ella llena la ficha completa (nombre, de qué se trata, cuándo, dónde,
+  look, qué llevar y menú) y se cambia TOCANDO (momento, lugar, look; día y hora solo el admin; tocar un ítem de la
+  lista lo quita). Se acabó el formulario `abrirFormEvento` (borrado).
+- **Modificar un plan = «Cambiar con IA»** en el detalle del evento: se le dice qué cambiar («a las 8 y media, con
+  micheladas») y devuelve el mismo plan con solo eso cambiado; lo ya marcado en la lista se conserva.
+- Worker: los planes traen hora, lista y menú; `plan_actual` en el contexto para cambiar uno; looks del viaje
+  para que escoja el dress code. Pruebas: `tests/worker-ia.test.mjs` (15), `tests/e2e-planes-ia.mjs`.
+- Pendiente si Daniel lo pide: lo mismo para editar tareas (hoy se crean con IA, pero se editan con formulario).
 
 ## v25 (7-oct) · caras del grupo y foto en grande
 - **5 caras puestas** desde la captura de Instagram que mandó Daniel (`public/img/gente/`): Daniel, Ana Paula,

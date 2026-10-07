@@ -90,3 +90,13 @@ await caso("cuenta de servicio (GOOGLE_SA_B64): firma JWT, pide token y usa Vert
   globalThis.fetch = orig;
 });
 console.log(`${ok} casos OK (con cuenta de servicio)`);
+await caso("plan: crear y cambiar un plan completo", async () => {
+  respuesta = gem({ resumen: "Noche de tacos", gastos: [], tareas: [], eventos: [{ titulo: "Taco Night", tematica: "Tacos", descripcion: "Tacos en la terraza.", bloque: "atardecer", hora: "19:30:00", lugar: "terraza", dress_code: "Welcome White Night", dia: "nope", lista: ["Tortillas", { txt: "Limones" }, ""], menu: ["Tacos al pastor"] }] });
+  const j = await (await pedir({ texto: "noche de tacos", modo: "plan", contexto: { ...ctx, looks: ["Welcome White Night"], plan_actual: { titulo: "Viejo", lista: [{ txt: "Hielo", ok: true }] } } }, { ip: "10.0.0.1" })).json();
+  const e = j.propuesta.eventos[0];
+  assert.equal(e.bloque, "atardecer"); assert.equal(e.hora, "19:30"); assert.equal(e.dia, null); assert.deepEqual(e.lista, ["Tortillas", "Limones"]); assert.deepEqual(e.menu, ["Tacos al pastor"]);
+  const enviado = JSON.parse(ultima.body.contents[0].parts.at(-1).text.split("\n")[1]);
+  assert.equal(enviado.modo, "plan"); assert.deepEqual(enviado.plan_actual.lista, ["Hielo"]); assert.deepEqual(enviado.looks, ["Welcome White Night"]);
+  assert.match(ultima.body.contents[0].parts.at(-1).text, /CAMBIAR el plan_actual/);
+});
+console.log(`${ok} casos OK (con planes)`);

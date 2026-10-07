@@ -470,6 +470,10 @@ a.item{text-decoration:none;color:inherit}
 .vc-in{display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;text-align:center;transform:scale(.92);transition:transform .25s}.visor-cara.on .vc-in{transform:none}
 .av.gigante{width:min(78vw,420px);height:min(78vw,420px);font-size:120px;box-shadow:0 20px 60px rgba(0,0,0,.45);border:4px solid #fff;margin-bottom:10px}
 .vc-in b{font-family:var(--f-disp);font-size:28px}.vc-in span{opacity:.8}.vc-in a{color:#FFD58A;font-weight:700;margin-top:4px}
+.ia-foto{min-height:0;padding:14px;justify-content:flex-start}.ia-foto-in{flex-direction:row;gap:12px;text-align:left;padding:0}.ia-foto-in>span{display:flex;flex-direction:column}
+.ia-mas{grid-template-columns:1fr}
+.pl-card{padding-top:12px}.pl-img{width:100%;height:170px;object-fit:cover;border-radius:16px;display:block}.pl-desc{color:var(--ink-2);margin-top:6px;line-height:1.45}
+.pl-x svg{width:13px;height:13px;vertical-align:-2px;opacity:.6}.pl-menu{padding:7px 0;border-bottom:1px solid var(--line)}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -506,7 +510,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v25';
+const BUILD_TAG='v26';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -520,10 +524,10 @@ const APP_URL='https://casablanca.fieldbuil.ai';
 let IA={ok:false,motor:null,probada:false};
 const IA_URL=/^https?:$/.test(location.protocol)&&!/claude\.ai|claudeusercontent/.test(location.hostname)?'/api/ia':null;
 async function probarIA(){if(!IA_URL){IA.probada=true;return IA}try{const r=await fetch(IA_URL+'/salud',{cache:'no-store'});const j=await r.json();IA={ok:!!j.ok,motor:j.motor||null,probada:true}}catch(e){IA={ok:false,motor:null,probada:true}}return IA}
-function contextoIA(){return{autor_id:ME.id,autor:nom(ME.id),hoy:hoyISO(),moneda:CFG.moneda||'USD',personas:activos().map(p=>({id:p.id,nombre:p.nombre,apodo:p.apodo||''})),eventos:EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>({id:e.id,titulo:e.titulo,dia:e.dia||null}))}}
-async function leerIA({texto,dataUrl,modo}){
+function contextoIA(){return{looks:Object.keys(ESTILOS),autor_id:ME.id,autor:nom(ME.id),hoy:hoyISO(),moneda:CFG.moneda||'USD',personas:activos().map(p=>({id:p.id,nombre:p.nombre,apodo:p.apodo||''})),eventos:EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>({id:e.id,titulo:e.titulo,dia:e.dia||null}))}}
+async function leerIA({texto,dataUrl,modo,plan}){
   const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),70000);
-  try{const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({texto:texto||'',imagen:dataUrl||null,modo:modo||'auto',contexto:contextoIA()}),signal:ctl.signal});
+  try{const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({texto:texto||'',imagen:dataUrl||null,modo:modo||'auto',contexto:{...contextoIA(),plan_actual:plan||null}}),signal:ctl.signal});
     const j=await r.json().catch(()=>({}));if(!r.ok||!j.propuesta)throw new Error(j.error||'La IA no respondió');return j.propuesta}
   catch(e){throw new Error(e.name==='AbortError'?'se demoró demasiado':e.message)}finally{clearTimeout(t)}}
 /* primero la IA; si no está o falla, el plan B (lectura rápida o la función de Supabase), diciendo por qué */
@@ -1033,6 +1037,11 @@ function buscarPersonas(txt){
 }
 function leerLocal(texto,conFoto,modo){
   const t=String(texto||'').trim(), prop={gastos:[],tareas:[],eventos:[],resumen:'',local:true};
+  if(modo==='plan'){const n=norm(t);
+    prop.eventos.push({titulo:(t.split(/[,.;\n]/)[0]||'Plan nuevo').slice(0,60).replace(/^./,c=>c.toUpperCase()),tematica:null,descripcion:t,
+      bloque:/manana|desayuno|amanecer|temprano/.test(n)?'manana':/atardecer|sunset/.test(n)?'atardecer':/tarde/.test(n)?'tarde':'noche',
+      lugar:LUGARES_PLAN.find(l=>n.includes(l))||null,dress_code:Object.keys(ESTILOS).find(k=>n.includes(norm(k)))||null,lista:[],menu:[]});
+    prop.resumen='Lectura rápida (sin IA): revisa y toca lo que quieras cambiar.';return prop}
   const mm=t.match(/(\d{1,3}(?:[.,]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)/);
   if(modo!=='tareas'&&(mm||conFoto||modo==='gasto')){
     let monto=mm?leerMonto(mm[1]):0;
@@ -1548,25 +1557,25 @@ function abrirResumen(){
 /* ---------- AGREGAR (botón ＋) ---------- */
 function abrirAgregar(){abrirLector()}
 let LECT={dataUrl:null,blob:null,modo:'auto'};
-const SUG={auto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Es de la BBQ','Foto del grupo'],gasto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Mitad y mitad con '],tareas:['Comprar ','Llevar ','Reservar ','Es urgente','Para el ']};
-const PH={auto:'Ej. Pagué 48 de hielo y cervezas para la BBQ, para todos menos Naty',gasto:'Ej. Pagué 48 de hielo y cervezas, para todos menos Naty',tareas:'Ej. Comprar hielo y carbón, llevar el parlante y reservar la lancha'};
+const SUG={plan:['Noche de ','En la terraza','En la playa','Todos de blanco','Con parrillada','Con juegos'],auto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Es de la BBQ','Foto del grupo'],gasto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Mitad y mitad con '],tareas:['Comprar ','Llevar ','Reservar ','Es urgente','Para el ']};
+const PH={plan:'Ej. Noche de tacos el viernes en la terraza, todos de blanco, con micheladas y música en vivo',auto:'Ej. Pagué 48 de hielo y cervezas para la BBQ, para todos menos Naty',gasto:'Ej. Pagué 48 de hielo y cervezas, para todos menos Naty',tareas:'Ej. Comprar hielo y carbón, llevar el parlante y reservar la lancha'};
 function iaAviso(){if(IA_URL&&(!IA.probada||IA.ok))return '';return `<div class="banner tide tiny">${IA_URL?'La IA todavía no está conectada: por ahora hago una lectura rápida (sin leer fotos).':'En esta vista previa no hay IA: hago una lectura rápida (sin leer fotos).'}</div>`}
 /* foto?:true abre en gasto · lista:true en pendientes · ev: el gasto va ligado a ese plan */
-function abrirLector(foto,lista,ev){
-  LECT={dataUrl:null,blob:null,ev:ev||null,modo:lista?'tareas':ev?'gasto':'auto'};
+function abrirLector(foto,lista,ev,modo){
+  LECT={dataUrl:null,blob:null,ev:ev||null,modo:modo||(lista?'tareas':ev?'gasto':'auto')};
   const evN=ev&&EVENTOS.find(e=>e.id===ev);
   openSheet(`${sheetH('Cuéntale a la IA')}<div class="stack ia-comp">
     <p class="muted" style="margin:0">Una foto y unas palabras. La IA lo entiende y llena todo; tú solo escoges y guardas.</p>
-    <div class="seg" id="lmodo">${[['auto','Lo que sea'],['gasto','Un gasto'],['tareas','Pendientes']].map(([k,l])=>`<button data-m="${k}" aria-pressed="${LECT.modo===k}" onclick="lModo('${k}')">${l}</button>`).join('')}</div>
-    <label class="ia-foto" id="lfotob"><input id="lfoto" type="file" accept="image/*" hidden onchange="leerFoto(this)"><img id="lthumb" alt="" hidden><span class="ia-foto-in">${ic('cam')}<b>Agregar foto</b><span class="muted tiny">Factura, ticket, transferencia o una foto del viaje</span></span></label>
+    <div class="seg seg4" id="lmodo">${[['auto','Lo que sea'],['gasto','Un gasto'],['tareas','Pendientes'],['plan','Un plan']].map(([k,l])=>`<button data-m="${k}" aria-pressed="${LECT.modo===k}" onclick="lModo('${k}')">${l}</button>`).join('')}</div>
     <textarea id="ltxt" class="in ia-txt" rows="3" placeholder="${esc(PH[LECT.modo])}"></textarea>
     <div class="chips scroll" id="lsug">${lSugs()}</div>
+    <label class="ia-foto" id="lfotob"><input id="lfoto" type="file" accept="image/*" hidden onchange="leerFoto(this)"><img id="lthumb" alt="" hidden><span class="ia-foto-in">${ic('cam')}<span><b>Agregar foto</b><span class="muted tiny">Factura, ticket, transferencia o una foto del viaje</span></span></span></label>
     ${evN?`<div class="banner tide tiny"><div>Va ligado a <b>${esc(evN.titulo)}</b>.</div></div>`:''}
     <div id="laviso">${iaAviso()}</div>
     <div id="lerr2" class="banner bad" hidden></div>
     <div id="lpensando" class="ia-piensa" hidden></div>
     <button class="btn primary block ia-go" id="lgo" onclick="procesarLector()">${ic('spark')} Que la IA lo llene</button>
-    ${!ev&&!lista?`<div class="ia-mas"><label>${ic('cam')} Varias fotos al álbum<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label><button onclick="abrirFormTarea()">${ic('tareas')} Una tarea a mano</button><button onclick="abrirFormEvento()">${ic('planes')} Proponer un plan</button><label>${ic('receipt')} XML de la factura<input type="file" accept=".xml,text/xml,application/xml" hidden onchange="this.files[0]&&leerArchivoXml(this.files[0])"></label></div>`:''}
+    ${!ev&&!lista?`<div class="ia-mas"><label>${ic('cam')} Varias fotos al álbum<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div>`:''}
   </div>`);
   if(IA_URL&&!IA.probada)probarIA().then(()=>{const a=$('#laviso');if(a)a.innerHTML=iaAviso()});
 }
@@ -1577,11 +1586,11 @@ function lSug(b){const t=$('#ltxt');if(!t)return;const f=b.textContent.replace(/
 async function leerFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');im.src=LECT.dataUrl;im.hidden=false;$('#lfotob').classList.add('con')}catch(e){toast(e.message)}}
 /* desde el home: la foto primero, y se abre la pantalla con la foto puesta */
 async function iaFotoDirecta(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);abrirLector();LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');im.src=x.dataUrl;im.hidden=false;$('#lfotob').classList.add('con');$('#ltxt').focus()}catch(e){toast(e.message)}finally{inp.value=''}}
-const PASOS_IA=['Mirando la foto…','Buscando el total…','Viendo quién pagó y para quién…','Llenando todo…'];
+const PASOS_IA=['Mirando la foto…','Buscando el total…','Viendo quién pagó y para quién…','Llenando todo…'],PASOS_PLAN=['Mirando la foto…','Pensando el plan…','Escogiendo lugar, hora y look…','Armando qué llevar…'];
 let PIENSA_T=null;
 function pensando(si){const el=$('#lpensando'),b=$('#lgo');clearInterval(PIENSA_T);if(!el)return;
   if(!si){el.hidden=true;if(b)b.hidden=false;return}
-  const pasos=PASOS_IA.slice(LECT.dataUrl?0:2);let k=0;el.hidden=false;if(b)b.hidden=true;
+  const pasos=(LECT.modo==='plan'?PASOS_PLAN:PASOS_IA).slice(LECT.dataUrl?0:1);let k=0;el.hidden=false;if(b)b.hidden=true;
   const pinta=()=>{el.innerHTML=`<span class="ia-orb">${ic('spark')}</span><span class="grow"><b>${pasos[Math.min(k,pasos.length-1)]}</b><span class="ia-barra"><i style="width:${Math.min(95,(k+1)/pasos.length*90)}%"></i></span></span>`};
   pinta();PIENSA_T=setInterval(()=>{if(k<pasos.length-1){k++;pinta()}},1600)}
 async function procesarLector(){
@@ -1601,6 +1610,7 @@ function mostrarPropuesta(p,ref,origen){
   PROP={...p,ref,origen};
   const conAlbum=!!(p.album&&LECT.dataUrl);
   if(conAlbum&&!(p.gastos||[]).length&&!(p.tareas||[]).length&&!(p.eventos||[]).length){albumDesdeIA();return}
+  if((p.eventos||[]).length===1&&!(p.gastos||[]).length&&!(p.tareas||[]).length){planDesdeIA(p.eventos[0]);if(p.local)PL._anim=false;pintarPlan();return}
   if(p.gastos&&p.gastos.length===1&&!(p.tareas||[]).length&&!(p.eventos||[]).length){F=formDesdePropuesta(p.gastos[0],ref,p,origen);F._anim=!p.local;if(LECT.ev&&!F.evento_id)F.evento_id=LECT.ev;F.texto_ia=LECT.txt||'';F.resumen_ia=p.resumen||'';if(p.resumen&&!F.dudas.includes(p.resumen)&&p.local)F.dudas=[...F.dudas];pintarFormGasto();return}
   const n=(p.gastos||[]).length+(p.tareas||[]).length+(p.eventos||[]).length+(conAlbum?1:0);
   if(!n){openSheet(`${sheetH('No encontré un gasto')}<div class="stack"><p class="muted">No pude sacar el gasto de eso. Cuéntalo con el monto, por ejemplo: <i>"pagué 48 de hielo para todos menos Naty"</i>.</p><button class="btn primary block" onclick="abrirLector(true,false,LECT.ev)">Volver a contarlo</button></div>`);return}
@@ -1610,7 +1620,7 @@ function mostrarPropuesta(p,ref,origen){
     ${(p.gastos||[]).map((g,i)=>`<button class="add-opt" onclick="F=formDesdePropuesta(PROP.gastos[${i}],PROP.ref,PROP,PROP.origen);F._anim=!PROP.local;pintarFormGasto()"><span class="ic s">${ic('receipt')}</span><span><b>${esc(g.descripcion||'Gasto')} · ${money(g.monto)}</b><span class="muted tiny">Revisar y guardar</span></span></button>`).join('')}
     ${(p.tareas||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Tareas</div>${p.tareas.map((t,i)=>`<label class="sub-item"><input type="checkbox" checked data-i="${i}"><span class="grow"><b>${esc(t.titulo)}</b><br><span class="muted tiny">${esc(t.grupo||'')}${t.prioridad==='alta'?' · prioridad alta':''}${t.responsable_id&&PMAP[t.responsable_id]?' · '+esc(nom(t.responsable_id)):''}${t.evento_id&&EVENTOS.find(e=>e.id===t.evento_id)?' · '+esc(EVENTOS.find(e=>e.id===t.evento_id).titulo):''}</span></span></label>`).join('')}
       <button class="btn primary block" style="margin-top:10px" onclick="crearTareasPropuestas()">Crear las marcadas</button></div>`:''}
-    ${(p.eventos||[]).map((e,i)=>`<button class="add-opt" onclick="abrirFormEvento(null,PROP.eventos[${i}])"><span class="ic">${ic('planes')}</span><span><b>${esc(e.titulo)}</b><span class="muted tiny">Proponer este plan</span></span></button>`).join('')}
+    ${(p.eventos||[]).map((e,i)=>`<button class="add-opt" onclick="planDesdeIA(PROP.eventos[${i}]);pintarPlan()"><span class="ic">${ic('planes')}</span><span><b>${esc(e.titulo)}</b><span class="muted tiny">Proponer este plan</span></span></button>`).join('')}
   </div>`);
 }
 async function crearTareasPropuestas(){
@@ -1731,7 +1741,7 @@ function vPlanes(){
     <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FPROP}" onclick="FPROP='';render()">Todas</button>${CAT_PROP.map(([k,l])=>`<button class="chip" aria-pressed="${FPROP===k}" onclick="FPROP='${k}';render()">${l}</button>`).join('')}</div>
     <div class="pg2">${props.filter(e=>!FPROP||catProp(e)===FPROP).map(e=>{const vs=votosDe(e.id),yo=vs.some(v=>v.persona_id===ME.id);return `<div class="pc"><button class="pc-img" onclick="abrirEvento('${e.id}')">${imgTag(imgEvento(e))}</button><div class="pc-b"><div class="grow" style="min-width:0"><b>${esc(e.titulo)}</b><span>${vs.length} voto${vs.length===1?'':'s'}</span></div>
       <button class="heart ${yo?'on':''}" onclick="votar('${e.id}',${!yo})" aria-label="${yo?'Quitar voto':'Votar'}">${ic('heart')}</button></div></div>`}).join('')||`<div class="card flat empty" style="grid-column:1/-1">No hay propuestas aquí.</div>`}</div>
-    <button class="btn sun block" style="margin-top:14px" onclick="abrirFormEvento()">${ic('plus')} Proponer actividad</button>`;
+    <button class="btn sun block" style="margin-top:14px" onclick="abrirLector(null,false,null,'plan')">${ic('spark')} Proponer un plan con IA</button>`;
   return seg+vPrograma();
 }
 let MIAG=false, DIA_PLAN=null, FPROP='';
@@ -1812,7 +1822,7 @@ function abrirEvento(id,tab){
     </div></div>
     <div class="evt" data-t="menu" ${EVTAB==='menu'?'':'hidden'}><div class="stack"><div class="ev-q script">“Buena comida, mejores conversaciones y un viaje inolvidable.”</div>
     ${(()=>{const c=COMIDAS.find(x=>x.evento_id===e.id);if(c)return `<div class="card"><div class="eyebrow" style="margin-bottom:4px">Menú de la noche</div>${platosDe(c.id).map(platoRow).join('')}<button class="btn ghost sm" style="padding:0" onclick="DIA_MENU='${c.dia}';SUBM='carta';closeSheet();irA('menu')">Ver en la carta</button></div>`;
-      return (e.menu||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Menú</div>${e.menu.map(m=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(m)}</div>`).join('')}</div>`:`<div class="card flat empty">Esta noche no tiene menú cargado.${puedeEditarEv(e)?` <button class="btn ghost sm" onclick="abrirFormEvento('${e.id}')">Agregarlo</button>`:''}</div>`})()}
+      return (e.menu||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Menú</div>${e.menu.map(m=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(m)}</div>`).join('')}</div>`:`<div class="card flat empty">Esta noche no tiene menú cargado.${puedeEditarEv(e)?` <button class="btn ghost sm" onclick="editarPlan('${e.id}');setTimeout(()=>{const t=$('#pcorr');if(t)t.value='Agrégale un menú que combine con el plan'},120)">${ic('spark')} Que la IA lo arme</button>`:''}</div>`})()}
     </div></div>
     <div class="evt" data-t="gente" ${EVTAB==='gente'?'':'hidden'}><div class="stack">
     <div class="card ev-gente">
@@ -1825,7 +1835,7 @@ function abrirEvento(id,tab){
     ${esAdmin()&&e.estado==='propuesta'?`<div class="card"><div class="eyebrow" style="margin-bottom:8px">Pasar al programa</div>${selectorDia(e)}<button class="btn primary block" style="margin-top:10px" onclick="hacerOficial('${e.id}')">Hacer oficial</button></div>`:''}
     <div class="ev-acc">
       <button class="btn sm" onclick="abrirLector(true,false,'${e.id}')">${ic('receipt')} Gasto</button>
-      ${puedeEditarEv(e)?`<button class="btn sm" onclick="abrirFormEvento('${e.id}')">${ic('pen')} Editar</button>`:''}
+      ${puedeEditarEv(e)?`<button class="btn sm" onclick="editarPlan('${e.id}')">${ic('spark')} Cambiar con IA</button>`:''}
       ${esAdmin()?`<details class="ev-mas"><summary class="btn sm">Más</summary><div class="ev-mas-in">
         ${e.estado==='oficial'?`<button class="btn sm block" onclick="patchEvento('${e.id}',{estado:'hecho'})">Marcar como hecho</button><button class="btn sm block" onclick="patchEvento('${e.id}',{estado:'propuesta',dia:null})">Sacar del programa</button>`:''}
         <button class="btn sm danger block" onclick="borrarEvento('${e.id}',this)">Eliminar plan</button></div></details>`:''}
@@ -1842,21 +1852,67 @@ async function listaATareas(id){const e=EVENTOS.find(x=>x.id===id);const lista=[
   try{for(const it of lista){if(it.tarea_id||it.ok)continue;const tid=uid();await API.saveTarea({id:tid,titulo:it.txt,detalle:'Para '+e.titulo,grupo:grupoDe(it.txt+' compra'),estado:'por_hacer',responsable:null,evento_id:e.id,fecha:e.dia||null,etiquetas:[],subtareas:[],creado_por:ME.id},true);it.tarea_id=tid;n++}
     await patchEvento(id,{lista});toast(`${n} tarea${n===1?' creada':'s creadas'}`)}catch(err){toast(err.message)}}
 async function borrarEvento(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='Toca otra vez para eliminar';return}try{await API.borrarEvento(id);await cargar();closeSheet();toast('Plan eliminado');render()}catch(e){toast(e.message)}}
-function abrirFormEvento(id,pre){
-  const e=id?EVENTOS.find(x=>x.id===id):{id:uid(),titulo:'',tematica:'',descripcion:'',bloque:'noche',lugar:'',dress_code:'',playlist_url:'',dia:null,hora:null,estado:'propuesta',anfitriones:[ME.id],etiquetas:[],lista:[],menu:[],...(pre||{})};
-  window.EF={...e,nuevo:!id};
-  const fld=(k,l,ph='')=>`<div class="field"><label for="ef_${k}">${l}</label><input id="ef_${k}" class="in" value="${esc(e[k]||'')}" placeholder="${ph}" oninput="EF.${k}=this.value"></div>`;
-  openSheet(`${sheetH(id?'Editar plan':'Proponer un plan')}<div class="stack">
-    ${fld('titulo','Nombre','Ej. Noche de karaoke')}${fld('tematica','Temática','Ej. Karaoke, parrillada, juegos')}
-    <div class="field"><label for="ef_desc">De qué se trata</label><textarea id="ef_desc" class="in" rows="3" oninput="EF.descripcion=this.value">${esc(e.descripcion||'')}</textarea></div>
-    <div class="field"><span class="lbl">Momento del día</span><div class="seg">${BLOQUES.map(([k,l])=>`<button aria-pressed="${e.bloque===k}" onclick="EF.bloque='${k}';this.parentElement.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b===this))">${l}</button>`).join('')}</div></div>
-    <div class="grid2">${fld('lugar','Dónde','casa, playa, terraza')}${fld('dress_code','Dress code','Ej. todo blanco')}</div>
-    <div class="field"><label for="ef_menu">Menú (un plato por línea)</label><textarea id="ef_menu" class="in" rows="4" placeholder="Tacos de camarón&#10;Guacamole&#10;Micheladas" oninput="EF.menu=this.value.split('\n').map(x=>x.trim()).filter(Boolean)">${esc((e.menu||[]).join('\n'))}</textarea></div>
-    ${fld('playlist_url','Playlist (link)','https://open.spotify.com/…')}
-    ${esAdmin()&&e.estado!=='propuesta'?`<div class="grid2"><div class="field"><label for="ef_dia">Día</label><select id="ef_dia" class="in" onchange="EF.dia=this.value||null"><option value="">Sin día</option>${diasViaje().map((d,i)=>`<option value="${d}" ${e.dia===d?'selected':''}>${nomDia(i)} · ${fechaCorta(d)}</option>`).join('')}</select></div><div class="field"><label for="ef_hora">Hora</label><input id="ef_hora" type="time" class="in" value="${esc(e.hora?String(e.hora).slice(0,5):'')}" onchange="EF.hora=this.value||null"></div></div>`:''}
-    <button class="btn primary block" onclick="guardarEvento()">${id?'Guardar':'Proponer'}</button></div>`);
+/* ---------- PLANES CON IA ----------
+   Un plan se cuenta (o se le dice a la IA qué cambiar) y la IA llena la ficha completa: nombre, de qué se trata,
+   cuándo, dónde, look, qué llevar y menú. Lo demás se escoge TOCANDO. Nada de formularios. */
+const LUGARES_PLAN=['casa','playa','piscina','terraza','sala','restaurante'];
+let PL=null;
+function planVacio(){return{id:uid(),titulo:'',tematica:'',descripcion:'',bloque:'noche',lugar:'',dress_code:'',playlist_url:'',dia:null,hora:null,estado:'propuesta',anfitriones:[ME.id],etiquetas:[],lista:[],menu:[]}}
+function planDesdeIA(ev,base){
+  const n=base?JSON.parse(JSON.stringify(base)):planVacio(); delete n.nuevo; delete n._anim;
+  const ya=Object.fromEntries((n.lista||[]).map(x=>[norm(x.txt),x]));
+  if(ev){for(const k of ['titulo','tematica','descripcion','bloque','lugar','dress_code'])if(ev[k])n[k]=ev[k];
+    if(esAdmin()){if(ev.dia&&diasViaje().includes(ev.dia))n.dia=ev.dia;if(ev.hora)n.hora=ev.hora}
+    if((ev.lista||[]).length)n.lista=ev.lista.map(t=>ya[norm(t)]||{txt:t,ok:false});
+    if((ev.menu||[]).length)n.menu=ev.menu}
+  PL={...n,nuevo:!base,_anim:!!ev};return PL}
+function editarPlan(id){const e=EVENTOS.find(x=>x.id===id);if(!e)return;PL={...JSON.parse(JSON.stringify(e)),nuevo:false,_anim:false};pintarPlan();setTimeout(()=>{const t=$('#pcorr');if(t)t.focus()},80)}
+const chipP=(on,fn,l)=>`<button class="chip" aria-pressed="${on}" onclick="${fn}">${esc(l)}</button>`;
+const qv=v=>esc(JSON.stringify(v));
+function pintarPlan(){
+  const e=PL, anim=!!e._anim; e._anim=false;
+  const looks=[...new Set([...Object.keys(ESTILOS),e.dress_code].filter(Boolean))], lugs=[...new Set([...LUGARES_PLAN,e.lugar].filter(Boolean))];
+  const corr=`<textarea id="pcorr" class="in" rows="2" placeholder="Ej. que sea a las 8 en la playa, con micheladas y todos de blanco"></textarea><button class="btn sm sun" id="pcorrb" style="margin-top:8px" onclick="corregirPlanIA()">${ic('spark')} ${e.nuevo?'Corregir con IA':'Cambiar con IA'}</button>`;
+  openSheet(`${sheetH(e.nuevo?'Así quedó tu plan':'Cambiar el plan')}<div class="stack ${anim?'ia-llena':''}">
+    ${anim?`<div class="ia-sello">${ic('spark')} La IA lo llenó. Toca lo que quieras cambiar.</div>`:''}
+    ${e.nuevo?'':`<div class="ia-sec"><div class="eyebrow">Dile a la IA qué cambiar</div>${corr}</div>`}
+    <div class="card pl-card">${imgTag(imgEvento(e),'pl-img')}
+      <div class="eyebrow" style="color:var(--sun);margin-top:10px">${esc(e.tematica||'Plan')}</div>
+      <button class="gia-t gia-e" onclick="plEditar('titulo')">${esc(e.titulo||'Toca para ponerle nombre')}</button>
+      <button class="gia-e pl-desc" onclick="plEditar('descripcion')">${esc(e.descripcion||'Toca para contar de qué se trata')}</button></div>
+    <div class="ia-sec"><div class="eyebrow">Cuándo</div><div class="chips scroll">${BLOQUES.map(([k,l])=>chipP(e.bloque===k,`plSet('bloque','${k}')`,l)).join('')}</div>
+      ${esAdmin()?`<div class="chips scroll" style="margin-top:8px">${chipP(!e.dia,`plSet('dia',null)`,'Sin día · propuesta')}${diasViaje().map((d,i)=>chipP(e.dia===d,`plSet('dia','${d}')`,nomDia(i)+' · '+fechaCorta(d))).join('')}</div>
+      <button class="btn ghost sm" style="margin-top:6px;padding-left:0" onclick="plEditar('hora')">${e.hora?'A las '+esc(String(e.hora).slice(0,5))+' · cambiar':'Ponerle hora'}</button>`:''}</div>
+    <div class="ia-sec"><div class="eyebrow">Dónde</div><div class="chips scroll">${lugs.map(l=>chipP(e.lugar===l,`plSet('lugar',${qv(l)})`,l.charAt(0).toUpperCase()+l.slice(1))).join('')}</div></div>
+    <div class="ia-sec"><div class="eyebrow">Look</div><div class="chips scroll">${chipP(!e.dress_code,`plSet('dress_code','')`,'Sin dress code')}${looks.map(l=>chipP(e.dress_code===l,`plSet('dress_code',${qv(l)})`,l)).join('')}</div></div>
+    ${(e.lista||[]).length?`<div class="ia-sec"><div class="eyebrow">Qué llevar o comprar · toca para quitar</div><div class="chips">${e.lista.map((x,i)=>`<button class="chip pl-x" onclick="plQuitar(${i})">${esc(x.txt)} ${ic('x')}</button>`).join('')}</div></div>`:''}
+    ${(e.menu||[]).length?`<div class="ia-sec"><div class="eyebrow">Menú</div>${e.menu.map(m=>`<div class="pl-menu">${esc(m)}</div>`).join('')}</div>`:''}
+    ${e.nuevo?`<details class="ia-sec"><summary class="eyebrow" style="cursor:pointer">¿Algo más? Díselo a la IA</summary>${corr}</details>`:''}
+    <button class="btn primary block" id="psave" onclick="guardarPlan()">${e.nuevo?'Proponer este plan':'Guardar los cambios'}</button></div>`);
+  document.querySelectorAll('#sheetBody .ia-sec .chips.scroll').forEach(c=>{const el=c.querySelector('.chip[aria-pressed=true]');if(el&&c.scrollWidth>c.clientWidth)c.scrollLeft=Math.max(0,el.offsetLeft-c.offsetLeft-(c.clientWidth-el.offsetWidth)/2)});
 }
-async function guardarEvento(){if(!String(EF.titulo).trim()){toast('Ponle un nombre');return}const n=EF.nuevo;const e={...EF};delete e.nuevo;if(n)e.creado_por=ME.id;try{await API.saveEvento(e,n);await cargar();closeSheet();toast(n?'Propuesta creada: que voten':'Plan actualizado');if(n){SUBE='propuestas';TAB='planes'}render()}catch(err){toast(err.message)}}
+function repintarPlan(){const c=$('#sheet .sheet-card'),y=c?c.scrollTop:0;pintarPlan();const c2=$('#sheet .sheet-card');if(c2)c2.scrollTop=y}
+function plSet(k,v){PL[k]=v;repintarPlan()}
+function plQuitar(i){PL.lista=PL.lista.filter((_,k)=>k!==i);repintarPlan()}
+function plEditar(k){const q={titulo:'¿Cómo se llama el plan?',descripcion:'¿De qué se trata?',hora:'¿A qué hora? (ej. 20:00)'}[k];const v=prompt(q,String(PL[k]||''));if(v==null)return;
+  if(k==='hora'){const m=v.trim().match(/^(\d{1,2})(?::(\d{2}))?$/);if(v.trim()&&!m){toast('Escribe la hora así: 20:00');return}PL.hora=m?String(+m[1]).padStart(2,'0')+':'+(m[2]||'00'):null}else PL[k]=v.trim();repintarPlan()}
+async function corregirPlanIA(){
+  const t=$('#pcorr'),c=t?t.value.trim():'';if(!c){if(t)t.focus();return}
+  const b=$('#pcorrb');b.disabled=true;b.textContent='Cambiando…';
+  const actual={...PL};delete actual.nuevo;delete actual._anim;
+  try{const p=await API.leer({texto:c,modo:'plan',plan:{titulo:actual.titulo,tematica:actual.tematica,descripcion:actual.descripcion,bloque:actual.bloque,lugar:actual.lugar,dress_code:actual.dress_code,dia:actual.dia,hora:actual.hora,lista:(actual.lista||[]).map(x=>x.txt),menu:actual.menu||[]}});
+    const ev=(p.eventos||[])[0];
+    if(!ev||p.local){b.disabled=false;b.innerHTML=ic('spark')+' Cambiar con IA';toast('Sin IA no puedo cambiarlo: toca los botones');return}
+    const nuevo=PL.nuevo;planDesdeIA(ev,actual);PL.nuevo=nuevo;pintarPlan()}
+  catch(e){b.disabled=false;b.innerHTML=ic('spark')+' Cambiar con IA';toast(e.message)}
+}
+async function guardarPlan(){
+  if(!String(PL.titulo||'').trim()){toast('Ponle un nombre: toca el título');return}
+  const n=PL.nuevo,e={...PL};delete e.nuevo;delete e._anim;e.estilo=ESTILOS[e.dress_code]||null;if(n)e.creado_por=ME.id;
+  const b=$('#psave');if(b)b.disabled=true;
+  try{await API.saveEvento(e,n);await cargar();closeSheet();toast(n?'Plan propuesto: que voten':'Plan actualizado');if(n){SUBE='propuestas';TAB='planes'}render()}
+  catch(err){if(b)b.disabled=false;toast(err.message)}
+}
 
 /* ---------- NOSOTROS ---------- */
 function insignias(){
