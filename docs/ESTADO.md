@@ -1,6 +1,13 @@
-# Estado · Our Beach Era (antes Casablanca, Beach Trip y Marea Alta)
+# Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v19**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v20**.
+
+## v20 (7-oct) · de vuelta a Casablanca
+- Daniel decidió que el viaje vuelve a ser **Casablanca** (logo y nombre). Our Beach Era queda solo como sticker
+  (al pie de Hoy, ahora recortado limpio). La v19 nunca se desplegó.
+- Logo Casablanca rehecho desde la versión nítida que mandó Daniel (1566 px, fondo blanco quitado):
+  `img/logo-casablanca.webp` y `stickers/casablanca.webp`. Íconos de la app regenerados.
+- Se borró `sql/010`; `sql/009` ahora también cambia «Our Beach Era» a «Casablanca». Demo resembrada (v13).
 
 ## v19 (7-oct) · el viaje se llama Our Beach Era
 - Logo del viaje: **Our Beach Era** (`public/img/logo-beach-era.webp`, recortado limpio de la hoja de stickers con
