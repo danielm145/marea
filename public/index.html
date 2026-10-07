@@ -403,6 +403,31 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 /* TAREAS */
 .prep{position:relative;overflow:hidden}.prep-img{position:absolute;right:0;top:0;width:45%;height:100%;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent,#000 60%);mask-image:linear-gradient(90deg,transparent,#000 60%);opacity:.9}
 .prep .grow{max-width:62%}
+a.item{text-decoration:none;color:inherit}
+.stk{display:inline-block;height:auto;max-width:100%;filter:drop-shadow(0 4px 10px rgba(11,37,71,.18))}
+.stk-row{display:flex;gap:10px;overflow-x:auto;padding:14px 2px 6px;scrollbar-width:none}.stk-row::-webkit-scrollbar{display:none}.stk-row .stk{height:120px;width:auto;flex:none}
+.login-stk{justify-content:center}.login-stk .stk{height:82px}
+.quote-s{display:flex;align-items:center;gap:12px;margin-top:18px;background:var(--surface-2);border-radius:20px;padding:12px}.quote-s .script{font-size:21px;color:var(--ink-2)}
+.ah-stk{position:absolute;top:-6px;right:-4px;transform:rotate(8deg)}.ah-in{position:relative}
+.mc{position:relative;overflow:hidden}.mc-stk{position:absolute;right:-12px;top:-6px;opacity:.95;transform:rotate(-6deg)}.mc .mc-l,.mc .mc-r{position:relative}
+.info-h{position:relative;margin-top:14px;border-radius:24px;overflow:hidden;min-height:220px;display:flex;align-items:flex-end;background:var(--hero)}
+.info-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.info-h::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,0) 30%,rgba(6,20,45,.65))}
+.info-in{position:relative;z-index:1;padding:16px;color:#fff;display:flex;flex-direction:column;gap:2px}.info-in b{font-family:var(--f-disp);font-size:20px}.info-in span{font-size:13px;opacity:.9}
+.mapa{margin-top:14px;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);background:var(--surface-2)}.mapa iframe{display:block;width:100%;height:320px;border:0}
+.seg4{overflow-x:auto;scrollbar-width:none}.seg4::-webkit-scrollbar{display:none}.seg4 button{white-space:nowrap}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;margin-top:16px}
+.team button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:6px;font:inherit;color:inherit;cursor:pointer}.team b{font-size:14px}.team .pill{font-size:11.5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-c{display:flex;align-items:center;gap:12px;width:100%;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit;margin-top:10px}.chat-c>svg{width:20px;height:20px;color:var(--ink-3)}
+.chat-h{display:flex;align-items:baseline;gap:8px;margin:14px 0 8px}.chat-h b{font-family:var(--f-disp);font-size:20px}
+.chat{display:flex;flex-direction:column;gap:10px;padding-bottom:84px}
+.chat-d{align-self:center;font-size:12px;color:var(--ink-3);background:var(--surface-2);border-radius:999px;padding:3px 10px;margin:6px 0}
+.msg{display:flex;gap:8px;align-items:flex-end;max-width:86%}.msg.yo{align-self:flex-end;flex-direction:row-reverse}
+.msg-b{background:var(--surface);border-radius:18px 18px 18px 6px;padding:8px 12px;box-shadow:var(--shadow);font-size:15px;line-height:1.35;position:relative;min-width:70px}
+.msg.yo .msg-b{background:var(--tide-soft);border-radius:18px 18px 6px 18px}.msg-n{font-size:12px;font-weight:800;color:var(--sun);margin-bottom:2px}
+.msg-b img{display:block;width:220px;max-width:100%;border-radius:12px;margin:4px 0;cursor:zoom-in}.msg-t{display:block;text-align:right;font-size:11px;color:var(--ink-3);margin-top:2px}
+.chat-in{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(68px + env(safe-area-inset-bottom,0px));width:min(680px,100%);padding:8px 12px;display:flex;gap:8px;align-items:center;background:var(--bg);border-top:1px solid var(--line);z-index:30}
+.chat-in .send{background:var(--tide);color:#fff}
+.check-h{display:flex;align-items:center;gap:12px;margin-top:14px}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -439,7 +464,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v15';
+const BUILD_TAG='v16';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -554,7 +579,7 @@ const AVC=[['#D5EDEA','#075A56'],['#FCE5DC','#B23C1C'],['#E6E3FA','#4B3BA8'],['#
 
 /* ---------- estado ---------- */
 let ME=null, PERSONAS=[], PMAP={}, CFG={nombre:'Beach Trip',lugar:'',desde:null,hasta:null,moneda:'USD'};
-let GASTOS=[], TAREAS=[], EVENTOS=[], VOTOS=[], ETIQUETAS=[], COMIDAS=[], PLATOS=[], ASIST=[], PRESU=[], INSPI=[], MURO=[], EQUIPO=[], VEHICULOS=[], PASAJEROS=[], COMERCIOS=[];
+let GASTOS=[], TAREAS=[], EVENTOS=[], VOTOS=[], ETIQUETAS=[], COMIDAS=[], PLATOS=[], ASIST=[], PRESU=[], INSPI=[], MURO=[], EQUIPO=[], VEHICULOS=[], PASAJEROS=[], COMERCIOS=[], MENSAJES=[];
 let TAB='hoy', SUBG='mov', SUBE='programa', FILT={cat:'',per:'',q:''}, FILTT={grupo:'',solo:false};
 const FOTOS={}; // ref → url resuelta
 const esAdmin=()=>ME&&ME.rol==='admin';
@@ -779,7 +804,8 @@ function seedDemo(){
     reglas:['Cero café soluble: se pasa café de verdad','Cada quien lava lo que usa en las cenas colaborativas','Todo gasto se sube con foto a la app','Silencio después de la 1 a.m. por los vecinos'],
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
     faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
-    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],v:10};
+    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],
+    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:11};
 }
 /* se entra con el CELULAR + clave = día y mes del cumpleaños (DDMM). Mismas reglas que marea-admin-personas */
 function normTel(t){let d=String(t??'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d.startsWith('0'))d='593'+d.slice(1);else if(d.length===9&&d.startsWith('9'))d='593'+d;else if(d.length===10&&d.startsWith('3'))d='57'+d;return /^[0-9]{11,15}$/.test(d)?d:null}
@@ -796,12 +822,12 @@ function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`http
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==10){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==11){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
   async login(tel,pin){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p||!p.cumple||pinDe(p.cumple)!==pin)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
   async logout(){lsDel(DEMO_SES)},
-  async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,cumple,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];COMIDAS=[...(d.comidas||[])];PLATOS=[...(d.platos||[])];ASIST=[...(d.asistencia||[])];PRESU=[...(d.presupuesto||[])];INSPI=[...(d.inspiracion||[])];MURO=[...(d.muro||[])];EQUIPO=[...(d.equipo||[])];VEHICULOS=[...(d.vehiculos||[])];PASAJEROS=[...(d.pasajeros||[])];COMERCIOS=[...(d.comercios||[])];ME=d.personas.find(p=>p.id===ME.id)||ME},
+  async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,cumple,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];COMIDAS=[...(d.comidas||[])];PLATOS=[...(d.platos||[])];ASIST=[...(d.asistencia||[])];PRESU=[...(d.presupuesto||[])];INSPI=[...(d.inspiracion||[])];MURO=[...(d.muro||[])];EQUIPO=[...(d.equipo||[])];VEHICULOS=[...(d.vehiculos||[])];PASAJEROS=[...(d.pasajeros||[])];COMERCIOS=[...(d.comercios||[])];MENSAJES=[...(d.mensajes||[])];ME=d.personas.find(p=>p.id===ME.id)||ME},
   async saveGasto(g,nuevo){const L=this.d.gastos;if(nuevo){L.unshift({...g,created_at:new Date().toISOString()})}else{const i=L.findIndex(x=>x.id===g.id);if(i<0)throw new Error('No encuentro ese gasto');this.d.historial.push({gasto_id:g.id,version:L[i],cambiado_por:ME.id,ts:new Date().toISOString()});L[i]={...L[i],...g}}this.save()},
   async historial(id){return this.d.historial.filter(h=>h.gasto_id===id)},
   async saveTarea(t,nuevo){const L=this.d.tareas;if(nuevo)L.push({...t,created_at:new Date().toISOString()});else{const i=L.findIndex(x=>x.id===t.id);L[i]={...L[i],...t}}this.save()},
@@ -835,6 +861,8 @@ const Demo={
   async quitarPasajero(pid,t){this.d.pasajeros=(this.d.pasajeros||[]).filter(x=>!(x.persona_id===pid&&x.trayecto===t));this.save()},
   async addFoto(f){(this.d.muro=this.d.muro||[]).push({...f,created_at:new Date().toISOString()});this.save();if(JSON.stringify(this.d).length>4.5e6)toast('El demo guarda pocas fotos en el teléfono; con Supabase no hay límite')},
   async borrarFoto(id){this.d.muro=(this.d.muro||[]).filter(f=>f.id!==id);this.save()},
+  async enviarMensaje(m){(this.d.mensajes=this.d.mensajes||[]).push({...m,created_at:new Date().toISOString()});this.save()},
+  async borrarMensaje(id){this.d.mensajes=(this.d.mensajes||[]).filter(m=>m.id!==id);this.save()},
   async admin(action,b){
     const d=this.d;
     if(action==='listar') return {personas:d.personas.map(p=>({...p}))};
@@ -872,7 +900,7 @@ const Sb={
     const x=await Promise.allSettled([this.t('comidas').select('*').order('dia'),this.t('platos').select('*').order('created_at'),this.t('asistencia').select('*'),this.t('presupuesto').select('*').order('orden'),this.t('inspiracion').select('*').order('created_at'),this.t('muro').select('*').order('created_at',{ascending:false}),this.t('equipo').select('*').order('created_at'),this.t('vehiculos').select('*').order('created_at'),this.t('pasajeros').select('*'),this.t('comercios').select('*')]);
     const val=r=>r.status==='fulfilled'&&!r.value.error?r.value.data:null;
     this.v3=val(x[0])!==null;
-    COMIDAS=val(x[0])||[];PLATOS=val(x[1])||[];ASIST=val(x[2])||[];PRESU=(val(x[3])||[]).map(r=>({...r,minimo:r.minimo==null?null:+r.minimo,maximo:r.maximo==null?null:+r.maximo}));INSPI=val(x[4])||[];MURO=val(x[5])||[];EQUIPO=val(x[6])||[];VEHICULOS=val(x[7])||[];PASAJEROS=val(x[8])||[];COMERCIOS=val(x[9])||[];
+    COMIDAS=val(x[0])||[];PLATOS=val(x[1])||[];ASIST=val(x[2])||[];PRESU=(val(x[3])||[]).map(r=>({...r,minimo:r.minimo==null?null:+r.minimo,maximo:r.maximo==null?null:+r.maximo}));INSPI=val(x[4])||[];MURO=val(x[5])||[];EQUIPO=val(x[6])||[];VEHICULOS=val(x[7])||[];PASAJEROS=val(x[8])||[];COMERCIOS=val(x[9])||[];MENSAJES=await this.mensajes();
     ME=await this.me(ME.auth_id);
   },
   pick(o,ks){const r={};ks.forEach(k=>{if(k in o)r[k]=o[k]});return r},
@@ -916,6 +944,9 @@ const Sb={
   async quitarPasajero(pid,t){this.ok(await this.t('pasajeros').delete().eq('persona_id',pid).eq('trayecto',t))},
   async addFoto(f){const row=this.pick(f,['id','persona_id','foto_path','texto','dia','evento_id']);if(this.v3===false)delete row.evento_id;this.ok(await this.t('muro').insert(row))},
   async borrarFoto(id){this.ok(await this.t('muro').delete().eq('id',id))},
+  async enviarMensaje(m){this.ok(await this.t('mensajes').insert(this.pick(m,['id','persona_id','texto','foto'])))},
+  async borrarMensaje(id){this.ok(await this.t('mensajes').delete().eq('id',id))},
+  async mensajes(){const{data,error}=await this.t('mensajes').select('*').order('created_at',{ascending:false}).limit(200);return error?[]:data.reverse()},
   async addInspiracion(x){this.ok(await this.t('inspiracion').insert(this.pick(x,['id','evento_id','persona_id','foto','nota'])))},
   async enriquecer(p){try{const j=await this.fn('marea-menu',{plato:{nombre:p.nombre,ingredientes:p.ingredientes||[],descripcion:p.descripcion||'',estilo:p.estilo||''}});return j.plato}catch(e){const r=enriquecerLocal(p);toast('La IA no respondió: '+e.message);return r}}
 };
@@ -1001,9 +1032,9 @@ function grupoDe(t){t=norm(t);
 /* ============================================================================
    NAVEGACIÓN Y HOJAS
    ============================================================================ */
-const TABS=[['hoy','Hoy'],['planes','Itinerario'],['menu','Menú'],['gastos','Gastos'],['mas','Más'],['tareas','Tareas'],['nosotros','Álbum']];
+const TABS=[['hoy','Hoy'],['planes','Itinerario'],['menu','Menú'],['gastos','Gastos'],['mas','Más'],['tareas','Tareas'],['nosotros','Álbum'],['chat','Chat'],['check','Mi checklist']];
 function tabsVisibles(){return esAdmin()?[...TABS,['admin','Admin']]:TABS}
-const TABS_BARRA=TABS.slice(0,5), EN_MAS=['mas','tareas','nosotros','admin'];
+const TABS_BARRA=TABS.slice(0,5), EN_MAS=['mas','tareas','nosotros','admin','chat','check'];
 const TAB_IC={hoy:'hoy',planes:'cal',menu:'menu',gastos:'gastos',mas:'mas'};
 function irA(t){if(!tabsVisibles().some(x=>x[0]===t))t='hoy';if(location.hash!=='#'+t){try{history.pushState(null,'','#'+t)}catch(e){}}TAB=t;closeSheet(true);render();window.scrollTo(0,0)}
 let IGN_POP=false;
@@ -1031,7 +1062,8 @@ if(MODO==='supabase'){setInterval(()=>{if(document.visibilityState==='visible')r
 
 function pintarLogin(msg){
   $('#app').innerHTML=`<div class="login">
-    <div class="login-logo">${logo(230)}</div>
+    <div class="login-logo">${logo(200)}</div>
+    <div class="stk-row login-stk">${['goodVibes','salty','vitamin','paradise'].map(k=>stk(k)).join('')}</div>
     <div style="text-align:center"><h1>¡Nos vamos a la playa!</h1><p class="tag">Same, Esmeraldas · buenos amigos, mejores historias.</p></div>
     <form id="lf" class="stack" autocomplete="on">
       <div class="field"><label for="lced">Tu celular</label><input id="lced" class="in" type="tel" inputmode="tel" autocomplete="username" placeholder="098 557 6470" value="${esc(telLocal(lsGet('marea_tel')||''))}" required></div>
@@ -1055,16 +1087,17 @@ async function salir(){await API.logout();ME=null;closeSheet(true);pintarLogin()
 function render(){
   if(!ME){pintarLogin();return}
   const sub=CFG.lugar?esc(CFG.lugar):(CFG.desde?`${fechaCorta(CFG.desde)} – ${fechaCorta(CFG.hasta)}`:'El viaje a la playa');
-  const views={hoy:vHoy,gastos:vGastos,menu:vMenu,tareas:vTareas,planes:vPlanes,nosotros:vNosotros,admin:vAdmin,mas:vMas};
+  const views={hoy:vHoy,gastos:vGastos,menu:vMenu,tareas:vTareas,planes:vPlanes,nosotros:vNosotros,admin:vAdmin,mas:vMas,chat:vChat,check:vCheck};
   const enHoy=TAB==='hoy', activa=EN_MAS.includes(TAB)?'mas':TAB;
   $('#app').innerHTML=`<div class="wrap ${enHoy?'en-hoy':''}">
     ${enHoy?'':`<header class="top2"><button class="x" onclick="${EN_MAS.includes(TAB)&&TAB!=='mas'?"irA('mas')":"irA('hoy')"}" aria-label="Atrás">${ic('back')}</button>
       <div class="top2-t"><b>${esc(CFG.nombre||'Beach Trip')}</b><small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
     <main id="main">${(views[TAB]||vHoy)()}</main>
     <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Beach Trip ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
-    <button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>
+    ${TAB==='chat'?'':`<button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>`}
     <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===activa?'aria-current="page"':''} onclick="irA('${k}')">${ic(TAB_IC[k]||k)}<span>${l}</span></button>`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
+  if(TAB==='chat'){const c=$('#chatL');if(c)c.scrollTop=c.scrollHeight;window.scrollTo(0,document.body.scrollHeight)}
 }
 function abrirMenuMas(){openSheet(`${sheetH('Opciones')}<div class="card"><div class="list">
   <button class="item" onclick="closeSheet(true);abrirMiPerfil()">${av(ME.id,'xs')}<div class="grow"><div class="t">Mi ficha</div><div class="s">Alergias, talento, canción de karaoke</div></div></button>
@@ -1072,16 +1105,45 @@ function abrirMenuMas(){openSheet(`${sheetH('Opciones')}<div class="card"><div c
   <button class="item" onclick="verCreditos()"><span class="cat-dot">${ic('cam')}</span><div class="grow"><div class="t">Créditos de las fotos</div></div></button>
   <button class="item" onclick="salir()"><span class="cat-dot">${ic('out')}</span><div class="grow"><div class="t">Salir</div></div></button></div></div>`)}
 /* Más: lo que no cabe en la barra */
+/* chat del grupo: texto y fotos */
+let CHAT_T=null;
+function vChat(){
+  if(MODO==='supabase'&&!CHAT_T)CHAT_T=setInterval(async()=>{if(TAB!=='chat'){clearInterval(CHAT_T);CHAT_T=null;return}const n=await Sb.mensajes();if(n.length!==MENSAJES.length){MENSAJES=n;render()}},12000);
+  let dia='';
+  return `<div class="chat-h"><b>Chat del grupo</b><span class="muted tiny">${activos().length} viajeros</span></div><div class="chat" id="chatL">${MENSAJES.map(m=>{const yo=m.persona_id===ME.id,d=String(m.created_at).slice(0,10),sep=d!==dia?(dia=d,`<div class="chat-d">${d===hoyISO()?'Hoy':diaSem(d)+' '+fechaCorta(d)}</div>`):'';const u=m.foto?fotoUrl(m.foto):'';
+    return sep+`<div class="msg ${yo?'yo':''}">${yo?'':av(m.persona_id,'xs')}<div class="msg-b">${yo?'':`<div class="msg-n">${esc(nom(m.persona_id))}</div>`}${u?`<img src="${esc(u)}" alt="" onclick="verLook(this.src)">`:''}${m.texto?`<div>${esc(m.texto)}</div>`:''}<span class="msg-t">${new Date(m.created_at).toLocaleTimeString('es-EC',{hour:'2-digit',minute:'2-digit'})}</span></div></div>`}).join('')||`<div class="card flat empty">${stk('goodPeople','',120)}<div>Nadie ha escrito todavía.</div></div>`}</div>
+    <div class="chat-in"><label class="x" aria-label="Foto">${ic('cam')}<input type="file" accept="image/*" hidden onchange="chatFoto(this)"></label><input id="chatT" class="in grow" placeholder="Escribe un mensaje…" onkeydown="if(event.key==='Enter')chatEnviar()"><button class="x send" onclick="chatEnviar()" aria-label="Enviar">${ic('up')}</button></div>`;
+}
+async function chatEnviar(foto){const t=($('#chatT')||{}).value||'';if(!t.trim()&&!foto)return;try{await API.enviarMensaje({id:uid(),persona_id:ME.id,texto:t.trim()||null,foto:foto||null});MENSAJES=MODO==='supabase'?await Sb.mensajes():[...MENSAJES,{id:uid(),persona_id:ME.id,texto:t.trim()||null,foto:foto||null,created_at:new Date().toISOString()}];if(MODO==='demo')await cargar();render();const i=$('#chatT');if(i)i.focus()}catch(e){toast(e.message)}}
+async function chatFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,1400,.8);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);await chatEnviar(ref)}catch(e){toast(e.message)}}
+
+/* checklist personal para la maleta: se guarda en la ficha de cada quien */
+const CHECK_BASE=['Traje de baño','Bloqueador solar','Lentes de sol','Sombrero o gorra','Ropa ligera','Sandalias','Medicamentos personales','Cargadores','Cámara o GoPro','Buena actitud'];
+function checkItems(){const pf=(ME.perfil||{}),extra=(pf.checklist_extra||[]);return [...new Set([...CHECK_BASE,...infoV().que_llevar,...extra])]}
+const checkHechos=()=>checkItems().filter(i=>((ME.perfil||{}).checklist||{})[i]).length;
+function vCheck(){const pf=ME.perfil||{},ok=pf.checklist||{},L=checkItems(),n=L.filter(i=>ok[i]).length;
+  return `<div class="card check-h"><div class="grow"><b>No olvides lo esencial</b><div class="muted tiny">Para que solo te preocupes por disfrutar · ${n} de ${L.length} listos</div><div class="bar" style="height:8px;margin-top:10px"><i class="p" style="left:0;width:${L.length?n/L.length*100:0}%"></i></div></div>${stk('ocean','',84)}</div>
+    <div class="card" style="margin-top:12px">${L.map(i=>`<label class="sub-item"><input type="checkbox" ${ok[i]?'checked':''} onchange="checkMarcar(${JSON.stringify(i).replace(/"/g,'&quot;')},this.checked)"><span class="grow" style="${ok[i]?'text-decoration:line-through;color:var(--ink-3)':''}">${esc(i)}</span></label>`).join('')}
+      <div class="row" style="margin-top:8px"><input id="chkN" class="in" placeholder="Agregar algo mío…" onkeydown="if(event.key==='Enter')checkAgregar()"><button class="btn sm" onclick="checkAgregar()">${ic('plus')}</button></div></div>
+    <button class="btn block" style="margin-top:12px" onclick="SUBT='equipo';irA('tareas')">Ver lo que lleva el grupo (compartido)</button>`}
+async function checkGuardar(pf){try{await API.saveMiPerfil(ME.apodo,pf);ME={...ME,perfil:pf};await cargar();render()}catch(e){toast(e.message)}}
+function checkMarcar(i,v){const pf={...(ME.perfil||{})};pf.checklist={...(pf.checklist||{}),[i]:v};checkGuardar(pf)}
+function checkAgregar(){const v=$('#chkN').value.trim();if(!v)return;const pf={...(ME.perfil||{})};pf.checklist_extra=[...new Set([...(pf.checklist_extra||[]),v])];checkGuardar(pf)}
+
 function vMas(){
   const L=TAREAS, listas=L.filter(t=>estadoAuto(t)==='listo').length, pct=L.length?Math.round(listas/L.length*100):0;
   const t=(k,click,img,tit,sub)=>`<button class="mas-t" onclick="${click}">${imgTag(img,'mas-img')}<span class="mas-ov"><b>${tit}</b><span>${sub}</span></span></button>`;
-  return `<h2 class="pg-t">Más</h2><div class="mas-g">
+  const ult=MENSAJES[MENSAJES.length-1];
+  return `<div class="row" style="align-items:center"><h2 class="pg-t grow">Más</h2>${stk('amigas','',70)}</div>
+    <button class="card chat-c" onclick="irA('chat')"><span class="cat-dot">${ic('chat')}</span><div class="grow"><b>Chat del grupo</b><div class="muted tiny">${ult?esc(nom(ult.persona_id))+': '+esc(ult.texto||'📷 Foto'):'Escribe el primero'}</div></div>${ic('chev')}</button>
+    <button class="card chat-c" onclick="irA('check')"><span class="cat-dot">${ic('tareas')}</span><div class="grow"><b>Mi checklist</b><div class="muted tiny">${checkHechos()} de ${checkItems().length} listos para la maleta</div></div>${ic('chev')}</button>
+    <div class="mas-g" style="margin-top:12px">
     ${t('tareas',"SUBT='tareas';irA('tareas')",'img/casa/condominio.jpg','Tareas',`${pct}% listo · ${L.length-listas} pendientes`)}
     ${t('album',"SUBN='album';irA('nosotros')",[IMG+'portada.jpg','img/casa/playa.jpg'],'Álbum',`${MURO.length} fotos`)}
     ${t('info',"SUBE='info';irA('planes')",'img/casa/piscina.jpg','Info del viaje','Casa, clima, qué llevar')}
     ${t('gente',"SUBN='gente';irA('nosotros')",LOOK_SRC['welcome-white'],'Viajeros',`${activos().length} en el viaje`)}
     ${t('looks',"SUBE='dress';irA('planes')",LOOK_SRC['tiki-boho'],'Looks','El outfit de cada noche')}
-    ${t('equipo',"SUBT='equipo';irA('tareas')",LOOK_SRC['golden-hour'],'Equipo y carros','Qué llevamos y quién va con quién')}</div>
+    ${t('equipo',"SUBT='gente';irA('tareas')",LOOK_SRC['golden-hour'],'Equipo','Quién hace qué · cosas · carros')}</div>
     <div class="card" style="margin-top:14px"><div class="list">
       <button class="item" onclick="abrirMiPerfil()">${av(ME.id,'xs')}<div class="grow"><div class="t">Mi ficha</div></div>${ic('chev')}</button>
       ${esAdmin()?`<button class="item" onclick="irA('admin')"><span class="cat-dot">${ic('admin')}</span><div class="grow"><div class="t">Administrar</div></div>${ic('chev')}</button>`:''}
@@ -1113,7 +1175,8 @@ function vHoy(){
     <div class="qa">${[['menu','Menú',"irA('menu')"],['gastos','Gastos',"irA('gastos')"],['tareas','Tareas',"irA('tareas')"],['cam','Álbum',"SUBN='album';irA('nosotros')"]].map(([i,l,c])=>`<button onclick="${c}"><span>${ic(i)}</span>${l}</button>`).join('')}</div>
     ${nocheCard(hoy)}
     <button class="card saldo-c" onclick="SUBG='mov';irA('gastos')"><div class="grow"><div class="eyebrow">Mis cuentas</div><div class="muted tiny">${b.saldo>0.009?'En total te deben':b.saldo<-0.009?'En total debes':'Estás a paz y salvo'}</div></div><span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span></button>
-    <div class="script quote">Un gran viaje comienza con personas increíbles ${ic('heart')}</div>`;
+    <div class="stk-row">${['goodVibes','salty','vitamin','paradise','goodFriends','sunSand'].map(k=>stk(k)).join('')}</div>
+    <div style="text-align:center;margin-top:10px">${stk('beachEra','',300)}</div>`;
 }
 /* la temática de esta noche (o la próxima) en grande: lo primero que la gente quiere saber */
 function nocheDestacada(hoy){return EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&esNoche(e)&&e.estilo&&e.dia&&e.dia>=hoy).sort((a,b)=>a.dia.localeCompare(b.dia))[0]}
@@ -1167,7 +1230,7 @@ function vGastos(){
 function misCuentas(){
   const bs=balances(), yo=bs.find(b=>b.id===ME.id)||{saldo:0}, tx=simplificar(bs).filter(t=>t.de===ME.id||t.a===ME.id);
   const lbl=yo.saldo>0.009?'En total te deben':yo.saldo<-0.009?'En total debes':'Estás a paz y salvo';
-  return `<div class="card mc"><div class="mc-l">${lbl}</div><div class="mc-r"><span class="mc-m ${yo.saldo<-0.009?'neg':'pos'}">${money(Math.abs(yo.saldo))}</span><button class="pill-b" onclick="SUBG='bal';render()">Ver cómo se calculó ${ic('chev')}</button></div>
+  return `<div class="card mc">${stk('beachMode','mc-stk',120)}<div class="mc-l">${lbl}</div><div class="mc-r"><span class="mc-m ${yo.saldo<-0.009?'neg':'pos'}">${money(Math.abs(yo.saldo))}</span><button class="pill-b" onclick="SUBG='bal';render()">Ver cómo se calculó ${ic('chev')}</button></div>
     ${tx.length?`<div class="list" style="margin-top:8px">${tx.map(t=>t.a===ME.id?`<div class="mc-i">${av(t.de,'xs')}<span class="grow"><b>${esc(nom(t.de))}</b> te debe</span><span class="amt pos">${money(t.monto)}</span></div>`
       :`<div class="mc-i">${av(t.a,'xs')}<span class="grow">Le debes a <b>${esc(nom(t.a))}</b></span><span class="amt neg">${money(t.monto)}</span><button class="btn sm primary" onclick="registrarPago('${t.de}','${t.a}',${t.monto})">Pagar</button></div>`).join('')}</div>`:''}</div>`;
 }
@@ -1479,6 +1542,7 @@ function tRow(t,conSug){const st=t.subtareas||[],ok=st.filter(x=>x.ok).length,ev
       <div class="row wrap-ok" style="gap:4px;margin-top:4px">${t.prioridad==='alta'&&e!=='listo'?'<span class="pill bad">Urgente</span>':''}<span class="pill mar">${esc(t.grupo||'—')}</span>${t.fecha?`<span class="pill">${fechaCorta(t.fecha)}</span>`:''}${ev?`<span class="pill sun">${esc(ev.titulo)}</span>`:''}${st.length?`<span class="pill">${ok}/${st.length}</span>`:''}</div></button>
     ${t.responsable?av(t.responsable,'xs'):sg?`<button class="btn sm sun" title="Por especialidad: ${esc(sg.por)}" onclick="asignar('${t.id}','${sg.id}')">${esc(nom(sg.id))}</button>`:''}</div>`}
 function vTareas(){
+  if(SUBT==='gente')return vTabsTareas()+vGente();
   if(SUBT==='equipo')return vTabsTareas()+vEquipo();
   if(SUBT==='carros')return vTabsTareas()+vCarros();
   const L=TAREAS.filter(t=>!FILTT.grupo||t.grupo===FILTT.grupo).sort((a,b)=>ordPrio(a)-ordPrio(b)||String(a.fecha||'9').localeCompare(String(b.fecha||'9')));
@@ -1563,15 +1627,27 @@ function evCard(e){const vs=votosDe(e.id).length;
 function vPlanes(){
   const props=EVENTOS.filter(e=>e.estado==='propuesta').sort((a,b)=>votosDe(b.id).length-votosDe(a.id).length);
   const sinVoto=props.filter(e=>!VOTOS.some(v=>v.evento_id===e.id&&v.persona_id===ME.id)).length;
-  const seg=`<div class="seg seg4"><button aria-pressed="${SUBE==='programa'}" onclick="SUBE='programa';render()">Itinerario</button><button aria-pressed="${SUBE==='propuestas'}" onclick="SUBE='propuestas';render()">Propuestas</button><button aria-pressed="${SUBE==='dress'}" onclick="SUBE='dress';render()">Looks</button><button aria-pressed="${SUBE==='info'}" onclick="SUBE='info';render()">Info</button></div>`;
-  if(SUBE==='dress')return seg+vDress();
+  const seg=`<div class="seg seg4"><button aria-pressed="${SUBE==='programa'}" onclick="SUBE='programa';render()">Itinerario</button><button aria-pressed="${SUBE==='propuestas'}" onclick="SUBE='propuestas';render()">Propuestas</button><button aria-pressed="${SUBE==='dress'}" onclick="SUBE='dress';render()">Looks</button><button aria-pressed="${SUBE==='mapa'}" onclick="SUBE='mapa';render()">Mapa</button><button aria-pressed="${SUBE==='info'}" onclick="SUBE='info';render()">Info</button></div>`;
+  if(SUBE==='mapa')return seg+vMapa();
+  if(SUBE==='dress')return seg+vDress()+vDressStk();
   if(SUBE==='info')return seg+vInfo();
   if(SUBE==='propuestas')return seg+`<div class="row" style="margin-top:16px;align-items:flex-start"><div class="grow"><h2 class="pg-t" style="margin:0">Elige las actividades</h2><div class="muted tiny">Las más votadas se suman al plan.</div></div>${sinVoto?`<span class="pill sun">${sinVoto} por votar</span>`:''}</div>
-    <div class="pg2">${props.map(e=>{const vs=votosDe(e.id),yo=vs.some(v=>v.persona_id===ME.id);return `<div class="pc"><button class="pc-img" onclick="abrirEvento('${e.id}')">${imgTag(imgEvento(e))}</button><div class="pc-b"><div class="grow" style="min-width:0"><b>${esc(e.titulo)}</b><span>${vs.length} voto${vs.length===1?'':'s'}</span></div>
-      <button class="heart ${yo?'on':''}" onclick="votar('${e.id}',${!yo})" aria-label="${yo?'Quitar voto':'Votar'}">${ic('heart')}</button></div></div>`}).join('')||`<div class="card flat empty" style="grid-column:1/-1">No hay propuestas. Toca ＋ para proponer un plan.</div>`}</div>`;
+    <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FPROP}" onclick="FPROP='';render()">Todas</button>${CAT_PROP.map(([k,l])=>`<button class="chip" aria-pressed="${FPROP===k}" onclick="FPROP='${k}';render()">${l}</button>`).join('')}</div>
+    <div class="pg2">${props.filter(e=>!FPROP||catProp(e)===FPROP).map(e=>{const vs=votosDe(e.id),yo=vs.some(v=>v.persona_id===ME.id);return `<div class="pc"><button class="pc-img" onclick="abrirEvento('${e.id}')">${imgTag(imgEvento(e))}</button><div class="pc-b"><div class="grow" style="min-width:0"><b>${esc(e.titulo)}</b><span>${vs.length} voto${vs.length===1?'':'s'}</span></div>
+      <button class="heart ${yo?'on':''}" onclick="votar('${e.id}',${!yo})" aria-label="${yo?'Quitar voto':'Votar'}">${ic('heart')}</button></div></div>`}).join('')||`<div class="card flat empty" style="grid-column:1/-1">No hay propuestas aquí.</div>`}</div>
+    <button class="btn sun block" style="margin-top:14px" onclick="abrirFormEvento()">${ic('plus')} Proponer actividad</button>`;
   return seg+vPrograma();
 }
-let MIAG=false, DIA_PLAN=null;
+let MIAG=false, DIA_PLAN=null, FPROP='';
+const CAT_PROP=[['mar','Mar',/yate|surf|snorkel|playa|olimpiad|spike|panzazo|piscina|bote|kayak/],['relax','Relax',/masaje|yoga|cine|spa|siesta|hamaca/],['aventura','Aventura',/cascada|tesoro|tour|excursi|caminata|cuadri/],['noche','Noche',/noche|karaoke|throwback|fogata|fiesta|2000|baile/]];
+const catProp=e=>{const t=norm(e.titulo+' '+(e.tematica||'')+' '+(e.descripcion||''));return (CAT_PROP.find(([,,re])=>re.test(t))||[''])[0]};
+/* lugares del viaje: se abren en Google Maps por nombre (sin coordenadas inventadas) */
+const LUGARES=[['hospedaje','Casa de playa','Condominio Alcazaba del Río, Casablanca','Condominio Alcazaba del Rio Casablanca Same Esmeraldas'],['sun','Playa de Same','A 10 gradas de la casa','Playa de Same Esmeraldas Ecuador'],['menu','Restaurantes de Same','Para la Restaurant Night','Restaurantes Same Esmeraldas'],['pin','Atacames y Tonsupa','Pueblo, malecón y compras','Atacames Esmeraldas Ecuador']];
+function vMapa(){const g=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);const I=infoV();
+  return `<div class="mapa"><iframe title="Mapa de Same" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=-80.02%2C0.78%2C-79.80%2C0.92&amp;layer=mapnik"></iframe></div>
+    <div class="card" style="margin-top:12px"><div class="list">${LUGARES.map(([i,t,s,q])=>`<a class="item" href="${esc(I.mapa_url&&t==='Casa de playa'?I.mapa_url:g(q))}" target="_blank" rel="noopener"><span class="cat-dot">${ic(i)}</span><div class="grow"><div class="t">${t}</div><div class="s">${s}</div></div>${ic('nav')}</a>`).join('')}</div></div>
+    <a class="btn navy block" style="margin-top:12px" href="${esc(I.mapa_url||g(LUGARES[0][3]))}" target="_blank" rel="noopener">${ic('nav')} Cómo llegar a la casa</a>
+    <div style="text-align:center;margin-top:16px">${stk('same','',200)}</div>`}
 const voyA=e=>votosDe(e.id).some(v=>v.persona_id===ME.id)||(e.anfitriones||[]).includes(ME.id);
 /* "Ahora y lo siguiente", como la app del crucero el día de navegación */
 function ahoraCard(){
@@ -1601,7 +1677,7 @@ function vPrograma(){
     <div class="row" style="margin:6px 0 4px;gap:6px"><button class="chip" aria-pressed="${!MIAG}" onclick="MIAG=false;render()">Todo</button><button class="chip sunny" aria-pressed="${MIAG}" onclick="MIAG=true;render()">Mi agenda</button></div>
     ${L.length?`<div class="tl2">${L.map(x=>x.h).join('')}</div>`:`<div class="card flat empty" style="margin-top:10px">Día libre: playa y siesta.</div>`}
     ${sinDia.length&&i===dias.length-1?`<div class="sec-h"><h2>Por programar</h2></div><div class="stack">${sinDia.map(evCard).join('')}</div>`:''}
-    <div class="script quote card">Un gran viaje comienza con personas increíbles ${ic('heart')}</div>`;
+    <div class="quote-s">${stk('newStories','',130)}<div class="script">Un gran viaje comienza con personas increíbles ${ic('heart')}</div></div>`;
 }
 function tlEv(e){const vs=votosDe(e.id).length;return `<div class="tl2-i"><span class="tl2-h">${esc(String(e.hora||BLOQN[e.bloque]||'').slice(0,5))}</span><button class="tl2-c" onclick="abrirEvento('${e.id}')"><b>${esc(e.titulo)}</b>${e.tematica?`<span class="tl2-s">${esc(e.tematica)}</span>`:''}
   <span class="tl2-p">${ic('pin')} ${esc(e.lugar?e.lugar.charAt(0).toUpperCase()+e.lugar.slice(1):'Por definir')}${e.dress_code?' · '+esc(e.dress_code):''}${vs?' · '+vs+' van':''}</span>${imgTag(imgEvento(e),'tl2-img')}</button></div>`}
@@ -1912,7 +1988,7 @@ function vSemana(dias){
     if(!cs.length)return'';
     return `<button class="mrow" onclick="DIA_MENU='${d}';SUBM='carta';render()">${imgTag([visPlato(P),ev?imgEvento(ev):''].flat().filter(Boolean),'mrow-img')}<span class="grow"><span class="mrow-d">${nomDia(i,dias.length)} · ${diaSem(d).slice(0,3)} ${fechaCorta(d)}</span><b>${esc(ev?ev.titulo:(cen?cen.titulo:'Comidas del día'))}</b>
       <ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></span>${ic('chev')}</button>`};
-  return `<div class="row" style="margin-top:16px;align-items:center"><div class="grow"><h2 class="pg-t" style="margin:0">Nuestro menú</h2><div class="muted tiny">Una experiencia gastronómica en la playa</div></div><span class="hat">${ic('menu')}</span></div>
+  return `<div class="row" style="margin-top:16px;align-items:center"><div class="grow"><h2 class="pg-t" style="margin:0">Nuestro menú</h2><div class="muted tiny">Una experiencia gastronómica en la playa</div></div>${stk('salty','',72)}</div>
     <div class="stack" style="margin-top:12px">${dias.map(fila).join('')}</div>
     <button class="card sem-poster" onclick="verMenuKevin()"><img src="img/menu/menu-same-fotos.jpg" alt="" loading="lazy" onerror="this.remove()"><div><div class="eyebrow" style="color:var(--sun)">Menú Same</div><b>El menú original de Kevin</b><div class="muted tiny">Toca para verlo completo</div></div></button>`;
 }
@@ -2130,6 +2206,7 @@ function lookImg(nombre){const f=(LOOK_IMG.find(([re])=>re.test(nombre||''))||[]
 async function verCreditos(){let c={};try{const r=await fetch('img/playa/creditos.json',{cache:'no-store'});if(r.ok)c=await r.json()}catch(e){}
   const L=Object.entries(c);openSheet(sheetH('Créditos de las fotos')+`<div class="stack"><p class="muted tiny" style="margin:0">Menú: Kevin. Looks: collages del grupo. Condominio: @sameclubcasablanca.</p>${L.length?`<div class="card"><div class="list">${L.map(([k,x])=>`<a class="item" href="${esc(x.pagina||x.url)}" target="_blank" rel="noopener"><div class="grow"><div class="t">${esc(x.titulo||k)}</div><div class="s">${esc(x.autor)} · ${esc(x.licencia)}${x.fuente?' · '+esc(x.fuente):''}</div></div></a>`).join('')}</div></div>`:'<p class="muted">Las fotos de ambiente se bajan con scripts/fotos-stock.mjs.</p>'}</div>`)}
 function verLook(src){openSheet(sheetH('Inspiración')+`<img src="${esc(src)}" alt="" style="width:100%;border-radius:16px">`)}
+function vDressStk(){return `<div style="text-align:center;margin-top:12px">${stk('hibiscus','',110)}</div>`}
 function vDress(){
   const L=EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&(e.estilo||e.dress_code)).sort((a,b)=>(String(a.dia||'9')+(a.hora||'')).localeCompare(String(b.dia||'9')+(b.hora||'')));
   /* un look por día aunque esa noche tenga dos planes (BBQ + karaoke): una sola tarjeta */
@@ -2166,7 +2243,7 @@ let SUBN='album', FALB='', SUBIR=null;
 function fotosFiltradas(){return MURO.filter(f=>!FALB||(FALB==='antes'?!f.dia||!diasViaje().includes(f.dia):FALB.startsWith('ev:')?f.evento_id===FALB.slice(3):f.dia===FALB)).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')))}
 function vAlbum(){
   const dias=diasViaje(), L=fotosFiltradas(), noches=EVENTOS.filter(e=>MURO.some(f=>f.evento_id===e.id));
-  return `<section class="ah">${imgTag([IMG+'portada.jpg','img/casa/piscina.jpg'],'ah-img')}<div class="ah-in"><div class="script">Los mejores recuerdos se viven juntos ${ic('heart')}</div>
+  return `<section class="ah">${imgTag([IMG+'portada.jpg','img/casa/piscina.jpg'],'ah-img')}<div class="ah-in">${stk('collect','ah-stk',110)}<div class="script">Los mejores recuerdos se viven juntos ${ic('heart')}</div>
       <label class="btn navy block">${ic('cam')} Subir fotos<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div></section>
     <div class="muted tiny" style="margin-top:10px">${MURO.length} foto${MURO.length===1?'':'s'} del viaje · las sube cualquiera, las ven todos.</div>
     <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FALB}" onclick="FALB='';render()">Todas</button>${dias.map((d,i)=>`<button class="chip" aria-pressed="${FALB===d}" onclick="FALB='${d}';render()">${nomDia(i,dias.length)}</button>`).join('')}${noches.map(e=>`<button class="chip sunny" aria-pressed="${FALB==='ev:'+e.id}" onclick="FALB='ev:${e.id}';render()">${esc(e.titulo)}</button>`).join('')}<button class="chip" aria-pressed="${FALB==='antes'}" onclick="FALB='antes';render()">Antes del viaje</button></div>
@@ -2220,9 +2297,10 @@ function esencialChips(){const I=infoV();const hay=k=>({casa:true,donde:I.direcc
   const L=ESENCIAL.filter(([k])=>hay(k));
   if(!L.length) return esAdmin()?`<button class="card flat empty" style="display:block;width:100%;margin-top:14px;cursor:pointer" onclick="abrirInfoAdmin()">Agrega lo esencial: dirección, WiFi, qué llevar… <b style="color:var(--tide)">Llenar ahora</b></button>`:'';
   return `<div class="esen">${L.map(([k,l,i])=>`<button onclick="verEsencial('${k}')"><span class="ic">${ic(i)}</span><span>${l}</span></button>`).join('')}</div>`}
-function vInfo(){const I=infoV();
+function vInfo(){const I=infoV();const hero=`<div class="info-h">${imgTag([fotoUrl(I.casa_fotos[0]),'img/casa/piscina.jpg'].filter(Boolean),'info-img')}<div class="info-in">${stk('casablanca','',150)}<b>${esc(I.casa_titulo||'Casa de playa')}</b><span>${esc(CFG.lugar||'')}</span></div></div>`;
   const row=(i,t,s,click,extra='')=>`<button class="item" onclick="${click}"><span class="cat-dot">${ic(i)}</span><div class="grow"><div class="t">${t}</div>${s?`<div class="s">${s}</div>`:''}</div>${extra||ic('chev')}</button>`;
-  return `<div class="card" style="margin-top:14px"><div class="list">
+  return hero+`<div class="card" style="margin-top:14px"><div class="list">
+    ${row('cal','Fechas',CFG.desde?`${fechaCorta(CFG.desde)} – ${fechaCorta(CFG.hasta)}`:'Por definir',"SUBE='programa';render()")}
     ${row('hospedaje','La casa',esc(I.casa_titulo||'Fotos y comodidades'),"verEsencial('casa')")}
     ${row('pin','Dirección de la casa',esc(I.direccion||CFG.lugar||''),"verEsencial('donde')",I.mapa_url?`<a class="x" href="${esc(I.mapa_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ic('nav')}</a>`:'')}
     ${row('sun','Clima','28° – 32° · sol y brisa de mar (lo normal en Same)',"verEsencial('donde')",' ')}
@@ -2232,7 +2310,7 @@ function vInfo(){const I=infoV();
     ${row('wa','Contactos útiles',esc(I.contactos.map(c=>c.nombre).join(', ')),"verEsencial('contactos')")}
     ${I.faq.length?row('chat','Preguntas',I.faq.length+' respuestas',"verEsencial('faq')"):''}</div></div>
     ${esAdmin()?`<button class="btn sm" style="margin-top:12px" onclick="abrirInfoAdmin()">${ic('spark')} Editar con IA</button>`:''}
-    <div class="script quote">Viajar juntos hace la vida más grande ${ic('heart')}</div>`}
+    <div style="text-align:center;margin-top:16px">${stk('casablanca','',240)}</div><div class="script quote">Viajar juntos hace la vida más grande ${ic('heart')}</div>`}
 function verEsencial(k){
   const I=infoV(), li=a=>a.map(x=>`<div class="sub-item">${esc(x)}</div>`).join('');
   const cuerpo={
@@ -2310,7 +2388,13 @@ const EST_EQN=Object.fromEntries(EST_EQ.map(x=>[x[0],x]));
 const EQUIPO_BASE=[['Parlante','audio',1],['Micrófonos','audio',2],['Proyector','audio',1],['Cable HDMI y extensión','audio',1],['Monopoly','juegos',1],['Risk','juegos',1],['UNO y cartas','juegos',1],['Jenga','juegos',1],['Pictionary y Heads Up!','juegos',1],
   ['Red de vóley','playa',1],['Pelota','playa',2],['Paletas / raquetas de playa','playa',4],['Spike ball','playa',1],['Coolers','frio',2],['Fundas de hielo','frio',6],['Trípode','fotos',1],['Gafas Freaky Monkey para la sesión','fotos',12],['Carbón y pinzas de parrilla','cocina',1]];
 let SUBT='tareas', TRAY='ida';
-function vTabsTareas(){return `<div class="seg"><button aria-pressed="${SUBT==='tareas'}" onclick="SUBT='tareas';render()">Tareas</button><button aria-pressed="${SUBT==='equipo'}" onclick="SUBT='equipo';render()">Equipo</button><button aria-pressed="${SUBT==='carros'}" onclick="SUBT='carros';render()">Carros</button></div>`}
+function vTabsTareas(){return `<div class="seg seg4"><button aria-pressed="${SUBT==='tareas'}" onclick="SUBT='tareas';render()">Tareas</button><button aria-pressed="${SUBT==='gente'}" onclick="SUBT='gente';render()">Equipo</button><button aria-pressed="${SUBT==='equipo'}" onclick="SUBT='equipo';render()">Cosas</button><button aria-pressed="${SUBT==='carros'}" onclick="SUBT='carros';render()">Carros</button></div>`}
+/* el equipo: cada quien con su rol (su superpoder de la ficha, o lo que más le toca) */
+function rolDe(p){const pf=p.perfil||{};if(p.rol==='admin')return'Organizador';if(pf.superpoder)return pf.superpoder;
+  const g={};TAREAS.filter(t=>t.responsable===p.id).forEach(t=>g[t.grupo]=(g[t.grupo]||0)+1);const top=Object.entries(g).sort((a,b)=>b[1]-a[1])[0];if(top)return top[0];
+  const ev=EVENTOS.find(e=>(e.anfitriones||[]).includes(p.id));return ev?'Anfitrión · '+ev.titulo.split(' ')[0]:'Buena vibra'}
+function vGente(){return `<div class="team">${activos().map(p=>`<button onclick="abrirPersona('${p.id}')">${av(p.id,'lg')}<b>${esc(nom(p.id))}</b><span class="pill sun">${esc(rolDe(p))}</span></button>`).join('')}</div>
+  <div style="text-align:center;margin-top:18px">${stk('beachCrew','',220)}</div><div class="script quote">Un gran viaje, un mejor equipo ${ic('heart')}</div>`}
 function vEquipo(){
   const tot=EQUIPO.length, listos=EQUIPO.filter(e=>estEq(e)==='empacado').length, faltan=EQUIPO.filter(e=>!e.responsable&&e.estado!=='en_casa').length;
   return `<div class="card" style="margin-top:14px"><div class="row"><div class="grow"><div class="eyebrow">Equipo del viaje</div><div class="ah-t">${listos} de ${tot} listos</div><div class="muted tiny">${faltan?`${faltan} cosa${faltan===1?'':'s'} sin quién la lleve`:'Todo tiene responsable'}</div></div><button class="btn sm primary" onclick="abrirFormEquipo()">${ic('plus')} Agregar</button></div>
@@ -2377,6 +2461,8 @@ const IMG='img/playa/', CASA_DEF=['img/casa/piscina.jpg','img/casa/playa.jpg','i
 /* src puede ser una lista: si la primera no existe prueba la siguiente; si ninguna, la imagen se quita y queda el ícono */
 const imgTag=(src,cls='',alt='')=>{const L=[].concat(src).filter(Boolean);if(!L.length)return'';return `<img class="${cls}" src="${esc(L[0])}" data-alt="${esc(L.slice(1).join('|'))}" alt="${esc(alt)}" loading="lazy" onerror="imgFalla(this)">`};
 function imgFalla(el){const r=(el.dataset.alt||'').split('|').filter(Boolean);if(r.length){el.src=r.shift();el.dataset.alt=r.join('|')}else el.remove()}
+const STK={beachEra:'img/stickers/beach-era.webp',casablanca:'img/stickers/casablanca.webp',goodVibes:'img/stickers/good-vibes.webp',salty:'img/stickers/salty.webp',vitamin:'img/stickers/vitamin.webp',paradise:'img/stickers/paradise.webp',goodFriends:'img/stickers/good-friends.webp',amigas:'img/stickers/amigas.webp',collect:'img/stickers/collect.webp',ocean:'img/stickers/ocean.webp',beachCrew:'img/stickers/beach-crew.webp',newStories:'img/stickers/new-stories.webp',hibiscus:'img/stickers/hibiscus.webp',sunSand:'img/stickers/sun-sand.webp',beachMode:'img/stickers/beach-mode.webp',goodPeople:'img/stickers/good-people.webp',same:'img/stickers/same.webp'};
+const stk=(k,cls='',w)=>`<img class="stk ${cls}" src="${STK[k]}" alt="" loading="lazy"${w?` style="width:${w}px"`:''} onerror="this.remove()">`;
 const CENA_FOTO={'d1-cena':'img/menu/d1-cena.jpg','d2-cena':'img/menu/d2-cena.jpg','d3-cena':'img/menu/d3-cena.jpg','d4-cena':'img/menu/d4-cena.jpg'};
 /* portada de un plan: primero la foto de gente (img/playa, de scripts/fotos-stock.mjs o de la IA),
    si no está, la comida de esa noche o el collage del look */

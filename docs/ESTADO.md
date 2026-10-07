@@ -2,6 +2,18 @@
 
 > Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v8**.
 
+## v16 (7-oct) · lo de los mockups nuevos + stickers
+- **Stickers** (hoja «Our Beach Era» de Daniel) recortados con fondo transparente en `public/img/stickers/*.webp`
+  y el logo **Casablanca**. Salen en login, Hoy, Más, Info, Mapa, Álbum, Gastos, Equipo, Checklist y Looks.
+- **Chat del grupo** (Más → Chat): texto y fotos, se refresca solo cada 12 s. `sql/008_chat.sql` (tabla `mensajes`,
+  cada quien escribe como sí mismo, borra lo suyo; el admin todo).
+- **Mi checklist** (Más): la maleta de cada quien (lo esencial + «qué llevar» + lo que agregue), guardado en su ficha.
+- **Equipo**: Tareas → Equipo muestra a los 8 con su rol (superpoder de la ficha, o el grupo de tareas que más tiene,
+  o la noche que organiza). Lo que antes se llamaba Equipo ahora es «Cosas».
+- **Mapa** (Itinerario → Mapa): mapa de Same (OpenStreetMap) y lugares que abren Google Maps por nombre + «Cómo llegar».
+- **Propuestas** con filtros Mar · Relax · Aventura · Noche y botón «Proponer actividad». **Info** con portada y Fechas.
+- **Para publicar el dominio** `marea.fieldbuil.ai` (una vez): `scripts/deploy.sh wrangler.dominio.toml`.
+
 ## v15 (7-oct) · rediseño copiando el mockup de Daniel
 - Barra de abajo: **Hoy · Itinerario · Menú · Gastos · Más** (Tareas, Álbum, Viajeros, Looks, Info y Equipo viven en Más).
 - **Hoy**: portada a pantalla completa con foto, logo, fechas y frase en letra script; 4 cifras (días, viajeros,
@@ -94,12 +106,12 @@ scripts/deploy.sh wrangler.dominio.toml     # una vez, para marea.fieldbuil.ai
 ```
 
 ## Conectar Supabase fieldbuilt-lab (para que todos compartan los datos)
-1. SQL editor: `sql/001` → `002` → … → `007` (en ese orden; se pueden repetir).
+1. SQL editor: `sql/001` → `002` → … → `008` (en ese orden; se pueden repetir).
 2. Project Settings → Data API → Exposed schemas → agregar `marea`.
 3. En `public/index.html` pegar `SB_URL` y `SB_ANON`, subir `BUILD_TAG`, `scripts/deploy.sh`.
 4. `scripts/funciones.sh` (necesita el `.env`): despliega `marea-admin-personas`, `marea-leer-gasto` (facturas con Claude), `marea-menu` (fichas de platos) y `marea-info` (lo esencial).
 
-Validado en Postgres 16 local: los 7 SQL corren dos veces sin error, 20 tablas en `marea`, 0 en `public`, balances correctos, un invitado no toca la asistencia de otro, no crea comidas ni edita el presupuesto, nadie sube a otro a un carro y un carro lleno no recibe más (`tests/sql/`). Pruebas de navegador en `tests/e2e-*.mjs`.
+Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas en `marea`, 0 en `public`, balances correctos, un invitado no toca la asistencia de otro, no crea comidas ni edita el presupuesto, nadie sube a otro a un carro y un carro lleno no recibe más (`tests/sql/`). Pruebas de navegador en `tests/e2e-*.mjs`.
 
 ## Pendiente
 - **Airbnb**: este entorno no puede abrir airbnb.cl ni a0.muscache.com (política de red). Las fotos de la casa se suben desde Admin → Lo esencial; la descripción se pega y la IA saca las comodidades.

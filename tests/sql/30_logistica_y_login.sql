@@ -24,3 +24,9 @@ reset role;
 alter table marea.personas disable trigger personas_guard;
 do $$ begin update marea.personas set cumple='13-01' where id='aaaaaaaa-0000-0000-0000-000000000002'; exception when check_violation then raise notice 'cumple raro rechazado OK'; end $$;
 alter table marea.personas enable trigger personas_guard;
+-- 008: chat
+set role authenticated; set request.jwt.claim.sub = '22222222-2222-2222-2222-222222222222';
+insert into marea.mensajes(persona_id,texto) values ('aaaaaaaa-0000-0000-0000-000000000002','¡Ya confirmé la cocinera!');
+do $$ begin insert into marea.mensajes(persona_id,texto) values ('aaaaaaaa-0000-0000-0000-000000000003','suplantando'); raise exception 'NO DEBIA'; exception when others then if sqlerrm like '%row-level%' then raise notice 'chat no suplanta OK'; else raise; end if; end $$;
+select count(*) as mensajes_visibles from marea.mensajes;
+reset role;
