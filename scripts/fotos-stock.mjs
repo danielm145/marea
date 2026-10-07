@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ============================================================================
-// BEACH TRIP · baja fotos reales y bonitas (gente en la playa, atardeceres, comida)
+// CASABLANCA · SAME · baja fotos reales y bonitas (gente en la playa, atardeceres, comida)
 // desde Openverse: millones de fotos con licencia libre, sin llave ni cuenta.
 //
 //   node scripts/fotos-stock.mjs            → baja las que faltan
@@ -64,7 +64,7 @@ async function buscar(q) {
   u.searchParams.set("aspect_ratio", "wide");
   u.searchParams.set("size", "large");
   u.searchParams.set("page_size", "20");
-  const r = await fetch(u, { headers: { "User-Agent": "BeachTrip/1.0 (viaje privado de amigos)" } });
+  const r = await fetch(u, { headers: { "User-Agent": "SameViaje/1.0 (viaje privado de amigos)" } });
   if (!r.ok) throw new Error("Openverse respondió " + r.status);
   const j = await r.json();
   return (j.results || []).filter((x) => x.url && (x.width || 0) >= 1000 && !/\.gif$/i.test(x.url));
@@ -79,7 +79,7 @@ async function bajar(nombre, q) {
   const res = (await buscar(q)).filter((x) => !vistos.has(x.url));
   for (const x of res) {
     try {
-      const r = await fetch(x.url, { headers: { "User-Agent": "BeachTrip/1.0" } });
+      const r = await fetch(x.url, { headers: { "User-Agent": "SameViaje/1.0" } });
       if (!r.ok) continue;
       const buf = Buffer.from(await r.arrayBuffer());
       if (buf.length < 40_000) continue;                       // miniatura o error disfrazado

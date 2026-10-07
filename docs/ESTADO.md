@@ -1,6 +1,12 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v20**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v21**.
+
+## v21 (7-oct) · chao Beach Trip
+- La tarjeta para instalar la app decía «Ten Beach Trip como app»: ahora «Ten Same como app» (pedido de Daniel).
+  Comentarios y encabezados de scripts sin el nombre viejo. Los SQL ya aplicados conservan su historia.
+- Si el ícono instalado en un teléfono todavía dice «Beach Trip», es la instalación vieja: borrarlo y volver a
+  instalar desde marea.fieldbuil.ai.
 
 ## v20 (7-oct) · de vuelta a Casablanca
 - Daniel decidió que el viaje vuelve a ser **Casablanca** (logo y nombre). Our Beach Era queda solo como sticker

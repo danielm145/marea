@@ -1,5 +1,5 @@
 // ============================================================================
-// BEACH TRIP · Edge Function marea-admin-personas
+// CASABLANCA · SAME · Edge Function marea-admin-personas
 // ----------------------------------------------------------------------------
 // Crea y administra a los invitados usando auth.admin con la service_role que
 // Supabase inyecta (SUPABASE_SERVICE_ROLE_KEY). Jamás viaja al navegador.

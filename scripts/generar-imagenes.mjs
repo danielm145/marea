@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ============================================================================
-// BEACH TRIP · genera las imágenes vintage de la app (portada, noches, looks, comida)
+// CASABLANCA · SAME · genera las imágenes vintage de la app (portada, noches, looks, comida)
 // Corre en el Mac de Daniel:   node scripts/generar-imagenes.mjs           (solo las que faltan)
 //                              node scripts/generar-imagenes.mjs --todo    (las rehace todas)
 //                              node scripts/generar-imagenes.mjs karaoke   (solo esa)
