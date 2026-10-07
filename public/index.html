@@ -4,44 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!--ART-START-->
-<title>Marea Alta</title>
+<title>Beach Trip</title>
 <meta name="description" content="El viaje a la playa: gastos compartidos, tareas y noches temáticas.">
-<meta name="theme-color" content="#0B7A75">
+<meta name="theme-color" content="#FFF9F1">
+<meta name="color-scheme" content="light">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: una columna de 680px que vive en el celular; pestañas fijas abajo; todo lo que se edita sube en una hoja desde abajo.
-   Día = arena mojada y agua turquesa. Noche (tema oscuro) = la playa a las 11 pm: azul profundo, el agua brilla, el coral es la fogata. */
+   Solo tema claro (pedido de Daniel): arena, cielo al atardecer y mar turquesa, sacados del logo Beach Trip. */
 :root{
-  --bg:#E9F2F0; --surface:#FFFFFF; --surface-2:#F2F7F6; --ink:#0F2A31; --ink-2:#4A6770; --ink-3:#84A0A6; --line:#D3E3E0;
-  --tide:#0B7A75; --tide-ink:#FFFFFF; --tide-soft:#D5EDEA; --tide-deep:#075A56;
-  --sun:#E5532B; --sun-ink:#FFFFFF; --sun-soft:#FCE5DC;
-  --ok:#1C8549; --ok-soft:#DCF1E4; --warn:#9A6512; --warn-soft:#FAEFD6; --bad:#BF3329; --bad-soft:#F8E0DC;
-  --shadow:0 1px 2px rgba(15,42,49,.06),0 10px 28px rgba(15,42,49,.08);
-  --scrim:rgba(8,24,30,.45);
+  /* de las fotos de la casa: paredes blancas, cojines y sombrilla azul Egeo, mar turquesa, buganvillas coral, sol */
+  --bg:#FFF9F1; --surface:#FFFFFF; --surface-2:#FFF1DF; --ink:#0B2547; --ink-2:#4A6283; --ink-3:#8FA0B8; --line:#F1E4D2;
+  --tide:#0A7FC0; --tide-ink:#FFFFFF; --tide-soft:#DDF1FB; --tide-deep:#0B5A8C;
+  --mar:#14BDB6; --mar-soft:#D6F6F3;
+  --sun:#FF7A2F; --sun-ink:#FFFFFF; --sun-soft:#FFE8D8;
+  --sol:#FFC43D; --sol-soft:#FFF3CC;
+  --ok:#0E8F6A; --ok-soft:#D8F3E8; --warn:#A86800; --warn-soft:#FFF0CF; --bad:#D6343B; --bad-soft:#FDE2E3;
+  --shadow:0 1px 2px rgba(11,37,71,.05),0 10px 26px rgba(255,122,47,.10);
+  --scrim:rgba(6,20,45,.5);
+  --hero:linear-gradient(180deg,#5EC4EC 0%,#FFC86B 62%,#FF8A3D 100%);
+  color-scheme:light;
   --f-disp:'Bricolage Grotesque',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
   --f-body:'Figtree',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --r:16px; --r-sm:10px;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#08111F; --surface:#0F1B2E; --surface-2:#14233A; --ink:#E6EEF7; --ink-2:#A2B4C8; --ink-3:#6C809A; --line:#21324C;
-    --tide:#35C2B6; --tide-ink:#04211F; --tide-soft:#0F3638; --tide-deep:#7FE3D9;
-    --sun:#FF7A55; --sun-ink:#2A0E05; --sun-soft:#3A1E17;
-    --ok:#4CC584; --ok-soft:#10301F; --warn:#E5B256; --warn-soft:#352913; --bad:#FF7C6F; --bad-soft:#3A1714;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.35); --scrim:rgba(0,0,0,.6);
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#08111F; --surface:#0F1B2E; --surface-2:#14233A; --ink:#E6EEF7; --ink-2:#A2B4C8; --ink-3:#6C809A; --line:#21324C;
-  --tide:#35C2B6; --tide-ink:#04211F; --tide-soft:#0F3638; --tide-deep:#7FE3D9;
-  --sun:#FF7A55; --sun-ink:#2A0E05; --sun-soft:#3A1E17;
-  --ok:#4CC584; --ok-soft:#10301F; --warn:#E5B256; --warn-soft:#352913; --bad:#FF7C6F; --bad-soft:#3A1714;
-  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px rgba(0,0,0,.35); --scrim:rgba(0,0,0,.6);
-  color-scheme:dark;
+  --r:18px; --r-sm:12px;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -59,6 +48,12 @@ a{color:var(--tide)}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:flex;align-items:center;gap:10px;padding-block:12px}
 .brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
 .brand svg{flex:none}
+.logo{display:inline-block;flex:none;line-height:0}.logo svg{width:100%;height:100%;display:block}img.logo{border-radius:50%}
+.login-logo{display:grid;place-items:center;margin:8px 0 2px}.login-logo .logo{filter:drop-shadow(0 14px 30px rgba(255,122,47,.25))}
+.rapido{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.rapido button{border:0;border-radius:18px;background:var(--surface);box-shadow:var(--shadow);padding:12px 4px 10px;display:grid;justify-items:center;gap:6px;font-weight:700;font-size:13px;cursor:pointer;color:var(--ink)}
+.rapido .ico{width:42px;height:42px;border-radius:14px;display:grid;place-items:center}
+.rapido svg{width:22px;height:22px}
 .brand b{font-family:var(--f-disp);font-weight:800;font-size:21px;letter-spacing:-.02em}
 .brand small{display:block;color:var(--ink-3);font-size:12px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .me-btn{border:0;background:none;padding:0;cursor:pointer}
@@ -98,6 +93,7 @@ a{color:var(--tide)}
 .chip[aria-pressed="true"]{background:var(--tide);border-color:var(--tide);color:var(--tide-ink)}
 .chip.sunny[aria-pressed="true"]{background:var(--sun);border-color:var(--sun);color:var(--sun-ink)}
 .pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+.pill.mar{background:var(--mar-soft);color:var(--mar)}.pill.sol{background:var(--sol-soft);color:var(--warn)}
 .pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.tide{background:var(--tide-soft);color:var(--tide-deep)} .pill.sun{background:var(--sun-soft);color:var(--sun)}
 .seg{display:flex;background:var(--surface-2);border-radius:12px;padding:4px;gap:4px}
 .seg button{flex:1;border:0;background:none;border-radius:9px;min-height:38px;font-weight:700;font-size:14px;color:var(--ink-2);cursor:pointer;white-space:nowrap;padding:0 12px}
@@ -132,13 +128,15 @@ textarea.in{min-height:96px;resize:vertical}
 .foot{color:var(--ink-3);font-size:12px;text-align:center;margin-top:28px}
 
 /* ---------- hero del día (la marea sube con el viaje) ---------- */
-.hero{position:relative;overflow:hidden;border-radius:22px;background:var(--tide);color:var(--tide-ink);padding:20px 18px 18px;min-height:150px}
+.hero{position:relative;overflow:hidden;border-radius:26px;background:var(--hero);color:#fff;padding:20px 18px 18px;min-height:170px}
+.hero::before{content:"";position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,var(--sol) 0 45%,transparent 46%);right:-34px;top:-40px;opacity:.9}
+.hero.con-foto::before{display:none}
 .hero h1{font-size:30px;line-height:1.05;font-weight:800}
 .hero .sub{opacity:.85;font-size:14px;margin-top:4px}
 .hero .big{font-family:var(--f-disp);font-weight:800;font-size:44px;line-height:1;letter-spacing:-.03em}
 .hero .wave{position:absolute;left:0;right:0;bottom:0;height:var(--lvl,18%);transition:height .8s ease}
 .hero .wave svg{position:absolute;left:0;top:-14px;width:200%;height:16px;animation:drift 9s linear infinite}
-.hero .wave .fill{position:absolute;inset:0;background:var(--tide-deep);opacity:.35}
+.hero .wave .fill{position:absolute;inset:0;background:#1FB0E0;opacity:.6}
 .hero .in-hero{position:relative;z-index:1}
 @keyframes drift{to{transform:translateX(-50%)}}
 .saldo{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -264,6 +262,17 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
 .casa-g{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding-inline:16px;scrollbar-width:none}
 .casa-g::-webkit-scrollbar{display:none}
 .casa-g img{flex:none;width:85%;max-width:520px;aspect-ratio:4/3;object-fit:cover;border-radius:16px;scroll-snap-align:center}
+/* ---------- imágenes ---------- */
+.pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
+.noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
+.login-img img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:24px;box-shadow:var(--shadow)}
+/* ---------- tareas ---------- */
+.tlist{padding:4px 14px}.trow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.trow:last-child{border-bottom:0}
+.tcheck{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);background:var(--surface);flex:none;cursor:pointer;display:grid;place-items:center;color:#fff;padding:0}
+.tcheck[aria-pressed="true"]{background:var(--ok);border-color:var(--ok)}.tcheck svg{width:16px;height:16px}
+.tbody{border:0;background:none;text-align:left;cursor:pointer;padding:0;color:inherit;min-width:0}.tbody .t{font-weight:700}
+.trow.done .t{text-decoration:line-through;color:var(--ink-3)}
 /* ---------- login ---------- */
 .login{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-inline:20px;padding-block:32px;max-width:420px;margin:0 auto;gap:22px}
 .login h1{font-size:44px;font-weight:800;line-height:1;letter-spacing:-.03em}
@@ -290,7 +299,11 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v3';
+const BUILD_TAG='v7';
+/* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
+const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
+  casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
+  amenidades:['Acceso a la playa (10 gradas)','Vista a la bahía','Piscina al aire libre (con horario)','Jacuzzi compartido','Terraza y jardín','Wifi','TV','Cocina','Lavandería','Parqueadero gratis','Toallas de baño y de playa','Sábanas','Carpa y sillas de playa','Fácil acceso']};
 const SB_URL='';   // ← Project URL de fieldbuilt-lab, ej. https://abcd.supabase.co
 const SB_ANON='';  // ← anon public key de fieldbuilt-lab
 const MODO=(SB_URL&&SB_ANON&&window.supabase)?'supabase':'demo';
@@ -352,22 +365,55 @@ P.menu='<circle cx="13" cy="12.5" r="6"/><circle cx="13" cy="12.5" r="2.8"/><pat
 P.cocinera='<path d="M7 17.5h10V21H7z"/><path d="M7 17.5v-4.2A4 4 0 0 1 6 5.5a4 4 0 0 1 6-1.8 4 4 0 0 1 6 1.8 4 4 0 0 1-1 7.8v4.2"/>';
 P.logistica='<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5Z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/>';
 const ic=(k,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[k]||P.otros}</svg>`;
-const LOGO=`<svg width="38" height="38" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="var(--tide)"/><circle cx="31" cy="15" r="6.5" fill="var(--tide-ink)"/><circle cx="34" cy="13" r="6" fill="var(--tide)"/><path d="M6 30c4 0 4-3 9-3s5 3 9 3 4-3 9-3 5 3 9 3" fill="none" stroke="var(--tide-ink)" stroke-width="3.2" stroke-linecap="round"/><path d="M6 37c4 0 4-3 9-3s5 3 9 3 4-3 9-3 5 3 9 3" fill="none" stroke="var(--tide-ink)" stroke-width="3.2" stroke-linecap="round" opacity=".55"/></svg>`;
+/* logo Beach Trip: vector propio (igual al que mandó Daniel). Si existe img/logo.png (el original), se usa ese. */
+const LOGO_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Beach Trip"><defs>
+<linearGradient id="bt-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5EC4EC"/><stop offset=".35" stop-color="#9FD9E8"/><stop offset=".62" stop-color="#FFD27A"/><stop offset=".85" stop-color="#FFA040"/><stop offset="1" stop-color="#F7712A"/></linearGradient>
+<linearGradient id="bt-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1FB0E0"/><stop offset="1" stop-color="#0A6FA8"/></linearGradient>
+<radialGradient id="bt-glow"><stop offset="0" stop-color="#FFE9A0"/><stop offset=".45" stop-color="#FFB547" stop-opacity=".9"/><stop offset="1" stop-color="#FF8A3D" stop-opacity="0"/></radialGradient>
+<clipPath id="bt-c"><circle cx="200" cy="200" r="184"/></clipPath></defs>
+<circle cx="200" cy="200" r="198" fill="#fff"/>
+<g clip-path="url(#bt-c)">
+<rect width="400" height="232" fill="url(#bt-sky)"/>
+<circle cx="200" cy="222" r="96" fill="url(#bt-glow)"/>
+<circle cx="200" cy="222" r="40" fill="#FFF3B0"/>
+<g fill="#FFE2B0" opacity=".75"><ellipse cx="96" cy="190" rx="38" ry="7"/><ellipse cx="300" cy="182" rx="44" ry="7"/><ellipse cx="270" cy="200" rx="26" ry="5"/></g>
+<path d="M300 226Q330 204 352 212Q372 206 400 222V232H300Z" fill="#26517A"/>
+<rect y="224" width="400" height="80" fill="url(#bt-sea)"/>
+<g stroke="#FFE08A" stroke-linecap="round" stroke-width="4"><path d="M178 234h44M184 244h32M190 254h20M195 263h10"/></g>
+<g stroke="#fff" stroke-linecap="round" stroke-width="3" opacity=".75" fill="none"><path d="M10 288q30 -8 60 0t60 0M250 286q30 -8 60 0t60 0"/></g>
+<rect y="296" width="400" height="110" fill="#F4B46A"/>
+<g fill="#0B2547" stroke="none"><circle cx="118" cy="240" r="12"/><path d="M96 310C94 270 100 254 118 253C136 254 142 270 140 310Z"/><ellipse cx="118" cy="233" rx="21" ry="4.5"/><path d="M108 232Q118 216 128 232Z"/><path d="M104 262L92 210" stroke="#0B2547" stroke-width="8" stroke-linecap="round"/><path d="M88 206l-4 -9M92 204l2 -10" stroke="#0B2547" stroke-width="3.5" stroke-linecap="round"/><circle cx="162" cy="246" r="12"/><path d="M140 316C138 276 144 260 162 259C180 260 186 276 184 316Z"/><path d="M150 244C146 264 148 276 154 280L170 280C176 276 178 264 174 244Z"/><circle cx="205" cy="240" r="12.24"/><path d="M182.56 311.4C180.52 270.6 186.64 254.28 205 253.26C223.36 254.28 229.48 270.6 227.44 311.4Z"/><circle cx="250" cy="246" r="12"/><path d="M228 316C226 276 232 260 250 259C268 260 274 276 272 316Z"/><path d="M238 244C234 264 236 276 242 280L258 280C264 276 266 264 262 244Z"/><ellipse cx="250" cy="239" rx="21" ry="4.5"/><path d="M240 238Q250 222 260 238Z"/><path d="M264 268L278 216" stroke="#0B2547" stroke-width="8" stroke-linecap="round"/><path d="M277 212l-3 -10M281 213l4 -9" stroke="#0B2547" stroke-width="3.5" stroke-linecap="round"/><circle cx="292" cy="242" r="12"/><path d="M270 312C268 272 274 256 292 255C310 256 316 272 314 312Z"/><path d="M306 264L320 212" stroke="#0B2547" stroke-width="8" stroke-linecap="round"/><path d="M319 208l-3 -10M323 209l4 -9" stroke="#0B2547" stroke-width="3.5" stroke-linecap="round"/></g>
+<path d="M0 300Q100 288 200 296T400 290V400H0Z" fill="#0B2547"/>
+<path d="M40 330C70 250 105 150 150 78" stroke="#0B2547" stroke-width="13" fill="none" stroke-linecap="round"/>
+<path d="M392 300C372 250 350 200 330 150" stroke="#0B2547" stroke-width="9" fill="none" stroke-linecap="round"/>
+<g fill="#0B2547"><path d="M150.0 78.0Q113.0 52.1 70.7 84.7Q107.8 81.6 150.0 78.0ZM150.0 78.0Q120.8 32.6 72.5 19.8Q101.6 55.5 150.0 78.0ZM150.0 78.0Q150.3 33.7 122.5 9.3Q122.2 43.9 150.0 78.0ZM150.0 78.0Q177.5 31.6 176.2 -12.9Q148.7 23.9 150.0 78.0ZM150.0 78.0Q190.4 62.2 211.7 33.2Q171.2 39.3 150.0 78.0ZM150.0 78.0Q202.4 79.8 249.7 81.1Q197.2 50.4 150.0 78.0ZM150.0 78.0Q182.7 101.7 225.6 126.2Q192.9 73.6 150.0 78.0ZM150.0 78.0Q175.2 120.2 221.6 170.3Q196.4 99.1 150.0 78.0ZM150.0 78.0Q107.1 73.6 74.4 126.2Q117.3 101.7 150.0 78.0ZM150.0 78.0Q102.8 50.4 50.3 81.1Q97.6 79.8 150.0 78.0Z"/><path d="M330.0 150.0Q305.8 133.1 278.3 154.4Q302.5 152.3 330.0 150.0ZM330.0 150.0Q313.6 118.9 283.3 107.8Q299.8 132.7 330.0 150.0ZM330.0 150.0Q335.0 121.6 320.9 102.8Q315.8 124.9 330.0 150.0ZM330.0 150.0Q354.9 125.4 363.0 97.3Q338.1 115.6 330.0 150.0ZM330.0 150.0Q357.9 145.0 377.6 141.3Q349.7 127.4 330.0 150.0ZM330.0 150.0Q360.8 162.6 395.0 175.0Q364.2 143.4 330.0 150.0ZM330.0 150.0Q343.8 171.6 370.2 197.2Q356.4 156.7 330.0 150.0ZM330.0 150.0Q295.8 143.4 265.0 175.0Q299.2 162.6 330.0 150.0ZM330.0 150.0Q308.7 129.2 280.7 145.5Q302.0 147.5 330.0 150.0Z"/></g>
+<g stroke="#0B2547" stroke-width="3" fill="none" stroke-linecap="round"><path d="M262 70q8 -7 14 0q6 -7 14 0M292 92q6 -5 10 0q5 -5 10 0M250 104q6 -5 10 0q5 -5 10 0"/></g>
+<text x="200" y="332" text-anchor="middle" transform="rotate(-5 200 322)" font-family="'Kaushan Script','Brush Script MT',cursive" font-size="62" fill="#FFFDF5">Beach Trip</text>
+<path d="M146 346q14 -8 27 0t27 0t27 0t27 0" stroke="#22C7C0" stroke-width="7" fill="none" stroke-linecap="round"/>
+<g font-family="'Figtree',system-ui,sans-serif" font-size="8" letter-spacing="1.4" fill="#FFFDF5" font-weight="700" text-anchor="middle"><text x="200" y="362">GOOD FRIENDS · BRIGHT PLACES</text><text x="200" y="374">BETTER STORIES</text></g>
+</g>
+<circle cx="200" cy="200" r="187" fill="none" stroke="#0B2547" stroke-width="8"/>
+<circle cx="200" cy="200" r="195" fill="none" stroke="#0B2547" stroke-width="2"/>
+</svg>`;
+let LOGO_PNG=false, LOGO_N=0;
+function logo(px){if(LOGO_PNG)return `<img class="logo" src="img/logo.png" width="${px}" height="${px}" alt="Beach Trip">`;const k='l'+(++LOGO_N);return `<span class="logo" style="width:${px}px;height:${px}px">${LOGO_SVG.replace(/bt-/g,k+'-')}</span>`}
+function logoOriginal(){try{const i=new Image();i.onload=()=>{LOGO_PNG=true;ME?render():pintarLogin()};i.src='img/logo.png'}catch(e){}}
+const LOGO=logo(40);
 
 /* ---------- catálogos ---------- */
 const CATS=[['hospedaje','Hospedaje'],['despensa','Despensa'],['bebidas','Bebidas y bar'],['cocinera','Cocinera'],['logistica','Equipo y logística'],['restaurantes','Restaurantes'],['transporte','Transporte'],['actividades','Actividades'],['otros','Otros']];
 const CATN={...Object.fromEntries(CATS),mercado:'Despensa',comida:'Restaurantes'};
 const GRUPOS=['Comida','Bebidas','Logística','Casa','Actividades','Compras','Turnos'];
 const ESTADOS=[['por_hacer','Por hacer'],['en_curso','En curso'],['listo','Listo']];
-const BLOQUES=[['manana','Mañana'],['tarde','Tarde'],['noche','Noche']];
+const BLOQUES=[['manana','Mañana'],['tarde','Tarde'],['atardecer','Atardecer'],['noche','Noche']];
 const BLOQN=Object.fromEntries(BLOQUES);
 const SUPERPODERES=['Cocino','Manejo','Hago playlists','Organizo','Tomo las fotos','Animo la fiesta','Llevo el parlante','Madrugo'];
 const TALLAS=['XS','S','M','L','XL','XXL'];
 const AVC=[['#D5EDEA','#075A56'],['#FCE5DC','#B23C1C'],['#E6E3FA','#4B3BA8'],['#FBEFD3','#8A5A0B'],['#DDF0FB','#1A5F8A'],['#F6DFEB','#9A2E64'],['#E3F2D9','#3F6B1C']];
 
 /* ---------- estado ---------- */
-let ME=null, PERSONAS=[], PMAP={}, CFG={nombre:'Marea Alta',lugar:'',desde:null,hasta:null,moneda:'USD'};
-let GASTOS=[], TAREAS=[], EVENTOS=[], VOTOS=[], ETIQUETAS=[], COMIDAS=[], PLATOS=[], ASIST=[], PRESU=[], INSPI=[], MURO=[];
+let ME=null, PERSONAS=[], PMAP={}, CFG={nombre:'Beach Trip',lugar:'',desde:null,hasta:null,moneda:'USD'};
+let GASTOS=[], TAREAS=[], EVENTOS=[], VOTOS=[], ETIQUETAS=[], COMIDAS=[], PLATOS=[], ASIST=[], PRESU=[], INSPI=[], MURO=[], EQUIPO=[], VEHICULOS=[], PASAJEROS=[], COMERCIOS=[];
 let TAB='hoy', SUBG='mov', SUBE='programa', FILT={cat:'',per:'',q:''}, FILTT={grupo:'',solo:false};
 const FOTOS={}; // ref → url resuelta
 const esAdmin=()=>ME&&ME.rol==='admin';
@@ -433,25 +479,26 @@ const DEMO_GENTE=[
 const DEMO_APODOS={'Ana Cristina Grijalba':'Ana Cris ❤️','Doménica Pérez':'Dome','Valentina Villalba':'Vale','Luciana Villalba':'Lu','Ana Paula':'Ana Pau','Kevin López':'Kevin L.'};
 /* dress code de cada noche: nombre, idea, paleta (hex) e ideas de prendas */
 const ESTILOS={
- 'Noche Tropical':{nombre:'Noche Tropical',descripcion:'Telas ligeras, hombros descubiertos, estampados de flores y colores de atardecer.',paleta:['#FF7A55','#F2C14E','#2BB3A3','#F7E8D0'],ideas:['Vestidos de lino','Camisas de flores','Sandalias','Dorado mínimo']},
+ 'Noche Tropical':{nombre:'Noche Tropical / Chicas',descripcion:'Tejidos ligeros con movimiento, hombros al descubierto y tonos vivos de atardecer.',paleta:['#FF7A55','#F2C14E','#2BB3A3','#F7E8D0'],ideas:['Vestidos de lino','Camisas de flores','Sandalias','Dorado mínimo']},
  'Brillos y neón':{nombre:'Brillos y neón',descripcion:'Lentejuelas, colores eléctricos y algo que brille con el proyector.',paleta:['#C13CFF','#FF3CAC','#2B5BFF','#141414'],ideas:['Lentejuelas','Gafas de colores','Pulseras de neón']},
  'Pijama elegante':{nombre:'Pijama elegante',descripcion:'Cómodo para cuatro horas de Risk, pero con estilo: satín, sets combinados.',paleta:['#F4D6CC','#9AB0C9','#FFFFFF'],ideas:['Pijama de satín','Pantuflas','Bata']},
  'Santorini / Mediterranean Chic':{nombre:'Santorini / Mediterranean Chic',descripcion:'Blanco impecable para la producción de fotos: lino y algodón con toques azul Egeo y dorado.',paleta:['#FFFFFF','#F1ECE2','#1F5FAF','#C9A227'],ideas:['Todo blanco','Lino','Sombrero de ala ancha','Sandalias de cuero']},
  'De gala playera':{nombre:'De gala playera',descripcion:'Lo más elegante que quepa en la maleta; descalzos si se quiere.',paleta:['#0E2A33','#C9A227','#FFFFFF'],ideas:['Algo que brille','Saco sin corbata','Vestido largo']},
  'Tierra y lino':{nombre:'Tierra y lino',descripcion:'Tonos arena y tierra, ropa cómoda para sentarse alrededor de la fogata.',paleta:['#C2A07A','#8B6B4A','#EDE3D2'],ideas:['Lino','Manta','Abrigo ligero']},
+ 'Adventure Meets Caribbean Chic':{nombre:'Adventure Meets Caribbean Chic',descripcion:'Estética mediterránea para la producción de fotos: blanco impecable, tonos Santorini y un toque de aventura (sombrero, lino, cuero natural).',paleta:['#FFFFFF','#E9E2D3','#2F6DB5','#B98B4E'],ideas:['Blanco impecable','Lino y algodón','Sombrero','Gafas de sol','Cuero natural']},
  'Gafas de sol y blanco':{nombre:'Gafas de sol y blanco',descripcion:'Base blanca o negra; las gafas de sol son las protagonistas de la foto.',paleta:['#FFFFFF','#141414','#F2C14E'],ideas:['Gafas de sol','Camisa blanca','Sombrero']}};
 /* noches temáticas y actividades de día. dia = índice del día del viaje (sin dia = propuesta) */
 const SEMILLA_EVENTOS=[
- {titulo:'Taco & Sunset Grill Night',tematica:'Bienvenida',bloque:'noche',hora:'19:00',lugar:'terraza',dress_code:'Noche Tropical',descripcion:'Parrillada al atardecer con tacos de camarón y de carne y salsas variadas. Rompehielo: dos verdades y una mentira del viaje.',dia:0},
- {titulo:'Karaoke con proyector',tematica:'Karaoke',bloque:'noche',hora:'21:30',lugar:'sala',dress_code:'Brillos y neón',descripcion:'Proyector, dos micrófonos y una canción obligatoria por persona (la de su ficha). Rondas: solos, duetos sorteados y una balada de todos.',dia:1},
- {titulo:'Pizza & Boardgames Night',tematica:'Juegos de mesa',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',descripcion:'Pizzas caseras armadas al gusto y mesas paralelas de Risk y Monopoly. Risk arranca temprano o no termina.',dia:2},
- {titulo:'Spanish Tapas & Wine Night',tematica:'Tapas, vino e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Santorini / Mediterranean Chic',descripcion:'Tablas de tapas y quesos con maridaje guiado. Cierra con la sesión de hipnosis.',dia:3},
- {titulo:'Talent Show',tematica:'Talentos',bloque:'noche',hora:'20:30',lugar:'sala',dress_code:'De gala playera',descripcion:'Tres minutos por persona o grupo. Cada quien anota en su ficha qué va a presentar.',dia:4},
- {titulo:'Círculo de intenciones bajo las estrellas',tematica:'Cierre del viaje',bloque:'noche',hora:'22:30',lugar:'playa',dress_code:'Tierra y lino',descripcion:'Fogata, mantas y una ronda de intenciones para cerrar el viaje.',dia:4},
+ {titulo:'Llegada y check-in',tematica:'Llegada',bloque:'tarde',hora:'15:00',lugar:'casa',dress_code:'',descripcion:'Llegamos, repartimos cuartos, guardamos la despensa en los coolers y conocemos la casa.',dia:0},
+ {titulo:'Círculo de intenciones bajo las estrellas',tematica:'Bienvenida',bloque:'noche',hora:'21:30',lugar:'playa',dress_code:'Tierra y lino',descripcion:'Después de la cena ligera costeña: fogata, mantas y una ronda de intenciones para abrir el viaje.',dia:0},
  {titulo:'Yoga matutino',tematica:'Bienestar',bloque:'manana',hora:'07:00',lugar:'playa',dress_code:'Ropa deportiva',descripcion:'Sesión suave frente al mar antes del desayuno.',dia:1},
- {titulo:'Torneo de panzazos en la piscina',tematica:'Piscina',bloque:'tarde',hora:'15:30',lugar:'piscina',dress_code:'Traje de baño',descripcion:'Jurado de tres, notas del 1 al 10 por salpicadura y estilo.',dia:1},
- {titulo:'Spike ball y paletas de playa',tematica:'Deporte',bloque:'tarde',hora:'16:00',lugar:'playa',dress_code:'Color del equipo',descripcion:'Parejas sorteadas y eliminación directa.',dia:2},
- {titulo:'Sesión de fotos con gafas de sol',tematica:'Fotos',bloque:'tarde',hora:'17:30',lugar:'playa',dress_code:'Gafas de sol y blanco',descripcion:'Golden hour: fotos de grupo y de marca con gafas de sol.',dia:3},
+ {titulo:'Torneo de panzazos en la piscina',tematica:'Piscina',bloque:'tarde',hora:'15:00',lugar:'piscina',dress_code:'Traje de baño',descripcion:'Jurado de tres, notas del 1 al 10 por salpicadura y estilo.',dia:1},
+ {titulo:'Taco & Sunset Grill Night',tematica:'Parrillada al atardecer',bloque:'atardecer',hora:'17:30',lugar:'terraza',dress_code:'Noche Tropical',descripcion:'Parrillada al atardecer con tacos de camarón y de carne y salsas variadas. Rompehielo: dos verdades y una mentira.',dia:1},
+ {titulo:'Spike ball, red y paletas de playa',tematica:'Juegos de playa',bloque:'tarde',hora:'16:00',lugar:'playa',dress_code:'Color del equipo',descripcion:'Red, pelota, paletas y spike ball. Parejas sorteadas y eliminación directa.',dia:2},
+ {titulo:'Karaoke y Talent Show',tematica:'Karaoke y talentos',bloque:'noche',hora:'21:00',lugar:'sala',dress_code:'Brillos y neón',descripcion:'Proyector y dos micrófonos. Primero el karaoke, una canción obligatoria por persona; luego el show: cada quien presenta el talento que anotó en su ficha.',dia:2},
+ {titulo:'Sesión de fotos con gafas de sol',tematica:'Fotos de marca',bloque:'atardecer',hora:'17:00',lugar:'playa',dress_code:'Adventure Meets Caribbean Chic',descripcion:'Golden hour: fotos de grupo y de marca con gafas de sol, estética mediterránea.',dia:3},
+ {titulo:'Pizza & Boardgames Night',tematica:'Juegos de mesa',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',descripcion:'Pizzas artesanales armadas al gusto y mesas paralelas de Risk y Monopoly. Risk arranca temprano o no termina.',dia:3},
+ {titulo:'Spanish Tapas & Wine Night',tematica:'Tapas, enología e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Santorini / Mediterranean Chic',descripcion:'Tablas de tapas y quesos con una clase corta de enología; cierra con la sesión de hipnosis.',dia:4},
  {titulo:'Throwback 2000s',tematica:'Década',bloque:'noche',lugar:'casa',dress_code:'Y2K',descripcion:'Ropa de la época, reguetón viejo y trivia de la década.'},
  {titulo:'Cine bajo las estrellas',tematica:'Cine',bloque:'noche',lugar:'terraza',dress_code:'Cobija',descripcion:'Proyector afuera, canguil y mantas; la película se vota.'},
  {titulo:'Búsqueda del tesoro',tematica:'Juego',bloque:'tarde',lugar:'playa',dress_code:'',descripcion:'Pistas en QR escondidas por la casa y la playa.'},
@@ -491,6 +538,10 @@ const MENU_BASE={
     {nombre:'Tabla de quesos',ingredientes:['Quesos maduros','Uvas','Frutos secos','Mermelada'],tags:['#Compartir'],descripcion:'Quesos maduros con uvas, frutos secos y mermelada.'},
     {nombre:'Vino con maridaje guiado',ingredientes:['Vino tinto','Vino blanco'],tags:[],descripcion:'Un tinto y un blanco, con la explicación de qué va con qué.'},
     {nombre:'Sangría sin alcohol',ingredientes:['Jugo de uva','Frutas picadas','Soda'],tags:['#ZeroAlcohol'],descripcion:'Jugo de uva con fruta picada y soda.'}],
+  'Círculo de intenciones bajo las estrellas':[
+    {nombre:'Pescado a la plancha con ensalada de pepino y aguacate',ingredientes:['Pescado fresco','Pepino','Aguacate','Limón','Cebolla colorada'],tags:['#Costeño','#Healthy','#SinMariscos'],descripcion:'Ligero para la primera noche: pescado del día a la plancha con ensalada fresca.'},
+    {nombre:'Patacones con queso',ingredientes:['Verde','Queso fresco'],tags:['#Costeño','#Vegetariano'],descripcion:'Crocantes, con queso fresco rallado encima.'},
+    {nombre:'Agua de coco y jugos naturales',ingredientes:['Agua de coco','Maracuyá','Naranja'],tags:['#ZeroAlcohol'],descripcion:'Para brindar por el viaje sin alcohol, o con lo que cada quien traiga.'}],
   'Picadas y hamburguesas caseras':[
     {nombre:'Hamburguesas caseras',ingredientes:['Pan de hamburguesa','Carne de res','Queso','Lechuga','Tomate'],tags:['#Compartir','#SinMariscos'],descripcion:'Carne a la plancha, queso derretido y todo lo demás al gusto.'},
     {nombre:'Papas rústicas',ingredientes:['Papas','Romero','Ajo'],tags:['#Vegetariano'],descripcion:'Papas al horno con romero y ajo.'}]}};
@@ -502,16 +553,18 @@ function generarMenuBase({dias,eventos,gente,autor,conEstaciones}){
   if(conEstaciones) MENU_BASE.estaciones.forEach(e=>platos.push(mk(e,{permanente:true})));
   let k=0;
   dias.forEach((d,i)=>{
+    if(i===0&&dias.length>1){ /* día de llegada: solo la cena */ }else{
     const des=cm({dia:d,turno:'desayuno',titulo:'Desayuno dual',modalidad:'dual',hora:'08:30',notas:'Café pasado y fruta fresca todos los días.'});
     comidas.push(des); platos.push(mk(MENU_BASE.A[i%3],{comida_id:des.id,opcion:'A'})); platos.push(mk(MENU_BASE.B[i%4],{comida_id:des.id,opcion:'B'}));
     const alm=cm({dia:d,turno:'almuerzo',titulo:'Almuerzo costeño',modalidad:'cocinera',hora:'13:30',notas:'Lo prepara la cocinera local. Ceviche bar de entrada.'});
     comidas.push(alm); platos.push(mk(MENU_BASE.alm[i%4],{comida_id:alm.id}));
-    const evN=eventos.find(e=>e.dia===d&&e.bloque==='noche'&&MENU_BASE.cenas[e.titulo]);
+    }
+    const evN=eventos.find(e=>e.dia===d&&(e.bloque==='noche'||e.bloque==='atardecer')&&MENU_BASE.cenas[e.titulo]), evAny=evN||eventos.filter(e=>e.dia===d&&(e.bloque==='noche'||e.bloque==='atardecer')).sort((a,b)=>String(b.hora||'').localeCompare(String(a.hora||'')))[0];
     const libre=!evN&&i===dias.length-1&&dias.length>2;
-    const titulo=evN?evN.titulo:libre?'Cena libre o restaurante del pueblo':'Picadas y hamburguesas caseras';
+    const cenaN={'Círculo de intenciones bajo las estrellas':'Cena ligera costeña de bienvenida'}, plat=evN?evN.titulo:libre?'':'Picadas y hamburguesas caseras', titulo=evN?(cenaN[evN.titulo]||evN.titulo):libre?'Cena libre o restaurante del pueblo':'Picadas y hamburguesas caseras';
     const resp=libre||!gente.length?[]:[0,1,2].map(()=>gente[(k++)%gente.length]);
-    const cen=cm({dia:d,turno:'cena',titulo,modalidad:libre?'libre':'colaborativa',hora:evN&&evN.hora?evN.hora:'20:00',responsables:resp,evento_id:evN?evN.id:null,notas:libre?'Cada quien elige; se puede reservar un restaurante en Same o en Tonsupa.':'Cocinan los responsables; los demás ayudan a lavar.'});
-    comidas.push(cen); (MENU_BASE.cenas[titulo]||[]).forEach(p=>platos.push(mk(p,{comida_id:cen.id})));
+    const cen=cm({dia:d,turno:'cena',titulo,modalidad:libre?'libre':'colaborativa',hora:evN&&evN.hora?(evN.titulo in cenaN?'20:00':evN.hora):'20:00',responsables:resp,evento_id:evAny?evAny.id:null,notas:libre?'Cada quien elige; se puede reservar un restaurante en Same o en Tonsupa.':'Cocinan los responsables; los demás ayudan a lavar.'});
+    comidas.push(cen); (MENU_BASE.cenas[plat]||[]).forEach(p=>platos.push(mk(p,{comida_id:cen.id})));
   });
   return {comidas,platos};
 }
@@ -525,9 +578,9 @@ function seedDemo(){
   const ev=SEMILLA_EVENTOS.map(s=>({id:uid(),titulo:s.titulo,tematica:s.tematica,descripcion:s.descripcion,bloque:s.bloque,lugar:s.lugar,dress_code:s.dress_code,estilo:ESTILOS[s.dress_code]||null,
     dia:s.dia!=null?dias[s.dia]:null,hora:s.hora||null,playlist_url:'',estado:s.dia!=null?'oficial':'propuesta',anfitriones:[],etiquetas:[],lista:[],menu:[],creado_por:autor,created_at:new Date().toISOString()}));
   const evT=t=>ev.find(x=>x.titulo===t), anf=(t,ns)=>evT(t).anfitriones=ns.map(id);
-  anf('Taco & Sunset Grill Night',['Daniel Martínez','Ana Paula']); anf('Karaoke con proyector',['Alegría']); anf('Pizza & Boardgames Night',['Andrés Villalba','Kevin']);
-  anf('Spanish Tapas & Wine Night',['Ana Cristina Grijalba','Natalia Orquera']); anf('Talent Show',['Valentina Villalba']); anf('Yoga matutino',['Natalia Villar']); anf('Torneo de panzazos en la piscina',['Kevin López','Luciana Villalba']);
-  evT('Karaoke con proyector').lista=[{txt:'Proyector',ok:false},{txt:'Dos micrófonos',ok:false},{txt:'Cable HDMI',ok:false}];
+  anf('Círculo de intenciones bajo las estrellas',['Daniel Martínez']); anf('Taco & Sunset Grill Night',['Daniel Martínez','Ana Paula']); anf('Karaoke y Talent Show',['Alegría','Valentina Villalba']); anf('Pizza & Boardgames Night',['Andrés Villalba','Kevin']);
+  anf('Spanish Tapas & Wine Night',['Ana Cristina Grijalba','Natalia Orquera']); anf('Yoga matutino',['Natalia Villar']); anf('Torneo de panzazos en la piscina',['Kevin López','Luciana Villalba']);
+  evT('Karaoke y Talent Show').lista=[{txt:'Proyector',ok:false},{txt:'Dos micrófonos',ok:false},{txt:'Cable HDMI',ok:false}];
   const votos=[]; const v=(t,ns)=>{const e=evT(t);ns.forEach(i=>votos.push({evento_id:e.id,persona_id:ids[i]}))};
   v('Throwback 2000s',[0,1,2,4,5,6,9]); v('Cine bajo las estrellas',[1,6,11]); v('Búsqueda del tesoro',[3,10]); v('Olimpiadas de playa',[3,4,10,12]);
   const todos=ids.map(i=>({persona_id:i,valor:0}));
@@ -540,30 +593,38 @@ function seedDemo(){
     g({descripcion:'Gasolina de ida (ejemplo)',monto:60,categoria:'transporte',alcance:'consumo',pagadores:[{persona_id:id('Kevin López'),monto:60}],reparto:{modo:'porcentaje',partes:['Kevin López','Ana Paula','Alegría','Doménica Pérez'].map(n=>({persona_id:id(n),valor:25}))},creado_por:id('Kevin López'),nota:'Los cuatro del carro de Kevin L.'})];
   const tareas=[
     {titulo:'Comprar carbón y fundas de hielo para el Sunset Grill',grupo:'Compras',prioridad:'alta',estado:'por_hacer',responsable:id('Andrés Villalba'),evento_id:evT('Taco & Sunset Grill Night').id,fecha:dias[0],subtareas:[{txt:'Carbón',ok:false},{txt:'3 fundas de hielo',ok:true}]},
-    {titulo:'Llevar los dos micrófonos y el proyector',grupo:'Logística',prioridad:'alta',estado:'por_hacer',responsable:null,evento_id:evT('Karaoke con proyector').id,subtareas:[]},
+    {titulo:'Llevar los dos micrófonos y el proyector',grupo:'Logística',prioridad:'alta',estado:'por_hacer',responsable:null,evento_id:evT('Karaoke y Talent Show').id,subtareas:[]},
     {titulo:'Contratar a la cocinera y acordar menú',grupo:'Comida',prioridad:'alta',estado:'en_curso',responsable:autor,evento_id:null,subtareas:[{txt:'Precio por día',ok:false},{txt:'Pasarle el menú de almuerzos',ok:false}]},
     {titulo:'Empacar Risk y Monopoly',grupo:'Actividades',prioridad:'media',estado:'listo',responsable:id('Kevin'),evento_id:evT('Pizza & Boardgames Night').id,subtareas:[]},
-    {titulo:'Spike ball y paletas',grupo:'Actividades',prioridad:'baja',estado:'por_hacer',responsable:id('Kevin López'),evento_id:evT('Spike ball y paletas de playa').id,subtareas:[]}]
+    {titulo:'Spike ball y paletas',grupo:'Actividades',prioridad:'baja',estado:'por_hacer',responsable:id('Kevin López'),evento_id:evT('Spike ball, red y paletas de playa').id,subtareas:[]}]
     .map(t=>({id:uid(),detalle:'',fecha:null,etiquetas:[],creado_por:autor,created_at:new Date().toISOString(),...t}));
   const etiquetas=['bienvenida','karaoke','juegos','parrillada','playa','desayuno','fiesta','despensa','turnos'].map((n,i)=>({id:i+1,nombre:n}));
   const menu=generarMenuBase({dias,eventos:ev,gente:ids,autor,conEstaciones:true});
   const arroz=menu.platos.find(p=>p.nombre==='Arroz marinero'), almArroz=arroz&&arroz.comida_id;
   const asistencia=[];
   if(almArroz) asistencia.push({comida_id:almArroz,persona_id:id('Alegría'),va:true,opcion:null,variante:'Mi arroz sin conchas ni mejillones, por favor'});
-  const des1=menu.comidas.find(c=>c.dia===dias[0]&&c.turno==='desayuno');
+  const des1=menu.comidas.find(c=>c.dia===dias[1]&&c.turno==='desayuno');
   [['Alegría','A'],['Natalia Villar','A'],['Kevin','B'],['Andrés Villalba','B'],['Ana Paula','A']].forEach(([n,o])=>asistencia.push({comida_id:des1.id,persona_id:id(n),va:true,opcion:o,variante:''}));
   asistencia.push({comida_id:menu.comidas.find(c=>c.dia===dias[1]&&c.turno==='almuerzo').id,persona_id:id('Natalia Orquera'),va:false,opcion:null,variante:''});
   const presupuesto=[
     {id:uid(),nombre:'Alquiler de la casa',categoria:'hospedaje',minimo:1300,maximo:1500,tipo:'fijo',nota:'',orden:1},
     {id:uid(),nombre:'Compras iniciales de despensa',categoria:'despensa',minimo:700,maximo:1000,tipo:'fijo',nota:'',orden:2},
     {id:uid(),nombre:'Sueldo de la cocinera',categoria:'cocinera',minimo:null,maximo:null,tipo:'fijo',nota:'Por definir',orden:3},
-    {id:uid(),nombre:'Bebidas y bar',categoria:'bebidas',minimo:null,maximo:null,tipo:'variable',nota:'Por definir',orden:4}];
-  return {personas,pins,config:{nombre:'Marea Alta',lugar:'Same, Esmeraldas',desde,hasta,moneda:'USD',ejemplo:true,info:{casa_titulo:'La casa en Same',casa_desc:'Las fotos y la descripción se cargan desde Admin → Lo esencial.',airbnb_url:'https://www.airbnb.cl/rooms/49074368',amenidades:[],casa_fotos:[],direccion:'Casa en Same, Esmeraldas (dirección de ejemplo)',mapa_url:'',checkin:'15:00',checkout:'12:00',wifi_red:'',wifi_clave:'',
+    {id:uid(),nombre:'Bebidas y bar',categoria:'bebidas',minimo:null,maximo:null,tipo:'variable',nota:'Por definir',orden:4},
+    {id:uid(),nombre:'Equipos y trípodes',categoria:'logistica',minimo:null,maximo:null,tipo:'variable',nota:'Por definir',orden:5}];
+  const equipo=EQUIPO_BASE.map(([nombre,categoria,cantidad])=>({id:uid(),nombre,categoria,cantidad,responsable:null,estado:'falta',evento_id:null,nota:'',creado_por:autor}));
+  const eqq=n=>equipo.find(e=>e.nombre===n); Object.assign(eqq('Parlante'),{responsable:id('Kevin'),estado:'empacado'}); Object.assign(eqq('Micrófonos'),{responsable:id('Alegría'),estado:'confirmado',evento_id:evT('Karaoke y Talent Show').id});
+  Object.assign(eqq('Proyector'),{evento_id:evT('Karaoke y Talent Show').id}); Object.assign(eqq('Monopoly'),{responsable:id('Kevin'),estado:'empacado'}); Object.assign(eqq('Risk'),{responsable:id('Kevin'),estado:'empacado'});
+  Object.assign(eqq('Coolers'),{responsable:id('Andrés Villalba'),estado:'confirmado'}); Object.assign(eqq('Trípode'),{responsable:id('Ana Cristina Grijalba'),estado:'confirmado',evento_id:evT('Sesión de fotos con gafas de sol').id});
+  const vehiculos=[{id:uid(),nombre:'Camioneta de Daniel',conductor:autor,puestos:7,maletas:6,salida:'Quito, 6:00 a.m.',nota:'',creado_por:autor},{id:uid(),nombre:'Carro de Kevin L.',conductor:id('Kevin López'),puestos:5,maletas:4,salida:'Quito, 7:00 a.m.',nota:'',creado_por:id('Kevin López')}];
+  const pasajeros=[]; const sube=(v,ns,t)=>ns.forEach(n=>pasajeros.push({vehiculo_id:vehiculos[v].id,persona_id:id(n),trayecto:t,maletas:1}));
+  ['ida','regreso'].forEach(t=>{sube(0,['Daniel Martínez','Ana Paula','Alegría','Andrés Villalba'],t);sube(1,['Kevin López','Doménica Pérez','Natalia Vázquez'],t)});
+  return {personas,pins,config:{nombre:'Beach Trip',lugar:'Same, Esmeraldas',desde,hasta,moneda:'USD',ejemplo:true,info:{...CASA_AIRBNB,casa_fotos:[],direccion:'Condominio Alcazaba del Río, Casablanca · Same, Esmeraldas',mapa_url:'',checkin:'15:00',checkout:'12:00',wifi_red:'',wifi_clave:'',
     que_llevar:['Protector solar y repelente','Traje de baño y toalla de playa','Outfit Noche Tropical','Todo blanco para la noche Santorini','Brillos para el karaoke','Pijama elegante','Gafas de sol para la sesión de fotos','Tu número para el Talent Show','Medicinas personales'],
     reglas:['Cero café soluble: se pasa café de verdad','Cada quien lava lo que usa en las cenas colaborativas','Todo gasto se sube con foto a la app','Silencio después de la 1 a.m. por los vecinos'],
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
     faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
-    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],v:3};
+    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],v:6};
 }
 function pinNuevo(){const malos=new Set(['0000','1111','2222','3333','4444','5555','6666','7777','8888','9999','1234','4321','0123','2580']);for(;;){const a=new Uint32Array(1);crypto.getRandomValues(a);const p=String(a[0]%10000).padStart(4,'0');if(!malos.has(p))return p}}
 function mensajeWA(nombre,pin){const primer=(nombre||'').trim().split(/\s+/)[0]||'';const lugar=(typeof CFG!=='undefined'&&CFG.lugar)||'la playa';
@@ -572,12 +633,12 @@ function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`http
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==3){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==6){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
   async login(ced,pin){const p=this.d.personas.find(x=>x.cedula===ced);if(!p||this.d.pins[ced]!==pin)throw new Error('Cédula o clave incorrecta');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
   async logout(){lsDel(DEMO_SES)},
-  async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];COMIDAS=[...(d.comidas||[])];PLATOS=[...(d.platos||[])];ASIST=[...(d.asistencia||[])];PRESU=[...(d.presupuesto||[])];INSPI=[...(d.inspiracion||[])];MURO=[...(d.muro||[])];ME=d.personas.find(p=>p.id===ME.id)||ME},
+  async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];COMIDAS=[...(d.comidas||[])];PLATOS=[...(d.platos||[])];ASIST=[...(d.asistencia||[])];PRESU=[...(d.presupuesto||[])];INSPI=[...(d.inspiracion||[])];MURO=[...(d.muro||[])];EQUIPO=[...(d.equipo||[])];VEHICULOS=[...(d.vehiculos||[])];PASAJEROS=[...(d.pasajeros||[])];COMERCIOS=[...(d.comercios||[])];ME=d.personas.find(p=>p.id===ME.id)||ME},
   async saveGasto(g,nuevo){const L=this.d.gastos;if(nuevo){L.unshift({...g,created_at:new Date().toISOString()})}else{const i=L.findIndex(x=>x.id===g.id);if(i<0)throw new Error('No encuentro ese gasto');this.d.historial.push({gasto_id:g.id,version:L[i],cambiado_por:ME.id,ts:new Date().toISOString()});L[i]={...L[i],...g}}this.save()},
   async historial(id){return this.d.historial.filter(h=>h.gasto_id===id)},
   async saveTarea(t,nuevo){const L=this.d.tareas;if(nuevo)L.push({...t,created_at:new Date().toISOString()});else{const i=L.findIndex(x=>x.id===t.id);L[i]={...L[i],...t}}this.save()},
@@ -602,6 +663,13 @@ const Demo={
   async addInspiracion(x){this.d.inspiracion.push({...x,created_at:new Date().toISOString()});this.save()},
   async enriquecer(p){return enriquecerLocal(p)},
   async llenarInfo(t){return infoLocal(t)},
+  async aprenderComercio(c){const L=this.d.comercios=this.d.comercios||[];const i=L.findIndex(x=>x.clave===c.clave);if(i<0)L.push(c);else L[i]={...L[i],...c};this.save()},
+  async saveEquipo(e,n){this.up(this.d.equipo=this.d.equipo||[],e,n)},
+  async borrarEquipo(id){this.d.equipo=this.d.equipo.filter(e=>e.id!==id);this.save()},
+  async saveVehiculo(v,n){this.up(this.d.vehiculos=this.d.vehiculos||[],v,n)},
+  async borrarVehiculo(id){this.d.vehiculos=this.d.vehiculos.filter(v=>v.id!==id);this.d.pasajeros=(this.d.pasajeros||[]).filter(p=>p.vehiculo_id!==id);this.save()},
+  async setPasajero(p,quien){const L=this.d.pasajeros=this.d.pasajeros||[];const pid=quien||ME.id;const i=L.findIndex(x=>x.persona_id===pid&&x.trayecto===p.trayecto);const row={...p,persona_id:pid};if(i<0)L.push(row);else L[i]=row;this.save()},
+  async quitarPasajero(pid,t){this.d.pasajeros=(this.d.pasajeros||[]).filter(x=>!(x.persona_id===pid&&x.trayecto===t));this.save()},
   async addFoto(f){(this.d.muro=this.d.muro||[]).push({...f,created_at:new Date().toISOString()});this.save();if(JSON.stringify(this.d).length>4.5e6)toast('El demo guarda pocas fotos en el teléfono; con Supabase no hay límite')},
   async borrarFoto(id){this.d.muro=(this.d.muro||[]).filter(f=>f.id!==id);this.save()},
   async admin(action,b){
@@ -638,10 +706,10 @@ const Sb={
       this.t('votos').select('evento_id,persona_id'),this.t('etiquetas').select('*').order('nombre')]);
     PERSONAS=this.ok(p);CFG={...CFG,...((this.ok(c)||{}).valor||{})};GASTOS=this.ok(g).map(x=>({...x,monto:+x.monto}));TAREAS=this.ok(t);EVENTOS=this.ok(e);VOTOS=this.ok(v);ETIQUETAS=this.ok(et);
     /* tablas de sql/003 (comida, presupuesto, inspiración): si aún no existen, la app sigue sin ellas */
-    const x=await Promise.allSettled([this.t('comidas').select('*').order('dia'),this.t('platos').select('*').order('created_at'),this.t('asistencia').select('*'),this.t('presupuesto').select('*').order('orden'),this.t('inspiracion').select('*').order('created_at'),this.t('muro').select('*').order('created_at',{ascending:false})]);
+    const x=await Promise.allSettled([this.t('comidas').select('*').order('dia'),this.t('platos').select('*').order('created_at'),this.t('asistencia').select('*'),this.t('presupuesto').select('*').order('orden'),this.t('inspiracion').select('*').order('created_at'),this.t('muro').select('*').order('created_at',{ascending:false}),this.t('equipo').select('*').order('created_at'),this.t('vehiculos').select('*').order('created_at'),this.t('pasajeros').select('*'),this.t('comercios').select('*')]);
     const val=r=>r.status==='fulfilled'&&!r.value.error?r.value.data:null;
     this.v3=val(x[0])!==null;
-    COMIDAS=val(x[0])||[];PLATOS=val(x[1])||[];ASIST=val(x[2])||[];PRESU=(val(x[3])||[]).map(r=>({...r,minimo:r.minimo==null?null:+r.minimo,maximo:r.maximo==null?null:+r.maximo}));INSPI=val(x[4])||[];MURO=val(x[5])||[];
+    COMIDAS=val(x[0])||[];PLATOS=val(x[1])||[];ASIST=val(x[2])||[];PRESU=(val(x[3])||[]).map(r=>({...r,minimo:r.minimo==null?null:+r.minimo,maximo:r.maximo==null?null:+r.maximo}));INSPI=val(x[4])||[];MURO=val(x[5])||[];EQUIPO=val(x[6])||[];VEHICULOS=val(x[7])||[];PASAJEROS=val(x[8])||[];COMERCIOS=val(x[9])||[];
     ME=await this.me(ME.auth_id);
   },
   pick(o,ks){const r={};ks.forEach(k=>{if(k in o)r[k]=o[k]});return r},
@@ -676,6 +744,13 @@ const Sb={
   async setAsis(cid,a){this.ok(await this.t('asistencia').upsert({comida_id:cid,persona_id:ME.id,va:a.va!==false,opcion:a.opcion||null,variante:a.variante||null},{onConflict:'comida_id,persona_id'}))},
   async savePresupuesto(list){const ids=list.map(r=>r.id);const viejos=PRESU.filter(r=>!ids.includes(r.id)).map(r=>r.id);if(viejos.length)this.ok(await this.t('presupuesto').delete().in('id',viejos));if(list.length)this.ok(await this.t('presupuesto').upsert(list.map(r=>this.pick(r,this.PRK))))},
   async llenarInfo(t){try{const j=await this.fn('marea-info',{texto:t});return j.info}catch(e){toast('La IA no respondió: '+e.message);return infoLocal(t)}},
+  async aprenderComercio(c){this.ok(await this.t('comercios').upsert({clave:c.clave,nombre:c.nombre,ruc:c.ruc,categoria:c.categoria,alcance:c.alcance,etiquetas:c.etiquetas,veces:c.veces},{onConflict:'clave'}))},
+  async saveEquipo(e,n){return this.up('equipo',['id','nombre','categoria','cantidad','responsable','estado','evento_id','nota','creado_por'],e,n)},
+  async borrarEquipo(id){this.ok(await this.t('equipo').delete().eq('id',id))},
+  async saveVehiculo(v,n){return this.up('vehiculos',['id','nombre','conductor','puestos','maletas','salida','nota','creado_por'],v,n)},
+  async borrarVehiculo(id){this.ok(await this.t('vehiculos').delete().eq('id',id))},
+  async setPasajero(p,quien){this.ok(await this.t('pasajeros').upsert({vehiculo_id:p.vehiculo_id,persona_id:quien||ME.id,trayecto:p.trayecto,maletas:+p.maletas||0},{onConflict:'persona_id,trayecto'}))},
+  async quitarPasajero(pid,t){this.ok(await this.t('pasajeros').delete().eq('persona_id',pid).eq('trayecto',t))},
   async addFoto(f){const row=this.pick(f,['id','persona_id','foto_path','texto','dia','evento_id']);if(this.v3===false)delete row.evento_id;this.ok(await this.t('muro').insert(row))},
   async borrarFoto(id){this.ok(await this.t('muro').delete().eq('id',id))},
   async addInspiracion(x){this.ok(await this.t('inspiracion').insert(this.pick(x,['id','evento_id','persona_id','foto','nota'])))},
@@ -712,9 +787,9 @@ function leerLocal(texto,conFoto,modo){
     if(sm){const r=buscarPersonas(sm[1]);if(r.ids.length){part=r.ids;if(!part.includes(pagador)&&/\bentre\b/i.test(sm[0]))part.push(pagador)}dudas.push(...r.dudas)}
     const xm=t.match(/\b(?:menos|sin|excepto|salvo)\s+([a-záéíóúñ ,]+?)(?=\s*(?:\.|;|$))/i);
     if(xm){const r=buscarPersonas(xm[1]);part=part.filter(id=>!r.ids.includes(id));dudas.push(...r.dudas)}
-    const cat=categoriaDe(t);
+    const cat=categoriaDe(t), ca=leerClaveAcceso(t);
     if(!monto) dudas.push(conFoto?'Sin conexión a la IA todavía: escribe el total de la factura.':'No encontré el monto: escríbelo.');
-    prop.gastos.push({descripcion:desc||'Gasto',monto,fecha:null,categoria:cat,pagador_ids:[pagador],participante_ids:part,modo:'igual',partes:null,evento_id:null,etiquetas:[],confianza:monto?0.7:0.1,dudas});
+    prop.gastos.push({factura:ca?{tipo_documento:'factura',comercio:null,ruc:ca.ruc,fecha:ca.fecha,numero:ca.numero,clave_acceso:ca.clave_acceso,items:[],subtotal:null,impuestos:null,propina:null,total:monto||null}:null,descripcion:ca&&desc.length>40?'Factura '+ca.numero:desc||'Gasto',monto,fecha:ca?ca.fecha:null,categoria:cat,pagador_ids:[pagador],participante_ids:part,modo:'igual',partes:null,evento_id:null,etiquetas:[],confianza:monto?0.7:0.1,dudas});
     prop.resumen='Lectura rápida en el teléfono (sin IA). Revisa antes de guardar.';
   } else if(t){
     partirTareas(t).forEach(s=>{let resp=null;const rm=s.match(/^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)\s+(?=(prende|lleva|compra|trae|hace|arma|cocina|maneja|organiza|consigue|reserva))/);if(rm){const r=buscarPersonas(rm[1]);resp=r.ids[0]||null}
@@ -776,7 +851,7 @@ const sheetH=(t,extra='')=>`<div class="sheet-h"><h2 id="sheetTitle">${t}</h2>${
    ARRANQUE
    ============================================================================ */
 async function boot(){
-  try{const t=lsGet('marea_tema');if(t)document.documentElement.dataset.theme=t}catch(e){}
+  logoOriginal();
   if(MODO==='supabase')Sb.init();else Demo.init();
   try{ME=await API.restore()}catch(e){ME=null}
   if(!ME){pintarLogin();return}
@@ -790,8 +865,8 @@ if(MODO==='supabase'){setInterval(()=>{if(document.visibilityState==='visible')r
 
 function pintarLogin(msg){
   $('#app').innerHTML=`<div class="login">
-    <div>${LOGO.replace('width="38" height="38"','width="64" height="64"')}</div>
-    <div><h1>Marea Alta</h1><p class="tag">Playa de día, temática de noche.</p></div>
+    <div class="login-logo">${logo(230)}</div>
+    <div style="text-align:center"><h1>¡Nos vamos a la playa!</h1><p class="tag">Same, Esmeraldas · buenos amigos, mejores historias.</p></div>
     <form id="lf" class="stack" autocomplete="on">
       <div class="field"><label for="lced">Tu cédula</label><input id="lced" class="in" inputmode="numeric" autocomplete="username" placeholder="Número de cédula" value="${esc(lsGet('marea_ced')||'')}" required></div>
       <div class="field"><label for="lpin">Clave de 4 dígitos</label><input id="lpin" class="in pin-in" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="••••" required></div>
@@ -806,7 +881,7 @@ function pintarLogin(msg){
     catch(err){$('#lerr').hidden=false;$('#lerr').textContent=err.message;b.disabled=false;b.textContent='Entrar'}};
 }
 async function salir(){await API.logout();ME=null;closeSheet(true);pintarLogin()}
-function cambiarTema(){const r=document.documentElement;const oscuro=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=oscuro?'light':'dark';lsSet('marea_tema',r.dataset.theme);render()}
+
 
 /* ============================================================================
    RENDER PRINCIPAL
@@ -816,10 +891,10 @@ function render(){
   const sub=CFG.lugar?esc(CFG.lugar):(CFG.desde?`${fechaCorta(CFG.desde)} – ${fechaCorta(CFG.hasta)}`:'El viaje a la playa');
   const views={hoy:vHoy,gastos:vGastos,menu:vMenu,tareas:vTareas,planes:vPlanes,nosotros:vNosotros,admin:vAdmin};
   $('#app').innerHTML=`<div class="wrap">
-    <header class="top"><div class="brand">${LOGO}<div class="grow"><b>${esc(CFG.nombre||'Marea Alta')}</b><small>${sub}</small></div></div>
+    <header class="top"><div class="brand">${logo(42)}<div class="grow"><b>${esc(CFG.nombre||'Beach Trip')}</b><small>${sub}</small></div></div>
       ${esAdmin()?`<button class="x" onclick="irA('admin')" aria-label="Administrar" ${TAB==='admin'?'style="background:var(--tide);color:var(--tide-ink)"':''}>${ic('admin')}</button>`:''}<button class="me-btn" onclick="abrirMiPerfil()" aria-label="Mi perfil">${av(ME.id)}</button></header>
     <main id="main">${(views[TAB]||vHoy)()}</main>
-    <p class="foot">Marea Alta ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
+    <p class="foot">Beach Trip ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     <button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>
     <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===TAB?'aria-current="page"':''} onclick="irA('${k}')">${ic(k==='nosotros'?'cam':k)}<span>${l}</span></button>`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
@@ -830,7 +905,7 @@ function vHoy(){
   const hoy=hoyISO(), dias=diasViaje();
   let big='',lbl='',lvl=12;
   if(dias.length){const n=difDias(hoy,CFG.desde),tot=dias.length;
-    if(n>0){big=n;lbl=n===1?'día para el viaje':'días para el viaje';lvl=Math.max(8,30-Math.min(n,30))}
+    if(n>0){const ms=new Date(CFG.desde+'T'+(String(infoV().checkin||'15:00').match(/^\d{1,2}:\d{2}$/)?infoV().checkin:'15:00')+':00')-new Date();const h=Math.max(0,Math.floor(ms/36e5)%24),m=Math.max(0,Math.floor(ms/6e4)%60);big=Math.floor(ms/864e5);lbl=`días ${h} h ${m} min para llegar a ${CFG.lugar||'la playa'}`;if(big<0){big=n;lbl='días para el viaje'}lvl=Math.max(8,30-Math.min(n,30))}
     else if(difDias(hoy,CFG.hasta)>=0){const k=1-n;big=`Día ${k}`;lbl=`de ${tot} · ${diaSem(hoy)} ${fechaCorta(hoy)}`;lvl=30+Math.round(55*k/tot)}
     else{big='Fin';lbl='del viaje. Hora de saldar cuentas';lvl=90}}
   else{big='—';lbl='Faltan las fechas del viaje';}
@@ -838,17 +913,24 @@ function vHoy(){
   const eventosHoy=EVENTOS.filter(e=>e.dia===hoy&&e.estado!=='cancelado'&&e.estado!=='propuesta').sort((a,c)=>ordBloque(a)-ordBloque(c));
   const noche=nocheDestacada(hoy);
   const prox=EVENTOS.filter(e=>e.estado==='oficial'&&e.dia&&e.dia>=hoy&&(!noche||e.id!==noche.id)).sort((a,c)=>(a.dia+ordBloque(a)).localeCompare(c.dia+ordBloque(c))).slice(0,3);
-  const mias=TAREAS.filter(t=>t.responsable===ME.id&&t.estado!=='listo');
-  const sinDueno=TAREAS.filter(t=>!t.responsable&&t.estado==='por_hacer').length;
+  const mias=TAREAS.filter(t=>t.responsable===ME.id&&estadoAuto(t)!=='listo');
+  const sinDueno=TAREAS.filter(t=>estadoAuto(t)==='por_hacer').length;
   const ult=GASTOS.slice().sort((a,c)=>String(c.created_at||c.fecha).localeCompare(String(a.created_at||a.fecha))).slice(0,3);
   const props=EVENTOS.filter(e=>e.estado==='propuesta'), sinVoto=props.filter(e=>!VOTOS.some(v=>v.evento_id===e.id&&v.persona_id===ME.id)).length;
-  const portada=fotoUrl(infoV().casa_fotos[0]);
-  return `<section class="hero ${portada?'con-foto':''}" style="--lvl:${lvl}%">${portada?`<img class="hero-img" src="${esc(portada)}" alt="">`:''}<div class="in-hero">
+  const portada=fotoUrl(infoV().casa_fotos[0])||IMG+'portada.jpg';
+  return `<section class="hero ${portada?'con-foto':''}" style="--lvl:${lvl}%">${portada?`<img class="hero-img" src="${esc(portada)}" alt="" onerror="this.parentElement.classList.remove('con-foto');this.remove()">`:''}<div class="in-hero">
       <div class="eyebrow" style="color:inherit;opacity:.8">Hola, ${esc(nom(ME.id))}</div>
       <div class="row" style="align-items:flex-end;gap:12px;margin-top:6px"><span class="big num">${esc(String(big))}</span><span class="sub" style="padding-bottom:6px">${esc(lbl)}</span></div>
       ${CFG.ejemplo?`<span class="pill" style="margin-top:10px;background:rgba(255,255,255,.2);color:inherit">Fechas de ejemplo${esAdmin()?' · cámbialas en Admin':''}</span>`:''}
-    </div><div class="wave"><svg viewBox="0 0 400 16" preserveAspectRatio="none"><path d="M0 8 Q25 0 50 8 T100 8 T150 8 T200 8 T250 8 T300 8 T350 8 T400 8 V16 H0Z" fill="var(--tide-deep)" opacity=".35"/></svg><div class="fill"></div></div></section>
+    </div><div class="wave"><svg viewBox="0 0 400 16" preserveAspectRatio="none"><path d="M0 8 Q25 0 50 8 T100 8 T150 8 T200 8 T250 8 T300 8 T350 8 T400 8 V16 H0Z" fill="#1FB0E0" opacity=".6"/></svg><div class="fill"></div></div></section>
 
+    <div class="rapido">
+      <button onclick="abrirAgregar()"><span class="ico" style="background:var(--sun-soft);color:var(--sun)">${ic('plus')}</span>Gasto</button>
+      <button onclick="SUBE='programa';irA('planes')"><span class="ico" style="background:var(--tide-soft);color:var(--tide)">${ic('planes')}</span>Plan</button>
+      <button onclick="irA('menu')"><span class="ico" style="background:var(--sol-soft);color:#B07A00">${ic('menu')}</span>Comida</button>
+      <button onclick="irA('nosotros')"><span class="ico" style="background:var(--mar-soft);color:#0B8C86">${ic('cam')}</span>Fotos</button>
+    </div>
+    ${instalarCard()}
     ${esencialChips()}
     <div class="card" style="margin-top:14px"><button class="saldo item" style="padding:0;border:0" onclick="SUBG='bal';irA('gastos')">
       <div class="grow"><div class="eyebrow">Mi saldo</div><div class="muted tiny">${b.saldo>0.009?'Te deben':b.saldo<-0.009?'Debes':'Estás a paz y salvo'}</div></div>
@@ -863,7 +945,7 @@ function vHoy(){
     ${comidaHoyCard()}
     ${fotosHoyCard()}
     <div class="sec-h"><h2>Mis tareas</h2><button class="link" onclick="FILTT.solo=true;irA('tareas')">Ver todas</button></div>
-    ${mias.length?`<div class="card"><div class="list">${mias.slice(0,5).map(t=>`<button class="item" onclick="abrirTarea('${t.id}')"><span class="pill ${t.estado==='en_curso'?'warn':''}">${t.estado==='en_curso'?'En curso':'Por hacer'}</span><div class="grow"><div class="t">${esc(t.titulo)}</div><div class="s">${esc(t.grupo||'')}${t.fecha?' · '+fechaCorta(t.fecha):''}</div></div></button>`).join('')}</div></div>`
+    ${mias.length?`<div class="card"><div class="list">${mias.slice(0,5).map(t=>`<button class="item" onclick="abrirTarea('${t.id}')"><span class="pill mar">${esc(t.grupo||'Tarea')}</span><div class="grow"><div class="t">${esc(t.titulo)}</div><div class="s">${esc(t.grupo||'')}${t.fecha?' · '+fechaCorta(t.fecha):''}</div></div></button>`).join('')}</div></div>`
       :`<div class="card flat empty">No tienes tareas pendientes.${sinDueno?` Hay ${sinDueno} sin responsable: <button class="btn ghost sm" onclick="irA('tareas')">tomar una</button>`:''}</div>`}
 
     ${sinVoto?`<div class="card" style="margin-top:14px"><div class="row"><span class="cat-dot" style="background:var(--sun-soft);color:var(--sun)">${ic('planes')}</span><div class="grow"><b>Te faltan ${sinVoto} propuestas por votar</b><div class="muted tiny">Las noches más votadas pasan al programa.</div></div><button class="btn sun sm" onclick="SUBE='propuestas';irA('planes')">Votar</button></div></div>`:''}
@@ -872,17 +954,18 @@ function vHoy(){
     ${ult.length?`<div class="card"><div class="list">${ult.map(gastoItem).join('')}</div></div>`:`<div class="card flat empty">Aún no hay gastos. Toca ＋ para registrar el primero.</div>`}`;
 }
 /* la temática de esta noche (o la próxima) en grande: lo primero que la gente quiere saber */
-function nocheDestacada(hoy){return EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&e.bloque==='noche'&&e.dia&&e.dia>=hoy).sort((a,b)=>a.dia.localeCompare(b.dia))[0]}
+function nocheDestacada(hoy){return EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&esNoche(e)&&e.estilo&&e.dia&&e.dia>=hoy).sort((a,b)=>a.dia.localeCompare(b.dia))[0]}
 function nocheCard(hoy){
   const n=nocheDestacada(hoy);
   if(!n) return '';
   const cuando=n.dia===hoy?'Esta noche':n.dia===addDias(hoy,1)?'Mañana en la noche':`${diaSem(n.dia)} ${fechaCorta(n.dia)}`;
-  return `<button class="card ev noche" style="margin-top:14px;display:block;width:100%;grid-template-columns:none" onclick="abrirEvento('${n.id}')"><div class="eyebrow" style="color:var(--sun)">${cuando} · ${esc(n.tematica||'Temática')}</div>
+  return `<button class="card ev noche" style="margin-top:14px;display:block;width:100%;grid-template-columns:none;padding-top:0;overflow:hidden" onclick="abrirEvento('${n.id}')">${imgTag(imgEvento(n),'noche-img')}<div class="eyebrow" style="color:var(--sun);margin-top:12px">${cuando} · ${esc(n.tematica||'Temática')}</div>
     <div style="font-family:var(--f-disp);font-weight:800;font-size:24px;line-height:1.1;margin-top:4px">${esc(n.titulo)}</div>
     <div class="row wrap-ok" style="gap:6px;margin-top:8px">${n.dress_code?`<span class="pill sun">Vístete: ${esc(n.dress_code)}</span>`:''}${n.hora?`<span class="pill">${esc(String(n.hora).slice(0,5))}</span>`:''}</div>
     ${(n.menu||[]).length?`<div class="tiny" style="margin-top:8px"><b>Menú:</b> <span class="muted">${n.menu.map(esc).join(' · ')}</span></div>`:''}</button>`;
 }
-const ordBloque=e=>({manana:1,tarde:2,noche:3}[e.bloque]||4);
+const ordBloque=e=>({manana:1,tarde:2,atardecer:2.5,noche:3}[e.bloque]||4);
+const esNoche=e=>e.bloque==='noche'||e.bloque==='atardecer';
 
 /* ---------- GASTOS ---------- */
 function gastoItem(g){
@@ -895,7 +978,7 @@ function gastoItem(g){
     :n>0.009?`<div class="s pos">${g.tipo==='pago'?'pagaste':'prestaste'}</div><div class="amt pos">${money(n)}</div>`
     :n<-0.009?(g.tipo==='pago'?`<div class="s">te pagaron</div><div class="amt">${money(-n)}</div>`:`<div class="s neg">debes</div><div class="amt neg">${money(-n)}</div>`)
     :`<div class="s">${part?'quedas igual':'no participas'}</div>`;
-  return `<button class="item" onclick="abrirGasto('${g.id}')"><span class="cat-dot">${ic(ico)}</span><div class="grow"><div class="t">${esc(g.descripcion)}</div><div class="s">${sub} · <span class="num">${money(g.monto)}</span></div></div>
+  return `<button class="item" onclick="abrirGasto('${g.id}')"><span class="cat-dot">${ic(ico)}</span><div class="grow"><div class="t">${esc(g.descripcion)}${g.factura&&cuadra(g.factura,+g.monto)&&!cuadra(g.factura,+g.monto).ok?' <span class="pill warn">revisar</span>':''}</div><div class="s">${sub} · <span class="num">${money(g.monto)}</span></div></div>
     <div style="text-align:right;min-width:86px">${der}</div></button>`;
 }
 function gastosFiltrados(){
@@ -965,7 +1048,7 @@ function formDesdePropuesta(pg,respaldo,lectura,origen){
   const baja=[]; if((pg.confianza??1)<0.6){baja.push('monto');if(!pg.descripcion)baja.push('descripcion')}
   const pe=pg.pago_entre; if(pe&&PMAP[pe.de_id]&&PMAP[pe.a_id]) return nuevoForm({tipo:'pago',descripcion:`Pago de ${nom(pe.de_id)} a ${nom(pe.a_id)}`,monto:pg.monto||'',fecha:pg.fecha||hoyISO(),pagador:pe.de_id,part:[pe.a_id],modo:'porcentaje',valores:{[pe.a_id]:100},respaldo:respaldo||null,origen,lectura_ia:lectura,factura:pg.factura||null,dudas:pg.dudas||[],baja});
   const cat=pg.categoria==='mercado'?'despensa':pg.categoria==='comida'?'restaurantes':pg.categoria;
-  return nuevoForm({factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja});
+  return aplicarHistorial(nuevoForm({etq_ia:pg.etiquetas||[],factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja}));
 }
 function validarF(){
   const m=r2(parseFloat(String(F.monto).replace(',','.'))||0);
@@ -981,6 +1064,7 @@ function pintarFormGasto(){
   const titulo=F.tipo==='aporte'?'Aporte al fondo':F.tipo==='pago'?'Pago entre dos':F.nuevo?'Nuevo gasto':'Editar gasto';
   const evs=EVENTOS.filter(e=>e.estado!=='cancelado');
   openSheet(`${sheetH(titulo)}<div class="stack">
+    ${F.historial?`<div class="banner tide tiny"><div><b>✦ Propuesto por el historial.</b> ${esc(F.historial)}</div></div>`:''}
     ${F.dudas&&F.dudas.length?`<div class="banner warn"><div><b>Revisa esto antes de guardar</b><br>${F.dudas.map(esc).join('<br>')}</div></div>`:''}
     ${F.respaldo?`<img class="thumb" id="fthumb" alt="Factura">`:''}
     ${F.factura?facturaForm():''}
@@ -1003,6 +1087,7 @@ function pintarFormGasto(){
       <div class="field"><span class="lbl">Etiquetas</span><div class="chips">${ETIQUETAS.map(t=>`<button class="chip" aria-pressed="${F.etiquetas.includes(t.id)}" onclick="toggleEtq(${t.id})">#${esc(t.nombre)}</button>`).join('')}</div></div>
       <div class="field"><label for="fnota">Nota</label><input id="fnota" class="in" value="${esc(F.nota)}" oninput="F.nota=this.value"></div></div></details>
     <div class="field"><span class="lbl">Respaldo</span><label class="btn sm" style="align-self:flex-start">${ic('cam')} ${F.respaldo?'Cambiar foto':'Adjuntar foto de la factura'}<input type="file" accept="image/*" hidden onchange="adjuntarRespaldo(this)"></label></div>`:''}
+    <div id="fdup"></div>
     <div id="ferr" class="banner bad" hidden></div>
     <div id="fres" class="muted tiny"></div>
     <button class="btn primary block" id="fsave" onclick="guardarGasto()">Guardar</button>
@@ -1017,7 +1102,8 @@ function facturaTabla(f){return `${(f.items||[]).length?`<div class="table-x" st
 function facturaForm(){const f=F.factura, m=r2(parseFloat(String(F.monto).replace(',','.'))||0);
   return `<details open class="card flat"><summary class="lbl" style="cursor:pointer">Lo que se leyó de ${f.tipo_documento==='transferencia'?'la transferencia':f.tipo_documento==='ticket'?'el ticket':'la factura'}</summary>
     <div class="grid2" style="margin-top:10px"><div class="field"><label for="fx_c">Comercio</label><input id="fx_c" class="in" value="${esc(f.comercio||'')}" oninput="F.factura.comercio=this.value"></div><div class="field"><label for="fx_r">RUC</label><input id="fx_r" class="in num" value="${esc(f.ruc||'')}" oninput="F.factura.ruc=this.value"></div></div>
-    ${facturaTabla(f)}${f.total!=null&&m&&Math.abs(f.total-m)>0.01?`<div class="banner warn tiny" style="margin-top:8px">El total leído (${money(f.total)}) no coincide con el monto (${money(m)}).</div>`:''}</details>`}
+    ${f.numero?`<div class="tiny muted" style="margin-top:6px">Factura ${esc(f.numero)}${f.clave_acceso?' · clave de acceso SRI':''}</div>`:''}
+    ${facturaTabla(f)}${(()=>{const c=cuadra(f,m);return c==null?'':c.ok?'<div class="banner tide tiny" style="margin-top:8px">✓ La factura cuadra</div>':`<div class="banner warn tiny" style="margin-top:8px"><div>${c.pr.map(esc).join('<br>')}</div></div>`})()}</details>`}
 function toggleEtq(id){F.etiquetas=F.etiquetas.includes(id)?F.etiquetas.filter(x=>x!==id):[...F.etiquetas,id];pintarFormGasto()}
 function cambiarModo(m){F.modo=m;const n=F.part.length||1,monto=r2(parseFloat(String(F.monto).replace(',','.'))||0);F.part.forEach((id,i)=>{if(F.valores[id]==null||F.valores[id]===''||F.modo!==m)F.valores[id]=m==='porcentaje'?r2(100/n):r2(monto/n)});
   if(m==='porcentaje'){const s=r2(F.part.reduce((a,id)=>a+(+F.valores[id]||0),0));if(F.part[0]&&Math.abs(s-100)>0.01&&Math.abs(s-100)<1)F.valores[F.part[0]]=r2(+F.valores[F.part[0]]+100-s)}
@@ -1050,7 +1136,14 @@ async function guardarGasto(){
     respaldo_path:F.respaldo||null,origen:F.origen||'manual',lectura_ia:F.lectura_ia||null,nota:F.nota||'',eliminado:false,
     alcance:F.tipo==='gasto'&&!F.fondo?(F.part.length===activos().length?'fijo':'consumo'):null,factura:F.factura||null};
   if(F.nuevo)g.creado_por=ME.id;
-  try{await API.saveGasto(g,F.nuevo);await cargar();closeSheet();toast(F.nuevo?'Gasto guardado':'Cambios guardados');render()}
+  /* duplicado: no se guarda dos veces sin que la persona lo confirme */
+  const dup=g.tipo==='gasto'&&!F.dupOk?duplicadoDe(g):null;
+  if(dup){$('#fdup').innerHTML=`<div class="banner bad"><div><b>Esa factura ya está registrada.</b> ${esc(nom(dup.creado_por))} la subió como "${esc(dup.descripcion)}" (${money(dup.monto)}, ${fechaCorta(dup.fecha)}). No la guardé dos veces.<br><button class="btn sm" style="margin-top:8px" onclick="F.dupOk=true;guardarGasto()">Es otra compra: guardar igual</button></div></div>`;b.disabled=false;b.textContent='Guardar';$('#fdup').scrollIntoView({block:'center'});return}
+  /* se pasa del presupuesto: pide el porqué (como los viáticos de AERO) */
+  const ex=g.tipo==='gasto'&&!g.fondo?excedePresupuesto(F,monto):null;
+  if(ex&&!String(F.nota||'').trim()){$('#fdup').innerHTML=`<div class="banner warn"><div><b>Este gasto pasa el presupuesto de ${esc(ex.rubro)}</b> (quedaban ${money(Math.max(0,ex.queda))} de ${money(ex.max)}). Escribe en la nota por qué, y guarda.</div></div>`;b.disabled=false;b.textContent='Guardar';const d=$('#sheetBody details');if(d)d.open=true;const n=$('#fnota');if(n){n.classList.add('flag');n.focus()}return}
+  if(g.tipo==='gasto')g.etiquetas=[...new Set([...(g.etiquetas||[]),...await idsEtiquetas(etiquetasAuto(F))])];
+  try{await API.saveGasto(g,F.nuevo);await aprenderComercio(g);await cargar();closeSheet();toast(F.nuevo?'Gasto guardado':'Cambios guardados');render()}
   catch(e){b.disabled=false;b.textContent='Guardar';const x=$('#ferr');x.hidden=false;x.textContent='No se pudo guardar: '+e.message}
 }
 async function eliminarGasto(btn){
@@ -1068,7 +1161,7 @@ async function abrirGasto(id){
       ${(g.etiquetas||[]).length?`<div class="chips" style="margin-top:8px">${g.etiquetas.map(i=>{const t=ETIQUETAS.find(x=>x.id===i);return t?`<span class="pill tide">#${esc(t.nombre)}</span>`:''}).join('')}</div>`:''}</div>
     ${(()=>{const n=miNeto(g);return g.fondo?'':n>0.009?`<div class="banner tide"><b>Prestaste ${money(n)}.</b>&nbsp;Pagaste ${money(n+miParte(g))} y tu parte era ${money(miParte(g))}.</div>`:n<-0.009&&g.tipo!=='pago'?`<div class="banner bad"><b>Debes ${money(-n)}</b>&nbsp;a ${esc(nom((g.pagadores||[])[0]?.persona_id))} por este gasto.</div>`:''})()}
     ${g.respaldo_path?`<img class="thumb" id="gthumb" alt="Respaldo del gasto">`:`<div class="muted tiny">Sin foto de respaldo.</div>`}
-    ${g.factura?`<div class="card"><div class="eyebrow">${g.factura.tipo_documento==='transferencia'?'Transferencia':'Factura'}${g.factura.comercio?' · '+esc(g.factura.comercio):''}${g.factura.ruc?' · RUC '+esc(g.factura.ruc):''}</div>${facturaTabla(g.factura)}</div>`:''}
+    ${g.factura?`<div class="card"><div class="eyebrow">${g.factura.tipo_documento==='transferencia'?'Transferencia':'Factura'}${g.factura.numero?' '+esc(g.factura.numero):''}${g.factura.comercio?' · '+esc(g.factura.comercio):''}${g.factura.ruc?' · RUC '+esc(g.factura.ruc):''}</div>${facturaTabla(g.factura)}${(()=>{const c=cuadra(g.factura,+g.monto);return c==null?'':c.ok?'<div class="pill ok" style="margin-top:8px">✓ La factura cuadra</div>':`<div class="banner warn tiny" style="margin-top:8px"><div>${c.pr.map(esc).join('<br>')}</div></div>`})()}</div>`:''}
     ${g.tipo==='gasto'&&!g.fondo?`<div class="muted tiny">${alcanceDe(g)==='fijo'?'Costo fijo de todo el grupo':'Consumo de algunos'}</div>`:''}
     ${ps.length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">${g.tipo==='pago'?'Recibió':'Cómo se reparte'} · ${g.reparto.modo==='igual'?'partes iguales':g.reparto.modo==='porcentaje'?'por porcentaje':'por montos'}</div>
       ${ps.map(p=>{const pg=(g.pagadores||[])[0]?.persona_id;return `<div class="row" style="padding:6px 0;border-bottom:1px solid var(--line)">${av(p.id,'xs')}<span class="grow">${esc(nom(p.id))}${g.tipo==='gasto'&&p.id!==pg?` <span class="muted tiny">le debe a ${esc(nom(pg))}</span>`:''}</span><span class="amt">${money(p.v)}</span></div>`}).join('')}</div>`:''}
@@ -1118,7 +1211,8 @@ let LECT={dataUrl:null,blob:null};
 function abrirLector(foto,lista){
   LECT={dataUrl:null,blob:null};
   openSheet(`${sheetH(foto?'Foto de factura':lista?'Lista de tareas':'Contar un gasto')}<div class="stack">
-    ${foto?`<label class="add-opt" style="cursor:pointer"><span class="ic s">${ic('cam')}</span><span><b>Tomar o elegir foto</b><span class="muted tiny">Que se vea el total</span></span><input id="lfoto" type="file" accept="image/*" capture="environment" hidden onchange="leerFoto(this)"></label><img id="lthumb" class="thumb" hidden alt="">`:''}
+    ${foto?`<label class="add-opt" style="cursor:pointer"><span class="ic s">${ic('cam')}</span><span><b>Tomar o elegir foto</b><span class="muted tiny">Que se vea el total</span></span><input id="lfoto" type="file" accept="image/*" capture="environment" hidden onchange="leerFoto(this)"></label><img id="lthumb" class="thumb" hidden alt="">
+    <label class="add-opt" style="cursor:pointer"><span class="ic">${ic('receipt')}</span><span><b>Tengo el XML de la factura electrónica</b><span class="muted tiny">El que llega al correo: se lee exacto, sin IA</span></span><input type="file" accept=".xml,text/xml,application/xml" hidden onchange="this.files[0]&&leerArchivoXml(this.files[0])"></label>`:''}
     <div class="field"><label for="ltxt">${foto?'Algo más (opcional)':lista?'Pega o escribe la lista':'Cuéntalo como quieras'}</label>
       <textarea id="ltxt" class="in" placeholder="${foto?'Ej. va para todos menos Lu':lista?'Comprar 3 fundas de hielo, carbón para el asado y llevar los dos micrófonos para el karaoke':'Ej. pagué 48 dólares de hielo y cervezas, para todos menos Luciana'}" ${foto?'':'autofocus'}></textarea>
       <span class="muted tiny">Puedes dictarlo con el micrófono del teclado.</span></div>
@@ -1155,21 +1249,48 @@ function mostrarPropuesta(p,ref,origen){
 async function crearTareasPropuestas(){
   const marc=[...document.querySelectorAll('#sheetBody input[data-i]')].filter(x=>x.checked).map(x=>PROP.tareas[+x.dataset.i]);
   if(!marc.length){toast('No marcaste ninguna');return}
-  try{for(const t of marc)await API.saveTarea({id:uid(),titulo:t.titulo,detalle:t.detalle||'',grupo:GRUPOS.includes(t.grupo)?t.grupo:'Logística',estado:'por_hacer',prioridad:['alta','media','baja'].includes(t.prioridad)?t.prioridad:'media',responsable:t.responsable_id&&PMAP[t.responsable_id]?t.responsable_id:null,evento_id:t.evento_id&&EVENTOS.some(e=>e.id===t.evento_id)?t.evento_id:null,fecha:t.fecha||null,etiquetas:[],subtareas:(t.subtareas||[]).map(s=>({txt:s,ok:false})),creado_por:ME.id},true);
+  try{for(const t of marc)await API.saveTarea({id:uid(),titulo:t.titulo,detalle:t.detalle||'',grupo:GRUPOS.includes(t.grupo)?t.grupo:'Logística',estado:t.responsable_id&&PMAP[t.responsable_id]?'en_curso':'por_hacer',prioridad:['alta','media','baja'].includes(t.prioridad)?t.prioridad:'media',responsable:t.responsable_id&&PMAP[t.responsable_id]?t.responsable_id:null,evento_id:t.evento_id&&EVENTOS.some(e=>e.id===t.evento_id)?t.evento_id:null,fecha:t.fecha||null,etiquetas:[],subtareas:(t.subtareas||[]).map(s=>({txt:s,ok:false})),creado_por:ME.id},true);
     await cargar();closeSheet();toast(`${marc.length} tarea${marc.length===1?' creada':'s creadas'}`);TAB='tareas';render()}catch(e){toast(e.message)}
 }
 function achicar(file,lado,q){return new Promise((ok,mal)=>{const r=new FileReader();r.onerror=()=>mal(new Error('No pude leer la foto'));r.onload=()=>{const im=new Image();im.onerror=()=>mal(new Error('Ese archivo no es una imagen'));im.onload=()=>{const k=Math.min(1,lado/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);const dataUrl=c.toDataURL('image/jpeg',q);c.toBlob(blob=>ok({blob,dataUrl}),'image/jpeg',q)};im.src=r.result};r.readAsDataURL(file)})}
 
 /* ---------- TAREAS ---------- */
+/* El estado ya no se elige a mano: lo deduce la app.
+   listo = la marcaron hecha o su checklist está completo · en marcha = tiene responsable · por repartir = nadie la tiene */
+function estadoAuto(t){if(t.estado==='listo')return'listo';const st=t.subtareas||[];if(st.length&&st.every(x=>x.ok))return'listo';return t.responsable?'en_curso':'por_hacer'}
+/* a quién le toca: por especialidad (el superpoder de su ficha) y, entre ellos, quien tenga menos tareas abiertas */
+const ESPECIAL=[[/cocin|comida|desayuno|almuerzo|cena|parrilla|asado|mercado|compra/, ['Cocino','Organizo']],[/maneja|carro|transporte|recoger|hielo|traer/, ['Manejo','Madrugo']],
+  [/parlante|microfono|proyector|audio|playlist|karaoke|musica/, ['Llevo el parlante','Hago playlists']],[/foto|video|tripode|gafas/, ['Tomo las fotos']],[/juego|torneo|fiesta|show|decor/, ['Animo la fiesta','Hago playlists']],[/casa|limpiar|lavar|turno|basura|cuarto/, ['Organizo','Madrugo']]];
+function abiertasDe(pid){return TAREAS.filter(t=>t.responsable===pid&&estadoAuto(t)!=='listo').length}
+function sugerido(t){const txt=norm(t.titulo+' '+(t.grupo||'')+' '+(t.detalle||''));let sp=[];for(const[re,l]of ESPECIAL)if(re.test(txt))sp.push(...l);
+  const con=activos().filter(p=>sp.includes((p.perfil||{}).superpoder));const pool=con.length?con:activos();
+  const q=pool.slice().sort((a,b)=>abiertasDe(a.id)-abiertasDe(b.id))[0];return q?{id:q.id,por:con.length?q.perfil.superpoder:'tiene menos tareas'}:null}
+function tRow(t,conSug){const st=t.subtareas||[],ok=st.filter(x=>x.ok).length,ev=EVENTOS.find(e=>e.id===t.evento_id),e=estadoAuto(t),sg=conSug&&!t.responsable?sugerido(t):null;
+  return `<div class="trow ${e==='listo'?'done':''}"><button class="tcheck" aria-label="${e==='listo'?'Reabrir':'Marcar como hecha'}" aria-pressed="${e==='listo'}" onclick="hecha('${t.id}',${e!=='listo'})">${e==='listo'?ic('tareas'):''}</button>
+    <button class="grow tbody" onclick="abrirTarea('${t.id}')"><div class="t">${esc(t.titulo)}</div>
+      <div class="row wrap-ok" style="gap:4px;margin-top:4px">${t.prioridad==='alta'&&e!=='listo'?'<span class="pill bad">Urgente</span>':''}<span class="pill mar">${esc(t.grupo||'—')}</span>${t.fecha?`<span class="pill">${fechaCorta(t.fecha)}</span>`:''}${ev?`<span class="pill sun">${esc(ev.titulo)}</span>`:''}${st.length?`<span class="pill">${ok}/${st.length}</span>`:''}</div></button>
+    ${t.responsable?av(t.responsable,'xs'):sg?`<button class="btn sm sun" title="Por especialidad: ${esc(sg.por)}" onclick="asignar('${t.id}','${sg.id}')">${esc(nom(sg.id))}</button>`:''}</div>`}
 function vTareas(){
-  const L=TAREAS.filter(t=>(!FILTT.grupo||t.grupo===FILTT.grupo)&&(!FILTT.solo||t.responsable===ME.id));
-  const libres=TAREAS.filter(t=>!t.responsable&&t.estado!=='listo').length;
-  return `<div class="stack">
-    <div class="row wrap-ok"><button class="chip" aria-pressed="${FILTT.solo}" onclick="FILTT.solo=!FILTT.solo;render()">Solo las mías</button>${libres?`<span class="pill sun">${libres} sin responsable</span>`:''}</div>
-    <div class="chips"><button class="chip" aria-pressed="${!FILTT.grupo}" onclick="FILTT.grupo='';render()">Todos los grupos</button>${GRUPOS.map(g=>`<button class="chip" aria-pressed="${FILTT.grupo===g}" onclick="FILTT.grupo='${g}';render()">${g}</button>`).join('')}</div></div>
-  <div class="kanban" style="margin-top:16px">${ESTADOS.map(([k,l])=>{const C=L.filter(t=>t.estado===k).sort((a,b)=>ordPrio(a)-ordPrio(b));return `<div class="col"><h3>${l} <span class="pill">${C.length}</span></h3><div class="stack">${C.map(tCard).join('')||`<div class="muted tiny" style="padding:8px 2px">Nada aquí.</div>`}</div></div>`}).join('')}</div>
-  ${esAdmin()?`<div class="row" style="margin-top:18px"><button class="btn sm" onclick="abrirTurnos()">${ic('list')} Generar turnos</button></div>`:''}`;
+  if(SUBT==='equipo')return vTabsTareas()+vEquipo();
+  if(SUBT==='carros')return vTabsTareas()+vCarros();
+  const L=TAREAS.filter(t=>!FILTT.grupo||t.grupo===FILTT.grupo).sort((a,b)=>ordPrio(a)-ordPrio(b)||String(a.fecha||'9').localeCompare(String(b.fecha||'9')));
+  const mias=L.filter(t=>t.responsable===ME.id&&estadoAuto(t)!=='listo'), libres=L.filter(t=>estadoAuto(t)==='por_hacer'), otras=L.filter(t=>t.responsable&&t.responsable!==ME.id&&estadoAuto(t)==='en_curso'), listas=L.filter(t=>estadoAuto(t)==='listo');
+  const tot=L.length, pct=tot?Math.round(listas.length/tot*100):0;
+  return vTabsTareas()+`<div class="card" style="margin-top:14px"><div class="row"><div class="grow"><div class="eyebrow">Preparativos</div><div class="ah-t">${pct}% listo</div><div class="muted tiny">${listas.length} de ${tot} hechas · ${libres.length} sin responsable</div></div>${libres.length?`<button class="btn sm sun" onclick="repartir(this)">${ic('spark')} Repartir con IA</button>`:''}</div>
+      <div class="bar" style="height:8px;margin-top:10px"><i class="p" style="left:0;width:${pct}%"></i></div></div>
+    <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FILTT.grupo}" onclick="FILTT.grupo='';render()">Todo</button>${GRUPOS.map(g=>`<button class="chip" aria-pressed="${FILTT.grupo===g}" onclick="FILTT.grupo='${g}';render()">${g}</button>`).join('')}</div>
+    ${mias.length?`<div class="sec-h"><h2>Te toca</h2></div><div class="card tlist">${mias.map(t=>tRow(t)).join('')}</div>`:''}
+    ${libres.length?`<div class="sec-h"><h2>Sin responsable</h2><span class="muted tiny">sugerido por especialidad</span></div><div class="card tlist">${libres.map(t=>tRow(t,true)).join('')}</div>`:''}
+    ${otras.length?`<div class="sec-h"><h2>En manos de otros</h2></div><div class="card tlist">${otras.map(t=>tRow(t)).join('')}</div>`:''}
+    ${listas.length?`<details class="card tlist" style="margin-top:18px"><summary style="cursor:pointer;font-weight:700">Hechas · ${listas.length}</summary>${listas.map(t=>tRow(t)).join('')}</details>`:''}
+    ${!tot?`<div class="card flat empty" style="margin-top:14px">${ic('tareas')}<div>No hay tareas. Toca ＋ y dicta lo que hay que hacer.</div></div>`:''}
+    ${esAdmin()?`<div class="row" style="margin-top:18px"><button class="btn sm" onclick="abrirTurnos()">${ic('list')} Generar turnos</button></div>`:''}`;
 }
+async function hecha(id,si){await patchTarea(id,{estado:si?'listo':'por_hacer'},false);if(si)toast('¡Hecha!')}
+async function asignar(id,pid){await patchTarea(id,{responsable:pid},false);toast('Asignada a '+nom(pid))}
+async function repartir(btn){btn.disabled=true;const L=TAREAS.filter(t=>estadoAuto(t)==='por_hacer');let n=0;
+  try{for(const t of L){const sg=sugerido(t);if(!sg)continue;await API.saveTarea({...t,responsable:sg.id,estado:'en_curso'},false);TAREAS=TAREAS.map(x=>x.id===t.id?{...x,responsable:sg.id}:x);n++}
+    await cargar();toast(`${n} tarea${n===1?' repartida':'s repartidas'} por especialidad`);render()}catch(e){btn.disabled=false;toast(e.message)}}
 const ordPrio=t=>({alta:1,media:2,baja:3}[t.prioridad]||2);
 const PRION={alta:'Alta',media:'Media',baja:'Baja'};
 function tCard(t){const st=t.subtareas||[],ok=st.filter(s=>s.ok).length,ev=EVENTOS.find(e=>e.id===t.evento_id);
@@ -1180,16 +1301,16 @@ function tCard(t){const st=t.subtareas||[],ok=st.filter(s=>s.ok).length,ev=EVENT
 function abrirTarea(id){
   const t=TAREAS.find(x=>x.id===id); if(!t) return; const ev=EVENTOS.find(e=>e.id===t.evento_id);
   openSheet(`${sheetH(esc(t.titulo))}<div class="stack">
-    <div class="seg">${ESTADOS.map(([k,l])=>`<button aria-pressed="${t.estado===k}" onclick="patchTarea('${t.id}',{estado:'${k}'})">${l}</button>`).join('')}</div>
+    ${estadoAuto(t)==='listo'?`<div class="banner tide"><b>Hecha.</b>&nbsp;<button class="btn ghost sm" style="padding:0;min-height:0" onclick="patchTarea('${t.id}',{estado:'por_hacer',subtareas:(TAREAS.find(x=>x.id==='${t.id}').subtareas||[]).map(s=>({...s,ok:false}))})">Reabrir</button></div>`:`<button class="btn primary block" onclick="patchTarea('${t.id}',{estado:'listo'})">${ic('tareas')} Marcar como hecha</button>`}
     <div class="card"><dl class="kv"><dt>Responsable</dt><dd>${t.responsable?esc(nom(t.responsable)):'Nadie todavía'}</dd><dt>Grupo</dt><dd>${esc(t.grupo||'—')}</dd><dt>Prioridad</dt><dd>${PRION[t.prioridad]||'Media'}</dd>${t.fecha?`<dt>Fecha</dt><dd>${diaSem(t.fecha)} ${fechaCorta(t.fecha)}</dd>`:''}${ev?`<dt>Evento</dt><dd>${esc(ev.titulo)}</dd>`:''}<dt>Creada por</dt><dd>${esc(nom(t.creado_por))}</dd></dl>${t.detalle?`<p class="muted" style="margin:10px 0 0">${esc(t.detalle)}</p>`:''}</div>
-    ${t.responsable!==ME.id?`<button class="btn sun block" onclick="patchTarea('${t.id}',{responsable:ME.id,estado:'${t.estado==='por_hacer'?'en_curso':t.estado}'})">Yo me encargo</button>`:`<button class="btn block" onclick="patchTarea('${t.id}',{responsable:null})">Soltar la tarea</button>`}
+    ${t.responsable!==ME.id?`<button class="btn sun block" onclick="patchTarea('${t.id}',{responsable:ME.id})">Yo me encargo</button>`:`<button class="btn block" onclick="patchTarea('${t.id}',{responsable:null})">Soltar la tarea</button>`}
     <div class="card"><div class="eyebrow" style="margin-bottom:4px">Checklist</div>
       ${(t.subtareas||[]).map((s,i)=>`<label class="sub-item"><input type="checkbox" ${s.ok?'checked':''} onchange="checkSub('${t.id}',${i},this.checked)"><span class="grow" style="${s.ok?'text-decoration:line-through;color:var(--ink-3)':''}">${esc(s.txt)}</span></label>`).join('')}
       <div class="row" style="margin-top:8px"><input id="nsub" class="in" placeholder="Agregar un paso" onkeydown="if(event.key==='Enter')addSub('${t.id}')"><button class="btn sm" onclick="addSub('${t.id}')">${ic('plus')}</button></div></div>
     <div class="row"><button class="btn grow" onclick="abrirFormTarea('${t.id}')">${ic('pen')} Editar</button>${t.creado_por===ME.id||esAdmin()?`<button class="btn danger" onclick="borrarTarea('${t.id}',this)">Borrar</button>`:''}</div></div>`);
 }
-async function patchTarea(id,cambios,reabrir=true){const t=TAREAS.find(x=>x.id===id);try{await API.saveTarea({...t,...cambios},false);await cargar();if(reabrir)abrirTarea(id);render()}catch(e){toast(e.message)}}
-function checkSub(id,i,v){const t=TAREAS.find(x=>x.id===id);const st=(t.subtareas||[]).map((s,k)=>k===i?{...s,ok:v}:s);const todas=st.length&&st.every(s=>s.ok);patchTarea(id,{subtareas:st,...(todas&&t.estado!=='listo'?{estado:'listo'}:{})});if(todas)toast('Checklist completo: tarea lista')}
+async function patchTarea(id,cambios,reabrir=true){const t=TAREAS.find(x=>x.id===id);const n={...t,...cambios};n.estado=cambios.estado==='listo'?'listo':estadoAuto({...n,estado:''});try{await API.saveTarea(n,false);await cargar();if(reabrir)abrirTarea(id);render()}catch(e){toast(e.message)}}
+function checkSub(id,i,v){const t=TAREAS.find(x=>x.id===id);const st=(t.subtareas||[]).map((s,k)=>k===i?{...s,ok:v}:s);const todas=st.length&&st.every(s=>s.ok);patchTarea(id,{subtareas:st});if(todas)toast('Checklist completo: la tarea pasó a hechas')}
 function addSub(id){const v=$('#nsub').value.trim();if(!v)return;const t=TAREAS.find(x=>x.id===id);patchTarea(id,{subtareas:[...(t.subtareas||[]),{txt:v,ok:false}]})}
 async function borrarTarea(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='¿Seguro?';return}try{await API.borrarTarea(id);await cargar();closeSheet();toast('Tarea borrada');render()}catch(e){toast(e.message)}}
 function abrirFormTarea(id,pre){
@@ -1205,7 +1326,7 @@ function abrirFormTarea(id,pre){
     <div class="field"><label for="tev">Evento</label><select id="tev" class="in" onchange="TF.evento_id=this.value||null"><option value="">Ninguno</option>${EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>`<option value="${e.id}" ${t.evento_id===e.id?'selected':''}>${esc(e.titulo)}</option>`).join('')}</select></div>
     <button class="btn primary block" onclick="guardarTarea()">Guardar</button></div>`);
 }
-async function guardarTarea(){if(!String(TF.titulo).trim()){toast('Escribe qué hay que hacer');return}const n=TF.nuevo;const t={...TF};delete t.nuevo;if(n)t.creado_por=ME.id;try{await API.saveTarea(t,n);await cargar();closeSheet();toast(n?'Tarea creada':'Tarea actualizada');render()}catch(e){toast(e.message)}}
+async function guardarTarea(){if(!String(TF.titulo).trim()){toast('Escribe qué hay que hacer');return}const n=TF.nuevo;const t={...TF};delete t.nuevo;t.estado=estadoAuto({...t,estado:t.estado==='listo'?'listo':''});if(n)t.creado_por=ME.id;try{await API.saveTarea(t,n);await cargar();closeSheet();toast(n?'Tarea creada':'Tarea actualizada');render()}catch(e){toast(e.message)}}
 function abrirTurnos(){
   const dias=diasViaje();
   openSheet(`${sheetH('Generar turnos')}<div class="stack"><p class="muted">Reparte los oficios de la casa rotando entre todos. Crea una tarea por turno, en el grupo Turnos.</p>
@@ -1226,7 +1347,7 @@ async function generarTurnos(){
 
 /* ---------- PLANES (eventos y noches temáticas) ---------- */
 function evCard(e){const vs=votosDe(e.id).length;
-  return `<button class="ev ${e.bloque==='noche'?'noche':''}" onclick="abrirEvento('${e.id}')"><div class="blk">${BLOQN[e.bloque]||'—'}${e.hora?`<br>${esc(String(e.hora).slice(0,5))}`:''}</div>
+  return ` <button class="ev ${esNoche(e)?'noche':''}" onclick="abrirEvento('${e.id}')">${imgTag(imgEvento(e),'ev-img')}<div class="blk">${BLOQN[e.bloque]||'—'}${e.hora?`<br>${esc(String(e.hora).slice(0,5))}`:''}</div>
     <div style="min-width:0"><div class="eyebrow">${esc(e.tematica||'Plan')}</div><div class="t">${esc(e.titulo)}</div>
     <div class="row wrap-ok" style="gap:6px;margin-top:6px">${e.dress_code?`<span class="pill sun">${esc(e.dress_code)}</span>`:''}${e.lugar?`<span class="pill">${esc(e.lugar)}</span>`:''}${e.estado==='hecho'?'<span class="pill ok">Hecho</span>':''}${vs?`<span class="pill ${e.estado==='propuesta'?'':'ok'}">${vs} ${e.estado==='propuesta'?'votos':'van'}</span>`:''}${e.estado!=='propuesta'&&voyA(e)?'<span class="pill sun">En tu agenda</span>':''}</div>
     ${menuDeEvento(e).length?`<div class="tiny" style="margin-top:6px"><b>Menú:</b> <span class="muted">${menuDeEvento(e).map(esc).join(' · ')}</span></div>`:''}
@@ -1260,7 +1381,7 @@ function vPrograma(){
   if(!dias.length&&!of.length) return `<div class="card flat empty" style="margin-top:14px">${ic('planes')}<div>Todavía no hay fechas ni planes oficiales.${esAdmin()?' Pon las fechas en Admin y pasa propuestas al programa.':''}</div></div>`;
   return ahoraCard()+`<div class="row wrap-ok" style="margin-top:12px"><button class="chip" aria-pressed="${!MIAG}" onclick="MIAG=false;render()">Todo el viaje</button><button class="chip sunny" aria-pressed="${MIAG}" onclick="MIAG=true;render()">Mi agenda</button></div>`
   +dias.map((d,i)=>{const E=of.filter(e=>e.dia===d), C=comidasDia(d).filter(c=>!EVENTOS.some(e=>e.id===c.evento_id&&e.dia===d&&E.includes(e))&&(!MIAG||miAsis(c.id).va!==false));
-    const noche=EVENTOS.find(e=>e.dia===d&&e.bloque==='noche'&&(e.estado==='oficial'||e.estado==='hecho')&&e.estilo);
+    const noche=EVENTOS.filter(e=>e.dia===d&&esNoche(e)&&(e.estado==='oficial'||e.estado==='hecho')&&e.estilo).sort((a,b)=>minEv(b)-minEv(a))[0];
     const L=[...E.map(e=>({m:minEv(e),h:evCard(e)})),...C.map(c=>({m:minDe(c.hora)??({desayuno:510,almuerzo:810,cena:1200}[c.turno]),h:mealRow(c)}))].sort((a,b)=>a.m-b.m);
     return `<div class="day"><div class="day-h"><b>Día ${i+1}</b><span class="muted">${diaSem(d)} ${fechaCorta(d)}</span>${d===hoyISO()?'<span class="pill sun">Hoy</span>':''}</div>
       ${noche?`<div class="day-tema">${(noche.estilo.paleta||[]).filter(hexOk).slice(0,4).map(c=>`<i style="background:${c}"></i>`).join('')}<span>${esc(noche.estilo.nombre)}</span></div>`:''}
@@ -1364,7 +1485,7 @@ function abrirMiPerfil(){
     <div class="field"><span class="lbl">Tu superpoder en el viaje</span><div class="chips">${SUPERPODERES.map(x=>`<button class="chip sunny" aria-pressed="${pf.superpoder===x}" onclick="PF.perfil.superpoder='${x}';this.parentElement.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===this))">${x}</button>`).join('')}</div></div>
     <div class="field"><label for="pf_bio">Algo sobre ti</label><textarea id="pf_bio" class="in" rows="3" oninput="PF.perfil.bio=this.value">${esc(pf.bio||'')}</textarea></div>
     <button class="btn primary block" onclick="guardarPerfil()">Guardar mi ficha</button>
-    <div class="row"><button class="btn grow" onclick="cambiarTema()">${ic('moon')} Tema día / noche</button><button class="btn danger" onclick="salir()">${ic('out')} Salir</button></div>
+    <button class="btn danger block" onclick="salir()">${ic('out')} Salir</button>
     ${MODO==='demo'?`<button class="btn ghost" onclick="Demo.reiniciar();salir()">Reiniciar datos de demo</button>`:''}</div>`);
 }
 async function fotoPerfil(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,512,.85);PF.perfil.foto=MODO==='demo'?dataUrl:await API.subirFoto('marea-perfiles',blob,dataUrl);if(MODO!=='demo')FOTOS[PF.perfil.foto]=dataUrl;await guardarPerfil(true)}catch(e){toast(e.message)}}
@@ -1372,7 +1493,7 @@ async function guardarPerfil(seguir){try{await API.saveMiPerfil(PF.apodo.trim(),
 
 /* ---------- ADMIN ---------- */
 let ADM=null, FADM='';
-const recordatorioFicha=()=>`🙋 Falta llenar la ficha en Marea Alta: alergias o lo que no comes, tu talento para el show y tu canción de karaoke. Sirve para armar el menú y el itinerario. Entra aquí: ${APP_URL}`;
+const recordatorioFicha=()=>`🙋 Falta llenar tu ficha en Beach Trip: alergias o lo que no comes, tu talento para el show y tu canción de karaoke. Sirve para armar el menú y el itinerario. Entra aquí: ${APP_URL}`;
 function vAdmin(){
   if(!esAdmin()) return '';
   if(!ADM){API.admin('listar').then(r=>{ADM=r.personas;render()}).catch(e=>{ADM=[];toast(e.message)});return `<div class="card flat empty">Cargando invitados…</div>`}
@@ -1459,7 +1580,7 @@ async function cargaMasiva(){
   $('#cmr').innerHTML=`<div class="card"><div class="list">${out.map((o,i)=>`<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(o.nombre)}</div><div class="s">${o.ok?'Clave '+esc(o.r.pin):esc(o.err)}</div></div>${o.ok?`<button class="btn sm" onclick="copiar(CM[${i}].r.mensaje,'Mensaje copiado')">${ic('copy')}</button>`:'<span class="pill bad">error</span>'}</div>`).join('')}</div></div>
     <button class="btn primary block" style="margin-top:10px" onclick="copiar(CM.filter(o=>o.ok).map(o=>o.r.mensaje).join('\\n\\n———\\n\\n'),'Todos los mensajes copiados')">Copiar todos los mensajes</button>`;
 }
-async function guardarViaje(){const c={nombre:$('#cv_n').value.trim()||'Marea Alta',lugar:$('#cv_l').value.trim(),desde:$('#cv_d').value||null,hasta:$('#cv_h').value||null,moneda:$('#cv_m').value};
+async function guardarViaje(){const c={nombre:$('#cv_n').value.trim()||'Beach Trip',lugar:$('#cv_l').value.trim(),desde:$('#cv_d').value||null,hasta:$('#cv_h').value||null,moneda:$('#cv_m').value};
   if(c.desde&&c.hasta&&c.hasta<c.desde){toast('La fecha final va después de la inicial');return}
   try{await API.saveConfig(c);await cargar();toast('Viaje guardado');render()}catch(e){toast(e.message)}}
 function respaldoJSON(){const j=JSON.stringify({exportado:new Date().toISOString(),config:CFG,personas:PERSONAS,gastos:GASTOS,tareas:TAREAS,eventos:EVENTOS,votos:VOTOS,etiquetas:ETIQUETAS,comidas:COMIDAS,platos:PLATOS,asistencia:ASIST,presupuesto:PRESU},null,1);
@@ -1510,7 +1631,8 @@ function fotoUrl(ref){if(!ref)return'';if(String(ref).startsWith('data:'))return
 function platoVisual(p,cls=''){
   const url=fotoUrl(p.foto), t=(p.tags||[]).join(' '), beb=/cafe|jugo|vino|cerveza|margarita|sangria|bebida|agua de coco|coctel|cocktail/.test(norm(p.nombre));
   const [bg,fg]=/Healthy/.test(t)?['var(--ok-soft)','var(--ok)']:/Coste/.test(t)?['var(--sun-soft)','var(--sun)']:beb?['var(--tide-soft)','var(--tide-deep)']:['var(--surface-2)','var(--ink-2)'];
-  return `<span class="pv ${cls}" style="background:${bg};color:${fg}">${url?`<img src="${esc(url)}" alt="">`:ic(beb?'bebidas':'menu')}</span>`;
+  const ilu=!url&&imgPlato(p);
+  return `<span class="pv ${cls}" style="background:${bg};color:${fg}">${url?`<img src="${esc(url)}" alt="">`:ic(beb?'bebidas':'menu')+(ilu?imgTag(ilu,'pv-ilu'):'')}</span>`;
 }
 let DIA_MENU=null, SUBM='carta', RANGO_C='2';
 function vMenu(){
@@ -1735,7 +1857,7 @@ function vDress(){
 async function subirInspiracion(evId,inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,900,.8);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);if(MODO!=='demo')FOTOS[ref]=dataUrl;await API.addInspiracion({id:uid(),evento_id:evId,persona_id:ME.id,foto:ref,nota:''});await cargar();toast('Inspiración subida');render()}catch(e){toast(e.message)}}
 /* itinerario: comidas y planes del día en una sola línea de tiempo */
 const minDe=h=>{const m=String(h||'').match(/^(\d{1,2}):(\d{2})/);return m?(+m[1])*60+(+m[2]):null};
-const minEv=e=>minDe(e.hora)??({manana:600,tarde:960,noche:1290}[e.bloque]||1400);
+const minEv=e=>minDe(e.hora)??({manana:600,tarde:960,atardecer:1050,noche:1290}[e.bloque]||1400);
 function mealRow(c){const ps=platosDe(c.id);
   return `<button class="meal" onclick="DIA_MENU='${c.dia}';SUBM='carta';irA('menu')"><span class="pv sm" style="background:var(--surface-2);color:var(--ink-2)">${ic('menu')}</span>
     <div style="min-width:0"><div class="tiny muted">${TURNON[c.turno]} · ${esc(String(c.hora||'').slice(0,5))}${c.modalidad==='cocinera'?' · cocinera':''}</div><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(ps.map(p=>p.nombre).join(' · ')||c.titulo)}</div></div></button>`}
@@ -1797,14 +1919,14 @@ function fotosHoyCard(){
 const INFO_VACIA={casa_titulo:'',casa_desc:'',airbnb_url:'',amenidades:[],casa_fotos:[],direccion:'',mapa_url:'',checkin:'',checkout:'',wifi_red:'',wifi_clave:'',que_llevar:[],reglas:[],contactos:[],faq:[]};
 const infoV=()=>({...INFO_VACIA,...(CFG.info||{})});
 const ESENCIAL=[['casa','La casa','hospedaje'],['donde','Cómo llegar','planes'],['wifi','WiFi','spark'],['llevar','Qué llevar','logistica'],['reglas','Reglas','list'],['contactos','Contactos','wa'],['faq','Preguntas','chat']];
-function esencialChips(){const I=infoV();const hay=k=>({casa:I.casa_fotos.length||I.casa_desc||I.airbnb_url,donde:I.direccion||I.checkin,wifi:I.wifi_red,llevar:I.que_llevar.length,reglas:I.reglas.length,contactos:I.contactos.length,faq:I.faq.length}[k]);
+function esencialChips(){const I=infoV();const hay=k=>({casa:true,donde:I.direccion||I.checkin,wifi:I.wifi_red,llevar:I.que_llevar.length,reglas:I.reglas.length,contactos:I.contactos.length,faq:I.faq.length}[k]);
   const L=ESENCIAL.filter(([k])=>hay(k));
   if(!L.length) return esAdmin()?`<button class="card flat empty" style="display:block;width:100%;margin-top:14px;cursor:pointer" onclick="abrirInfoAdmin()">Agrega lo esencial: dirección, WiFi, qué llevar… <b style="color:var(--tide)">Llenar ahora</b></button>`:'';
   return `<div class="esen">${L.map(([k,l,i])=>`<button onclick="verEsencial('${k}')"><span class="ic">${ic(i)}</span><span>${l}</span></button>`).join('')}</div>`}
 function verEsencial(k){
   const I=infoV(), li=a=>a.map(x=>`<div class="sub-item">${esc(x)}</div>`).join('');
   const cuerpo={
-    casa:`${I.casa_fotos.length?`<div class="casa-g">${I.casa_fotos.map(r=>{const u=fotoUrl(r);return u?`<img src="${esc(u)}" alt="La casa">`:''}).join('')}</div>`:''}
+    casa:`<div class="casa-g">${[...I.casa_fotos.map(fotoUrl).filter(Boolean),...CASA_DEF].map(u=>imgTag(u,'','La casa')).join('')}</div>
       ${I.casa_titulo?`<h3 style="font-size:22px">${esc(I.casa_titulo)}</h3>`:''}${I.casa_desc?`<p style="margin:0;white-space:pre-line">${esc(I.casa_desc)}</p>`:''}
       ${I.amenidades.length?`<div class="chips">${I.amenidades.map(a=>`<span class="pill tide">${esc(a)}</span>`).join('')}</div>`:''}
       ${/^https:\/\/(www\.)?airbnb\./.test(I.airbnb_url)?`<a class="btn primary block" href="${esc(I.airbnb_url)}" target="_blank" rel="noopener">Ver la casa en Airbnb</a>`:''}`,
@@ -1866,6 +1988,168 @@ function infoLocal(t){const r={local:true,que_llevar:[],reglas:[],contactos:[],f
   const air=t.match(/https:\/\/(?:www\.)?airbnb\.[a-z.]+\/rooms\/\d+/i);if(air)r.airbnb_url=air[0];
   t.split('\n').forEach(l=>{if(/^\s*(no |prohibido|cada quien|favor |por favor|respetar)/i.test(l))r.reglas.push(l.trim());const tel=l.match(/\+?\d[\d\s-]{7,}\d/);if(tel){const nm=l.replace(tel[0],'').replace(/[:\-–·]+\s*$/,'').trim();if(nm)r.contactos.push({nombre:nm.slice(0,40),rol:'',tel:tel[0].trim()})}});
   return r}
+
+/* ============================================================================
+   EQUIPO (quién lleva qué) y CARROS (puestos y maletas)
+   ============================================================================ */
+const CAT_EQ=[['audio','Audio y proyector'],['juegos','Juegos de mesa'],['playa','Juegos de playa'],['frio','Coolers y frío'],['fotos','Fotos y video'],['cocina','Cocina y parrilla'],['otros','Otros']];
+const CAT_EQN=Object.fromEntries(CAT_EQ);
+const EST_EQ=[['falta','Nadie lo lleva','bad'],['confirmado','Alguien lo lleva','sol'],['empacado','Listo','ok'],['en_casa','Listo','ok']];
+const estEq=e=>(e.estado==='empacado'||e.estado==='en_casa')?'empacado':e.responsable?'confirmado':'falta';
+const EST_EQN=Object.fromEntries(EST_EQ.map(x=>[x[0],x]));
+const EQUIPO_BASE=[['Parlante','audio',1],['Micrófonos','audio',2],['Proyector','audio',1],['Cable HDMI y extensión','audio',1],['Monopoly','juegos',1],['Risk','juegos',1],['UNO y cartas','juegos',1],
+  ['Red de vóley','playa',1],['Pelota','playa',2],['Paletas / raquetas de playa','playa',4],['Spike ball','playa',1],['Coolers','frio',2],['Fundas de hielo','frio',6],['Trípode','fotos',1],['Gafas de sol para la sesión','fotos',1],['Carbón y pinzas de parrilla','cocina',1]];
+let SUBT='tareas', TRAY='ida';
+function vTabsTareas(){return `<div class="seg"><button aria-pressed="${SUBT==='tareas'}" onclick="SUBT='tareas';render()">Tareas</button><button aria-pressed="${SUBT==='equipo'}" onclick="SUBT='equipo';render()">Equipo</button><button aria-pressed="${SUBT==='carros'}" onclick="SUBT='carros';render()">Carros</button></div>`}
+function vEquipo(){
+  const tot=EQUIPO.length, listos=EQUIPO.filter(e=>estEq(e)==='empacado').length, faltan=EQUIPO.filter(e=>!e.responsable&&e.estado!=='en_casa').length;
+  return `<div class="card" style="margin-top:14px"><div class="row"><div class="grow"><div class="eyebrow">Equipo del viaje</div><div class="ah-t">${listos} de ${tot} listos</div><div class="muted tiny">${faltan?`${faltan} cosa${faltan===1?'':'s'} sin quién la lleve`:'Todo tiene responsable'}</div></div><button class="btn sm primary" onclick="abrirFormEquipo()">${ic('plus')} Agregar</button></div>
+    <div class="bar" style="height:8px;margin-top:10px"><i class="p" style="left:0;width:${tot?listos/tot*100:0}%"></i></div></div>
+    ${CAT_EQ.map(([k,l])=>{const L=EQUIPO.filter(e=>e.categoria===k);return L.length?`<div class="sec-h"><h2 style="font-size:17px">${l}</h2></div><div class="card"><div class="list">${L.map(eqRow).join('')}</div></div>`:''}).join('')||`<div class="card flat empty" style="margin-top:14px">Todavía no hay equipo cargado.<button class="btn primary" style="margin-top:10px" onclick="cargarEquipoBase(this)">Cargar la lista base</button></div>`}`;
+}
+function eqRow(e){const st=EST_EQN[estEq(e)], ev=EVENTOS.find(x=>x.id===e.evento_id);
+  return `<button class="item" onclick="abrirEquipo('${e.id}')">${e.responsable?av(e.responsable):`<span class="av" style="background:var(--sun-soft);color:var(--sun)">?</span>`}
+    <div class="grow"><div class="t">${esc(e.nombre)}${(+e.cantidad||1)>1?` <span class="muted num">×${e.cantidad}</span>`:''}</div><div class="s">${e.responsable?'Lo lleva '+esc(nom(e.responsable)):'Nadie lo lleva todavía'}${ev?' · '+esc(ev.titulo):''}</div></div><span class="pill ${st[2]}">${st[1]}</span></button>`}
+function abrirEquipo(id){const e=EQUIPO.find(x=>x.id===id); if(!e) return;
+  openSheet(`${sheetH(esc(e.nombre))}<div class="stack">
+    <div class="muted">${CAT_EQN[e.categoria]||''}${(+e.cantidad||1)>1?' · '+e.cantidad+' unidades':''}${e.nota?' · '+esc(e.nota):''}</div>
+    ${e.responsable!==ME.id?`<button class="btn sun block" onclick="patchEquipo('${e.id}',{responsable:ME.id,estado:'${e.estado==='falta'?'confirmado':e.estado}'})">Yo lo llevo</button>`:`<button class="btn block" onclick="patchEquipo('${e.id}',{responsable:null,estado:'falta'})">Ya no lo llevo</button>`}
+    ${e.responsable?(estEq(e)==='empacado'?`<div class="banner tide">Listo: empacado o ya en la casa. <button class="btn ghost sm" style="padding:0;min-height:0" onclick="patchEquipo('${e.id}',{estado:'confirmado'})">Deshacer</button></div>`:`<button class="btn primary block" onclick="patchEquipo('${e.id}',{estado:'empacado'})">${ic('tareas')} Ya está empacado</button>`):''}
+    <div class="row"><button class="btn grow" onclick="abrirFormEquipo('${e.id}')">${ic('pen')} Editar</button>${e.creado_por===ME.id||esAdmin()?`<button class="btn danger" onclick="borrarEquipo('${e.id}',this)">Borrar</button>`:''}</div></div>`)}
+async function patchEquipo(id,c){const e=EQUIPO.find(x=>x.id===id);try{await API.saveEquipo({...e,...c},false);await cargar();abrirEquipo(id);render()}catch(err){toast(err.message)}}
+async function borrarEquipo(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='¿Seguro?';return}try{await API.borrarEquipo(id);await cargar();closeSheet();toast('Borrado');render()}catch(e){toast(e.message)}}
+function abrirFormEquipo(id){const e=id?EQUIPO.find(x=>x.id===id):{id:uid(),nombre:'',categoria:'otros',cantidad:1,responsable:null,estado:'falta',evento_id:null,nota:''};
+  window.EQ={...e,nuevo:!id};
+  openSheet(`${sheetH(id?'Editar':'Agregar al equipo')}<div class="stack">
+    <div class="grid2"><div class="field"><label for="eq_n">Qué</label><input id="eq_n" class="in" value="${esc(e.nombre)}" oninput="EQ.nombre=this.value" autofocus placeholder="Ej. Trípode"></div><div class="field"><label for="eq_c">Cantidad</label><input id="eq_c" class="in num" inputmode="numeric" value="${esc(e.cantidad||1)}" oninput="EQ.cantidad=parseInt(this.value)||1"></div></div>
+    <div class="field"><span class="lbl">Tipo</span><div class="chips">${CAT_EQ.map(([k,l])=>`<button class="chip" aria-pressed="${e.categoria===k}" onclick="EQ.categoria='${k}';this.parentElement.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===this))">${l}</button>`).join('')}</div></div>
+    <div class="field"><label for="eq_r">Quién lo lleva</label><select id="eq_r" class="in" onchange="EQ.responsable=this.value||null;if(EQ.responsable&&EQ.estado==='falta')EQ.estado='confirmado'"><option value="">Nadie todavía</option>${activos().map(p=>`<option value="${p.id}" ${e.responsable===p.id?'selected':''}>${esc(nom(p.id))}</option>`).join('')}</select></div>
+    <div class="field"><label for="eq_e">Para qué plan</label><select id="eq_e" class="in" onchange="EQ.evento_id=this.value||null"><option value="">Para todo el viaje</option>${EVENTOS.filter(x=>x.estado!=='cancelado').map(x=>`<option value="${x.id}" ${e.evento_id===x.id?'selected':''}>${esc(x.titulo)}</option>`).join('')}</select></div>
+    <div class="field"><label for="eq_x">Nota</label><input id="eq_x" class="in" value="${esc(e.nota||'')}" oninput="EQ.nota=this.value" placeholder="Ej. el de Kevin tiene Bluetooth"></div>
+    <button class="btn primary block" onclick="guardarEquipo()">Guardar</button></div>`)}
+async function guardarEquipo(){if(!String(EQ.nombre).trim()){toast('Escribe qué es');return}const n=EQ.nuevo,e={...EQ};delete e.nuevo;if(n)e.creado_por=ME.id;try{await API.saveEquipo(e,n);await cargar();closeSheet();toast('Guardado');render()}catch(err){toast(err.message)}}
+async function cargarEquipoBase(btn){if(btn)btn.disabled=true;try{for(const[nombre,categoria,cantidad]of EQUIPO_BASE)await API.saveEquipo({id:uid(),nombre,categoria,cantidad,responsable:null,estado:'falta',evento_id:null,nota:'',creado_por:ME.id},true);await cargar();toast('Lista base cargada');render()}catch(e){toast(e.message)}}
+/* carros: cada quien elige su puesto; la app cuida puestos y maletas */
+function vCarros(){
+  const P=PASAJEROS.filter(p=>p.trayecto===TRAY), V=VEHICULOS, sin=activos().filter(x=>!P.some(p=>p.persona_id===x.id));
+  const mio=P.find(p=>p.persona_id===ME.id);
+  return `<div class="row wrap-ok" style="margin-top:14px"><button class="chip" aria-pressed="${TRAY==='ida'}" onclick="TRAY='ida';render()">Ida</button><button class="chip" aria-pressed="${TRAY==='regreso'}" onclick="TRAY='regreso';render()">Regreso</button><span class="grow"></span><button class="btn sm primary" onclick="abrirFormCarro()">${ic('plus')} Carro</button></div>
+    ${V.map(v=>{const pv=P.filter(p=>p.vehiculo_id===v.id),usados=pv.length+(v.conductor&&!pv.some(p=>p.persona_id===v.conductor)?1:0),mal=pv.reduce((a,p)=>a+(+p.maletas||0),0),lleno=usados>=(+v.puestos||0);
+      return `<div class="card" style="margin-top:12px"><div class="row" style="align-items:flex-start"><span class="cat-dot">${ic('transporte')}</span><div class="grow"><b>${esc(v.nombre)}</b><div class="muted tiny">${v.conductor?'Maneja '+esc(nom(v.conductor)):'Sin conductor'}${v.salida?' · sale '+esc(v.salida):''}</div></div>${esAdmin()||v.creado_por===ME.id?`<button class="btn ghost sm" onclick="abrirFormCarro('${v.id}')">Editar</button>`:''}</div>
+        <div class="grid2" style="margin-top:10px"><div><div class="eyebrow">Puestos</div><div class="amt ${lleno?'neg':''}">${usados} / ${v.puestos}</div><div class="bar"><i class="p" style="left:0;width:${Math.min(100,usados/(+v.puestos||1)*100)}%;${lleno?'background:var(--bad)':''}"></i></div></div>
+          <div><div class="eyebrow">Maletas</div><div class="amt ${mal>(+v.maletas||0)?'neg':''}">${mal} / ${v.maletas}</div><div class="bar"><i class="p" style="left:0;width:${Math.min(100,mal/(+v.maletas||1)*100)}%;${mal>(+v.maletas||0)?'background:var(--bad)':''}"></i></div></div></div>
+        <div class="chips" style="margin-top:10px">${v.conductor?`<span class="pill tide">${esc(nom(v.conductor))} (maneja)</span>`:''}${pv.filter(p=>p.persona_id!==v.conductor).map(p=>`<span class="pill">${esc(nom(p.persona_id))}${+p.maletas?` · ${p.maletas} maleta${+p.maletas===1?'':'s'}`:''}</span>`).join('')}</div>
+        ${mio&&mio.vehiculo_id===v.id?`<div class="row" style="margin-top:10px"><span class="grow tiny">Tus maletas:</span>${[0,1,2,3].map(n=>`<button class="chip" aria-pressed="${+mio.maletas===n}" onclick="subirme('${v.id}',${n})">${n}</button>`).join('')}<button class="btn ghost sm" onclick="bajarme()">Bajarme</button></div>`
+          :`<button class="btn block ${lleno?'':'sun'}" style="margin-top:10px" ${lleno?'disabled':''} onclick="subirme('${v.id}',1)">${lleno?'Lleno':'Me subo aquí'}</button>`}</div>`}).join('')||`<div class="card flat empty" style="margin-top:12px">${ic('transporte')}<div>Todavía no hay carros. Agrega el tuyo si vas manejando.</div></div>`}
+    ${sin.length?`<div class="banner warn" style="margin-top:12px"><div><b>Sin puesto para la ${TRAY}:</b> ${sin.map(x=>esc(nom(x.id))).join(', ')}</div></div>`:V.length?`<div class="banner tide" style="margin-top:12px">Todos tienen puesto para la ${TRAY}.</div>`:''}`;
+}
+async function subirme(vid,maletas){
+  const v=VEHICULOS.find(x=>x.id===vid), pv=PASAJEROS.filter(p=>p.trayecto===TRAY&&p.vehiculo_id===vid&&p.persona_id!==ME.id);
+  const usados=pv.length+1+(v.conductor&&v.conductor!==ME.id&&!pv.some(p=>p.persona_id===v.conductor)?1:0);
+  if(usados>(+v.puestos||0)){toast('Ese carro ya está lleno');return}
+  try{await API.setPasajero({vehiculo_id:vid,persona_id:ME.id,trayecto:TRAY,maletas});await cargar();render()}catch(e){toast(e.message)}
+}
+async function bajarme(){try{await API.quitarPasajero(ME.id,TRAY);await cargar();render()}catch(e){toast(e.message)}}
+function abrirFormCarro(id){const v=id?VEHICULOS.find(x=>x.id===id):{id:uid(),nombre:'',conductor:ME.id,puestos:5,maletas:4,salida:'',nota:''};window.VH={...v,nuevo:!id};
+  openSheet(`${sheetH(id?'Editar carro':'Agregar un carro')}<div class="stack">
+    <div class="field"><label for="vh_n">Nombre</label><input id="vh_n" class="in" value="${esc(v.nombre)}" oninput="VH.nombre=this.value" placeholder="Ej. Camioneta de Daniel" autofocus></div>
+    <div class="field"><label for="vh_c">Quién maneja</label><select id="vh_c" class="in" onchange="VH.conductor=this.value||null"><option value="">Por definir</option>${activos().map(p=>`<option value="${p.id}" ${v.conductor===p.id?'selected':''}>${esc(nom(p.id))}</option>`).join('')}</select></div>
+    <div class="grid2"><div class="field"><label for="vh_p">Puestos (con el conductor)</label><input id="vh_p" class="in num" inputmode="numeric" value="${esc(v.puestos)}" oninput="VH.puestos=parseInt(this.value)||1"></div><div class="field"><label for="vh_m">Maletas que caben</label><input id="vh_m" class="in num" inputmode="numeric" value="${esc(v.maletas)}" oninput="VH.maletas=parseInt(this.value)||0"></div></div>
+    <div class="field"><label for="vh_s">Sale de / a qué hora</label><input id="vh_s" class="in" value="${esc(v.salida||'')}" oninput="VH.salida=this.value" placeholder="Ej. Quito, 6:00 a.m."></div>
+    <button class="btn primary block" onclick="guardarCarro()">Guardar</button>${id?`<button class="btn danger block" onclick="borrarCarro('${id}',this)">Borrar carro</button>`:''}</div>`)}
+async function guardarCarro(){if(!String(VH.nombre).trim()){toast('Ponle un nombre');return}const n=VH.nuevo,v={...VH};delete v.nuevo;if(n)v.creado_por=ME.id;try{await API.saveVehiculo(v,n);if(n&&v.conductor){for(const t of['ida','regreso'])await API.setPasajero({vehiculo_id:v.id,persona_id:v.conductor,trayecto:t,maletas:1},v.conductor)}await cargar();closeSheet();toast('Carro guardado');render()}catch(e){toast(e.message)}}
+async function borrarCarro(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='¿Seguro? Se bajan todos';return}try{await API.borrarVehiculo(id);await cargar();closeSheet();toast('Carro borrado');render()}catch(e){toast(e.message)}}
+
+/* ---------- imágenes del viaje ----------
+   img/playa/*.jpg: ilustraciones vintage generadas con scripts/generar-imagenes.mjs (Gemini o Vertex).
+   img/casa/*.jpg: fotos reales de la casa. Si un archivo no existe, la imagen se quita sola y queda el ícono. */
+const IMG='img/playa/', CASA_DEF=['img/casa/sala.jpg','img/casa/terraza.jpg','img/casa/cuarto.jpg','img/casa/playa.jpg'];
+const imgTag=(src,cls='',alt='')=>`<img class="${cls}" src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()">`;
+function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));
+  for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill/,'sunset-grill'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas/,'fotos-gafas'],[/pizza|juegos de mesa|board/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t))return IMG+f+'.jpg';
+  return IMG+'portada.jpg'}
+function imgPlato(p){const t=norm(p.nombre+' '+(p.ingredientes||[]).join(' '));
+  for(const[re,f]of [[/ceviche/,'ceviche'],[/cafe/,'cafe'],[/yogur|bowl|avena|avocado|toast|fruta/,'desayuno-healthy'],[/tigrillo|bolon|pancakes de queso/,'desayuno-tradicional'],[/encocado|seco de|marinero|carne asada|menestra|patacon|pescado a la plancha/,'almuerzo-costeno'],[/taco|parrillada/,'sunset-grill'],[/pizza|picada/,'pizza-juegos'],[/tapa|queso|vino|sangria/,'tapas'],[/hamburgues|papas/,'hamburguesas'],[/margarita|jugo|agua de coco|cerveza/,'bebidas']])if(re.test(t))return IMG+'comida-'+f+'.jpg';
+  return ''}
+/* ---------- instalar la app en el teléfono ---------- */
+let PROMPT_INSTALAR=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();PROMPT_INSTALAR=e;if(ME&&TAB==='hoy')render()});
+const yaInstalada=()=>{try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}};
+function instalarCard(){
+  if(yaInstalada()||lsGet('marea_no_instalar')||!/fieldbuil\.ai$|workers\.dev$/.test(location.hostname))return '';
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(!PROMPT_INSTALAR&&!ios)return '';
+  return `<div class="card" style="margin-top:14px;background:var(--tide-soft)"><div class="row"><span class="cat-dot" style="background:var(--tide);color:var(--tide-ink)">${ic('hoy')}</span><div class="grow"><b>Ten Beach Trip como app</b><div class="tiny muted">${ios?'Toca Compartir y luego "Agregar a pantalla de inicio".':'Se abre sin navegador y sin buscar el link.'}</div></div>
+    ${PROMPT_INSTALAR?`<button class="btn sm primary" onclick="PROMPT_INSTALAR.prompt();PROMPT_INSTALAR=null">Instalar</button>`:''}<button class="x" aria-label="Ahora no" onclick="lsSet('marea_no_instalar','1');render()">${ic('x')}</button></div></div>`;
+}
+/* ============================================================================
+   CAUSAR UN GASTO (la lógica de AERO, sin lo contable):
+   la factura se lee, se valida que cuadre, se revisan duplicados, se propone
+   categoría y etiquetas por el historial del comercio, y se reparte.
+   ============================================================================ */
+const claveComercio=f=>{if(!f)return'';const r=String(f.ruc||'').replace(/\D/g,'');return r.length>=10?'ruc:'+r:(f.comercio?'n:'+norm(f.comercio).replace(/[^a-z0-9 ]/g,'').trim():'')};
+const comercioDe=f=>{const k=claveComercio(f);return k?COMERCIOS.find(c=>c.clave===k):null};
+/* ¿cuadra? subtotal + IVA = total (±0,05), IVA = 15 % de lo gravado, total = monto escrito */
+function cuadra(f,monto){
+  if(!f||f.total==null)return null; const pr=[], t=+f.total;
+  if(f.subtotal!=null&&f.impuestos!=null){const s=r2((+f.subtotal)+(+f.impuestos)+(+f.propina||0));if(Math.abs(s-t)>0.05)pr.push(`Subtotal + IVA${f.propina?' + propina':''} da ${money(s)}, no ${money(t)}`)}
+  if(f.subtotal!=null&&f.impuestos!=null&&+f.impuestos>0){const iva=r2((+f.subtotal)*0.15);if(Math.abs(iva-(+f.impuestos))>Math.max(0.05,(+f.subtotal)*0.005)&&(+f.subtotal_0||0)===0)pr.push(`El IVA (${money(f.impuestos)}) no es el 15 % de ${money(f.subtotal)}`)}
+  if(monto&&Math.abs(t-monto)>0.01)pr.push(`El total de la factura es ${money(t)} y el monto escrito es ${money(monto)}`);
+  return {ok:!pr.length,pr};
+}
+/* duplicado: mismo número de factura del mismo RUC, o mismo comercio + fecha + monto */
+function duplicadoDe(g){
+  const f=g.factura||{}, num=String(f.numero||'').replace(/\D/g,''), k=claveComercio(f);
+  return GASTOS.find(x=>x.id!==g.id&&!x.eliminado&&x.tipo==='gasto'&&(()=>{const xf=x.factura||{};
+    if(num&&xf.numero&&String(xf.numero).replace(/\D/g,'')===num&&claveComercio(xf)===k)return true;
+    return k&&claveComercio(xf)===k&&x.fecha===g.fecha&&Math.round(+x.monto*100)===Math.round(+g.monto*100)})())||null;
+}
+/* etiquetas automáticas: categoría + noche del gasto + las que sugiera la IA (máx. 3) */
+const ETQ_CAT={despensa:'despensa',bebidas:'bar',hospedaje:'casa',cocinera:'cocinera',logistica:'equipo',transporte:'transporte',restaurantes:'afuera',actividades:'actividades'};
+function etiquetasAuto(F){
+  const n=new Set(), ev=EVENTOS.find(e=>e.id===F.evento_id);
+  if(ETQ_CAT[F.categoria])n.add(ETQ_CAT[F.categoria]);
+  if(ev){const t=norm(ev.titulo+' '+(ev.tematica||''));[['karaoke','karaoke'],['grill|parrill|taco','parrillada'],['pizza|juegos','juegos'],['tapas|vino','tapas'],['intenciones|bienvenida','bienvenida'],['fotos','fotos'],['yoga|panzazo|playa','playa']].forEach(([re,l])=>{if(new RegExp(re).test(t))n.add(l)})}
+  (F.etq_ia||[]).forEach(x=>n.add(norm(x).replace(/^#/,'').slice(0,20)));
+  return [...n].filter(Boolean).slice(0,3);
+}
+async function idsEtiquetas(nombres){const out=[];for(const nm of nombres){let t=ETIQUETAS.find(x=>norm(x.nombre)===nm);if(!t){try{t=await API.nuevaEtiqueta(nm);ETIQUETAS.push(t)}catch(e){continue}}out.push(t.id)}return out}
+/* presupuesto: ¿este gasto pasa el máximo de su rubro? */
+function excedePresupuesto(F,monto){const r=PRESU.find(x=>catIgual(F.categoria,x.categoria)&&x.maximo);if(!r)return null;
+  const real=GASTOS.filter(g=>g.tipo==='gasto'&&g.id!==F.id&&catIgual(g.categoria,r.categoria)).reduce((a,g)=>a+ +g.monto,0);
+  return real+monto>+r.maximo?{rubro:r.nombre,max:+r.maximo,queda:r2(+r.maximo-real)}:null}
+/* lo que la app ya sabe del comercio, aplicado a un formulario nuevo */
+function aplicarHistorial(F){const c=comercioDe(F.factura);if(!c)return F;
+  F.historial=`${c.nombre}: ${c.veces} factura${c.veces===1?'':'s'} antes, como ${CATN[c.categoria]||c.categoria}${c.alcance?(c.alcance==='fijo'?', para todo el grupo':', consumo de algunos'):''}.`;
+  if(c.categoria&&CATN[c.categoria])F.categoria=c.categoria;
+  if(c.alcance==='fijo'){F.alcance='fijo';F.part=activos().map(p=>p.id);F.modo='igual'}
+  if((c.etiquetas||[]).length)F.etq_ia=[...new Set([...(F.etq_ia||[]),...c.etiquetas])];
+  return F}
+/* SRI · clave de acceso de 49 dígitos: fecha, tipo, RUC, serie y secuencial */
+function leerClaveAcceso(t){const m=String(t||'').replace(/\s/g,'').match(/\d{49}/);if(!m)return null;const k=m[0];
+  const tipo={'01':'factura','03':'liquidación','04':'nota de crédito','05':'nota de débito','07':'retención'}[k.slice(8,10)]||'otro';
+  return {clave_acceso:k,fecha:`${k.slice(4,8)}-${k.slice(2,4)}-${k.slice(0,2)}`,tipo_sri:tipo,ruc:k.slice(10,23),numero:`${k.slice(24,27)}-${k.slice(27,30)}-${k.slice(30,39)}`}}
+/* SRI · XML de la factura electrónica (el que llega al correo) */
+function leerXmlSri(txt){
+  let d=new DOMParser().parseFromString(txt,'text/xml');
+  const cdata=d.querySelector('comprobante');if(cdata&&cdata.textContent.includes('<'))d=new DOMParser().parseFromString(cdata.textContent,'text/xml');
+  const q=s=>{const n=d.querySelector(s);return n?n.textContent.trim():''};
+  if(!q('ruc')&&!q('importeTotal'))throw new Error('Ese XML no parece una factura del SRI');
+  let iva=0;d.querySelectorAll('totalConImpuestos totalImpuesto').forEach(n=>{if((n.querySelector('codigo')||{}).textContent==='2')iva+=+(n.querySelector('valor')||{textContent:0}).textContent});
+  const items=[...d.querySelectorAll('detalles detalle')].map(n=>({descripcion:(n.querySelector('descripcion')||{}).textContent||'',cantidad:+((n.querySelector('cantidad')||{}).textContent||0)||null,total:+((n.querySelector('precioTotalSinImpuesto')||{}).textContent||0)||null}));
+  const f=q('fechaEmision').split('/');
+  return {tipo_documento:'factura',comercio:q('nombreComercial')||q('razonSocial'),ruc:q('ruc'),fecha:f.length===3?`${f[2]}-${f[1]}-${f[0]}`:null,numero:[q('estab'),q('ptoEmi'),q('secuencial')].filter(Boolean).join('-'),clave_acceso:q('claveAcceso')||null,
+    items,subtotal:+q('totalSinImpuestos')||null,impuestos:r2(iva),propina:+q('propina')||null,total:+q('importeTotal')||null};
+}
+async function leerArchivoXml(file){
+  try{const f=leerXmlSri(await file.text());const cat=categoriaDe((f.comercio||'')+' '+f.items.map(i=>i.descripcion).join(' '));
+    F=aplicarHistorial(nuevoForm({descripcion:('Factura de '+(f.comercio||'comercio')).slice(0,60),monto:f.total||'',fecha:f.fecha||hoyISO(),categoria:cat,factura:f,origen:'foto',dudas:[]}));
+    F.historial=(F.historial?F.historial+' ':'')+'Leída del XML del SRI: datos exactos, sin IA.';pintarFormGasto()}
+  catch(e){toast(e.message)}
+}
+async function aprenderComercio(g){const f=g.factura;const k=claveComercio(f);if(!k||g.tipo!=='gasto')return;const c=COMERCIOS.find(x=>x.clave===k);
+  const etq=(g.etiquetas||[]).map(id=>(ETIQUETAS.find(t=>t.id===id)||{}).nombre).filter(Boolean);
+  try{await API.aprenderComercio({clave:k,nombre:f.comercio||(c&&c.nombre)||'',ruc:f.ruc||null,categoria:g.categoria,alcance:g.alcance||null,etiquetas:etq,veces:((c&&c.veces)||0)+1})}catch(e){}}
 
 /* ---------- service worker (solo en el sitio publicado) ---------- */
 try{if('serviceWorker' in navigator&&/fieldbuil\.ai$|workers\.dev$/.test(location.hostname))navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}

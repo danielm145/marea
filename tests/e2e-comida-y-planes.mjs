@@ -1,4 +1,3 @@
-// Prueba de navegador del modo demo. Uso: node tests/<archivo>.mjs (Playwright + Chromium en /opt/pw-browsers/chromium; ajustar executablePath en el Mac).
 import { chromium } from 'playwright';
 const errs=[], log=(...a)=>console.log(...a);
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
@@ -8,7 +7,7 @@ pg.on('pageerror',e=>errs.push('pageerror: '+e.message));
 pg.on('console',m=>{if(m.type()==='error'&&!/ERR_FAILED/.test(m.text()))errs.push('console: '+m.text())});
 await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.abort());
 await pg.goto('file:///home/user/marea/public/index.html');
-const shot=n=>pg.screenshot({path:`/tmp/marea-test/v2-${n}.png`});
+const shot=n=>pg.screenshot({path:`./v2-${n}.png`});
 const esc=()=>pg.keyboard.press('Escape');
 // Alegría (100000003)
 await pg.fill('#lced','100000003'); await pg.fill('#lpin','2026'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
@@ -16,7 +15,7 @@ log('pestañas:', (await pg.$$eval('.tab span',x=>x.map(e=>e.textContent))).join
 log('lugar:', await pg.textContent('.brand small'));
 await shot('01-hoy');
 // MENÚ
-await pg.click('.tab:nth-child(3)'); await pg.waitForSelector('.carta'); await shot('02-menu-dia1');
+await pg.click('.tab:nth-child(3)'); await pg.waitForSelector('.carta'); await pg.evaluate(()=>{DIA_MENU=diasViaje()[1];render()}); await pg.waitForSelector('.carta'); await shot('02-menu-dia1');
 log('día 1 comidas:', (await pg.$$eval('.carta .carta-t',x=>x.map(e=>e.textContent))).join(' | '));
 log('día 1 platos:', (await pg.$$eval('.carta .plato-n',x=>x.map(e=>e.textContent))).join(' | '));
 // elegir A en el desayuno
@@ -55,7 +54,7 @@ await pg.fill('#ltxt','Comprar 3 fundas de hielo, carbón para el asado del sáb
 await pg.click('#lgo'); await pg.waitForSelector('#sheetBody input[data-i]');
 log('tareas propuestas:\n  '+(await pg.$$eval('#sheetBody .sub-item',x=>x.map(e=>e.innerText.replace(/\n/g,' — ')))).join('\n  '));
 await shot('10-tareas-propuestas');
-await pg.click('text=Crear las marcadas'); await pg.waitForSelector('.tcard'); await shot('11-tareas');
+await pg.click('text=Crear las marcadas'); await pg.waitForSelector('.trow'); await shot('11-tareas');
 // Mi ficha: restricciones + talento
 await pg.click('.me-btn'); await pg.fill('#pf_talento','Imitaciones de profesores'); await pg.click('text=Guardar mi ficha'); await pg.waitForTimeout(150);
 // Admin

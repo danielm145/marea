@@ -1,4 +1,3 @@
-// Prueba de navegador del modo demo. Uso: node tests/<archivo>.mjs (Playwright + Chromium en /opt/pw-browsers/chromium; ajustar executablePath en el Mac).
 import { chromium } from 'playwright';
 const errs=[], log=(...a)=>console.log(...a);
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
@@ -12,7 +11,7 @@ await pg.click('button[aria-label="Administrar"]'); await pg.click('text=Llenar 
 await pg.fill('#in_ia','Casa frente al mar en Same con piscina privada, parrilla, cocina equipada, wifi y aire acondicionado en todas las habitaciones. https://www.airbnb.cl/rooms/49074368');
 await pg.click('#in_iab'); await pg.waitForTimeout(300);
 log('comodidades:', (await pg.inputValue('#in_amenidades')).replace(/\n/g,', '), '| airbnb:', await pg.inputValue('#in_airbnb_url'));
-await pg.setInputFiles('#cfotos input[type=file]',['/tmp/marea-test/v3-02-album.png','/tmp/marea-test/v2-09-dress.png']); await pg.waitForSelector('#cfotos button img');
+await pg.setInputFiles('#cfotos input[type=file]',['./v3-02-album.png','./v2-09-dress.png']); await pg.waitForSelector('#cfotos button img');
 log('fotos casa en editor:', await pg.locator('#cfotos button img').count());
 await pg.click('#sheetBody button.btn.primary.block'); await pg.waitForTimeout(200);
 await pg.click('.tab:nth-child(1)'); await pg.waitForSelector('.hero.con-foto'); log('portada en Hoy: sí');

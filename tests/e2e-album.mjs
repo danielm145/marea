@@ -1,4 +1,3 @@
-// Prueba de navegador del modo demo. Uso: node tests/<archivo>.mjs (Playwright + Chromium en /opt/pw-browsers/chromium; ajustar executablePath en el Mac).
 import { chromium } from 'playwright';
 const errs=[], log=(...a)=>console.log(...a);
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
@@ -8,7 +7,7 @@ await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.ab
 await pg.goto('file:///home/user/marea/public/index.html');
 await pg.fill('#lced','100000002'); await pg.fill('#lpin','2026'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
 await pg.click('.tab:nth-child(6)'); await pg.waitForSelector('text=fotos del viaje');
-await pg.setInputFiles('#main input[type=file]',['/tmp/marea-test/v2-02-menu-dia1.png','/tmp/marea-test/v2-08-itinerario.png','/tmp/marea-test/v2-09-dress.png']);
+await pg.setInputFiles('#main input[type=file]',['./v2-02-menu-dia1.png','./v2-08-itinerario.png','./v2-09-dress.png']);
 await pg.waitForSelector('#ft_go'); await pg.fill('#ft_t','Pruebas del álbum'); await pg.selectOption('#ft_d',{index:1});
 await pg.selectOption('#ft_e',{label:'Taco & Sunset Grill Night'}); await pg.screenshot({path:'v3-01-subir.png'});
 await pg.click('#ft_go'); await pg.waitForSelector('.alb img');

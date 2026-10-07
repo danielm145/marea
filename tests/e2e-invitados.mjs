@@ -1,4 +1,3 @@
-// Prueba de navegador del modo demo. Uso: node tests/<archivo>.mjs (Playwright + Chromium en /opt/pw-browsers/chromium; ajustar executablePath en el Mac).
 import { chromium } from 'playwright';
 const errs=[], log=(...a)=>console.log(...a);
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});

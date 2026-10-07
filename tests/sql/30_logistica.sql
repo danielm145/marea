@@ -1,0 +1,15 @@
+set search_path = marea, public;
+insert into vehiculos(id,nombre,conductor,puestos,maletas,creado_por) values ('dddddddd-0000-0000-0000-000000000001','Carro chico','aaaaaaaa-0000-0000-0000-000000000001',3,2,'aaaaaaaa-0000-0000-0000-000000000001');
+insert into pasajeros values ('dddddddd-0000-0000-0000-000000000001','aaaaaaaa-0000-0000-0000-000000000001','ida',1);
+set role authenticated; set request.jwt.claim.sub = '22222222-2222-2222-2222-222222222222';
+insert into pasajeros values ('dddddddd-0000-0000-0000-000000000001','aaaaaaaa-0000-0000-0000-000000000002','ida',2);
+do $$ begin insert into pasajeros values ('dddddddd-0000-0000-0000-000000000001','aaaaaaaa-0000-0000-0000-000000000003','ida',1); raise exception 'NO DEBIA'; exception when others then if sqlerrm like '%row-level%' then raise notice 'no sube a otro OK'; else raise; end if; end $$;
+reset role;
+insert into pasajeros values ('dddddddd-0000-0000-0000-000000000001','aaaaaaaa-0000-0000-0000-000000000003','ida',1);
+do $$ begin insert into pasajeros values ('dddddddd-0000-0000-0000-000000000001','aaaaaaaa-0000-0000-0000-000000000004','ida',1); raise exception 'NO DEBIA'; exception when others then if sqlerrm like '%lleno%' then raise notice 'cupo lleno OK'; else raise; end if; end $$;
+set role authenticated; set request.jwt.claim.sub = '22222222-2222-2222-2222-222222222222';
+insert into comercios(clave,nombre,categoria,alcance,veces) values ('n:supermaxi','Supermaxi','despensa','fijo',1);
+insert into equipo(nombre,categoria,creado_por) values ('Trípode','fotos','aaaaaaaa-0000-0000-0000-000000000002');
+insert into eventos(titulo,bloque,creado_por) values ('Atardecer test','atardecer','aaaaaaaa-0000-0000-0000-000000000002');
+reset role;
+select count(*) as eventos_atardecer from eventos where bloque='atardecer';

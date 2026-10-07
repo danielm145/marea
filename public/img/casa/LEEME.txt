@@ -1,0 +1,3 @@
+Fotos reales de la casa. La app las muestra en "La casa" con estos nombres exactos:
+  sala.jpg      terraza.jpg      cuarto.jpg      playa.jpg
+Puedes agregar más desde Admin → Lo esencial → Fotos de la casa.

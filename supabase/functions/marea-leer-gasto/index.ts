@@ -14,6 +14,8 @@ const Factura = z.object({
   tipo_documento: z.enum(["factura", "ticket", "transferencia", "otro"]),
   comercio: z.string().nullable(),
   ruc: z.string().nullable(),
+  numero: z.string().nullable(),         // 001-001-000012345
+  clave_acceso: z.string().nullable(),   // 49 dígitos del SRI si se ve
   fecha: z.string().nullable(),
   items: z.array(z.object({ descripcion: z.string(), cantidad: z.number().nullable(), total: z.number().nullable() })),
   subtotal: z.number().nullable(), impuestos: z.number().nullable(), propina: z.number().nullable(), total: z.number().nullable(),
@@ -27,6 +29,7 @@ const Gasto = z.object({
   partes: z.array(z.object({ persona_id: z.string(), valor: z.number() })).nullable(),
   pago_entre: z.object({ de_id: z.string(), a_id: z.string() }).nullable(),
   evento_id: z.string().nullable(), factura: Factura.nullable(),
+  etiquetas: z.array(z.string()),
   confianza: z.number(), dudas: z.array(z.string()),
 });
 const Tarea = z.object({
@@ -55,6 +58,9 @@ Gastos y comprobantes:
 6. Nombres → ids del contexto. "todos" = participante_ids vacío. "menos X" saca a X. Hay tres Natalias y dos Kevin: si un nombre es ambiguo NO adivines, déjalo fuera y dilo en dudas.
 7. Quien escribe suele ser quien pagó: "pagué" → pagador_ids = [autor_id].
 8. modo "igual" salvo que pidan porcentajes o montos por persona (que deben sumar 100 o el monto).
+8b. Número de factura con el formato 001-001-000012345 y la clave de acceso de 49 dígitos si se ve.
+8c. etiquetas: 2 o 3 palabras cortas en minúscula que ayuden a encontrar el gasto (ej. "hielo", "parrillada", "despensa").
+8d. MEMORIA DEL GRUPO: si el comercio está en "comercios_conocidos" del contexto, usa su categoría, alcance y etiquetas salvo que el mensaje diga otra cosa.
 
 Tareas (si el mensaje es una lista o un pendiente):
 9. Una tarea por acción; si varias comparten verbo ("comprar hielo, carbón y…") repite el verbo en cada una. Subtareas solo si es un checklist claro.
@@ -68,7 +74,8 @@ async function imagenBase64(path: string) {
   if (error || !data) return null;
   const buf = new Uint8Array(await data.arrayBuffer());
   let bin = ""; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));
-  return { data: btoa(bin), media_type: (data.type && data.type.startsWith("image/") ? data.type : "image/jpeg") as "image/jpeg" };
+  const pdf = data.type === "application/pdf" || path.toLowerCase().endsWith(".pdf");
+  return { data: btoa(bin), pdf, media_type: (data.type && data.type.startsWith("image/") ? data.type : "image/jpeg") as "image/jpeg" };
 }
 
 Deno.serve(async (req) => {
@@ -82,20 +89,23 @@ Deno.serve(async (req) => {
   const texto = (body.texto || "").trim();
   if (!texto && !body.archivo_path) return reply(req, 400, { error: "manda texto o foto" });
 
-  const [{ data: personas }, { data: eventos }, { data: cfg }] = await Promise.all([
+  const [{ data: personas }, { data: eventos }, { data: cfg }, { data: comercios }] = await Promise.all([
     admin.from("personas_publicas").select("id,nombre,apodo").eq("activo", true),
     admin.from("eventos").select("id,titulo,tematica,dia").neq("estado", "cancelado"),
     admin.from("config").select("valor").eq("clave", "viaje").maybeSingle(),
+    admin.from("comercios").select("nombre,ruc,categoria,alcance,etiquetas,veces").order("veces", { ascending: false }).limit(60),
   ]);
   const contexto = { autor_id: yo.id, autor: yo.apodo || yo.nombre, moneda: (cfg?.valor as Record<string, string>)?.moneda || "USD",
-    hoy: new Date().toISOString().slice(0, 10), modo: body.modo || "auto", personas: personas ?? [], eventos: eventos ?? [] };
+    hoy: new Date().toISOString().slice(0, 10), modo: body.modo || "auto", personas: personas ?? [], eventos: eventos ?? [], comercios_conocidos: comercios ?? [] };
 
   const content: Anthropic.ContentBlockParam[] = [];
   if (body.archivo_path) {
     if (!body.archivo_path.startsWith(yo.id + "/")) return reply(req, 403, { error: "ruta ajena" });
     const img = await imagenBase64(body.archivo_path);
     if (!img) return reply(req, 404, { error: "no encuentro la foto" });
-    content.push({ type: "image", source: { type: "base64", ...img } });
+    content.push(img.pdf
+      ? { type: "document", source: { type: "base64", media_type: "application/pdf", data: img.data } }
+      : { type: "image", source: { type: "base64", media_type: img.media_type, data: img.data } });
   }
   const pista = contexto.modo === "tareas" ? "\nEl usuario indicó que es una LISTA DE TAREAS." : contexto.modo === "gasto" ? "\nEl usuario indicó que es un GASTO o comprobante." : "";
   content.push({ type: "text", text: `CONTEXTO:\n${JSON.stringify(contexto)}${pista}\n\nMENSAJE DE ${contexto.autor}:\n${texto || "(solo la foto)"}` });
