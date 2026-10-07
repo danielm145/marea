@@ -115,3 +115,18 @@ await caso("viaje: «el viaje es del 28 de octubre al 1 de noviembre» → fecha
   assert.deepEqual(j.propuesta.viaje, { desde: "2026-10-09", hasta: "2026-10-12", lugar: null, nombre: null });
 });
 console.log(`${ok} casos OK (con viaje)`);
+await caso("/api/config.js: sin variables = demo; con variables entrega URL y llave pública", async () => {
+  let t = await (await w.fetch(new Request("https://x/api/config.js"), { ASSETS })).text(); assert.equal(t.trim(), "window.MAREA_SB=null;");
+  t = await (await w.fetch(new Request("https://x/api/config.js"), { ASSETS, SB_URL: "https://abc.supabase.co", SB_ANON: "anon" })).text();
+  assert.match(t, /"url":"https:\/\/abc.supabase.co","anon":"anon"/);
+});
+await caso("con Supabase conectado, la IA pide sesión", async () => {
+  const env = { GEMINI_API_KEY: "k", ASSETS, SB_URL: "https://abc.supabase.co", SB_ANON: "anon" };
+  const orig = globalThis.fetch; const urls = [];
+  globalThis.fetch = async (url, init) => { url = String(url); urls.push(url); if (url.includes("/auth/v1/user")) return new Response("{}", { status: init.headers.authorization === "Bearer bueno" ? 200 : 401 }); return gem({ resumen: "", gastos: [], tareas: [], eventos: [] })(); };
+  const mk = (tok) => w.fetch(new Request("https://casablanca.fieldbuil.ai/api/ia", { method: "POST", headers: { "content-type": "application/json", "cf-connecting-ip": "11.0.0.1", ...(tok ? { authorization: "Bearer " + tok } : {}) }, body: JSON.stringify({ texto: "x", contexto: ctx }) }), env);
+  assert.equal((await mk(null)).status, 401); assert.equal((await mk("malo")).status, 401); assert.equal((await mk("bueno")).status, 200);
+  assert.equal((await mk("bueno")).status, 200); assert.equal(urls.filter((u) => u.includes("/auth/v1/user")).length, 2, "el token bueno se recuerda");
+  globalThis.fetch = orig;
+});
+console.log(`${ok} casos OK (con sesión)`);

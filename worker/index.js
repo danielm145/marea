@@ -4,6 +4,9 @@
 //
 //   POST /api/ia        texto y/o foto → PROPUESTA (gastos, tareas, planes, foto para el álbum)
 //   GET  /api/ia/salud  ¿hay IA conectada? (sin gastar nada)
+//   GET  /api/config.js la conexión a Supabase (SB_URL + SB_ANON, la llave PÚBLICA): así no va en el código.
+//                       Sin esas variables la app corre en modo demo.
+// Con Supabase conectado, /api/ia solo atiende a quien tiene sesión en la app (JWT de Supabase).
 //
 // Motor (el primero que tenga llave, como secreto del Worker — nunca en el código):
 //   1. GOOGLE_SA_B64   → Vertex AI con la cuenta de servicio de la empresa (la misma de AERO EC:
@@ -261,9 +264,25 @@ async function pensar(env, motor, cuerpo) {
   return { status: 200, cuerpo: { propuesta: { ...limpiar(crudo, contexto), ia: true }, motor: motor.nombre, modelo: motor.modelo } };
 }
 
+// ¿el token es de alguien con sesión en la app? (se pregunta a Supabase y se recuerda 5 min)
+const SESIONES = new Map();
+async function sesionValida(env, req) {
+  const tok = (req.headers.get("authorization") || "").replace(/^Bearer\s+/i, "");
+  if (!tok) return false;
+  const ya = SESIONES.get(tok); if (ya && ya > Date.now()) return true;
+  const r = await fetch(env.SB_URL.replace(/\/$/, "") + "/auth/v1/user", { headers: { apikey: env.SB_ANON, authorization: "Bearer " + tok } }).catch(() => null);
+  if (!r || !r.ok) return false;
+  if (SESIONES.size > 2000) SESIONES.clear();
+  SESIONES.set(tok, Date.now() + 5 * 60 * 1000); return true;
+}
+
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
+    if (url.pathname === "/api/config.js") {
+      const sb = env.SB_URL && env.SB_ANON ? { url: env.SB_URL, anon: env.SB_ANON } : null;
+      return new Response("window.MAREA_SB=" + JSON.stringify(sb) + ";\n", { headers: { "content-type": "text/javascript; charset=utf-8", "cache-control": "no-store" } });
+    }
     if (url.pathname === "/api/ia/salud") {
       const m = motorDe(env);
       return json(200, { ok: !!m, motor: m ? m.nombre : null, modelo: m ? m.modelo : null });
@@ -274,6 +293,7 @@ export default {
       if (!motor) return json(503, { error: "La IA todavía no está conectada (falta la llave: scripts/ia.sh)." });
       const origen = req.headers.get("origin");
       if (origen && new URL(origen).host !== url.host) return json(403, { error: "Origen no permitido" });
+      if (env.SB_URL && env.SB_ANON && !(await sesionValida(env, req))) return json(401, { error: "Entra a la app para usar la IA." });
       const ip = req.headers.get("cf-connecting-ip") || "?";
       if (frenado(ip)) return json(429, { error: "Muchas lecturas seguidas. Espera unos minutos." });
       const largo = +(req.headers.get("content-length") || 0);

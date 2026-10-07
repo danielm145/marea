@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script src="img/generadas.js"></script>
+<script src="/api/config.js"></script>
 <!--ART-START-->
 <title>Casablanca · Same</title>
 <meta name="description" content="El viaje a la playa: gastos compartidos, tareas y noches temáticas.">
@@ -520,13 +521,15 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v29';
+const BUILD_TAG='v30';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
   amenidades:['Acceso a la playa (10 gradas)','Vista a la bahía','Piscina al aire libre (con horario)','Jacuzzi compartido','Terraza y jardín','Wifi','TV','Cocina','Lavandería','Parqueadero gratis','Toallas de baño y de playa','Sábanas','Carpa y sillas de playa','Fácil acceso']};
-const SB_URL='';   // ← Project URL de fieldbuilt-lab, ej. https://abcd.supabase.co
-const SB_ANON='';  // ← anon public key de fieldbuilt-lab
+/* la conexión a Supabase la entrega el Worker (/api/config.js, variables SB_URL y SB_ANON que pone scripts/conectar.sh):
+   así ninguna llave vive en el código. Sin ella (vista previa, archivo local) la app corre en modo demo. */
+const SB_URL=(window.MAREA_SB&&window.MAREA_SB.url)||'';
+const SB_ANON=(window.MAREA_SB&&window.MAREA_SB.anon)||'';
 const MODO=(SB_URL&&SB_ANON&&window.supabase)?'supabase':'demo';
 const APP_URL='https://casablanca.fieldbuil.ai';
 const VIAJE_DESDE='2026-10-09', VIAJE_HASTA='2026-10-12';   /* las fechas reales: viernes 9 a lunes 12 de octubre (Daniel, 7-oct) */
@@ -538,7 +541,8 @@ async function probarIA(){if(!IA_URL){IA.probada=true;return IA}try{const r=awai
 function contextoIA(){return{looks:Object.keys(ESTILOS),autor_id:ME.id,autor:nom(ME.id),hoy:hoyISO(),moneda:CFG.moneda||'USD',personas:activos().map(p=>({id:p.id,nombre:p.nombre,apodo:p.apodo||''})),eventos:EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>({id:e.id,titulo:e.titulo,dia:e.dia||null}))}}
 async function leerIA({texto,dataUrl,modo,plan}){
   const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),70000);
-  try{const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({texto:texto||'',imagen:dataUrl||null,modo:modo||'auto',contexto:{...contextoIA(),plan_actual:plan||null}}),signal:ctl.signal});
+  let auth={};if(MODO==='supabase'){try{const{data}=await Sb.c.auth.getSession();if(data&&data.session)auth={authorization:'Bearer '+data.session.access_token}}catch(e){}}
+  try{const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json',...auth},body:JSON.stringify({texto:texto||'',imagen:dataUrl||null,modo:modo||'auto',contexto:{...contextoIA(),plan_actual:plan||null}}),signal:ctl.signal});
     const j=await r.json().catch(()=>({}));if(!r.ok||!j.propuesta)throw new Error(j.error||'La IA no respondió');return j.propuesta}
   catch(e){throw new Error(e.name==='AbortError'?'se demoró demasiado':e.message)}finally{clearTimeout(t)}}
 /* primero la IA; si no está o falla, el plan B (lectura rápida o la función de Supabase), diciendo por qué */

@@ -1,6 +1,18 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v29**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v30**.
+
+## v30 (7-oct) · un comando para publicar con Vertex y usuarios de verdad
+- **`scripts/conectar.sh`** (lee `.env`): aplica `sql/001…013` con la Management API de Supabase, expone el esquema
+  `marea`, crea/repara al admin con celular + cumpleaños (`scripts/conectar.mjs`), despliega `marea-admin-personas`,
+  pone `SB_URL`/`SB_ANON` como secretos del Worker, conecta Vertex (`ia.sh`) y publica (`deploy.sh`). Repetible.
+  Probado contra Postgres real (API simulada): 13 SQL, esquema expuesto, admin creado; segunda vez sin duplicar.
+- **Ninguna llave en el código**: la app pide `/api/config.js` al Worker (`window.MAREA_SB`). Sin esas variables
+  corre en demo (vista previa, archivo local).
+- **Con Supabase conectado, la IA solo atiende a quien tiene sesión** (el Worker valida el JWT con Supabase y lo
+  recuerda 5 min). 19 pruebas del Worker.
+- `.env.example` reescrito (celular y cumpleaños del admin; de dónde sale cada llave). Guía: **`docs/PUBLICAR.md`**.
+  Prompt para Claude Code local: `docs/PROMPT-CLAUDE-LOCAL.md`.
 
 ## v29 (7-oct) · las fechas de verdad: viernes 9 al lunes 12 de octubre
 - `VIAJE_DESDE/HASTA` = **2026-10-09 → 2026-10-12** (4 días, 3 noches). La demo se calcula desde esas fechas (v16).
