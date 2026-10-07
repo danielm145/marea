@@ -57,6 +57,7 @@ const ESQUEMA = O({
     lugar: S({ nullable: true }), dress_code: S({ nullable: true }), lista: A(S()), menu: A(S()),
   }, ["titulo"])),
   album: O({ pie: S(), evento_id: S({ nullable: true }) }, ["pie"], { nullable: true }),
+  portada: O({ evento_id: S() }, ["evento_id"], { nullable: true }),
 }, ["resumen", "gastos", "tareas", "eventos"]);
 
 const SISTEMA = `Eres la IA de "Casablanca", la app de un viaje de 8 amigos a Same, Esmeraldas (Ecuador).
@@ -86,6 +87,10 @@ Si el contexto trae "plan_actual", la persona quiere CAMBIAR ese plan: devuelve 
 completo, con todos sus campos y solo lo que pidió cambiado. Nada de gastos ni tareas en ese caso.
 
 Foto del viaje (gente, playa, comida servida, paisaje — NO una factura ni un ticket): llena "album" con un pie de foto corto, cálido y sin emojis (máx. 70 caracteres) y su evento_id si se nota. Si la foto es un comprobante, album = null.
+
+Foto de portada: si piden poner o cambiar la foto (portada) de un plan ("ponla de portada del círculo de intenciones",
+"cambia la foto del evento de panzazos"), llena portada = { evento_id } con el id de ese plan del contexto y NO armes
+gasto, tarea ni plan. Si no se sabe cuál plan es, evento_id = "".
 
 "resumen": una frase corta y cálida que diga lo que entendiste (ej. "Gasto de $48 en hielo y cervezas, lo pagaste tú y va para todos menos Naty").
 Responde en español, descripciones cortas (máx. 60 caracteres), sin emojis.`;
@@ -164,7 +169,7 @@ export function limpiar(p, ctx) {
   const ids = new Set((ctx.personas || []).map((x) => x.id)), evs = new Set((ctx.eventos || []).map((x) => x.id));
   const persona = (v) => (ids.has(v) ? v : null), evento = (v) => (evs.has(v) ? v : null);
   const lista = (v) => [...new Set((Array.isArray(v) ? v : []).filter((x) => ids.has(x)))];
-  const out = { resumen: txt(p?.resumen, 300), gastos: [], tareas: [], eventos: [], album: null };
+  const out = { resumen: txt(p?.resumen, 300), gastos: [], tareas: [], eventos: [], album: null, portada: null };
   for (const g of (Array.isArray(p?.gastos) ? p.gastos : []).slice(0, 10)) {
     const pag = lista(g.pagador_ids), part = lista(g.participante_ids);
     const f = g.factura && typeof g.factura === "object" ? g.factura : null;
@@ -202,6 +207,7 @@ export function limpiar(p, ctx) {
     if (!txt(e?.titulo)) continue;
     out.eventos.push(planDe(e));
   }
+  if (p?.portada && typeof p.portada === "object") out.portada = { evento_id: evento(p.portada.evento_id) || "" };
   if (p?.album && txt(p.album.pie)) out.album = { pie: txt(p.album.pie, 90), evento_id: evento(p.album.evento_id) };
   return out;
 }

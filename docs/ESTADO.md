@@ -1,6 +1,17 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v26**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v27**.
+
+## v27 (7-oct) · cambiar la foto de cualquier plan (con un toque o diciéndoselo a la IA)
+- Cada plan puede tener **su propia foto** (`eventos.foto`, `sql/011_foto_de_eventos.sql`): manda sobre la generada.
+  En el detalle del plan, botón **«Cambiar foto»** arriba a la izquierda (admin, quien lo creó o lo organiza);
+  en la ficha del plan con IA, tocar la foto la cambia.
+- **«Cuéntale a la IA» entiende la portada**: foto + «ponla de portada del círculo de intenciones» → se abre
+  «Foto de portada» con el plan ya escogido y el botón «Poner de portada de «…»». Funciona también sin IA
+  (lectura rápida) y desde el botón «Gasto» de un evento (antes eso armaba un gasto raro: lo que le pasó a Daniel).
+  Sin foto, la hoja la pide. Worker: campo `portada` en la propuesta (16 pruebas).
+- La foto del **panzazo** que mandó Daniel es la de «Torneo de panzazos en la piscina»
+  (`public/img/eventos/torneo-de-panzazos-en-la-piscina.jpg`; el generador no la pisa porque ya existe).
 
 ## v26 (7-oct) · los planes también con IA, nada a mano
 - «Cuéntale a la IA» ahora tiene 4 modos: **Lo que sea · Un gasto · Pendientes · Un plan**. La foto va abajo,
@@ -63,6 +74,7 @@
 ### Para que la IA funcione en la URL (Daniel, en el Mac, una sola vez)
 ```
 cd ~/marea && git pull && scripts/deploy.sh wrangler.dominio.toml   # publica y amarra casablanca.fieldbuil.ai
+# al conectar Supabase: correr también sql/010_eventos_completos.sql y sql/011_foto_de_eventos.sql
 scripts/ia.sh            # Gemini (llave AIza… que ya está en CREDENCIALES)  ·  o:  scripts/ia.sh vertex
 ```
 `deploy.sh` debe terminar diciendo `IA: gemini` (o `vertex`) en las tres URLs.

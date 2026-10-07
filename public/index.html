@@ -474,6 +474,8 @@ a.item{text-decoration:none;color:inherit}
 .ia-mas{grid-template-columns:1fr}
 .pl-card{padding-top:12px}.pl-img{width:100%;height:170px;object-fit:cover;border-radius:16px;display:block}.pl-desc{color:var(--ink-2);margin-top:6px;line-height:1.45}
 .pl-x svg{width:13px;height:13px;vertical-align:-2px;opacity:.6}.pl-menu{padding:7px 0;border-bottom:1px solid var(--line)}
+.evh-foto{position:absolute;top:12px;left:12px;z-index:2;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,.9);color:var(--ink);font-weight:700;font-size:13px;padding:8px 12px;border-radius:999px;cursor:pointer}.evh-foto svg{width:16px;height:16px}
+.pl-foto{display:block;position:relative;cursor:pointer}.pl-foto>span{position:absolute;left:10px;bottom:10px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,.92);font-weight:700;font-size:13px;padding:6px 10px;border-radius:999px}.pl-foto svg{width:15px;height:15px}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -510,7 +512,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v26';
+const BUILD_TAG='v27';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -980,7 +982,7 @@ const Sb={
   PK:['id','comida_id','nombre','descripcion','estilo','ingredientes','porciones','tags','alergenos','opcion','foto','permanente','turno','creado_por'],
   PRK:['id','nombre','categoria','minimo','maximo','tipo','nota','orden'],
   V3:['alcance','factura','prioridad','estilo'],
-  EK:['id','titulo','tematica','descripcion','dia','bloque','hora','lugar','dress_code','playlist_url','estado','anfitriones','etiquetas','lista','menu','creado_por','estilo'],
+  EK:['id','titulo','tematica','descripcion','dia','bloque','hora','lugar','dress_code','playlist_url','estado','anfitriones','etiquetas','lista','menu','creado_por','estilo','foto'],
   async up(tabla,ks,o,nuevo){const row=this.pick(o,ks);if(this.v3===false)this.V3.forEach(k=>delete row[k]);if(nuevo)this.ok(await this.t(tabla).insert(row));else{delete row.creado_por;this.ok(await this.t(tabla).update(row).eq('id',o.id))}},
   async saveGasto(g,n){return this.up('gastos',this.GK,g,n)},
   async historial(id){return this.ok(await this.t('gastos_historial').select('*').eq('gasto_id',id).order('ts'))},
@@ -1035,8 +1037,15 @@ function buscarPersonas(txt){
   }
   return {ids,dudas};
 }
+/* «pon esta foto de portada del círculo de intenciones» → ¿de qué plan habla? */
+function planDePortada(texto,conFoto){const n=norm(texto);if(!/portada|foto (del|de la|para el|para la|de) (evento|plan|noche|actividad)|cambia(r)? (la )?foto/.test(n))return null;
+  const ev=EVENTOS.find(e=>e.id===eventoDe(texto));if(ev)return ev;
+  const pal=n.split(/[^a-z0-9]+/).filter(w=>w.length>3&&!/portada|evento|foto|plan|noche|poner|cambiar|esta|este/.test(w));
+  const best=EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>({e,p:pal.filter(w=>norm(e.titulo+' '+(e.tematica||'')).includes(w)).length})).sort((a,b)=>b.p-a.p)[0];
+  return best&&best.p>0?best.e:(conFoto?{id:'',titulo:''}:null)}
 function leerLocal(texto,conFoto,modo){
   const t=String(texto||'').trim(), prop={gastos:[],tareas:[],eventos:[],resumen:'',local:true};
+  const portada=planDePortada(t,conFoto);if(portada){prop.portada={evento_id:portada.id};prop.resumen='Foto de portada para «'+portada.titulo+'».';return prop}
   if(modo==='plan'){const n=norm(t);
     prop.eventos.push({titulo:(t.split(/[,.;\n]/)[0]||'Plan nuevo').slice(0,60).replace(/^./,c=>c.toUpperCase()),tematica:null,descripcion:t,
       bloque:/manana|desayuno|amanecer|temprano/.test(n)?'manana':/atardecer|sunset/.test(n)?'atardecer':/tarde/.test(n)?'tarde':'noche',
@@ -1557,7 +1566,7 @@ function abrirResumen(){
 /* ---------- AGREGAR (botón ＋) ---------- */
 function abrirAgregar(){abrirLector()}
 let LECT={dataUrl:null,blob:null,modo:'auto'};
-const SUG={plan:['Noche de ','En la terraza','En la playa','Todos de blanco','Con parrillada','Con juegos'],auto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Es de la BBQ','Foto del grupo'],gasto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Mitad y mitad con '],tareas:['Comprar ','Llevar ','Reservar ','Es urgente','Para el ']};
+const SUG={plan:['Noche de ','En la terraza','En la playa','Todos de blanco','Con parrillada','Con juegos'],auto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Es de la BBQ','Ponla de portada del plan '],gasto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Mitad y mitad con '],tareas:['Comprar ','Llevar ','Reservar ','Es urgente','Para el ']};
 const PH={plan:'Ej. Noche de tacos el viernes en la terraza, todos de blanco, con micheladas y música en vivo',auto:'Ej. Pagué 48 de hielo y cervezas para la BBQ, para todos menos Naty',gasto:'Ej. Pagué 48 de hielo y cervezas, para todos menos Naty',tareas:'Ej. Comprar hielo y carbón, llevar el parlante y reservar la lancha'};
 function iaAviso(){if(IA_URL&&(!IA.probada||IA.ok))return '';return `<div class="banner tide tiny">${IA_URL?'La IA todavía no está conectada: por ahora hago una lectura rápida (sin leer fotos).':'En esta vista previa no hay IA: hago una lectura rápida (sin leer fotos).'}</div>`}
 /* foto?:true abre en gasto · lista:true en pendientes · ev: el gasto va ligado a ese plan */
@@ -1583,7 +1592,7 @@ function lSugs(){return SUG[LECT.modo].map(t=>`<button class="chip" onclick="lSu
 function lModo(m){LECT.modo=m;document.querySelectorAll('#lmodo button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));const t=$('#ltxt');if(t)t.placeholder=PH[m];const g=$('#lsug');if(g)g.innerHTML=lSugs()}
 /* escoger en vez de escribir: cada chip suma su frase y deja el cursor listo */
 function lSug(b){const t=$('#ltxt');if(!t)return;const f=b.textContent.replace(/…$/,' ');const v=t.value.trim();t.value=(v?v+(/[,.]$/.test(v)?' ':', '):'')+(v?f.charAt(0).toLowerCase()+f.slice(1):f);t.focus();try{t.setSelectionRange(t.value.length,t.value.length)}catch(e){}b.classList.add('usado')}
-async function leerFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');im.src=LECT.dataUrl;im.hidden=false;$('#lfotob').classList.add('con')}catch(e){toast(e.message)}}
+async function leerFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');if(im){im.src=LECT.dataUrl;im.hidden=false}const fb=$('#lfotob');if(fb)fb.classList.add('con')}catch(e){toast(e.message)}}
 /* desde el home: la foto primero, y se abre la pantalla con la foto puesta */
 async function iaFotoDirecta(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);abrirLector();LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');im.src=x.dataUrl;im.hidden=false;$('#lfotob').classList.add('con');$('#ltxt').focus()}catch(e){toast(e.message)}finally{inp.value=''}}
 const PASOS_IA=['Mirando la foto…','Buscando el total…','Viendo quién pagó y para quién…','Llenando todo…'],PASOS_PLAN=['Mirando la foto…','Pensando el plan…','Escogiendo lugar, hora y look…','Armando qué llevar…'];
@@ -1606,9 +1615,23 @@ async function procesarLector(){
   }catch(e){pensando(false);er.hidden=false;er.textContent=e.message}
 }
 let PROP=null;
+/* poner la foto como portada de un plan: se confirma el plan con un toque (o se escoge otro) */
+function hojaPortada(evId){const evs=EVENTOS.filter(e=>e.estado!=='cancelado').sort((a,b)=>String(a.dia||'9').localeCompare(String(b.dia||'9'))||minEv(a)-minEv(b));
+  window.PORT={ev:EVENTOS.some(e=>e.id===evId)?evId:''};
+  openSheet(`${sheetH('Foto de portada')}<div class="stack ia-llena">
+    <div class="ia-sello">${ic('spark')} ${PORT.ev?'La IA entendió que es la portada de este plan.':'¿De cuál plan es la portada?'}</div>
+    ${LECT.dataUrl?`<img class="pl-img" src="${LECT.dataUrl}" alt="">`:`<label class="ia-foto" id="lfotob"><input type="file" accept="image/*" hidden onchange="leerFoto(this).then(()=>hojaPortada(PORT.ev))"><span class="ia-foto-in">${ic('cam')}<span><b>Escoge la foto</b><span class="muted tiny">La que quieres de portada</span></span></span></label>`}
+    <button class="btn primary block" id="portgo" onclick="guardarPortada()" ${LECT.dataUrl&&PORT.ev?'':'disabled'}>${portLbl()}</button>
+    <div class="ia-sec"><div class="eyebrow">${PORT.ev?'¿Es de otro plan? Tócalo':'Toca el plan'}</div><div class="chips">${evs.map(e=>`<button class="chip" aria-pressed="${PORT.ev===e.id}" onclick="PORT.ev='${e.id}';this.parentElement.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===this));const g=$('#portgo');g.textContent=portLbl();g.disabled=!LECT.dataUrl">${esc(e.titulo)}</button>`).join('')}</div></div></div>`)}
+function portLbl(){const e=EVENTOS.find(x=>x.id===PORT.ev);return e?'Poner de portada de «'+e.titulo+'»':'Poner de portada'}
+async function guardarPortada(){if(!PORT.ev){toast('Toca el plan');return}if(!LECT.dataUrl)return;const b=$('#portgo');b.disabled=true;b.textContent='Subiendo…';
+  try{const ref=MODO==='demo'?LECT.dataUrl:await API.subirFoto('marea-muro',LECT.blob,LECT.dataUrl);if(MODO!=='demo')FOTOS[ref]=LECT.dataUrl;
+    const id=PORT.ev;await patchEvento(id,{foto:ref},false);toast('Listo: esa es la foto del plan');abrirEvento(id)}
+  catch(e){b.disabled=false;b.textContent='Poner de portada';toast(e.message)}}
 function mostrarPropuesta(p,ref,origen){
   PROP={...p,ref,origen};
   const conAlbum=!!(p.album&&LECT.dataUrl);
+  if(p.portada){hojaPortada(p.portada.evento_id||LECT.ev||'');return}
   if(conAlbum&&!(p.gastos||[]).length&&!(p.tareas||[]).length&&!(p.eventos||[]).length){albumDesdeIA();return}
   if((p.eventos||[]).length===1&&!(p.gastos||[]).length&&!(p.tareas||[]).length){planDesdeIA(p.eventos[0]);if(p.local)PL._anim=false;pintarPlan();return}
   if(p.gastos&&p.gastos.length===1&&!(p.tareas||[]).length&&!(p.eventos||[]).length){F=formDesdePropuesta(p.gastos[0],ref,p,origen);F._anim=!p.local;if(LECT.ev&&!F.evento_id)F.evento_id=LECT.ev;F.texto_ia=LECT.txt||'';F.resumen_ia=p.resumen||'';if(p.resumen&&!F.dudas.includes(p.resumen)&&p.local)F.dudas=[...F.dudas];pintarFormGasto();return}
@@ -1803,7 +1826,7 @@ function abrirEvento(id,tab){
   const momento=(BLOQUES.find(([k])=>k===e.bloque)||[])[1]||'';
   const anf=e.anfitriones||[], lista=e.lista||[];
   const fact=(icon,k,v,click)=>`<${click?'button':'div'} class="fact"${click?` onclick="${click}"`:''}><span class="fact-i">${ic(icon)}</span><span class="fact-k">${k}</span><span class="fact-v">${v}</span></${click?'button':'div'}>`;
-  openSheet(`<div class="evh" style="background:${fondo}">${imgTag(imgEvento(e),'evh-img')}<button class="x evh-x" onclick="closeSheet()" aria-label="Cerrar">${ic('x')}</button>
+  openSheet(`<div class="evh" style="background:${fondo}">${imgTag(imgEvento(e),'evh-img')}<button class="x evh-x" onclick="closeSheet()" aria-label="Cerrar">${ic('x')}</button>${puedeEditarEv(e)?`<label class="evh-foto">${ic('cam')} Cambiar foto<input type="file" accept="image/*" hidden onchange="fotoEvento('${e.id}',this)"></label>`:''}
       <div class="evh-in"><span class="pill ${EST[1]}">${EST[0]}</span><div class="evh-d">${di>=0?nomDia(di)+' · ':''}${e.dia?diaSem(e.dia)+' '+fechaCorta(e.dia):'Sin día todavía'}${e.hora?' · '+esc(String(e.hora).slice(0,5)):''}</div>
         <h2 id="sheetTitle">${esc(e.titulo)}</h2>${e.tematica?`<div class="evh-t">${esc(e.tematica)}</div>`:''}</div></div>
     <div class="stack" style="margin-top:14px">
@@ -1843,6 +1866,10 @@ function abrirEvento(id,tab){
 }
 function selectorDia(e){const dias=diasViaje();return `<div class="grid2"><div class="field"><label for="odia">Día</label><select id="odia" class="in">${dias.length?dias.map((d,i)=>`<option value="${d}" ${e.dia===d?'selected':''}>${nomDia(i)} · ${diaSem(d)} ${fechaCorta(d)}</option>`).join(''):'<option value="">Sin fechas del viaje</option>'}</select></div>
   <div class="field"><label for="oblq">Momento</label><select id="oblq" class="in">${BLOQUES.map(([k,l])=>`<option value="${k}" ${e.bloque===k?'selected':''}>${l}</option>`).join('')}</select></div></div>`}
+/* la foto de portada de un plan: se sube y queda para todos */
+async function subirFotoEvento(file){const{blob,dataUrl}=await achicar(file,1600,.84);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);if(MODO!=='demo')FOTOS[ref]=dataUrl;return ref}
+async function fotoEvento(id,inp){const f=inp.files&&inp.files[0];if(!f)return;try{toast('Subiendo la foto…');const ref=await subirFotoEvento(f);await patchEvento(id,{foto:ref});toast('Listo: esa es la foto del plan')}catch(e){toast(e.message)}finally{inp.value=''}}
+async function fotoPlan(inp){const f=inp.files&&inp.files[0];if(!f)return;try{PL.foto=await subirFotoEvento(f);repintarPlan()}catch(e){toast(e.message)}finally{inp.value=''}}
 async function hacerOficial(id){await patchEvento(id,{estado:'oficial',dia:$('#odia').value||null,bloque:$('#oblq').value});toast('Pasó al programa')}
 async function patchEvento(id,c,reabrir=true){const e=EVENTOS.find(x=>x.id===id);try{await API.saveEvento({...e,...c},false);await cargar();if(reabrir)abrirEvento(id);render()}catch(err){toast(err.message)}}
 function toggleAnf(id){const e=EVENTOS.find(x=>x.id===id);const a=e.anfitriones||[];patchEvento(id,{anfitriones:a.includes(ME.id)?a.filter(x=>x!==ME.id):[...a,ME.id]})}
@@ -1876,7 +1903,7 @@ function pintarPlan(){
   openSheet(`${sheetH(e.nuevo?'Así quedó tu plan':'Cambiar el plan')}<div class="stack ${anim?'ia-llena':''}">
     ${anim?`<div class="ia-sello">${ic('spark')} La IA lo llenó. Toca lo que quieras cambiar.</div>`:''}
     ${e.nuevo?'':`<div class="ia-sec"><div class="eyebrow">Dile a la IA qué cambiar</div>${corr}</div>`}
-    <div class="card pl-card">${imgTag(imgEvento(e),'pl-img')}
+    <div class="card pl-card"><label class="pl-foto">${imgTag(imgEvento(e),'pl-img')}<span>${ic('cam')} Cambiar foto</span><input type="file" accept="image/*" hidden onchange="fotoPlan(this)"></label>
       <div class="eyebrow" style="color:var(--sun);margin-top:10px">${esc(e.tematica||'Plan')}</div>
       <button class="gia-t gia-e" onclick="plEditar('titulo')">${esc(e.titulo||'Toca para ponerle nombre')}</button>
       <button class="gia-e pl-desc" onclick="plEditar('descripcion')">${esc(e.descripcion||'Toca para contar de qué se trata')}</button></div>
@@ -2649,12 +2676,12 @@ const stk=(k,cls='',w)=>`<img class="stk ${cls}" src="${STK[k]}" alt="" loading=
 const CENA_FOTO={'d1-cena':'img/menu/d1-cena.jpg','d2-cena':'img/menu/d2-cena.jpg','d3-cena':'img/menu/d3-cena.jpg','d4-cena':'img/menu/d4-cena.jpg'};
 /* portada de un plan: primero la foto de gente (img/playa, de scripts/fotos-stock.mjs o de la IA),
    si no está, la comida de esa noche o el collage del look */
-function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));let gente=IMG+'portada.jpg';const propia='img/eventos/'+slugTxt(e.titulo)+'.jpg';
+function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));let gente=IMG+'portada.jpg';const propia='img/eventos/'+slugTxt(e.titulo)+'.jpg',subida=e.foto?fotoUrl(e.foto):'';
   for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill|bbq|cocktail/,'sunset-grill'],[/restaurant/,'restaurante'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas|freaky/,'fotos-gafas'],[/pizza|juegos de mesa|board|game night/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t)){gente=IMG+f+'.jpg';break}
   const otra=/intenciones/.test(t)?LOOK_SRC['welcome-white']:/freaky|gafas/.test(t)?LOOK_SRC['tiki-boho']:
     (([[/pizza/,'d1-cena'],[/bbq|cocktail/,'d2-cena'],[/tapas/,'d3-cena'],[/restaurant/,'d4-cena']].find(([re])=>re.test(t))||[])[1]);
   const casa=CASA_DEF[[...t].reduce((a,ch)=>a+ch.charCodeAt(0),0)%CASA_DEF.length];
-  return [propia,gente,otra&&(CENA_FOTO[otra]||otra),casa].filter(Boolean).filter(opcional)}
+  return [subida,...[propia,gente,otra&&(CENA_FOTO[otra]||otra),casa].filter(Boolean).filter(opcional)].filter(Boolean)}
 function imgPlato(p){const f=FOTO_MENU[norm(p.nombre)];if(f)return f;const t=norm(p.nombre+' '+(p.ingredientes||[]).join(' '));
   for(const[re,f]of [[/ceviche/,'ceviche'],[/cafe/,'cafe'],[/yogur|bowl|avena|avocado|toast|fruta/,'desayuno-healthy'],[/tigrillo|bolon|pancakes de queso/,'desayuno-tradicional'],[/encocado|seco de|marinero|carne asada|menestra|patacon|pescado a la plancha/,'almuerzo-costeno'],[/taco|parrillada/,'sunset-grill'],[/pizza|picada/,'pizza-juegos'],[/tapa|queso|vino|sangria/,'tapas'],[/hamburgues|papas/,'hamburguesas'],[/margarita|jugo|agua de coco|cerveza/,'bebidas']])if(re.test(t))return IMG+'comida-'+f+'.jpg';
   return ''}

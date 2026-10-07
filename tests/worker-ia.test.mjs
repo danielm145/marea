@@ -100,3 +100,12 @@ await caso("plan: crear y cambiar un plan completo", async () => {
   assert.match(ultima.body.contents[0].parts.at(-1).text, /CAMBIAR el plan_actual/);
 });
 console.log(`${ok} casos OK (con planes)`);
+await caso("portada: «ponla de portada del círculo» → evento real, nada de gasto", async () => {
+  respuesta = gem({ resumen: "Portada", gastos: [], tareas: [], eventos: [], portada: { evento_id: "e1" } });
+  let j = await (await pedir({ texto: "ponla de portada de la BBQ", imagen: "data:image/jpeg;base64,QUJD", contexto: ctx }, { ip: "10.0.0.2" })).json();
+  assert.deepEqual(j.propuesta.portada, { evento_id: "e1" }); assert.equal(j.propuesta.gastos.length, 0);
+  respuesta = gem({ resumen: "", gastos: [], tareas: [], eventos: [], portada: { evento_id: "inventado" } });
+  j = await (await pedir({ texto: "portada", imagen: "data:image/jpeg;base64,QUJD", contexto: ctx }, { ip: "10.0.0.3" })).json();
+  assert.deepEqual(j.propuesta.portada, { evento_id: "" });
+});
+console.log(`${ok} casos OK (con portada)`);
