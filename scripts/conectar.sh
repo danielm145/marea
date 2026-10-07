@@ -17,6 +17,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 [ -f .env ] || { echo "Falta .env: cp .env.example .env y llénalo."; exit 1; }
 set -a; source .env; set +a
+: "${SUPABASE_URL:=https://${SUPABASE_PROJECT_REF:-}.supabase.co}"   # la URL sale sola del Project ID
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then unset CLOUDFLARE_API_TOKEN; fi
 
 echo "════ 1 · Base de datos ════"

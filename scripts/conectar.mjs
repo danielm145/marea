@@ -14,12 +14,13 @@ import path from "node:path";
 
 const RAIZ = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const env = { ...leerEnv(path.join(RAIZ, ".env")), ...process.env };
+if (!env.SUPABASE_URL && env.SUPABASE_PROJECT_REF) env.SUPABASE_URL = `https://${env.SUPABASE_PROJECT_REF}.supabase.co`;   // la URL sale sola del Project ID
 function leerEnv(f) {
   const o = {}; let t = ""; try { t = fs.readFileSync(f, "utf8"); } catch { return o; }
   for (const l of t.split("\n")) { const m = l.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*(#.*)?$/); if (m) o[m[1]] = m[2].replace(/^["'`]|["'`]$/g, ""); }
   return o;
 }
-const falta = ["SUPABASE_PROJECT_REF", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_ACCESS_TOKEN", "ADMIN_CELULAR", "ADMIN_CUMPLE"].filter((k) => !env[k]);
+const falta = ["SUPABASE_PROJECT_REF", "SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_ACCESS_TOKEN", "ADMIN_CELULAR", "ADMIN_CUMPLE"].filter((k) => !env[k]);
 if (falta.length) { console.error("Falta en .env: " + falta.join(", ") + "\n(ver .env.example: de dónde sale cada una)"); process.exit(1); }
 
 const REF = env.SUPABASE_PROJECT_REF, URLSB = env.SUPABASE_URL.replace(/\/$/, ""), SRK = env.SUPABASE_SERVICE_ROLE_KEY;
