@@ -10,7 +10,7 @@ await pg.goto('file:///home/user/marea/public/index.html');
 const shot=n=>pg.screenshot({path:`/tmp/marea-test/v2-${n}.png`});
 const esc=()=>pg.keyboard.press('Escape');
 // Alegría (100000003)
-await pg.fill('#lced','0990000003'); await pg.fill('#lpin','1211'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');
+await pg.fill('#lced','0990000003');  await pg.click('#lbtn'); await pg.waitForSelector('.hh');
 log('pestañas:', (await pg.$$eval('.tab span',x=>x.map(e=>e.textContent))).join(','));
 log('lugar:', await pg.textContent('.hh-l'));
 await shot('01-hoy');
@@ -58,7 +58,7 @@ await pg.click('text=Crear las marcadas'); await pg.waitForSelector('.trow'); aw
 // Mi ficha: restricciones + talento
 await pg.evaluate(()=>abrirMiPerfil()); await pg.fill('#pf_talento','Imitaciones de profesores'); await pg.click('text=Guardar mi ficha'); await pg.waitForTimeout(150);
 // Admin
-await pg.evaluate(()=>salir()); await pg.fill('#lced','0990000001'); await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');
+await pg.evaluate(()=>salir()); await pg.fill('#lced','0990000001');  await pg.click('#lbtn'); await pg.waitForSelector('.hh');
 await pg.evaluate(()=>irA('admin')); await pg.waitForSelector('text=Comida y presupuesto'); await shot('12-admin');
 log('invitados admin:', await pg.locator('#main .item').count());
 // Talent show muestra el talento de Alegría

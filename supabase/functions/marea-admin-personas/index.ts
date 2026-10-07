@@ -4,7 +4,8 @@
 // Crea y administra a los invitados usando auth.admin con la service_role que
 // Supabase inyecta (SUPABASE_SERVICE_ROLE_KEY). Jamás viaja al navegador.
 //
-// Identidad (Daniel, 7-oct-2026): se entra con el CELULAR y una clave de 4
+// Desde el 7-oct-2026 se entra SOLO con el celular (acción pública «entrar»: devuelve la sesión).
+// Antes (se conserva para las cuentas viejas): se entraba con el CELULAR y una clave de 4
 // dígitos que es el día y el mes del cumpleaños (DDMM). Email sintético
 // <celular>@marea.local y contraseña REAL en Auth `${celular}#${DDMM}`; el
 // front compone exactamente esa cadena. El celular se guarda en formato
@@ -64,6 +65,8 @@ export function normCumple(c: unknown): string | null {
 export const pinDe = (cumple: string) => cumple.slice(3, 5) + cumple.slice(0, 2);   // MM-DD → DDMM
 export const emailDe = (tel: string) => `${tel}@marea.local`;
 export const passwordDe = (tel: string, pin: string) => `${tel}#${pin}`;
+/* desde el 7-oct se entra solo con el celular: la contraseña de Auth ya no la escribe nadie */
+const claveDe = (tel: string, cumple: string | null) => cumple ? passwordDe(tel, pinDe(cumple)) : `${tel}#${crypto.randomUUID()}`;
 
 async function mensajeWA(nombre: string) {
   const primer = (nombre || "").trim().split(/\s+/)[0] || "";
@@ -71,7 +74,7 @@ async function mensajeWA(nombre: string) {
   const v = (cfg?.valor as Record<string, string>) || {};
   const lugar = v.lugar || "la playa", app = v.nombre || "Casablanca";
   return `¡Hola ${primer}! 🌴☀️\nYa está lista ${app}, la app de nuestro viaje a ${lugar}.\n\n` +
-    `👉 Entra desde tu celular: ${APP}\n📱 Usuario: tu número de celular\n🔑 Clave: el día y el mes de tu cumpleaños (4 números: si naciste el 7 de marzo, es 0703)\n\n` +
+    `👉 Entra desde tu celular: ${APP}\n📱 Entras solo con tu número de celular, sin clave\n\n` +
     `Ahí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El plan de cada día y el look de cada noche\n` +
     `🍽️ El menú de los 4 días (márcanos si no comes algo)\n📸 El álbum para subir las fotos del viaje\n🙋 Tu ficha: alergias, tu talento y tu canción de karaoke\n\n` +
     `Tip: ábrela y en el menú del navegador elige "Agregar a pantalla de inicio" para tenerla como app.`;
@@ -79,6 +82,26 @@ async function mensajeWA(nombre: string) {
 function waUrl(telefono: string | null, mensaje: string) {
   const tel = (telefono || "").replace(/\D/g, "");
   return tel ? `https://wa.me/${tel}?text=${encodeURIComponent(mensaje)}` : null;
+}
+
+// alguien que ya estaba en la lista (sembrado o creado sin cuenta) recibe su cuenta apenas tenga celular y cumpleaños
+async function asegurarCuenta(p: { id: string; auth_id: string | null; telefono: string | null; cumple: string | null; nombre: string }) {
+  if (p.auth_id || !p.telefono) return p.auth_id;
+  const email = emailDe(p.telefono), password = claveDe(p.telefono, p.cumple);
+  let uid: string | null = null;
+  const { data: au, error } = await admin.auth.admin.createUser({ email, password, email_confirm: true, user_metadata: { nombre: p.nombre } });
+  if (!error) uid = au.user.id;
+  else {   // la cuenta ya existía con ese correo: se busca y se le deja la clave = cumpleaños
+    for (let page = 1; page <= 20 && !uid; page++) {
+      const { data } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+      const u = data?.users?.find((x) => x.email === email); if (u) uid = u.id;
+      if (!data?.users?.length || data.users.length < 200) break;
+    }
+    if (!uid) throw error;
+    const { error: eu } = await admin.auth.admin.updateUserById(uid, { password, email_confirm: true }); if (eu) throw eu;
+  }
+  const { error: ep } = await admin.from("personas").update({ auth_id: uid }).eq("id", p.id); if (ep) throw ep;
+  return uid;
 }
 
 async function audit(actor: string, accion: string, objetivo: string, detalle: unknown) {
@@ -96,6 +119,29 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors(req) });
   if (req.method !== "POST") return reply(req, 405, { error: "POST" });
 
+  let body: Record<string, unknown> = {};
+  try { body = await req.json(); } catch { return reply(req, 400, { error: "JSON inválido" }); }
+  const action = String(body.action || "");
+
+  // --- ENTRAR SOLO CON EL CELULAR (Daniel, 7-oct-2026: «para no enredarnos») ---
+  // Público: si el celular está en la lista y activo, se le da la sesión. No hay clave.
+  if (action === "entrar") {
+    try {
+      const tel = normTel(body.telefono);
+      if (!tel) return reply(req, 400, { error: "Escribe tu número de celular completo (ej. 098 557 6470)." });
+      const { data: p } = await admin.from("personas").select("id,auth_id,nombre,telefono,cumple,activo").eq("telefono", tel).maybeSingle();
+      if (!p) return reply(req, 404, { error: "Ese celular no está en la lista del viaje. Escríbele a Daniel." });
+      if (!p.activo) return reply(req, 403, { error: "Tu cuenta está bloqueada. Escríbele a Daniel." });
+      await asegurarCuenta(p);
+      const { data: link, error: el } = await admin.auth.admin.generateLink({ type: "magiclink", email: emailDe(tel) });
+      if (el || !link?.properties?.hashed_token) throw el || new Error("no pude abrir la sesión");
+      const pub = createClient(URL, Deno.env.get("SUPABASE_ANON_KEY") ?? SRK, { auth: { persistSession: false, autoRefreshToken: false } });
+      const { data: ses, error: ev } = await pub.auth.verifyOtp({ type: "magiclink", token_hash: link.properties.hashed_token });
+      if (ev || !ses?.session) throw ev || new Error("no pude abrir la sesión");
+      return reply(req, 200, { access_token: ses.session.access_token, refresh_token: ses.session.refresh_token });
+    } catch (e) { return reply(req, 500, { error: (e as Error).message || String(e) }); }
+  }
+
   // --- quién llama ---
   const token = (req.headers.get("authorization") || "").replace(/^Bearer\s+/i, "");
   if (!token) return reply(req, 401, { error: "sin token" });
@@ -104,10 +150,6 @@ Deno.serve(async (req) => {
   const { data: yo } = await admin.from("personas").select("id,nombre,rol,activo").eq("auth_id", caller.user.id).maybeSingle();
   if (!yo || !yo.activo || yo.rol !== "admin") return reply(req, 403, { error: "solo admin" });
   const actor = yo.nombre;
-
-  let body: Record<string, unknown> = {};
-  try { body = await req.json(); } catch { return reply(req, 400, { error: "JSON inválido" }); }
-  const action = String(body.action || "");
 
   try {
     if (action === "listar") {
@@ -128,14 +170,14 @@ Deno.serve(async (req) => {
       const apodo = String(body.apodo || "").trim() || null;
       const rol = body.rol === "admin" ? "admin" : "invitado";
       if (!telefono) return reply(req, 400, { error: "celular inválido (ej. 0985576470 o +593 98 557 6470)" });
-      if (!cumple) return reply(req, 400, { error: "cumpleaños inválido (día/mes, ej. 07/03)" });
+      if (body.cumple && String(body.cumple).trim() && !cumple) return reply(req, 400, { error: "cumpleaños inválido (día y mes, ej. 1806)" });
       if (nombre.length < 2) return reply(req, 400, { error: "nombre requerido" });
       const { data: existe } = await admin.from("personas").select("id").eq("telefono", telefono).maybeSingle();
       if (existe) return reply(req, 409, { error: "ese celular ya está registrado" });
 
-      const pin = pinDe(cumple);
+      const pin = cumple ? pinDe(cumple) : null;
       const { data: au, error: ea } = await admin.auth.admin.createUser({
-        email: emailDe(telefono), password: passwordDe(telefono, pin), email_confirm: true,
+        email: emailDe(telefono), password: claveDe(telefono, cumple), email_confirm: true,
         user_metadata: { nombre },
       });
       if (ea) throw ea;
@@ -149,11 +191,10 @@ Deno.serve(async (req) => {
 
     if (action === "reset_pin") {   // «reenviar invitación»: la clave sigue siendo el cumpleaños; se re-sincroniza por si acaso
       const { data: p } = await admin.from("personas").select("id,auth_id,nombre,telefono,cumple").eq("id", String(body.id)).maybeSingle();
-      if (!p?.auth_id) return reply(req, 404, { error: "persona sin cuenta" });
-      if (!p.telefono || !p.cumple) return reply(req, 400, { error: "falta el celular o el cumpleaños" });
-      const pin = pinDe(p.cumple);
-      const { error } = await admin.auth.admin.updateUserById(p.auth_id, { email: emailDe(p.telefono), password: passwordDe(p.telefono, pin), email_confirm: true });
-      if (error) throw error;
+      if (!p) return reply(req, 404, { error: "no encontré a esa persona" });
+      if (!p.telefono) return reply(req, 400, { error: "falta el celular: ponlo y guarda primero" });
+      p.auth_id = await asegurarCuenta(p);
+      const pin = p.cumple ? pinDe(p.cumple) : null;
       await audit(actor, "reset_pin", p.id, null);
       const mensaje = await mensajeWA(p.nombre);
       return reply(req, 200, { pin, mensaje, wa_url: waUrl(p.telefono, mensaje) });
@@ -184,8 +225,9 @@ Deno.serve(async (req) => {
       const { data: p, error } = await admin.from("personas").update(campos).eq("id", String(body.id)).select().single();
       if (error) throw error;
       // el celular y el cumpleaños son el usuario y la clave: Auth tiene que ir igual
-      if (p.auth_id && (campos.telefono || campos.cumple) && p.telefono && p.cumple) {
-        const { error: eu } = await admin.auth.admin.updateUserById(p.auth_id, { email: emailDe(p.telefono), password: passwordDe(p.telefono, pinDe(p.cumple)), email_confirm: true });
+      if (!p.auth_id) p.auth_id = await asegurarCuenta(p);
+      else if (campos.telefono && p.telefono) {   // cambió el celular = cambió el usuario
+        const { error: eu } = await admin.auth.admin.updateUserById(p.auth_id, { email: emailDe(p.telefono), email_confirm: true });
         if (eu) throw eu;
       }
       await audit(actor, "actualizar", p.id, Object.keys(campos));

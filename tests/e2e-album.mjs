@@ -5,7 +5,7 @@ const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleF
 pg.on('pageerror',e=>errs.push(e.message)); pg.on('console',m=>{if(m.type()==='error'&&!/ERR_FAILED/.test(m.text()))errs.push(m.text())});
 await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.abort());
 await pg.goto('file:///home/user/marea/public/index.html');
-await pg.fill('#lced','0990000002'); await pg.fill('#lpin','1106'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');
+await pg.fill('#lced','0990000002');  await pg.click('#lbtn'); await pg.waitForSelector('.hh');
 await pg.evaluate(()=>irA('nosotros')); await pg.waitForSelector('text=fotos del viaje');
 await pg.setInputFiles('#main input[type=file]',['./v2-02-menu-dia1.png','./v2-08-itinerario.png','./v2-09-dress.png']);
 await pg.waitForSelector('#ft_go'); await pg.fill('#ft_t','Pruebas del álbum'); await pg.selectOption('#ft_d',{index:1});
@@ -21,7 +21,7 @@ await pg.click('text=Siguiente'); await pg.screenshot({path:'v3-03-visor.png'});
 await pg.click('.tab:nth-child(1)'); log('hoy muestra fotos:', await pg.locator('#main .alb img').count());
 await pg.evaluate(()=>irA('nosotros')); await pg.click('text=Viajeros'); await pg.click('.pcard >> nth=1'); log('ficha con fotos:', await pg.locator('#sheetBody .alb img').count()); await pg.keyboard.press('Escape');
 // la persona que no subió no puede borrar
-await pg.evaluate(()=>salir()); await pg.fill('#lced','0990000005'); await pg.fill('#lpin','1409'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');
+await pg.evaluate(()=>salir()); await pg.fill('#lced','0990000005');  await pg.click('#lbtn'); await pg.waitForSelector('.hh');
 await pg.evaluate(()=>irA('nosotros')); await pg.click('text=Álbum de fotos'); await pg.click('.chips.scroll .chip >> text=Todas'); await pg.click('#main .alb button >> nth=0'); log('otro invitado ve "Borrar":', await pg.locator('#sheetBody >> text=Borrar foto').count()); await pg.keyboard.press('Escape');
 await pg.evaluate(()=>irA('planes')); await pg.waitForSelector('.tl2'); await pg.screenshot({path:'v3-04-itinerario.png'});
 await pg.click('text=Mi agenda'); log('mi agenda (eventos):', await pg.locator('.ev').count());

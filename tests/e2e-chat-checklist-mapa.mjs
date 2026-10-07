@@ -4,7 +4,7 @@ const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleF
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
 await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();await pg.waitForTimeout(500);
 await pg.screenshot({path:'n-0-login.png'});
-await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
 const sh=async(n,js,full)=>{if(js)await pg.evaluate(js);await pg.waitForTimeout(700);await pg.screenshot({path:`n-${n}.png`,fullPage:!!full});};
 await sh('1-hoy',null,true);
 await sh('2-mas',()=>irA('mas'));

@@ -5,11 +5,11 @@ await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')
 await pg.goto('file:///home/user/marea/public/index.html');
 // un teléfono con la demo vieja y fechas raras (2 oct – 9 nov) se re-siembra con las reales
 await pg.evaluate(()=>{try{localStorage.clear();localStorage.setItem('marea_demo_v1',JSON.stringify({v:14,config:{desde:'2026-10-02',hasta:'2026-11-09'}}))}catch(e){}});await pg.reload();await pg.waitForTimeout(500);
-await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
 console.log('portada:',(await pg.locator('.hh-f').innerText()),'· días:',await pg.locator('.st b').first().innerText());
-console.log('botones en la tarjeta IA:',await pg.locator('.iac').count(),'(es un solo botón:',await pg.evaluate(()=>document.querySelector('.iac').tagName),')');
+console.log('botones en la tarjeta IA:',await pg.locator('.iac-mas').count(),'(es un solo botón:',await pg.evaluate(()=>document.querySelector('.iac-mas').tagName),')');
 await pg.screenshot({path:'f-1-hoy.png'});
-await pg.click('.iac');await pg.waitForSelector('#ltxt');await pg.waitForTimeout(400);
+await pg.click('.iac-mas');await pg.waitForSelector('#ltxt');await pg.waitForTimeout(400);
 console.log('pantalla:',await pg.locator('#sheetTitle').innerText(),'· botones grandes:',await pg.locator('#sheetBody .btn').count(),'· pestañas:',await pg.locator('#lmodo').count());
 await pg.screenshot({path:'f-2-registrar.png'});
 // cambiar las fechas diciéndoselo a la IA

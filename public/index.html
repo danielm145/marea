@@ -479,6 +479,17 @@ a.item{text-decoration:none;color:inherit}
 .pl-foto{display:block;position:relative;cursor:pointer}.pl-foto>span{position:absolute;left:10px;bottom:10px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,.92);font-weight:700;font-size:13px;padding:6px 10px;border-radius:999px}.pl-foto svg{width:15px;height:15px}
 .iac{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:1px solid rgba(245,166,35,.35);background:linear-gradient(135deg,#FFF1DB,#FFFFFF 70%);font:inherit;color:inherit;cursor:pointer;padding:18px}
 .iac .grow{display:flex;flex-direction:column;gap:3px}.iac b{font-family:var(--f-disp);font-size:20px}.iac>svg{width:22px;height:22px;color:var(--sun);flex:none}
+.iac2{margin-top:14px;padding:0;overflow:hidden;border:1px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(120deg,#4285F4,#9B72CB,#D96570,#F5A623) border-box}
+.cam-ia{display:flex;align-items:center;gap:14px;padding:18px;cursor:pointer;background:linear-gradient(135deg,#EEF3FF,#FFF4F6 55%,#FFFFFF)}
+.cam-ia .grow{display:flex;flex-direction:column;gap:4px}.cam-ia b{font-family:var(--f-disp);font-size:21px}.cam-ia .tiny{color:var(--ink-2,#5b6475)}
+.cam-ic{position:relative;width:62px;height:62px;border-radius:20px;display:grid;place-items:center;flex:none;color:#fff;background:linear-gradient(135deg,#4285F4,#9B72CB 60%,#D96570)}
+.cam-ic>svg{width:30px;height:30px}.cam-gem{position:absolute;right:-6px;top:-6px;width:26px;height:26px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 2px 6px rgba(66,133,244,.35)}
+.cam-gem svg{width:17px;height:17px;animation:gemgira 3.2s ease-in-out infinite}
+@keyframes gemgira{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.18) rotate(45deg)}}
+@media (prefers-reduced-motion:reduce){.cam-gem svg{animation:none}}
+.cam-go{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#1f2a44;color:#fff;flex:none}.cam-go svg{width:18px;height:18px}
+.iac-mas{display:flex;align-items:center;gap:10px;width:100%;padding:13px 18px;border:0;border-top:1px solid #EEF0F5;background:#fff;font:inherit;font-weight:600;font-size:14px;color:var(--ink,#1f2a44);text-align:left;cursor:pointer}
+.iac-mas>svg:first-child{width:18px;height:18px;flex:none}.iac-mas>svg:last-child{width:16px;height:16px;color:var(--ink-3,#8a94a6)}
 .iac-ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--sun),#FF8A5B);color:#fff;flex:none}.iac-ic svg{width:26px;height:26px}
 .ia-foto-b{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;border:1.5px dashed rgba(245,166,35,.55);background:#FFF9EF;cursor:pointer;font-weight:700}
 .ia-foto-b>svg{width:22px;height:22px;color:var(--sun)}.ia-foto-b small{margin-left:auto;color:var(--ink-3,#8a94a6);font-weight:600}
@@ -521,7 +532,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v31';
+const BUILD_TAG='v33';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -906,7 +917,7 @@ const cumpleTxt=c=>c?`${+c.slice(3,5)} de ${MESES_L[+c.slice(0,2)-1]}`:'';
 /* 593985576470 → 098 557 6470 (Ecuador); los demás, con su + */
 const telLocal=t=>!t?'':/^593\d{9}$/.test(t)?('0'+t.slice(3)).replace(/^(\d{3})(\d{3})(\d{4})$/,'$1 $2 $3'):'+'+t;
 function mensajeWA(nombre){const primer=(nombre||'').trim().split(/\s+/)[0]||'';const lugar=(typeof CFG!=='undefined'&&CFG.lugar)||'la playa',app=(typeof CFG!=='undefined'&&CFG.nombre)||'Casablanca';
-  return `¡Hola ${primer}! 🌴☀️\nYa está lista ${app}, la app de nuestro viaje a ${lugar}.\n\n👉 Entra desde tu celular: ${APP_URL}\n📱 Usuario: tu número de celular\n🔑 Clave: el día y el mes de tu cumpleaños (4 números: si naciste el 7 de marzo, es 0703)\n\nAhí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El plan de cada día y el look de cada noche\n🍽️ El menú de los 4 días (márcanos si no comes algo)\n📸 El álbum para subir las fotos del viaje\n🙋 Tu ficha: alergias, tu talento y tu canción de karaoke\n\nTip: ábrela y en el menú del navegador elige "Agregar a pantalla de inicio" para tenerla como app.`}
+  return `¡Hola ${primer}! 🌴☀️\nYa está lista ${app}, la app de nuestro viaje a ${lugar}.\n\n👉 Entra desde tu celular: ${APP_URL}\n📱 Entras solo con tu número de celular, sin clave\n\nAhí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El plan de cada día y el look de cada noche\n🍽️ El menú de los 4 días (márcanos si no comes algo)\n📸 El álbum para subir las fotos del viaje\n🙋 Tu ficha: alergias, tu talento y tu canción de karaoke\n\nTip: ábrela y en el menú del navegador elige "Agregar a pantalla de inicio" para tenerla como app.`}
 function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`https://wa.me/${t}?text=${encodeURIComponent(msg)}`:null}
 
 const Demo={
@@ -914,7 +925,7 @@ const Demo={
   init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==16){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
-  async login(tel,pin){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p||!p.cumple||pinDe(p.cumple)!==pin)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
+  async login(tel){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p)throw new Error('Ese celular no está en la lista del viaje. Escríbele a Daniel.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
   async logout(){lsDel(DEMO_SES)},
   async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,cumple,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];COMIDAS=[...(d.comidas||[])];PLATOS=[...(d.platos||[])];ASIST=[...(d.asistencia||[])];PRESU=[...(d.presupuesto||[])];INSPI=[...(d.inspiracion||[])];MURO=[...(d.muro||[])];EQUIPO=[...(d.equipo||[])];VEHICULOS=[...(d.vehiculos||[])];PASAJEROS=[...(d.pasajeros||[])];COMERCIOS=[...(d.comercios||[])];MENSAJES=[...(d.mensajes||[])];ME=d.personas.find(p=>p.id===ME.id)||ME},
   async saveGasto(g,nuevo){const L=this.d.gastos;if(nuevo){L.unshift({...g,created_at:new Date().toISOString()})}else{const i=L.findIndex(x=>x.id===g.id);if(i<0)throw new Error('No encuentro ese gasto');this.d.historial.push({gasto_id:g.id,version:L[i],cambiado_por:ME.id,ts:new Date().toISOString()});L[i]={...L[i],...g}}this.save()},
@@ -955,10 +966,10 @@ const Demo={
   async admin(action,b){
     const d=this.d;
     if(action==='listar') return {personas:d.personas.map(p=>({...p}))};
-    if(action==='crear'){const tel=normTel(b.telefono),cu=normCumple(b.cumple);if(!tel)throw new Error('Celular inválido (ej. 0985576470 o +593 98 557 6470)');if(!cu)throw new Error('Cumpleaños inválido (día/mes, ej. 07/03)');if(d.personas.some(p=>p.telefono===tel))throw new Error('Ese celular ya está registrado');if(String(b.nombre||'').trim().length<2)throw new Error('Falta el nombre');
+    if(action==='crear'){const tel=normTel(b.telefono),cu=normCumple(b.cumple);if(!tel)throw new Error('Celular inválido (ej. 0985576470 o +593 98 557 6470)');if(String(b.cumple||'').trim()&&!cu)throw new Error('Cumpleaños inválido (día y mes, ej. 1806)');if(d.personas.some(p=>p.telefono===tel))throw new Error('Ese celular ya está registrado');if(String(b.nombre||'').trim().length<2)throw new Error('Falta el nombre');
       const p={id:uid(),cedula:null,nombre:b.nombre.trim(),apodo:(b.apodo||'').trim()||null,telefono:tel,cumple:cu,rol:b.rol==='admin'?'admin':'invitado',activo:true,perfil:{},emergencia:null,ultimo_acceso:null};
       p.invitado_en=new Date().toISOString();d.personas.push(p);this.save();const m=mensajeWA(p.nombre);return{persona:p,pin:pinDe(cu),mensaje:m,wa_url:waUrl(p.telefono,m)}}
-    if(action==='reset_pin'){const p=d.personas.find(x=>x.id===b.id);if(!p.telefono||!p.cumple)throw new Error('Falta el celular o el cumpleaños');p.invitado_en=new Date().toISOString();this.save();const m=mensajeWA(p.nombre);return{pin:pinDe(p.cumple),mensaje:m,wa_url:waUrl(p.telefono,m)}}
+    if(action==='reset_pin'){const p=d.personas.find(x=>x.id===b.id);if(!p.telefono)throw new Error('Falta el celular');p.invitado_en=new Date().toISOString();this.save();const m=mensajeWA(p.nombre);return{pin:null,mensaje:m,wa_url:waUrl(p.telefono,m)}}
     if(action==='toggle'){const p=d.personas.find(x=>x.id===b.id);p.activo=!!b.activo;this.save();return{ok:true}}
     if(action==='actualizar'){const p=d.personas.find(x=>x.id===b.id),c={...b.campos};if('telefono' in c){c.telefono=normTel(c.telefono);if(!c.telefono)throw new Error('Celular inválido');if(d.personas.some(x=>x.id!==p.id&&x.telefono===c.telefono))throw new Error('Ese celular ya es de otra persona')}if('cumple' in c){c.cumple=normCumple(c.cumple);if(!c.cumple)throw new Error('Cumpleaños inválido')}Object.assign(p,c);this.save();return{persona:p}}
     throw new Error('Acción desconocida')
@@ -976,7 +987,7 @@ const Sb={
   ok(r){if(r.error)throw new Error(r.error.message);return r.data},
   async me(uid){const p=this.ok(await this.t('personas').select('id,auth_id,nombre,apodo,telefono,cumple,rol,activo,perfil,emergencia').eq('auth_id',uid).maybeSingle());if(!p)throw new Error('Tu usuario no tiene perfil en Marea. Escríbele a Daniel.');if(!p.activo){await this.c.auth.signOut();throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.')}return p},
   async restore(){const{data}=await this.c.auth.getSession();return data.session?this.me(data.session.user.id):null},
-  async login(tel,pin){const{data,error}=await this.c.auth.signInWithPassword({email:tel+'@marea.local',password:tel+'#'+pin});if(error)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');return this.me(data.user.id)},
+  async login(tel){const j=await this.fn('marea-admin-personas',{action:'entrar',telefono:tel});const{data,error}=await this.c.auth.setSession({access_token:j.access_token,refresh_token:j.refresh_token});if(error||!data.user)throw new Error('No pude entrar. Inténtalo otra vez.');return this.me(data.user.id)},
   async logout(){await this.c.auth.signOut()},
   async loadAll(){
     const[p,c,g,t,e,v,et]=await Promise.all([
@@ -1177,16 +1188,15 @@ function pintarLogin(msg){
     <div class="stk-row login-stk">${['goodVibes','salty','vitamin','paradise'].map(k=>stk(k)).join('')}</div>
     <div style="text-align:center"><h1>¡Nos vamos a la playa!</h1><p class="tag">Same, Esmeraldas · buenos amigos, mejores historias.</p></div>
     <form id="lf" class="stack" autocomplete="on">
-      <div class="field"><label for="lced">Tu celular</label><input id="lced" class="in" type="tel" inputmode="tel" autocomplete="username" placeholder="098 557 6470" value="${esc(telLocal(lsGet('marea_tel')||''))}" required></div>
-      <div class="field"><label for="lpin">Tu clave: día y mes de tu cumpleaños</label><input id="lpin" class="in pin-in" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="DDMM" required><div class="muted tiny" style="margin-top:6px">Si naciste el 7 de marzo, tu clave es <b class="num">0703</b>.</div></div>
+      <div class="field"><label for="lced">Entra con tu número de celular</label><input id="lced" class="in" type="tel" inputmode="tel" autocomplete="username" placeholder="098 557 6470" value="${esc(telLocal(lsGet('marea_tel')||''))}" required></div>
       <div id="lerr" class="banner bad" ${msg?'':'hidden'}>${esc(msg||'')}</div>
       <button class="btn primary block" id="lbtn">Entrar</button>
     </form>
     <p class="muted tiny">¿No te deja entrar? Escríbele a Daniel por WhatsApp.</p>
-    ${MODO==='demo'?`<div class="banner tide"><div><b>Modo demo.</b> Los datos viven solo en este teléfono. Entra como Daniel con el celular <b class="num">${telLocal(demoTel(0))}</b> y la clave <b class="num">${pinDe(demoCumple(0))}</b> (cumple el ${cumpleTxt(demoCumple(0))}). Los demás: ${telLocal(demoTel(1))} … ${telLocal(demoTel(DEMO_GENTE.length-1))}, cada uno con su cumpleaños de ejemplo en Admin.</div></div>`:''}
+    ${MODO==='demo'?`<div class="banner tide"><div><b>Modo demo.</b> Los datos viven solo en este teléfono. Entra como Daniel con el celular <b class="num">${telLocal(demoTel(0))}</b>. Los demás: ${telLocal(demoTel(1))} … ${telLocal(demoTel(DEMO_GENTE.length-1))}.</div></div>`:''}
     <p class="foot">${BUILD_TAG} · ${MODO}</p></div>`;
   $('#lf').onsubmit=async e=>{e.preventDefault();const b=$('#lbtn');b.disabled=true;b.textContent='Entrando…';
-    try{const tel=normTel($('#lced').value);if(!tel)throw new Error('Escribe tu número de celular completo (ej. 098 557 6470).');const pin=$('#lpin').value.replace(/\D/g,'');if(pin.length!==4)throw new Error('La clave son 4 números: día y mes de tu cumpleaños.');ME=await API.login(tel,pin);lsSet('marea_tel',tel);await cargar();TAB='hoy';try{history.replaceState(null,'','#hoy')}catch(x){}render()}
+    try{const tel=normTel($('#lced').value);if(!tel)throw new Error('Escribe tu número de celular completo (ej. 098 557 6470).');ME=await API.login(tel);lsSet('marea_tel',tel);await cargar();TAB='hoy';try{history.replaceState(null,'','#hoy')}catch(x){}render()}
     catch(err){$('#lerr').hidden=false;$('#lerr').textContent=err.message;b.disabled=false;b.textContent='Entrar'}};
 }
 async function salir(){await API.logout();ME=null;closeSheet(true);pintarLogin()}
@@ -1290,7 +1300,24 @@ function vHoy(){
     <div style="text-align:center;margin-top:18px">${stk('beachEra','',230)}</div>`;
 }
 /* el lugar donde se registra todo: una foto y unas palabras, la IA llena el resto */
-function iaCard(){return `<button class="card iac" onclick="abrirLector()"><span class="iac-ic">${ic('spark')}</span><span class="grow"><b>Registrar con IA</b><span class="muted tiny">Un gasto, una factura, una foto, un pendiente o un plan: cuéntalo y la IA lo llena.</span></span>${ic('chev')}</button>`}
+/* la estrella de Gemini (4 puntas, azul → morado → rosa): dice sin palabras «aquí lee la IA» */
+const GEM_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gemg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"/><stop offset=".55" stop-color="#9B72CB"/><stop offset="1" stop-color="#D96570"/></linearGradient></defs><path fill="url(#gemg)" d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z"/></svg>';
+function iaCard(){return `<div class="card iac2">
+  <label class="cam-ia"><input type="file" accept="image/*" capture="environment" hidden onchange="camaraIA(this)">
+    <span class="cam-ic">${ic('cam')}<span class="cam-gem">${GEM_SVG}</span></span>
+    <span class="grow"><b>Foto de la factura</b><span class="tiny">Tómale una foto y Gemini llena el gasto solo: el total, quién pagó y para quién.</span></span>
+    <span class="cam-go">${ic('chev')}</span>
+  </label>
+  <button class="iac-mas" onclick="abrirLector()">${GEM_SVG}<span class="grow">O cuéntaselo a la IA: un gasto, un pendiente o un plan</span>${ic('chev')}</button>
+</div>`}
+/* cámara del inicio: foto → hoja de registrar con la foto puesta → la IA la lee sin tocar nada más */
+async function camaraIA(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;
+  abrirLector(null,null,null,'gasto');
+  try{const x=await achicar(f,1600,.82);LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob}}catch(e){toast(e.message);return}
+  const im=$('#lthumb');if(im){im.src=LECT.dataUrl;im.hidden=false}const fb=$('#lfotob');if(fb){fb.classList.add('con');const t=fb.querySelector('span');if(t)t.textContent='Foto lista · cambiar'}
+  if(IA_URL&&!IA.probada)await probarIA();
+  if(IA.ok)procesarLector();
+  else{const t=$('#ltxt');if(t){t.placeholder='La IA aún no está conectada: escribe el valor, ej. «48 de hielo, para todos»';t.focus()}}}
 /* la temática de esta noche (o la próxima) en grande: lo primero que la gente quiere saber */
 function nocheDestacada(hoy){return EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&esNoche(e)&&e.estilo&&e.dia&&e.dia>=hoy).sort((a,b)=>a.dia.localeCompare(b.dia))[0]}
 function nocheCard(hoy){
@@ -2068,16 +2095,16 @@ function vAdmin(){
 function abrirNuevoInvitado(){
   openSheet(`${sheetH('Nuevo invitado')}<div class="stack">
     <div class="field"><label for="ni_n">Nombre completo</label><input id="ni_n" class="in" autofocus></div>
-    <div class="grid2"><div class="field"><label for="ni_t">Celular (su usuario)</label><input id="ni_t" class="in" type="tel" inputmode="tel" placeholder="098 557 6470"></div><div class="field"><label for="ni_c">Cumpleaños (día/mes)</label><input id="ni_c" class="in" inputmode="numeric" placeholder="07/03"></div></div>
+    <div class="grid2"><div class="field"><label for="ni_t">Celular (su usuario)</label><input id="ni_t" class="in" type="tel" inputmode="tel" placeholder="098 557 6470"></div><div class="field"><label for="ni_c">Cumpleaños (opcional)</label><input id="ni_c" class="in" inputmode="numeric" maxlength="5" placeholder="Ej. 1806"></div></div>
     <div class="field"><label for="ni_a">Apodo (opcional)</label><input id="ni_a" class="in"></div>
-    <p class="muted tiny" style="margin:0">Su clave es el día y el mes del cumpleaños: 07/03 → 0703.</p>
+    <p class="muted tiny" style="margin:0">Entra solo con su celular, sin clave.</p>
     <div id="ni_e" class="banner bad" hidden></div>
     <button class="btn primary block" onclick="crearInvitado(this)">Crear y armar la invitación</button></div>`);
 }
 async function crearInvitado(btn){btn.disabled=true;try{const r=await API.admin('crear',{nombre:$('#ni_n').value,cumple:$('#ni_c').value,apodo:$('#ni_a').value,telefono:$('#ni_t').value});ADM=null;await cargar();mostrarPin(r.persona.nombre,r)}catch(e){btn.disabled=false;const x=$('#ni_e');x.hidden=false;x.textContent=e.message}}
 function mostrarPin(nombre,r){
-  openSheet(`${sheetH('Clave de '+esc(nombre.split(' ')[0]))}<div class="stack">
-    <div class="card"><div class="eyebrow" style="text-align:center">Su clave es su cumpleaños</div><div class="pin-big num">${esc(r.pin)}</div><p class="muted tiny" style="text-align:center;margin:0">Entra con su celular${r.persona?' '+esc(telLocal(r.persona.telefono)):''} y estos 4 números. El mensaje explica la regla, no lleva la clave.</p></div>
+  openSheet(`${sheetH('Invitación de '+esc(nombre.split(' ')[0]))}<div class="stack">
+    <div class="card"><p class="muted" style="text-align:center;margin:0">Entra solo con su celular${r.persona?' <b class="num">'+esc(telLocal(r.persona.telefono))+'</b>':''}, sin clave.</p></div>
     <div class="field"><label for="wa_msg">Mensaje para WhatsApp</label><textarea id="wa_msg" class="in" rows="7" readonly onclick="this.select()">${esc(r.mensaje)}</textarea></div>
     <button class="btn primary block" onclick="copiar($('#wa_msg').value,'Mensaje copiado: pégalo en WhatsApp')">${ic('copy')} Copiar mensaje</button>
     ${r.wa_url?`<a class="btn sun block" href="${esc(r.wa_url)}" target="_blank" rel="noopener">${ic('wa')} Abrir WhatsApp</a>`:'<p class="muted tiny" style="margin:0">Si guardas su número, aparece el botón para abrir WhatsApp directo.</p>'}
@@ -2086,8 +2113,8 @@ function mostrarPin(nombre,r){
 function abrirInvitado(id){
   const p=ADM.find(x=>x.id===id); if(!p) return;
   openSheet(`${sheetH(esc(p.nombre))}<div class="stack">
-    <div class="card"><dl class="kv"><dt>Celular</dt><dd class="num">${esc(telLocal(p.telefono)||'—')}</dd><dt>Cumpleaños</dt><dd>${p.cumple?esc(cumpleTxt(p.cumple))+' · clave <b class="num">'+pinDe(p.cumple)+'</b>':'—'}</dd><dt>Rol</dt><dd>${p.rol}</dd><dt>Invitación</dt><dd>${p.invitado_en?'Enviada el '+new Date(p.invitado_en).toLocaleString('es-EC'):'Sin enviar'}</dd><dt>Último acceso</dt><dd>${p.ultimo_acceso?new Date(p.ultimo_acceso).toLocaleString('es-EC'):'Nunca'}</dd></dl></div>
-    <div class="grid2"><div class="field"><label for="ei_t">Celular</label><input id="ei_t" class="in" type="tel" inputmode="tel" value="${esc(telLocal(p.telefono))}"></div><div class="field"><label for="ei_c">Cumpleaños (día/mes)</label><input id="ei_c" class="in" inputmode="numeric" value="${p.cumple?p.cumple.slice(3,5)+'/'+p.cumple.slice(0,2):''}"></div></div>
+    <div class="card"><dl class="kv"><dt>Celular</dt><dd class="num">${esc(telLocal(p.telefono)||'—')}</dd><dt>Cumpleaños</dt><dd>${p.cumple?esc(cumpleTxt(p.cumple)):'—'}</dd><dt>Rol</dt><dd>${p.rol}</dd><dt>Invitación</dt><dd>${p.invitado_en?'Enviada el '+new Date(p.invitado_en).toLocaleString('es-EC'):'Sin enviar'}</dd><dt>Último acceso</dt><dd>${p.ultimo_acceso?new Date(p.ultimo_acceso).toLocaleString('es-EC'):'Nunca'}</dd></dl></div>
+    <div class="grid2"><div class="field"><label for="ei_t">Celular</label><input id="ei_t" class="in" type="tel" inputmode="tel" value="${esc(telLocal(p.telefono))}"></div><div class="field"><label for="ei_c">Cumpleaños (opcional)</label><input id="ei_c" class="in" inputmode="numeric" placeholder="Ej. 1806" value="${p.cumple?pinDe(p.cumple):''}"></div></div>
     <div class="field"><label for="ei_a">Apodo</label><input id="ei_a" class="in" value="${esc(p.apodo||'')}"></div>
     <button class="btn block" onclick="editarInvitado('${p.id}')">Guardar cambios</button>
     <button class="btn primary block" onclick="nuevaClave('${p.id}',this)">${ic('wa')} Enviar invitación por WhatsApp</button>

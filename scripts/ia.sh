@@ -31,10 +31,10 @@ else
     try { const j = JSON.parse(Buffer.from(process.env.GOOGLE_SA_B64 || "", "base64").toString()); if (ok(j)) salir(j, "GOOGLE_SA_B64"); } catch {}
     try { const f = process.env.GOOGLE_APPLICATION_CREDENTIALS; const j = JSON.parse(fs.readFileSync(f, "utf8")); if (ok(j)) salir(j, f); } catch {}
     const H = os.homedir();
-    for (const d of ["aero-ec", "aero-ec-hub", "aero-plm", "aero-wms", "Downloads", "Documents"].map((x) => path.join(H, x))) {
+    for (const d of ["aero-ec", "aero-ec-hub", "aero-plm", "aero-wms", "Downloads", "Documents", "Desktop", "Escritorio", ""].map((x) => path.join(H, x))) {
       let fs_ = []; try { fs_ = fs.readdirSync(d); } catch { continue; }
       for (const f of fs_.filter((f) => f.endsWith(".json"))) { try { const j = JSON.parse(fs.readFileSync(path.join(d, f), "utf8")); if (ok(j)) salir(j, path.join(d, f)); } catch {} }
-      for (const f of fs_.filter((f) => /CREDENCIALES.*\.md$/.test(f))) { try { const m = fs.readFileSync(path.join(d, f), "utf8").match(/(?:GOOGLE|VERTEX)_SA_B64\s*[=:]\s*`?([A-Za-z0-9+/=]{200,})/); if (m) { const j = JSON.parse(Buffer.from(m[1], "base64").toString()); if (ok(j)) salir(j, path.join(d, f)); } } catch {} }
+      for (const f of fs_.filter((f) => /CREDENCIALES.*\.md$|^\.env|^\.dev\.vars$/.test(f))) { try { const m = fs.readFileSync(path.join(d, f), "utf8").match(/(?:GOOGLE|VERTEX)_SA_B64\s*[=:]\s*`?([A-Za-z0-9+/=]{200,})/); if (m) { const j = JSON.parse(Buffer.from(m[1], "base64").toString()); if (ok(j)) salir(j, path.join(d, f)); } } catch {} }
     }
     process.exit(1);' "${1:--}") || {
     echo "No encontré la cuenta de servicio de Vertex."

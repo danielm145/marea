@@ -299,3 +299,13 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 ## v31 · cara de Kevin
 - `public/img/gente/kevin-lopez.jpg` (foto que mandó Daniel, recortada 400×400). Sale sola en el perfil, eventos y gastos si el invitado se llama «Kevin López».
 - Kevin se crea como invitado desde la app (Más → Administrar → Invitados): celular 0988441247, cumpleaños 18/06 → su clave es 1806.
+
+## v32 · cámara con IA en el inicio
+- Tarjeta «Foto de la factura» (borde y estrella con los colores de Gemini): abre la cámara del celular (`capture=environment`), pone la foto en la hoja de registrar y la IA la lee sola (`camaraIA`). Si la IA no está conectada, deja la foto y pide escribir el valor.
+- Debajo, «O cuéntaselo a la IA» abre la hoja de siempre (`.iac-mas`).
+
+## v33 · se entra SOLO con el celular (Daniel: «para no enredarnos»)
+- Login sin clave. La acción pública `entrar` de `marea-admin-personas` busca el celular en `personas` (activo), le crea la cuenta si no la tiene (`asegurarCuenta`) y devuelve la sesión (magic link verificado del lado del servidor) → el front hace `setSession`.
+- El cumpleaños queda opcional al crear o editar invitados; el WhatsApp dice «entras solo con tu celular, sin clave».
+- Cualquiera que sepa el celular de un invitado puede entrar como él: aceptado por Daniel (app de un viaje entre amigos).
+- Para que funcione hay que volver a desplegar la función: `scripts/conectar.sh`.

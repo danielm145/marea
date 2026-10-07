@@ -3,7 +3,7 @@ const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/ch
 const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
 await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();
-await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
 const abrir=async n=>{await pg.evaluate(n=>abrirPlato(PLATOS.find(p=>p.nombre===n).id),n);await pg.waitForTimeout(500)};
 await abrir('Parrillada');await pg.locator('#sheetBody').screenshot({path:'plato-pizza.png'});
 console.log('pizza:',(await pg.locator('#sheetBody').innerText()).replace(/\n+/g,' / ').slice(0,260));

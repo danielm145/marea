@@ -15,10 +15,10 @@ await pg.route('**/*',async r=>{const u=new URL(r.request().url());
   let f=R+(u.pathname==='/'?'/index.html':decodeURIComponent(u.pathname));if(!fs.existsSync(f))return r.fulfill({status:404,body:''});
   const ext=f.split('.').pop();return r.fulfill({body:fs.readFileSync(f),contentType:{html:'text/html',jpg:'image/jpeg',webp:'image/webp',png:'image/png',js:'text/javascript',json:'application/json',webmanifest:'application/manifest+json'}[ext]||'application/octet-stream'})});
 await pg.goto('http://casablanca.test/');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();await pg.waitForTimeout(600);
-await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');await pg.waitForTimeout(500);
+await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');await pg.waitForTimeout(500);
 console.log('home · frase:',await pg.locator('.hh-s').count(),'· tarjeta IA:',await pg.locator('.iac').count(),'· accesos rápidos:',await pg.locator('.qa').count(),'· stickers fila:',await pg.locator('.stk-row').count(),'· IA:',await pg.evaluate(()=>JSON.stringify(IA)));
 await pg.screenshot({path:'x-1-hoy.png'});
-await pg.click('.iac');await pg.waitForSelector('#ltxt');
+await pg.click('.iac-mas');await pg.waitForSelector('#ltxt');
 console.log('aviso sin IA visible:',await pg.locator('#laviso .banner').count());
 await pg.click('#lsug .chip:has-text("Pagué yo")');await pg.click('#lsug .chip:has-text("Para todos menos")');await pg.type('#ltxt','Naty, 48 de hielo para la BBQ');
 console.log('texto armado:',await pg.inputValue('#ltxt'));
@@ -35,7 +35,7 @@ const g=await pg.evaluate(()=>{const g=GASTOS.find(x=>x.descripcion==='Hielo y c
 console.log('guardado:',await pg.evaluate(()=>GASTOS.length)-antes,JSON.stringify(g));
 // foto directa desde el home → álbum con pie de la IA
 modoMock='album';await pg.evaluate(()=>{closeSheet();irA('hoy')});await pg.waitForTimeout(400);
-await pg.click('.iac');await pg.waitForSelector('#lfoto',{state:'attached'});await pg.setInputFiles('#lfoto','/home/user/marea/public/img/casa/playa.jpg');await pg.waitForSelector('#lfotob.con');await pg.screenshot({path:'x-5-foto.png'});
+await pg.click('.iac-mas');await pg.waitForSelector('#lfoto',{state:'attached'});await pg.setInputFiles('#lfoto','/home/user/marea/public/img/casa/playa.jpg');await pg.waitForSelector('#lfotob.con');await pg.screenshot({path:'x-5-foto.png'});
 await pg.click('#lgo');await pg.waitForSelector('#ft_t',{timeout:8000});console.log('álbum · pie:',await pg.inputValue('#ft_t'));
 await pg.screenshot({path:'x-6-album.png'});
 await pg.click('#ft_go');await pg.waitForTimeout(600);console.log('fotos en álbum:',await pg.evaluate(()=>MURO.filter(f=>f.texto==='El primer atardecer en Same').length));

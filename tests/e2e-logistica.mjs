@@ -6,7 +6,7 @@ pg.on('pageerror',e=>errs.push(e.message)); pg.on('console',m=>{if(m.type()==='e
 await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.abort());
 await pg.goto('file:///home/user/marea/public/index.html');
 await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}}); await pg.reload();
-await pg.fill('#lced','0990000006'); await pg.fill('#lpin','1502'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');  // Ana Cris
+await pg.fill('#lced','0990000006');  await pg.click('#lbtn'); await pg.waitForSelector('.hh');  // Ana Cris
 log('hoy:', (await pg.locator('.hh-in').innerText()).replace(/\n/g,' '));
 await pg.evaluate(()=>{SUBE='programa';DIA_PLAN=diasViaje()[1];irA('planes')}); await pg.waitForSelector('.tl2');
 log('día 1:', (await pg.locator('.tl2').innerText()).split('\n').filter(Boolean).slice(0,16).join(' · '));

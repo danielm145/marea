@@ -4,7 +4,7 @@ const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleF
 pg.on('requestfailed',r=>{if(r.failure()?.errorText.includes('FILE_NOT_FOUND'))falta.push(r.url().replace(/.*public\//,''))});
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
 await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();await pg.waitForTimeout(500);
-await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
 for(const t of ['planes','menu','nosotros','tareas','gastos','hoy'])await pg.evaluate(t=>irA(t),t),await pg.waitForTimeout(300);
 console.log('pedidas que no existen:',falta.length?[...new Set(falta)]:'ninguna');
 const r=await pg.evaluate(()=>{const e=EVENTOS.find(x=>x.titulo==='BBQ & Cocktail Night');const antes=imgEvento(e)[0];
