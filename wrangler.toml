@@ -1,20 +1,20 @@
-# MAREA ALTA — marea.fieldbuil.ai
-# App del viaje a la playa. 100% estática: Cloudflare publica SOLO ./public.
-# Deploy:  npx wrangler@4 deploy --config wrangler.toml
+# CASABLANCA · SAME — casablanca.fieldbuil.ai
+# App del viaje + una puerta de IA (/api/ia, worker/index.js). Cloudflare publica SOLO ./public.
+# Deploy:  scripts/deploy.sh            (este archivo: solo workers.dev)
+#          scripts/deploy.sh wrangler.dominio.toml   (además amarra los dominios)
+# La llave de la IA es un SECRETO del Worker (scripts/ia.sh), nunca va en el código.
 name = "marea"
 
 # La cuenta queda FIJA aquí a propósito: el login de wrangler del Mac se comparte
-# con otros proyectos y, sin account_id, el deploy se va a la cuenta equivocada
-# o muere con un error de autenticación que no dice nada.
+# con otros proyectos y, sin account_id, el deploy se va a la cuenta equivocada.
 account_id = "f4c891395f3372f5816572768e1096f7"
 
+main = "worker/index.js"
 compatibility_date = "2025-01-01"
 workers_dev = true
 
-# El dominio marea.fieldbuil.ai se amarra UNA vez en el dash (el token de deploy
-# no tiene permiso de zona): dash.cloudflare.com → Workers & Pages → marea →
-# Settings → Domains & Routes → Add → Custom domain → marea.fieldbuil.ai
-
 [assets]
 directory = "./public"
+binding = "ASSETS"
 not_found_handling = "single-page-application"
+run_worker_first = ["/api/*"]

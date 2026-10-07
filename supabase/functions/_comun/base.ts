@@ -4,12 +4,12 @@ import Anthropic from "npm:@anthropic-ai/sdk";
 
 export const URL = Deno.env.get("SUPABASE_URL")!;
 const SRK = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-export const APP = Deno.env.get("MAREA_APP_ORIGIN") ?? "https://marea.fieldbuil.ai";
+export const APP = Deno.env.get("MAREA_APP_ORIGIN") ?? "https://casablanca.fieldbuil.ai";
 export const MODELO = "claude-opus-5-5";
 export const admin = createClient(URL, SRK, { auth: { persistSession: false, autoRefreshToken: false }, db: { schema: "marea" } });
 export const claude = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY")! });
 
-const ORIGENES = new Set([APP, "https://marea.daniel-martinez9094.workers.dev", "http://localhost:8787", "http://localhost:3000"]);
+const ORIGENES = new Set([APP, "https://casablanca.fieldbuil.ai", "https://marea.fieldbuil.ai", "https://marea.daniel-martinez9094.workers.dev", "http://localhost:8787", "http://localhost:3000"]);
 export function cors(req: Request) {
   const o = req.headers.get("origin") || "";
   return {

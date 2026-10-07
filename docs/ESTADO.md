@@ -1,6 +1,34 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v22**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v23**.
+
+## v23 (7-oct) · la IA en la URL + casablanca.fieldbuil.ai + home limpio
+- **Dominio oficial: https://casablanca.fieldbuil.ai** (`wrangler.dominio.toml` amarra casablanca y deja vivo marea).
+  `deploy.sh` revisa los tres y dice si la IA está conectada.
+- **La IA vive en el mismo Worker** (`worker/index.js`): `POST /api/ia` (texto y/o foto → propuesta de gastos,
+  tareas, planes o foto para el álbum) y `GET /api/ia/salud`. Motor: **Vertex AI** (modo express, secreto
+  `VERTEX_API_KEY`) o **Gemini API** (secreto `GEMINI_API_KEY`), modelo `gemini-2.5-flash` con esquema JSON.
+  La llave es un SECRETO de Cloudflare: `scripts/ia.sh` la busca en el Mac (CREDENCIALES) y la sube sin mostrarla.
+  Funciona en modo demo y con Supabase; si la IA no está o falla, la app usa la lectura rápida y lo dice.
+  Defensas: solo acepta llamadas desde su propio dominio, freno de 40 lecturas/10 min por IP, foto ≤ 6 MB,
+  y `limpiar()` revisa todo lo que devuelve la IA (solo ids de personas y planes reales, montos con 2 decimales,
+  RUC de 13 dígitos). Pruebas: `node tests/worker-ia.test.mjs` (13 casos, Gemini simulado).
+- **«Cuéntale a la IA»**: el único lugar para registrar (tarjeta en el home con Foto / Escribir y el botón +).
+  Foto (factura, ticket, transferencia o foto del viaje) + texto; chips para escoger en vez de escribir
+  («Pagué yo», «Para todos menos…»); mientras piensa se ve el avance. El gasto que vuelve **se va llenando
+  a la vista** y todo se cambia TOCANDO: caras para quién pagó y entre quiénes (con lo que le toca a cada uno),
+  chips de categoría y de plan. Si la foto es del viaje, propone guardarla en el álbum con un pie escrito por la IA.
+- **Home: menos es más** — fuera la frase «Desconecta · Comparte · Vive el momento», los accesos rápidos
+  (repetían la barra de abajo) y la fila de stickers; queda el sticker Our Beach Era al final.
+- Prueba de punta a punta: `tests/e2e-ia-registro.mjs` (IA simulada, servido por http).
+
+### Para que la IA funcione en la URL (Daniel, en el Mac, una sola vez)
+```
+cd ~/marea && git pull && scripts/deploy.sh wrangler.dominio.toml   # publica y amarra casablanca.fieldbuil.ai
+scripts/ia.sh            # Gemini (llave AIza… que ya está en CREDENCIALES)  ·  o:  scripts/ia.sh vertex
+```
+`deploy.sh` debe terminar diciendo `IA: gemini` (o `vertex`) en las tres URLs.
+Ojo: hasta conectar Supabase, cada teléfono guarda sus propios datos (modo demo). La IA ya sirve igual.
 
 ## v22 (7-oct) · portada de Hoy más linda
 - Portada de Hoy: **atardecer rosado de la piscina** (cuadro del video del condominio, sin marca de agua,

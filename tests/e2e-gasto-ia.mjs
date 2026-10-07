@@ -7,17 +7,16 @@ await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')
 await pg.goto('file:///home/user/marea/public/index.html');
 await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}}); await pg.reload();
 await pg.fill('#lced','0990000001'); await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');
-await pg.click('.fab'); await pg.waitForTimeout(200);
-log('opciones:', (await pg.locator('#sheetBody .add-opt b').allInnerTexts()).join(' | '));
-await pg.click('#sheetBody .add-opt:has-text("Nuevo gasto")'); await pg.waitForSelector('#ltxt');
+await pg.click('.fab'); await pg.waitForSelector('#ltxt');
+log('pantalla:', await pg.locator('#sheetTitle').innerText(), '| modos:', (await pg.locator('#lmodo button').allInnerTexts()).join(' | '), '| aviso sin IA:', await pg.locator('#laviso .banner').count());
 await pg.setInputFiles('#lfoto','/home/user/marea/public/img/menu/d2-cena.jpg'); await pg.waitForTimeout(300);
 await pg.fill('#ltxt','Pagué 48 dólares de hielo y cervezas para la BBQ, para todos menos Naty');
 await pg.screenshot({path:'v8-20-nuevo.png'});
 await pg.click('#lgo'); await pg.waitForSelector('.gia'); await pg.waitForTimeout(300);
 log('confirmación:', (await pg.locator('.gia').innerText()).replace(/\n+/g,' / ').slice(0,300));
 await pg.screenshot({path:'v8-21-confirma.png',fullPage:true});
-await pg.fill('#fcorr','Naty sí entra'); await pg.click('#fcorrb'); await pg.waitForTimeout(400);
-log('tras corregir:', (await pg.locator('.gia dl').innerText()).replace(/\n+/g,' / '));
+await pg.evaluate(()=>document.querySelector('#sheetBody details.ia-sec').open=true); await pg.fill('#fcorr','Naty sí entra'); await pg.click('#fcorrb'); await pg.waitForTimeout(400);
+log('tras corregir:', await pg.locator('.ia-sec').nth(1).locator('.eyebrow').first().innerText());
 await pg.click('#fsave'); await pg.waitForTimeout(500);
 log('sheet abierto:', await pg.evaluate(()=>!document.querySelector('#sheet').hidden), '| err:', await pg.locator('#ferr').count()?await pg.locator('#ferr').innerText():'');
 log('último gasto:', await pg.evaluate(()=>{const g=GASTOS.slice().sort((a,c)=>String(c.created_at).localeCompare(String(a.created_at)))[0];return g.descripcion+' · '+g.monto+' · partes '+g.reparto.partes.length+' · ev '+((EVENTOS.find(e=>e.id===g.evento_id)||{}).titulo||'-')+' · foto '+!!g.respaldo_path}));
@@ -25,5 +24,5 @@ log('último gasto:', await pg.evaluate(()=>{const g=GASTOS.slice().sort((a,c)=>
 await pg.evaluate(()=>{const e=EVENTOS.find(x=>x.titulo==='Tapas & Wine Night');abrirEvento(e.id)}); await pg.waitForTimeout(200);
 await pg.click('#sheetBody .ev-acc button:has-text("Gasto")'); await pg.waitForSelector('#ltxt');
 await pg.fill('#ltxt','Kevin pagó 85 del vino, solo Ana Pau, Ana Cris y Kevin'); await pg.click('#lgo'); await pg.waitForSelector('.gia');
-log('desde plan:', (await pg.locator('.gia dl').innerText()).replace(/\n+/g,' / '));
+log('desde plan · pagó:', await pg.locator('.ia-sec').nth(0).locator('.avp.on > span:not(.av)').innerText(), '· entre:', (await pg.locator('.ia-sec').nth(1).locator('.avp.on > span:not(.av)').allInnerTexts()).join(', '), '· plan:', await pg.locator('.ia-sec').nth(3).locator('.chip[aria-pressed=true]').innerText());
 log('errores:', errs.length?errs:'ninguno'); await b.close();

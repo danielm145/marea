@@ -1,4 +1,4 @@
-# AGENTS.md · Marea Alta (marea.fieldbuil.ai)
+# AGENTS.md · Casablanca (casablanca.fieldbuil.ai · antes Marea Alta)
 
 App del viaje a la playa de un grupo de 12 amigos: gastos compartidos tipo Splitwise,
 tareas, eventos y noches temáticas, perfil de cada invitado. Dueño: Daniel Martínez

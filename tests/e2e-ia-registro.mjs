@@ -1,0 +1,43 @@
+import { chromium } from 'playwright';
+import fs from 'node:fs';
+const R='/home/user/marea/public';
+const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
+let llamadas=0, modoMock='gasto';
+await pg.route('**/*',async r=>{const u=new URL(r.request().url());
+  if(/fonts\.(googleapis|gstatic)/.test(u.host))return r.continue();
+  if(u.host!=='casablanca.test')return r.abort();
+  if(u.pathname==='/api/ia/salud')return r.fulfill({json:{ok:true,motor:'gemini',modelo:'gemini-2.5-flash'}});
+  if(u.pathname==='/api/ia'){llamadas++;const body=JSON.parse(r.request().postData());const P=body.contexto.personas;const id=n=>P.find(p=>p.nombre.startsWith(n)).id;
+    await new Promise(z=>setTimeout(z,1800));
+    if(modoMock==='album')return r.fulfill({json:{propuesta:{resumen:'Foto del atardecer',gastos:[],tareas:[],eventos:[],album:{pie:'El primer atardecer en Same',evento_id:null},ia:true}}});
+    return r.fulfill({json:{propuesta:{resumen:'Gasto de $48 en hielo, lo pagaste tú, para todos menos Natalia',ia:true,album:null,tareas:[],eventos:[],gastos:[{descripcion:'Hielo y cervezas',monto:48,fecha:null,categoria:'bebidas',alcance:'consumo',pagador_ids:[body.contexto.autor_id],participante_ids:P.filter(p=>!p.nombre.startsWith('Natalia')).map(p=>p.id),modo:'igual',partes:null,pago_entre:null,evento_id:body.contexto.eventos.find(e=>/BBQ/.test(e.titulo))?.id||null,factura:null,etiquetas:['hielo'],confianza:.9,dudas:[]}]}}});}
+  let f=R+(u.pathname==='/'?'/index.html':decodeURIComponent(u.pathname));if(!fs.existsSync(f))return r.fulfill({status:404,body:''});
+  const ext=f.split('.').pop();return r.fulfill({body:fs.readFileSync(f),contentType:{html:'text/html',jpg:'image/jpeg',webp:'image/webp',png:'image/png',js:'text/javascript',json:'application/json',webmanifest:'application/manifest+json'}[ext]||'application/octet-stream'})});
+await pg.goto('http://casablanca.test/');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();await pg.waitForTimeout(600);
+await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');await pg.waitForTimeout(500);
+console.log('home · frase:',await pg.locator('.hh-s').count(),'· tarjeta IA:',await pg.locator('.iac').count(),'· accesos rápidos:',await pg.locator('.qa').count(),'· stickers fila:',await pg.locator('.stk-row').count(),'· IA:',await pg.evaluate(()=>JSON.stringify(IA)));
+await pg.screenshot({path:'x-1-hoy.png'});
+await pg.click('.iac .btn.primary');await pg.waitForSelector('#ltxt');
+console.log('aviso sin IA visible:',await pg.locator('#laviso .banner').count());
+await pg.click('#lsug .chip:has-text("Pagué yo")');await pg.click('#lsug .chip:has-text("Para todos menos")');await pg.type('#ltxt','Naty, 48 de hielo para la BBQ');
+console.log('texto armado:',await pg.inputValue('#ltxt'));
+await pg.screenshot({path:'x-2-componer.png'});
+await pg.click('#lgo');await pg.waitForTimeout(700);console.log('pensando:',await pg.locator('#lpensando:not([hidden]) b').innerText());
+await pg.screenshot({path:'x-3-pensando.png'});
+await pg.waitForSelector('.ia-llena');console.log('llena con IA · pagó:',await pg.locator('.ia-sec').nth(0).locator('.avp.on > span:not(.av)').innerText(),'· entran:',await pg.locator('.ia-sec').nth(1).locator('.avp.on').count(),'· cat:',await pg.locator('.ia-sec').nth(2).locator('.chip[aria-pressed=true]').innerText(),'· plan:',await pg.locator('.ia-sec').nth(3).locator('.chip[aria-pressed=true]').innerText());
+await pg.waitForTimeout(1600);await pg.screenshot({path:'x-4-lleno.png'});await pg.screenshot({path:'x-4b-lleno-full.png',fullPage:true});
+// escoger tocando: Natalia entra, paga Kevin
+await pg.locator('.ia-sec').nth(1).locator('.avp.off').click();await pg.locator('.ia-sec').nth(0).locator('.avp:has-text("Kevin")').click();
+console.log('tras tocar · entran:',await pg.locator('.ia-sec').nth(1).locator('.avp.on').count(),'· pagó:',await pg.locator('.ia-sec').nth(0).locator('.avp.on > span:not(.av)').innerText(),'· animación otra vez:',await pg.locator('.ia-llena').count());
+const antes=await pg.evaluate(()=>GASTOS.length);await pg.click('#fsave');await pg.waitForTimeout(800);
+const g=await pg.evaluate(()=>{const g=GASTOS.find(x=>x.descripcion==='Hielo y cervezas');return g&&{monto:g.monto,pag:g.pagadores.map(p=>nom(p.persona_id)),n:(g.reparto.partes||[]).length,ev:g.evento_id?EVENTOS.find(e=>e.id===g.evento_id).titulo:null}});
+console.log('guardado:',await pg.evaluate(()=>GASTOS.length)-antes,JSON.stringify(g));
+// foto directa desde el home → álbum con pie de la IA
+modoMock='album';await pg.evaluate(()=>{closeSheet();irA('hoy')});await pg.waitForTimeout(400);
+await pg.setInputFiles('.iac input[type=file]','/home/user/marea/public/img/casa/playa.jpg');await pg.waitForSelector('#lfotob.con');await pg.screenshot({path:'x-5-foto.png'});
+await pg.click('#lgo');await pg.waitForSelector('#ft_t',{timeout:8000});console.log('álbum · pie:',await pg.inputValue('#ft_t'));
+await pg.screenshot({path:'x-6-album.png'});
+await pg.click('#ft_go');await pg.waitForTimeout(600);console.log('fotos en álbum:',await pg.evaluate(()=>MURO.filter(f=>f.texto==='El primer atardecer en Same').length));
+console.log('llamadas IA:',llamadas,'· scrollW',await pg.evaluate(()=>document.documentElement.scrollWidth));
+console.log('errores:',errs.length?errs:'ninguno');await b.close();

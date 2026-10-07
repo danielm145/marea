@@ -436,6 +436,32 @@ a.item{text-decoration:none;color:inherit}
 .info-map{position:absolute;right:12px;bottom:14px;z-index:2;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:13px}
 .amen{display:grid;grid-template-columns:repeat(auto-fit,minmax(48px,1fr));gap:6px;margin-top:12px}
 .amen span{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--ink-2)}.amen i{width:42px;height:42px;border-radius:14px;background:var(--surface);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--navy)}.amen svg{width:20px;height:20px}
+.iac{margin-top:14px;background:linear-gradient(135deg,#FFF4E2,#FFFFFF 60%);border:1px solid rgba(245,166,35,.28)}
+.iac-t{display:flex;gap:12px;align-items:flex-start}.iac-t>svg{width:30px;height:30px;color:var(--sun);flex:none;margin-top:2px}.iac-t b{font-family:var(--f-disp);font-size:19px}
+.iac-b{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.iac-b .btn{justify-content:center;cursor:pointer}
+.ia-foto{display:flex;align-items:center;justify-content:center;min-height:118px;border:2px dashed rgba(245,166,35,.45);border-radius:18px;background:#FFF9EF;cursor:pointer;position:relative;overflow:hidden}
+.ia-foto-in{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;padding:12px}.ia-foto-in svg{width:30px;height:30px;color:var(--sun)}
+.ia-foto img{max-height:220px;width:100%;object-fit:contain;background:#fff}.ia-foto.con{border-style:solid;min-height:0}.ia-foto.con .ia-foto-in{display:none}
+.ia-txt{font-size:17px;min-height:96px}
+.chip.usado{opacity:.5}
+.ia-piensa{display:flex;gap:12px;align-items:center;padding:14px;border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}
+.ia-orb{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--sun),#FF8A5B);color:#fff;flex:none;animation:iaOrb 1.4s ease-in-out infinite}.ia-orb svg{width:22px;height:22px}
+.ia-barra{display:block;height:6px;border-radius:9px;background:var(--surface-2);margin-top:8px;overflow:hidden}.ia-barra i{display:block;height:100%;background:linear-gradient(90deg,var(--sun),#FF8A5B);border-radius:9px;transition:width 1.2s ease}
+@keyframes iaOrb{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.ia-mas{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ia-mas>*{display:flex;gap:6px;align-items:center;justify-content:center;padding:10px;border-radius:14px;background:var(--surface-2);border:0;font:inherit;font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;text-align:center}.ia-mas svg{width:16px;height:16px;flex:none}
+.ia-sello{display:flex;gap:8px;align-items:center;font-weight:700;color:var(--sun);font-size:14px}.ia-sello svg{width:18px;height:18px}
+.ia-sec .eyebrow{margin-bottom:6px}
+.gia-e{display:block;border:0;background:none;padding:0;font:inherit;text-align:left;cursor:pointer;color:inherit;width:100%}
+.av-pick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 4px;padding:4px 0 6px;justify-items:center}
+.avp{flex:0 0 auto;width:66px;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;font:inherit;cursor:pointer;color:var(--ink);padding:0;transition:opacity .2s}
+.avp .av{width:48px;height:48px;font-size:18px;transition:box-shadow .2s,transform .2s}.avp.on .av{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--sun)}.avp.off{opacity:.42}.avp:active .av{transform:scale(.94)}
+.avp span{font-size:12px;font-weight:700;max-width:66px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.avp b{font-size:11px;color:var(--ink-2);font-weight:600}
+.ia-llena>*{animation:iaIn .45s ease both}
+.ia-llena>*:nth-child(2){animation-delay:.12s}.ia-llena>*:nth-child(3){animation-delay:.24s}.ia-llena>*:nth-child(4){animation-delay:.36s}.ia-llena>*:nth-child(5){animation-delay:.48s}.ia-llena>*:nth-child(6){animation-delay:.6s}.ia-llena>*:nth-child(7){animation-delay:.72s}.ia-llena>*:nth-child(8){animation-delay:.84s}.ia-llena>*:nth-child(n+9){animation-delay:.96s}
+.ia-llena .avp.on .av,.ia-llena .chip[aria-pressed=true]{animation:iaPop .9s 1s ease both}
+@keyframes iaIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes iaPop{0%{transform:scale(.9)}45%{transform:scale(1.08)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.ia-llena>*,.ia-llena .avp.on .av,.ia-llena .chip[aria-pressed=true],.ia-orb{animation:none}}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -465,14 +491,14 @@ a.item{text-decoration:none;color:inherit}
 <script>
 'use strict';
 /* ============================================================================
-   MAREA ALTA · marea.fieldbuil.ai
+   CASABLANCA · SAME · casablanca.fieldbuil.ai (antes marea.fieldbuil.ai, que sigue vivo)
    Un solo archivo. Dos motores de datos con la misma interfaz:
      · DEMO      → todo en este navegador (localStorage). Sirve para ver y probar ya.
      · SUPABASE  → proyecto compartido fieldbuilt-lab, esquema `marea`.
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v22';
+const BUILD_TAG='v23';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -480,7 +506,24 @@ const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la
 const SB_URL='';   // ← Project URL de fieldbuilt-lab, ej. https://abcd.supabase.co
 const SB_ANON='';  // ← anon public key de fieldbuilt-lab
 const MODO=(SB_URL&&SB_ANON&&window.supabase)?'supabase':'demo';
-const APP_URL='https://marea.fieldbuil.ai';
+const APP_URL='https://casablanca.fieldbuil.ai';
+/* IA: la puerta /api/ia del Worker (worker/index.js, Gemini/Vertex). Sirve igual en demo y con Supabase.
+   Sin IA (vista previa, archivo local o llave sin cargar) se usa la lectura rápida y se dice. */
+let IA={ok:false,motor:null,probada:false};
+const IA_URL=/^https?:$/.test(location.protocol)&&!/claude\.ai|claudeusercontent/.test(location.hostname)?'/api/ia':null;
+async function probarIA(){if(!IA_URL){IA.probada=true;return IA}try{const r=await fetch(IA_URL+'/salud',{cache:'no-store'});const j=await r.json();IA={ok:!!j.ok,motor:j.motor||null,probada:true}}catch(e){IA={ok:false,motor:null,probada:true}}return IA}
+function contextoIA(){return{autor_id:ME.id,autor:nom(ME.id),hoy:hoyISO(),moneda:CFG.moneda||'USD',personas:activos().map(p=>({id:p.id,nombre:p.nombre,apodo:p.apodo||''})),eventos:EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>({id:e.id,titulo:e.titulo,dia:e.dia||null}))}}
+async function leerIA({texto,dataUrl,modo}){
+  const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),70000);
+  try{const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({texto:texto||'',imagen:dataUrl||null,modo:modo||'auto',contexto:contextoIA()}),signal:ctl.signal});
+    const j=await r.json().catch(()=>({}));if(!r.ok||!j.propuesta)throw new Error(j.error||'La IA no respondió');return j.propuesta}
+  catch(e){throw new Error(e.name==='AbortError'?'se demoró demasiado':e.message)}finally{clearTimeout(t)}}
+/* primero la IA; si no está o falla, el plan B (lectura rápida o la función de Supabase), diciendo por qué */
+async function leerConIA(o,planB){
+  if(IA_URL&&!IA.probada)await probarIA();
+  if(IA_URL&&IA.ok){try{return await leerIA(o)}catch(e){const p=await planB();p.resumen='La IA no pudo esta vez ('+e.message+'). Te dejo una lectura rápida: revísala.';return p}}
+  return planB();
+}
 
 /* ---------- utilidades ---------- */
 const $=(s,r=document)=>r.querySelector(s);
@@ -818,7 +861,7 @@ const Demo={
   async saveConfig(c){this.d.config={...this.d.config,...c,...(c.desde||c.hasta?{ejemplo:false}:{})};this.save()},
   async subirFoto(bucket,blob,dataUrl){return dataUrl},
   async urlFoto(ref){return ref},
-  async leer({texto,dataUrl,modo}){return leerLocal(texto,!!dataUrl,modo)},
+  async leer(o){return leerConIA(o,()=>leerLocal(o.texto,!!o.dataUrl,o.modo))},
   up(L,o,n){if(n)L.push({...o,created_at:new Date().toISOString()});else{const i=L.findIndex(x=>x.id===o.id);if(i<0)throw new Error('No encontrado');L[i]={...L[i],...o}}this.save()},
   async saveComida(c,n){this.up(this.d.comidas,c,n)},
   async borrarComida(id){this.d.comidas=this.d.comidas.filter(c=>c.id!==id);this.d.platos=this.d.platos.filter(p=>p.comida_id!==id);this.d.asistencia=this.d.asistencia.filter(a=>a.comida_id!==id);this.save()},
@@ -903,7 +946,8 @@ const Sb={
   async subirFoto(bucket,blob){const path=`${ME.id}/${uid()}.jpg`;const{error}=await this.c.storage.from(bucket).upload(path,blob,{contentType:'image/jpeg',upsert:false});if(error)throw new Error('No se pudo subir la foto: '+error.message);return bucket+':'+path},
   async urlFoto(ref){const i=ref.indexOf(':');const b=ref.slice(0,i),p=ref.slice(i+1);const{data,error}=await this.c.storage.from(b).createSignedUrl(p,3600);if(error)throw error;return data.signedUrl},
   async fn(name,body){const{data}=await this.c.auth.getSession();const r=await fetch(`${SB_URL}/functions/v1/${name}`,{method:'POST',headers:{'Content-Type':'application/json',apikey:SB_ANON,Authorization:'Bearer '+(data.session?data.session.access_token:SB_ANON)},body:JSON.stringify(body)});const j=await r.json().catch(()=>({error:'Respuesta inválida'}));if(!r.ok||j.error&&!j.propuesta)throw new Error(j.error||('Error '+r.status));return j},
-  async leer({texto,ref,modo}){const body={texto:texto||'',modo:modo||'auto'};if(ref)body.archivo_path=ref.slice(ref.indexOf(':')+1);try{const j=await this.fn('marea-leer-gasto',body);return j.propuesta}catch(e){const p=leerLocal(texto,!!ref,modo);p.resumen='La lectura con IA falló ('+e.message+'). Te dejo una lectura rápida para que la corrijas.';return p}},
+  async leer(o){return leerConIA(o,()=>this.leerFn(o))},
+  async leerFn({texto,ref,modo}){const body={texto:texto||'',modo:modo||'auto'};if(ref)body.archivo_path=ref.slice(ref.indexOf(':')+1);try{const j=await this.fn('marea-leer-gasto',body);return j.propuesta}catch(e){const p=leerLocal(texto,!!ref,modo);p.resumen='La lectura con IA falló ('+e.message+'). Te dejo una lectura rápida para que la corrijas.';return p}},
   async admin(action,b){return this.fn('marea-admin-personas',{action,...b})},
   async saveComida(c,n){return this.up('comidas',this.CK,c,n)},
   async borrarComida(id){this.ok(await this.t('comidas').delete().eq('id',id))},
@@ -1027,6 +1071,7 @@ const sheetH=(t,extra='')=>`<div class="sheet-h"><h2 id="sheetTitle">${t}</h2>${
    ============================================================================ */
 async function boot(){
   if(MODO==='supabase')Sb.init();else Demo.init();
+  probarIA();
   try{ME=await API.restore()}catch(e){ME=null}
   if(!ME){pintarLogin();return}
   await cargar();
@@ -1143,20 +1188,21 @@ function vHoy(){
   const stat=(i,num,l,c,click)=>`<button class="st" onclick="${click}"><span class="st-i" style="background:${c}1f;color:${c}">${ic(i)}</span><b>${num}</b><span>${l}</span></button>`;
   return `<section class="hh">${imgTag([...portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
       <div class="hh-in"><div class="hh-logo">${logo(190)}</div><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
-        <div class="script hh-s">Desconecta · Comparte · Vive el momento ${ic('heart')}</div>${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
+        ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'días','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
+    ${iaCard()}
     ${instalarCard()}
     ${prox?`<div class="card lp"><div class="lp-r"><div class="grow"><div class="lp-t">Lo próximo</div><div class="muted tiny">${esc(cuando)}</div>
         <div class="lp-e"><b class="num">${esc(String(prox.hora||'').slice(0,5))}</b><span>${esc(prox.titulo)}</span></div>${prox.lugar?`<span class="pill sun">${ic('pin')} ${esc(prox.lugar.charAt(0).toUpperCase()+prox.lugar.slice(1))}</span>`:''}</div>
         <button class="lp-img" onclick="abrirEvento('${prox.id}')">${imgTag(imgEvento(prox))}</button></div>
       <button class="btn navy block" onclick="DIA_PLAN='${prox.dia}';SUBE='programa';irA('planes')">Ver itinerario completo ${ic('chev')}</button></div>`:''}
-    <div class="sec-h"><h2>Accesos rápidos</h2></div>
-    <div class="qa">${[['menu','Menú',"irA('menu')"],['gastos','Gastos',"irA('gastos')"],['tareas','Tareas',"irA('tareas')"],['cam','Álbum',"SUBN='album';irA('nosotros')"]].map(([i,l,c])=>`<button onclick="${c}"><span>${ic(i)}</span>${l}</button>`).join('')}</div>
     ${nocheCard(hoy)}
     <button class="card saldo-c" onclick="SUBG='mov';irA('gastos')"><div class="grow"><div class="eyebrow">Mis cuentas</div><div class="muted tiny">${b.saldo>0.009?'En total te deben':b.saldo<-0.009?'En total debes':'Estás a paz y salvo'}</div></div><span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span></button>
-    <div class="stk-row">${['goodVibes','salty','vitamin','paradise','goodFriends','sunSand'].map(k=>stk(k)).join('')}</div>
-    <div style="text-align:center;margin-top:10px">${stk('beachEra','',300)}</div>`;
+    <div style="text-align:center;margin-top:18px">${stk('beachEra','',230)}</div>`;
 }
+/* el lugar donde se registra todo: una foto y unas palabras, la IA llena el resto */
+function iaCard(){return `<div class="card iac"><div class="iac-t">${ic('spark')}<div class="grow"><b>Cuéntale a la IA</b><div class="muted tiny">Un gasto, una factura, pendientes o fotos del viaje. Ella llena todo; tú solo escoges y guardas.</div></div></div>
+  <div class="iac-b"><label class="btn sun">${ic('cam')} Foto<input type="file" accept="image/*" hidden onchange="iaFotoDirecta(this)"></label><button class="btn primary" onclick="abrirLector()">${ic('spark')} Escribir</button></div></div>`}
 /* la temática de esta noche (o la próxima) en grande: lo primero que la gente quiere saber */
 function nocheDestacada(hoy){return EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&esNoche(e)&&e.estilo&&e.dia&&e.dia>=hoy).sort((a,b)=>a.dia.localeCompare(b.dia))[0]}
 function nocheCard(hoy){
@@ -1253,39 +1299,50 @@ function formDesdePropuesta(pg,respaldo,lectura,origen){
   const cat=pg.categoria==='mercado'?'despensa':pg.categoria==='comida'?'restaurantes':pg.categoria;
   return aplicarHistorial(nuevoForm({etq_ia:pg.etiquetas||[],factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja}));
 }
-/* lo que armó la IA, en limpio: se guarda o se le corrige con texto. Sin formulario. */
+/* lo que armó la IA, en limpio. Todo se cambia TOCANDO (quién pagó, entre quiénes, de qué es, con qué plan);
+   lo raro se le dice a la IA con texto. Cuando viene de la IA, los bloques aparecen uno a uno: se ve cómo se llena. */
 function pintarConfirmGasto(){
-  const m=r2(parseFloat(String(F.monto).replace(',','.'))||0), ev=EVENTOS.find(e=>e.id===F.evento_id);
-  const fuera=activos().filter(p=>!F.part.includes(p.id)), etq=[...new Set([...F.etiquetas.map(id=>(ETIQUETAS.find(t=>t.id===id)||{}).nombre).filter(Boolean),...etiquetasAuto(F)])];
+  const m=r2(parseFloat(String(F.monto).replace(',','.'))||0), anim=!!F._anim; F._anim=false;
+  const etq=[...new Set([...F.etiquetas.map(id=>(ETIQUETAS.find(t=>t.id===id)||{}).nombre).filter(Boolean),...etiquetasAuto(F)])];
   const parte=id=>F.modo==='igual'?(F.part.length?m/F.part.length:0):F.modo==='porcentaje'?m*(+F.valores[id]||0)/100:(+F.valores[id]||0);
+  const todos=F.part.length===activos().length, evs=EVENTOS.filter(e=>e.estado!=='cancelado').sort((a,b)=>String(a.dia||'9').localeCompare(String(b.dia||'9'))||minEv(a)-minEv(b));
   const err=validarF();
-  openSheet(`${sheetH(F.nuevo?'Así quedó tu gasto':'Cambiar este gasto')}<div class="stack">
-    ${F.nuevo?'':`<p class="muted" style="margin:0">Dile a la IA qué cambió y ella lo arregla: <i>"Naty no estuvo"</i>, <i>"fueron 52"</i>, <i>"pagó Kevin"</i>.</p>`}
+  openSheet(`${sheetH(F.nuevo?'Así quedó tu gasto':'Cambiar este gasto')}<div class="stack ${anim?'ia-llena':''}">
+    ${anim?`<div class="ia-sello">${ic('spark')} La IA lo llenó. Toca lo que quieras cambiar.</div>`:F.nuevo?'':`<p class="muted" style="margin:0">Toca para cambiar, o dile a la IA qué cambió.</p>`}
     ${F.dudas&&F.dudas.length?`<div class="banner warn"><div><b>Revisa esto</b><br>${F.dudas.map(esc).join('<br>')}</div></div>`:''}
     ${F.historial?`<div class="banner tide tiny"><div><b>✦ Lo aprendió de antes.</b> ${esc(F.historial)}</div></div>`:''}
     <div class="card gia">
       ${F.respaldo?`<img class="thumb" id="fthumb" alt="Factura">`:''}
       <div class="eyebrow" style="color:var(--sun)">${esc(CATN[F.categoria]||'Gasto')}${F.factura&&F.factura.comercio?' · '+esc(F.factura.comercio):''}</div>
-      <div class="gia-t">${esc(F.descripcion||'Sin descripción')}</div>
-      <div class="gia-m num">${m>0?money(m):'—'}</div>
-      <dl class="kv" style="margin-top:10px"><dt>Pagó</dt><dd>${esc(nom(F.pagador))}</dd>
-        <dt>Entre</dt><dd>${F.part.length===activos().length?'Todos':F.part.length+' personas'} · ${F.modo==='igual'?'partes iguales':F.modo==='porcentaje'?'por porcentaje':'por montos'}</dd>
-        ${fuera.length?`<dt>Sin</dt><dd>${fuera.map(p=>esc(nom(p.id))).join(', ')}</dd>`:''}
-        <dt>Ligado a</dt><dd>${ev?esc(ev.titulo):'Gasto general del viaje'}</dd>
-        <dt>Fecha</dt><dd>${fechaCorta(F.fecha)}</dd></dl>
-      <div class="chips" style="margin-top:10px">${F.part.map(id=>`<span class="pill">${esc(nom(id))} <b class="num">${money(r2(parte(id)))}</b></span>`).join('')}</div>
-      ${etq.length?`<div class="chips" style="margin-top:8px">${etq.map(t=>`<span class="pill tide">#${esc(t)}</span>`).join('')}</div>`:''}
+      <button class="gia-t gia-e" onclick="fEditar('descripcion')">${esc(F.descripcion||'Toca para escribir de qué es')}</button>
+      <button class="gia-m gia-e num" onclick="fEditar('monto')">${m>0?money(m):'Toca para poner el monto'}</button>
+      <div class="muted tiny">${fechaCorta(F.fecha)}${etq.length?' · '+etq.map(t=>'#'+esc(t)).join(' '):''}</div>
       ${F.factura&&(F.factura.items||[]).length?`<details style="margin-top:10px"><summary class="tiny muted" style="cursor:pointer">Lo que dice la factura (${F.factura.items.length} ítems)</summary>${facturaTabla(F.factura)}</details>`:''}
     </div>
-    ${F.texto_ia?`<div class="tiny muted">Le dijiste: <i>"${esc(F.texto_ia)}"</i></div>`:''}
-    <div class="field"><label for="fcorr">¿Algo no está bien? Díselo a la IA</label><textarea id="fcorr" class="in" rows="2" placeholder="Ej. Naty sí entra · pagó Kevin · es de la BBQ · fueron 52"></textarea>
-      <button class="btn sm" id="fcorrb" style="margin-top:8px" onclick="corregirConIA()">${ic('spark')} Corregir con IA</button></div>
-    <div class="field"><label for="fnota">Nota (opcional)</label><input id="fnota" class="in" value="${esc(F.nota)}" oninput="F.nota=this.value" placeholder="Si pasa el presupuesto, escribe aquí por qué"></div>
+    <div class="ia-sec"><div class="eyebrow">Pagó</div><div class="av-pick">${activos().map(p=>`<button class="avp ${F.pagador===p.id?'on':'off'}" onclick="fPag('${p.id}')">${av(p.id)}<span>${esc(nom(p.id))}</span></button>`).join('')}</div></div>
+    <div class="ia-sec"><div class="row"><div class="eyebrow grow">Entre quiénes · ${todos?'todos':F.part.length+' de '+activos().length}${F.modo!=='igual'?' · '+(F.modo==='porcentaje'?'por porcentaje':'por montos'):''}</div><button class="btn ghost sm" onclick="fTodos()">${todos?'Quitar a todos':'Todos'}</button></div>
+      <div class="av-pick">${activos().map(p=>{const on=F.part.includes(p.id);return `<button class="avp ${on?'on':'off'}" onclick="fPart('${p.id}')">${av(p.id)}<span>${esc(nom(p.id))}</span><b class="num">${on?money(r2(parte(p.id))):'no va'}</b></button>`}).join('')}</div></div>
+    <div class="ia-sec"><div class="eyebrow">Es de</div><div class="chips scroll">${CATS.map(([k,l])=>`<button class="chip" aria-pressed="${F.categoria===k}" onclick="fSet('categoria','${k}')">${l}</button>`).join('')}</div></div>
+    <div class="ia-sec"><div class="eyebrow">Va con</div><div class="chips scroll"><button class="chip" aria-pressed="${!F.evento_id}" onclick="fSet('evento_id','')">General del viaje</button>${evs.map(e=>`<button class="chip" aria-pressed="${F.evento_id===e.id}" onclick="fSet('evento_id','${e.id}')">${esc(e.titulo)}</button>`).join('')}</div></div>
+    <details class="ia-sec"${F.texto_ia&&!anim?' open':''}><summary class="eyebrow" style="cursor:pointer">¿Algo más? Díselo a la IA</summary>
+      ${F.texto_ia?`<div class="tiny muted" style="margin:6px 0">Le dijiste: <i>"${esc(F.texto_ia)}"</i></div>`:''}
+      <textarea id="fcorr" class="in" rows="2" placeholder="Ej. fueron 52 · es mitad y mitad con Kevin"></textarea>
+      <button class="btn sm" id="fcorrb" style="margin-top:8px" onclick="corregirConIA()">${ic('spark')} Corregir con IA</button>
+      <div class="field" style="margin-top:10px"><label for="fnota">Nota (opcional)</label><input id="fnota" class="in" value="${esc(F.nota)}" oninput="F.nota=this.value" placeholder="Si pasa el presupuesto, escribe aquí por qué"></div></details>
     <div id="fdup"></div><div id="ferr" class="banner bad" ${err?'':'hidden'}>${esc(err)}</div>
     <button class="btn primary block" id="fsave" onclick="guardarGasto()" ${err?'disabled':''}>${F.nuevo?'Guardar gasto':'Guardar los cambios'}</button>
     ${!F.nuevo&&(F.creado_por===ME.id||esAdmin())?`<button class="btn danger block" onclick="eliminarGasto(this)">Eliminar gasto</button>`:''}</div>`);
   if(F.respaldo){const im=$('#fthumb');const set=u=>{if(im)im.src=u};if(String(F.respaldo).startsWith('data:'))set(F.respaldo);else API.urlFoto(F.respaldo).then(set).catch(()=>{})}
+  /* lo escogido siempre a la vista, aunque la fila sea larga */
+  document.querySelectorAll('#sheetBody .ia-sec .chips.scroll, #sheetBody .av-pick').forEach(c=>{const el=c.querySelector('.chip[aria-pressed=true], .avp.on');if(el&&c.scrollWidth>c.clientWidth)c.scrollLeft=Math.max(0,el.offsetLeft-c.offsetLeft-(c.clientWidth-el.offsetWidth)/2)});
 }
+/* repinta sin perder dónde iba la persona en la hoja */
+function repintarF(){const c=$('#sheet .sheet-card'),y=c?c.scrollTop:0;pintarConfirmGasto();const c2=$('#sheet .sheet-card');if(c2)c2.scrollTop=y}
+function fPag(id){F.pagador=id;repintarF()}
+function fPart(id){if(F.modo!=='igual'){F.modo='igual';F.valores={}}F.part=F.part.includes(id)?F.part.filter(x=>x!==id):[...F.part,id];F.alcance=F.part.length===activos().length?'fijo':'consumo';repintarF()}
+function fTodos(){F.modo='igual';F.valores={};F.part=F.part.length===activos().length?[]:activos().map(p=>p.id);F.alcance=F.part.length?'fijo':'consumo';repintarF()}
+function fSet(k,v){F[k]=v;repintarF()}
+function fEditar(k){const v=prompt(k==='monto'?'¿Cuánto fue? ('+(CFG.moneda||'USD')+')':'¿De qué es el gasto?',String(F[k]||''));if(v==null)return;F[k]=k==='monto'?String(leerMonto(v.trim())||''):v.trim();repintarF()}
 async function corregirConIA(){
   const c=$('#fcorr').value.trim(); if(!c){$('#fcorr').focus();return}
   const b=$('#fcorrb');b.disabled=true;b.textContent='Corrigiendo…';
@@ -1444,53 +1501,68 @@ function abrirResumen(){
 }
 
 /* ---------- AGREGAR (botón ＋) ---------- */
-function abrirAgregar(){
-  const op=(icon,t,s,fn,sun)=>`<button class="add-opt" onclick="${fn}"><span class="ic ${sun?'s':''}">${ic(icon)}</span><span><b>${t}</b><span class="muted tiny">${s}</span></span></button>`;
-  openSheet(`${sheetH('Agregar')}<div class="stack">
-    <label class="add-opt" style="cursor:pointer"><span class="ic">${ic('cam')}</span><span><b>Fotos al álbum</b><span class="muted tiny">Para que todos las vean</span></span><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label>
-    ${op('receipt','Nuevo gasto','Foto de la factura y cuéntale a la IA quién sí, quién no y de qué es','abrirLector(true)',true)}
-    ${op('list','Lista de tareas','Pega una lista y la convierto en tareas','abrirLector(false,true)')}
-    ${op('tareas','Una tarea','Algo que hay que hacer','abrirFormTarea()')}
-    ${op('planes','Proponer un plan','Una noche temática, un desayuno, un juego','abrirFormEvento()')}
-  </div>`);
-}
-let LECT={dataUrl:null,blob:null};
+function abrirAgregar(){abrirLector()}
+let LECT={dataUrl:null,blob:null,modo:'auto'};
+const SUG={auto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Es de la BBQ','Foto del grupo'],gasto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Mitad y mitad con '],tareas:['Comprar ','Llevar ','Reservar ','Es urgente','Para el ']};
+const PH={auto:'Ej. Pagué 48 de hielo y cervezas para la BBQ, para todos menos Naty',gasto:'Ej. Pagué 48 de hielo y cervezas, para todos menos Naty',tareas:'Ej. Comprar hielo y carbón, llevar el parlante y reservar la lancha'};
+function iaAviso(){if(IA_URL&&(!IA.probada||IA.ok))return '';return `<div class="banner tide tiny">${IA_URL?'La IA todavía no está conectada: por ahora hago una lectura rápida (sin leer fotos).':'En esta vista previa no hay IA: hago una lectura rápida (sin leer fotos).'}</div>`}
+/* foto?:true abre en gasto · lista:true en pendientes · ev: el gasto va ligado a ese plan */
 function abrirLector(foto,lista,ev){
-  LECT={dataUrl:null,blob:null,ev:ev||null};
+  LECT={dataUrl:null,blob:null,ev:ev||null,modo:lista?'tareas':ev?'gasto':'auto'};
   const evN=ev&&EVENTOS.find(e=>e.id===ev);
-  openSheet(`${sheetH(lista?'Lista de tareas':'Nuevo gasto')}<div class="stack">
-    ${foto?`<p class="muted" style="margin:0">Sube la foto de la factura (si hay) y cuéntale a la IA en tus palabras: <b>quién pagó</b>, <b>para quién sí y para quién no</b>, y <b>de qué es</b>. Ella arma el gasto, lo reparte y lo liga.${evN?` Va ligado a <b>${esc(evN.titulo)}</b>.`:''}</p>`:''}
-    ${foto?`<label class="add-opt" style="cursor:pointer"><span class="ic s">${ic('cam')}</span><span><b>Foto de la factura o recibo</b><span class="muted tiny">Opcional · que se vea el total</span></span><input id="lfoto" type="file" accept="image/*" capture="environment" hidden onchange="leerFoto(this)"></label><img id="lthumb" class="thumb" hidden alt="">
-    <label class="add-opt" style="cursor:pointer"><span class="ic">${ic('receipt')}</span><span><b>Tengo el XML de la factura electrónica</b><span class="muted tiny">El que llega al correo: se lee exacto, sin IA</span></span><input type="file" accept=".xml,text/xml,application/xml" hidden onchange="this.files[0]&&leerArchivoXml(this.files[0])"></label>`:''}
-    <div class="field"><label for="ltxt">${foto?'Cuéntale a la IA':lista?'Pega o escribe la lista':'Cuéntalo como quieras'}</label>
-      <textarea id="ltxt" class="in" placeholder="${foto?'Ej. Pagué yo 48 de hielo y cervezas para la BBQ, para todos menos Naty':lista?'Comprar 3 fundas de hielo, carbón para el asado y llevar los dos micrófonos para el karaoke':'Ej. pagué 48 dólares de hielo y cervezas, para todos menos Luciana'}" rows="${foto?4:3}"></textarea>
-      <span class="muted tiny">Puedes dictarlo con el micrófono del teclado.</span></div>
-    ${MODO==='demo'?`<div class="banner tide tiny">En el modo demo la lectura es rápida y sin IA. Con Supabase conectado la hace Claude y también lee las fotos.</div>`:''}
+  openSheet(`${sheetH('Cuéntale a la IA')}<div class="stack ia-comp">
+    <p class="muted" style="margin:0">Una foto y unas palabras. La IA lo entiende y llena todo; tú solo escoges y guardas.</p>
+    <div class="seg" id="lmodo">${[['auto','Lo que sea'],['gasto','Un gasto'],['tareas','Pendientes']].map(([k,l])=>`<button data-m="${k}" aria-pressed="${LECT.modo===k}" onclick="lModo('${k}')">${l}</button>`).join('')}</div>
+    <label class="ia-foto" id="lfotob"><input id="lfoto" type="file" accept="image/*" hidden onchange="leerFoto(this)"><img id="lthumb" alt="" hidden><span class="ia-foto-in">${ic('cam')}<b>Agregar foto</b><span class="muted tiny">Factura, ticket, transferencia o una foto del viaje</span></span></label>
+    <textarea id="ltxt" class="in ia-txt" rows="3" placeholder="${esc(PH[LECT.modo])}"></textarea>
+    <div class="chips scroll" id="lsug">${lSugs()}</div>
+    ${evN?`<div class="banner tide tiny"><div>Va ligado a <b>${esc(evN.titulo)}</b>.</div></div>`:''}
+    <div id="laviso">${iaAviso()}</div>
     <div id="lerr2" class="banner bad" hidden></div>
-    <button class="btn primary block" id="lgo" onclick="procesarLector(${foto},${!!lista})">${ic('spark')} ${foto?'Armar el gasto con IA':'Leer'}</button></div>`);
+    <div id="lpensando" class="ia-piensa" hidden></div>
+    <button class="btn primary block ia-go" id="lgo" onclick="procesarLector()">${ic('spark')} Que la IA lo llene</button>
+    ${!ev&&!lista?`<div class="ia-mas"><label>${ic('cam')} Varias fotos al álbum<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label><button onclick="abrirFormTarea()">${ic('tareas')} Una tarea a mano</button><button onclick="abrirFormEvento()">${ic('planes')} Proponer un plan</button><label>${ic('receipt')} XML de la factura<input type="file" accept=".xml,text/xml,application/xml" hidden onchange="this.files[0]&&leerArchivoXml(this.files[0])"></label></div>`:''}
+  </div>`);
+  if(IA_URL&&!IA.probada)probarIA().then(()=>{const a=$('#laviso');if(a)a.innerHTML=iaAviso()});
 }
-async function leerFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{LECT=await achicar(f,1600,.82);const im=$('#lthumb');im.src=LECT.dataUrl;im.hidden=false}catch(e){toast(e.message)}}
-async function procesarLector(foto,lista){
-  const txt=$('#ltxt').value.trim(), b=$('#lgo'), er=$('#lerr2');
-  if(!LECT.dataUrl&&!txt){er.hidden=false;er.textContent=foto?'Sube la foto o cuéntale a la IA de qué es el gasto.':'Escribe algo para leer.';return}
-  b.disabled=true;b.textContent='Leyendo…';
+function lSugs(){return SUG[LECT.modo].map(t=>`<button class="chip" onclick="lSug(this)">${esc(t.trim())}${/ $/.test(t)?'…':''}</button>`).join('')}
+function lModo(m){LECT.modo=m;document.querySelectorAll('#lmodo button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));const t=$('#ltxt');if(t)t.placeholder=PH[m];const g=$('#lsug');if(g)g.innerHTML=lSugs()}
+/* escoger en vez de escribir: cada chip suma su frase y deja el cursor listo */
+function lSug(b){const t=$('#ltxt');if(!t)return;const f=b.textContent.replace(/…$/,' ');const v=t.value.trim();t.value=(v?v+(/[,.]$/.test(v)?' ':', '):'')+(v?f.charAt(0).toLowerCase()+f.slice(1):f);t.focus();try{t.setSelectionRange(t.value.length,t.value.length)}catch(e){}b.classList.add('usado')}
+async function leerFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');im.src=LECT.dataUrl;im.hidden=false;$('#lfotob').classList.add('con')}catch(e){toast(e.message)}}
+/* desde el home: la foto primero, y se abre la pantalla con la foto puesta */
+async function iaFotoDirecta(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);abrirLector();LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');im.src=x.dataUrl;im.hidden=false;$('#lfotob').classList.add('con');$('#ltxt').focus()}catch(e){toast(e.message)}finally{inp.value=''}}
+const PASOS_IA=['Mirando la foto…','Buscando el total…','Viendo quién pagó y para quién…','Llenando todo…'];
+let PIENSA_T=null;
+function pensando(si){const el=$('#lpensando'),b=$('#lgo');clearInterval(PIENSA_T);if(!el)return;
+  if(!si){el.hidden=true;if(b)b.hidden=false;return}
+  const pasos=PASOS_IA.slice(LECT.dataUrl?0:2);let k=0;el.hidden=false;if(b)b.hidden=true;
+  const pinta=()=>{el.innerHTML=`<span class="ia-orb">${ic('spark')}</span><span class="grow"><b>${pasos[Math.min(k,pasos.length-1)]}</b><span class="ia-barra"><i style="width:${Math.min(95,(k+1)/pasos.length*90)}%"></i></span></span>`};
+  pinta();PIENSA_T=setInterval(()=>{if(k<pasos.length-1){k++;pinta()}},1600)}
+async function procesarLector(){
+  const txt=$('#ltxt').value.trim(), er=$('#lerr2'), modo=LECT.modo||'auto';
+  if(!LECT.dataUrl&&!txt){er.hidden=false;er.textContent='Sube una foto o cuéntale algo a la IA.';return}
+  er.hidden=true;pensando(true);
   try{
     let ref=null; if(LECT.dataUrl){ref=MODO==='demo'?LECT.dataUrl:await API.subirFoto('marea-respaldos',LECT.blob,LECT.dataUrl)}
     LECT.txt=txt;LECT.ref=ref;
     const evN=LECT.ev&&EVENTOS.find(e=>e.id===LECT.ev);
-    const p=await API.leer({texto:(evN?`(Es un gasto de: ${evN.titulo})\n`:'')+txt,dataUrl:LECT.dataUrl,ref,modo:lista?'tareas':'gasto'});
-    mostrarPropuesta(p,ref,LECT.dataUrl?'foto':'texto');
-  }catch(e){b.disabled=false;b.innerHTML=ic('spark')+' Leer';er.hidden=false;er.textContent=e.message}
+    const p=await API.leer({texto:(evN?`(Es un gasto de: ${evN.titulo})\n`:'')+txt,dataUrl:LECT.dataUrl,ref,modo});
+    pensando(false);mostrarPropuesta(p,ref,LECT.dataUrl?'foto':'texto');
+  }catch(e){pensando(false);er.hidden=false;er.textContent=e.message}
 }
 let PROP=null;
 function mostrarPropuesta(p,ref,origen){
   PROP={...p,ref,origen};
-  if(p.gastos&&p.gastos.length===1&&!(p.tareas||[]).length&&!(p.eventos||[]).length){F=formDesdePropuesta(p.gastos[0],ref,p,origen);if(LECT.ev&&!F.evento_id)F.evento_id=LECT.ev;F.texto_ia=LECT.txt||'';F.resumen_ia=p.resumen||'';if(p.resumen&&!F.dudas.includes(p.resumen)&&p.local)F.dudas=[...F.dudas];pintarFormGasto();return}
-  const n=(p.gastos||[]).length+(p.tareas||[]).length+(p.eventos||[]).length;
+  const conAlbum=!!(p.album&&LECT.dataUrl);
+  if(conAlbum&&!(p.gastos||[]).length&&!(p.tareas||[]).length&&!(p.eventos||[]).length){albumDesdeIA();return}
+  if(p.gastos&&p.gastos.length===1&&!(p.tareas||[]).length&&!(p.eventos||[]).length){F=formDesdePropuesta(p.gastos[0],ref,p,origen);F._anim=!p.local;if(LECT.ev&&!F.evento_id)F.evento_id=LECT.ev;F.texto_ia=LECT.txt||'';F.resumen_ia=p.resumen||'';if(p.resumen&&!F.dudas.includes(p.resumen)&&p.local)F.dudas=[...F.dudas];pintarFormGasto();return}
+  const n=(p.gastos||[]).length+(p.tareas||[]).length+(p.eventos||[]).length+(conAlbum?1:0);
   if(!n){openSheet(`${sheetH('No encontré un gasto')}<div class="stack"><p class="muted">No pude sacar el gasto de eso. Cuéntalo con el monto, por ejemplo: <i>"pagué 48 de hielo para todos menos Naty"</i>.</p><button class="btn primary block" onclick="abrirLector(true,false,LECT.ev)">Volver a contarlo</button></div>`);return}
   openSheet(`${sheetH('Esto es lo que encontré')}<div class="stack">
     ${p.resumen?`<div class="banner tide">${esc(p.resumen)}</div>`:''}
-    ${(p.gastos||[]).map((g,i)=>`<button class="add-opt" onclick="F=formDesdePropuesta(PROP.gastos[${i}],PROP.ref,PROP,PROP.origen);pintarFormGasto()"><span class="ic s">${ic('receipt')}</span><span><b>${esc(g.descripcion||'Gasto')} · ${money(g.monto)}</b><span class="muted tiny">Revisar y guardar</span></span></button>`).join('')}
+    ${conAlbum?`<button class="add-opt" onclick="albumDesdeIA()"><span class="ic">${ic('cam')}</span><span><b>Guardar la foto en el álbum</b><span class="muted tiny">${esc(p.album.pie)}</span></span></button>`:''}
+    ${(p.gastos||[]).map((g,i)=>`<button class="add-opt" onclick="F=formDesdePropuesta(PROP.gastos[${i}],PROP.ref,PROP,PROP.origen);F._anim=!PROP.local;pintarFormGasto()"><span class="ic s">${ic('receipt')}</span><span><b>${esc(g.descripcion||'Gasto')} · ${money(g.monto)}</b><span class="muted tiny">Revisar y guardar</span></span></button>`).join('')}
     ${(p.tareas||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Tareas</div>${p.tareas.map((t,i)=>`<label class="sub-item"><input type="checkbox" checked data-i="${i}"><span class="grow"><b>${esc(t.titulo)}</b><br><span class="muted tiny">${esc(t.grupo||'')}${t.prioridad==='alta'?' · prioridad alta':''}${t.responsable_id&&PMAP[t.responsable_id]?' · '+esc(nom(t.responsable_id)):''}${t.evento_id&&EVENTOS.find(e=>e.id===t.evento_id)?' · '+esc(EVENTOS.find(e=>e.id===t.evento_id).titulo):''}</span></span></label>`).join('')}
       <button class="btn primary block" style="margin-top:10px" onclick="crearTareasPropuestas()">Crear las marcadas</button></div>`:''}
     ${(p.eventos||[]).map((e,i)=>`<button class="add-opt" onclick="abrirFormEvento(null,PROP.eventos[${i}])"><span class="ic">${ic('planes')}</span><span><b>${esc(e.titulo)}</b><span class="muted tiny">Proponer este plan</span></span></button>`).join('')}
@@ -2251,15 +2323,18 @@ function vAlbum(){
 }
 async function elegirFotos(inp){
   const fs=[...(inp.files||[])].slice(0,20); if(!fs.length) return;
-  try{const listas=[];for(const f of fs)listas.push(await achicar(f,1600,.82));SUBIR=listas;
-    const hoy=hoyISO(), dias=diasViaje(), evHoy=EVENTOS.filter(e=>e.dia===hoy&&e.estado!=='propuesta').sort((a,b)=>minEv(b)-minEv(a))[0];
-    openSheet(`${sheetH(`Subir ${listas.length} foto${listas.length===1?'':'s'}`)}<div class="stack">
+  try{const listas=[];for(const f of fs)listas.push(await achicar(f,1600,.82));SUBIR=listas;hojaSubir(listas)}catch(e){toast(e.message)}
+}
+function albumDesdeIA(){SUBIR=[{blob:LECT.blob,dataUrl:LECT.dataUrl}];hojaSubir(SUBIR,PROP&&PROP.album)}
+function hojaSubir(listas,ia){
+  {const hoy=hoyISO(), dias=diasViaje(), evHoy=(ia&&ia.evento_id&&EVENTOS.find(e=>e.id===ia.evento_id))||EVENTOS.filter(e=>e.dia===hoy&&e.estado!=='propuesta').sort((a,b)=>minEv(b)-minEv(a))[0];
+    openSheet(`${sheetH(`Subir ${listas.length} foto${listas.length===1?'':'s'}`)}<div class="stack ${ia?'ia-llena':''}">
       <div class="alb">${listas.map(x=>`<button style="cursor:default"><img src="${x.dataUrl}" alt=""></button>`).join('')}</div>
-      <div class="field"><label for="ft_t">Pie de foto (opcional)</label><input id="ft_t" class="in" placeholder="Ej. el atardecer del primer día"></div>
+      <div class="field"><label for="ft_t">Pie de foto ${ia?'· lo escribió la IA, cámbialo si quieres':'(opcional)'}</label><input id="ft_t" class="in" value="${ia?esc(ia.pie):''}" placeholder="Ej. el atardecer del primer día"></div>
       <div class="grid2"><div class="field"><label for="ft_d">Día</label><select id="ft_d" class="in"><option value="">Antes del viaje</option>${dias.map((d,i)=>`<option value="${d}" ${d===hoy?'selected':''}>${nomDia(i)} · ${fechaCorta(d)}</option>`).join('')}</select></div>
         <div class="field"><label for="ft_e">Noche o actividad</label><select id="ft_e" class="in"><option value="">Ninguna</option>${EVENTOS.filter(e=>e.estado!=='propuesta'&&e.estado!=='cancelado').map(e=>`<option value="${e.id}" ${evHoy&&evHoy.id===e.id?'selected':''}>${esc(e.titulo)}</option>`).join('')}</select></div></div>
       <button class="btn primary block" id="ft_go" onclick="subirFotos()">Subir al álbum</button></div>`);
-  }catch(e){toast(e.message)}
+  }
 }
 async function subirFotos(){
   const b=$('#ft_go'); b.disabled=true; const texto=$('#ft_t').value.trim(), dia=$('#ft_d').value||null, evento_id=$('#ft_e').value||null; let n=0;

@@ -7,7 +7,7 @@ pg.on('pageerror',e=>errs.push('pageerror: '+e.message));
 pg.on('console',m=>{if(m.type()==='error'&&!/ERR_FAILED/.test(m.text()))errs.push('console: '+m.text())});
 await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.abort());
 await pg.goto('file:///home/user/marea/public/index.html');
-const shot=n=>pg.screenshot({path:`./v2-${n}.png`});
+const shot=n=>pg.screenshot({path:`/tmp/marea-test/v2-${n}.png`});
 const esc=()=>pg.keyboard.press('Escape');
 // Alegría (100000003)
 await pg.fill('#lced','0990000003'); await pg.fill('#lpin','1211'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');
@@ -49,7 +49,7 @@ await shot('08-itinerario');
 await pg.click('text=Looks'); await pg.waitForSelector('.swatch'); await shot('09-dress');
 log('dress codes:', (await pg.$$eval('#main .card h3',x=>x.map(e=>e.textContent))).join(' | '));
 // TAREAS desde texto dictado
-await pg.click('.fab'); await pg.click('text=Lista de tareas');
+await pg.click('.fab'); await pg.click('#lmodo button:has-text("Pendientes")');
 await pg.fill('#ltxt','Comprar 3 fundas de hielo, carbón para el asado del sábado y llevar los dos micrófonos para el karaoke');
 await pg.click('#lgo'); await pg.waitForSelector('#sheetBody input[data-i]');
 log('tareas propuestas:\n  '+(await pg.$$eval('#sheetBody .sub-item',x=>x.map(e=>e.innerText.replace(/\n/g,' — ')))).join('\n  '));
