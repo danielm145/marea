@@ -1,6 +1,15 @@
-# Estado · Casablanca (antes Beach Trip y Marea Alta)
+# Estado · Our Beach Era (antes Casablanca, Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v18**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v19**.
+
+## v19 (7-oct) · el viaje se llama Our Beach Era
+- Logo del viaje: **Our Beach Era** (`public/img/logo-beach-era.webp`, recortado limpio de la hoja de stickers con
+  fondo transparente; también reemplaza `stickers/beach-era.webp`). Login, portada de Hoy, encabezado, íconos de la
+  app y manifest («Our Beach Era · Same», corto «Beach Era»).
+- **Casablanca queda como el nombre de la casa**: su sticker sale en Info y al pie de Hoy.
+- `sql/010_nombre_our_beach_era.sql` cambia el nombre en la base (solo si tenía un nombre por defecto).
+  La demo se vuelve a sembrar (v12) para tomar el nombre nuevo.
+- La v18 ya quedó publicada por Daniel en workers.dev y en **marea.fieldbuil.ai** (dominio funcionando).
 
 ## v18 (7-oct) · lo que faltaba de los mockups
 - **Detalle de evento con pestañas** Info · Menú · Participantes (`evTab`, `EVTAB`). «Me apunto» queda arriba
