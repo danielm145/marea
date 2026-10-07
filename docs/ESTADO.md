@@ -1,11 +1,25 @@
-# Estado · Beach Trip (antes Marea Alta)
+# Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v8**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v18**.
+
+## v18 (7-oct) · lo que faltaba de los mockups
+- **Detalle de evento con pestañas** Info · Menú · Participantes (`evTab`, `EVTAB`). «Me apunto» queda arriba
+  de las pestañas. Menú trae la frase «Buena comida, mejores conversaciones y un viaje inolvidable.»; Participantes
+  muestra quién lo organiza y la cuadrícula de quién va. Arreglado de paso: un rótulo mostraba código en pantalla.
+- **Cena de llegada con fotos** de los platos (`img/menu/llegada-*.jpg`, recortadas de los mockups: eran las
+  únicas lo bastante grandes; las demás fotos de los mockups miden 80–270 px).
+- **Hoy**: frase «Desconecta · Comparte · Vive el momento» y píldora «Faltan N días».
+- **Info**: fila de amenidades con íconos (Wi-Fi, habitaciones, piscina, cocina, parking, jacuzzi) y botón
+  «Ver en mapa» sobre la foto.
+- **Álbum → Momentos**: cada plan con su foto y cuántas fotos tiene.
+- **Lista de compras**: filtros por categoría, barra «x de N comprados» y casillas que se recuerdan en el
+  teléfono (`localStorage marea_compras`, por persona).
+- Prueba: `tests/e2e-pestanas-compras.mjs`.
 
 ## v17 (7-oct) · el viaje se llama Casablanca
 - Logo oficial del viaje: **Casablanca** (`public/img/logo-casablanca.webp`, fondo transparente) en login, portada de Hoy,
   encabezado e íconos de la app (`icon-192/512.png`). Nombre por defecto «Casablanca»; `sql/009_nombre_casablanca.sql`
-  lo cambia en la base. El logo Beach Trip (SVG) queda en el código sin usarse.
+  lo cambia en la base. (En v18 se borró el SVG viejo de Beach Trip y la búsqueda de `img/logo.png`.)
 
 ## v16 (7-oct) · lo de los mockups nuevos + stickers
 - **Stickers** (hoja «Our Beach Era» de Daniel) recortados con fondo transparente en `public/img/stickers/*.webp`

@@ -10,6 +10,6 @@ for(const [t,f] of [['Yoga matutino','ev-yoga'],['BBQ & Cocktail Night','ev-bbq'
   await pg.screenshot({path:f+'.png'});await pg.locator('#sheetBody').screenshot({path:f+'-full.png'});
   console.log(t,'| facts:',(await pg.locator('.fact').allInnerTexts()).map(x=>x.replace(/\n/g,' ')).join(' / '));}
 await pg.evaluate(()=>abrirEvento(EVENTOS.find(e=>e.titulo==='Yoga matutino').id));await pg.click('.ev-go');await pg.waitForTimeout(300);
-console.log('tras apuntarse:',await pg.locator('.ev-go').innerText(),'|',await pg.locator('.ev-gente .eyebrow').first().innerText());
+console.log('tras apuntarse:',await pg.locator('.ev-go').innerText(),'|',await pg.locator('.evt[data-t=gente] .card').nth(1).locator('.eyebrow').innerText());
 await pg.click('.fact:has-text("Look")');await pg.waitForTimeout(300);console.log('look abre dress:',await pg.locator('.look').count());
 console.log('errores:',errs.length?errs:'ninguno');await b.close();
