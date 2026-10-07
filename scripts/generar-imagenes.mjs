@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ============================================================================
-// MAREA ALTA · genera las imágenes vintage de la app (portada, noches, comida)
+// BEACH TRIP · genera las imágenes vintage de la app (portada, noches, looks, comida)
 // Corre en el Mac de Daniel:   node scripts/generar-imagenes.mjs           (solo las que faltan)
 //                              node scripts/generar-imagenes.mjs --todo    (las rehace todas)
 //                              node scripts/generar-imagenes.mjs karaoke   (solo esa)
@@ -27,15 +27,19 @@ const COMIDA = "Overhead or 45-degree food photograph on a white-washed wooden t
 const IMAGENES = {
   "portada": GENTE + "Wide shot of the friends walking barefoot along the shoreline at golden hour, laughing, the white-and-blue house behind them.",
   "llegada": GENTE + "Arriving at the beach house with vintage suitcases and straw hats, greeting each other on the white terrace with the blue umbrella.",
-  "circulo": GENTE + "Sitting in a circle around a small bonfire on the beach under a starry night sky, wrapped in linen blankets, warm firelight on their faces.",
+  "circulo": GENTE + "Welcome White Night: everyone dressed head to toe in white linen and crochet, sitting in a circle around a small bonfire on the beach under a starry sky, warm firelight on their faces.",
   "yoga": GENTE + "Sunrise yoga on the sand in front of calm turquoise water, soft pastel morning light.",
   "panzazos": GENTE + "Pool party: one friend mid-air doing a cannonball into a turquoise pool, the others cheering and holding score cards.",
-  "sunset-grill": GENTE + "Sunset barbecue on the terrace, grilling shrimp tacos and meat, string lights, orange and pink sky over the ocean.",
+  "sunset-grill": GENTE + "Golden Hour BBQ & cocktail night on the terrace: outfits in gold, beige, champagne sequins and chocolate brown, grilling picanha, chorizo and corn, mojitos and margaritas, string lights, orange sky over the ocean.",
   "playa-juegos": GENTE + "Playing spikeball and beach paddle ball on the sand, dynamic action, bright midday sun.",
   "karaoke": GENTE + "Night karaoke in the living room with a projector beam, two microphones, glitter and neon outfits, singing passionately.",
-  "fotos-gafas": GENTE + "Fashion photoshoot at golden hour, everyone in crisp white linen and sunglasses against whitewashed walls and blue shutters, Santorini mood.",
-  "pizza-juegos": GENTE + "Board game night in elegant satin pajamas, Risk and Monopoly boards on the table, homemade pizzas, cozy warm lamps.",
-  "tapas": GENTE + "Candlelit Spanish tapas and wine tasting night on the terrace, cheese boards, glasses of red and white wine, everyone in white Mediterranean outfits.",
+  "fotos-gafas": GENTE + "Fun sunglasses photoshoot at sunset on the beach, Tiki Boho outfits (vintage Hawaiian shirts, flower leis, straw hats, flowing boho skirts), everyone wearing bold colorful sunglasses, playful poses, close-up portraits. Unbranded sunglasses.",
+  "pizza-juegos": GENTE + "Pizza & game night in elegant satin pajamas: making homemade pizzas together, then playing Jenga, charades and card games around the table, laughing, cozy warm lamps.",
+  "tapas": GENTE + "Candlelit tapas & wine night on the terrace in Tiki Boho outfits (Hawaiian shirts, flowers in the hair, boho dresses): gambas al ajillo, patatas bravas, tortilla, cheese boards, Tempranillo and white wine.",
+  "restaurante": GENTE + "Last night of the trip: elegant beach dinner at a seaside restaurant, candles on white tablecloths, wine glasses, ocean at dusk behind them.",
+  "estilo-welcome-white": "Fashion mood board photograph: a stylish group in all-white beach outfits (linen shirts, crochet tops, white swimsuits, flowy skirts, straw hats, leather sandals) on a white terrace by the sea.",
+  "estilo-golden-hour": "Fashion mood board photograph: a stylish group in gold, beige, champagne sequins, satin and chocolate brown outfits on the sand at golden hour, palm trees, sun flare.",
+  "estilo-tiki-boho": "Fashion mood board photograph: a fun group in Tiki Boho outfits — vintage Hawaiian shirts, flower leis, straw bucket hats, orange boho dresses, shell accessories, colorful sunglasses — laughing on the beach with tiki mugs.",
   "cine": GENTE + "Outdoor movie night under the stars, projector screen hanging between palm trees, blankets and popcorn.",
   "throwback": GENTE + "Retro 2000s themed party, playful outfits, disco ball light, dancing in the living room.",
   "tesoro": GENTE + "Treasure hunt on the beach, friends running with a hand-drawn map and finding clues near palm trees.",
@@ -51,6 +55,8 @@ const IMAGENES = {
   "comida-bebidas": COMIDA + "Tropical non-alcoholic drinks: virgin margaritas with salt rim, fresh coconut water in a coconut, passion fruit juice, ice.",
 };
 
+// Nano Banana = gemini-2.5-flash-image (rápido). Nano Banana Pro: GEMINI_MODELO=gemini-3-pro-image-preview
+const MODELO = process.env.GEMINI_MODELO || "gemini-2.5-flash-image";
 function leerKey() {
   if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY;
   for (const f of [path.join(RAIZ, ".env"), path.join(os.homedir(), "aero-wms/CREDENCIALES.local.md")]) {
@@ -59,7 +65,7 @@ function leerKey() {
   return null;
 }
 async function conGemini(key, prompt) {
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${key}`, {
+  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODELO}:generateContent?key=${key}`, {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "4:3" } } }),
   });
@@ -86,7 +92,7 @@ async function conVertex(proyecto, prompt) {
 const args = process.argv.slice(2), todo = args.includes("--todo"), solo = args.filter((a) => !a.startsWith("--"));
 const key = leerKey(), proyecto = process.env.VERTEX_PROJECT;
 if (!key && !proyecto) { console.error("Falta GEMINI_API_KEY (o VERTEX_PROJECT con gcloud). Ej: GEMINI_API_KEY=AIza... node scripts/generar-imagenes.mjs"); process.exit(1); }
-console.log("Motor:", key ? "Gemini (gemini-2.5-flash-image)" : "Vertex Imagen 4 · " + proyecto);
+console.log("Motor:", key ? "Gemini (" + MODELO + ")" : "Vertex Imagen 4 · " + proyecto);
 let hechas = 0;
 for (const [nombre, escena] of Object.entries(IMAGENES)) {
   if (solo.length && !solo.includes(nombre)) continue;

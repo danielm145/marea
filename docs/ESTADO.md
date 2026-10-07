@@ -1,6 +1,34 @@
 # Estado · Beach Trip (antes Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v7**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v8**.
+
+## v8 (7-oct) · el menú de Kevin, los looks y los 8 invitados
+- **Invitados: solo 8** (Daniel lo confirmó con sus Instagram): Daniel Martínez (admin), Ana Paula, Alegría, Kevin López,
+  Ana Cristina **Grijalva**, **Domenika** Pérez, Natalia **Vásquez**, Amelia Camacho. Justo la capacidad del Airbnb.
+  Cada ficha del demo trae su Instagram (con enlace).
+- **Menú de Kevin** día por día: Llegada (cena ligera + Welcome White Night) y Días 1–4 con desayuno Healthy / Normal,
+  almuerzo costeño y cena: **Pizza & Game Night · BBQ & Cocktail Night · Tapas & Wine Night · Restaurant Night** (fuera de casa).
+  Menú → **«Los 4 días»**: la cuadrícula con foto de cada plato (recortadas del menú que mandó Kevin, `public/img/menu/`)
+  y el póster original al tocar «Menú Same».
+- **Looks** de los collages: Welcome White Night (llegada), Golden Hour (día 2), Tiki Boho Funny (día 3). Una tarjeta por día en Dress code.
+- **Sesión de fotos Freaky Monkey** (día 3, atardecer) y 12 gafas en el equipo.
+- Los días se llaman **Llegada, Día 1…4** en toda la app, igual que el menú de Kevin.
+- `sql/006_menu_kevin_y_looks.sql`: renombra las noches en la base (conserva votos y tareas), crea Restaurant Night y pone los looks.
+- Imágenes con IA: `scripts/generar-imagenes.mjs` ya trae las noches nuevas y los 3 looks; `GEMINI_MODELO=gemini-3-pro-image-preview` usa Nano Banana Pro.
+- **Se entra con el CELULAR + clave = día y mes del cumpleaños (DDMM)** (Daniel, 7-oct). Ya no hay cédula ni PIN al azar.
+  Auth: email `<celular>@marea.local`, contraseña `<celular>#<DDMM>`; el celular se guarda internacional sin '+' (593985576470).
+  El mensaje de WhatsApp explica la regla y no lleva la clave. Admin crea con celular + cumpleaños; cambiar cualquiera
+  de los dos actualiza Auth. `sql/007_login_celular_cumple.sql` (cédula opcional, `personas.cumple`, celular único,
+  solo el admin cambia celular y cumpleaños). Demo: Daniel = 099 000 0001, clave 1001.
+  ⚠️ La clave se adivina si alguien sabe tu celular y tu cumpleaños: aceptable para 8 amigos, no para algo más grande.
+- **Gastos solo con IA**: un único «Nuevo gasto» (foto opcional + texto: quién pagó, quién sí, quién no, de qué es).
+  La IA arma el gasto, lo reparte, lo liga a la noche y le pone etiquetas; se ve en una tarjeta limpia y se **corrige
+  con texto** («Naty sí entra», «pagó Kevin», «fueron 52»). Editar un gasto guardado también es con IA. Sin formulario.
+  Siguen los controles de causación (duplicado, presupuesto con porqué, memoria por comercio).
+- **Dress code** rediseñado: una tarjeta grande por noche con la paleta de fondo y el collage de inspiración
+  (`public/img/looks/{welcome-white,golden-hour,tiki-boho}.jpg` — **faltan las imágenes de Daniel**; si no están, usa
+  las generadas `img/playa/estilo-*.jpg`). La ropa de día va en una lista corta.
+
 
 ## v7 (7-oct) · Beach Trip, claro y fácil
 - **Logo Beach Trip** (el que mandó Daniel) redibujado en vector dentro de la app: login, encabezado e íconos `icon-192/512.png`.
@@ -37,7 +65,7 @@
 | **Álbum** | Fotos del viaje por día y por noche, visor, cada quien borra las suyas. Fichas de invitados con restricciones, talento (sale en el programa del Talent Show), preferencias, Instagram. |
 | **Admin** (engranaje arriba) | Invitados como app de bodas: cuántos entraron, faltan, fichas listas, filtros y recordatorio. Lo esencial con **Llenar con IA** (pegar texto del Airbnb o del dueño). Menú base. Presupuesto. Respaldo. |
 
-**Modo demo** = cada teléfono guarda sus datos. Daniel: cédula `100000001`, clave `2026`; invitados `100000002`…`100000013`.
+**Modo demo** = cada teléfono guarda sus datos. Daniel: celular `099 000 0001`, clave `1001`; invitados `099 000 0002`…`099 000 0008` (clave = su cumpleaños de ejemplo, se ve en Admin).
 
 ## Publicar (Mac de Daniel, 1 minuto)
 ```
@@ -46,26 +74,27 @@ scripts/deploy.sh wrangler.dominio.toml     # una vez, para marea.fieldbuil.ai
 ```
 
 ## Conectar Supabase fieldbuilt-lab (para que todos compartan los datos)
-1. SQL editor: `sql/001` → `002` → `003` → `004` → `005` (en ese orden; se pueden repetir).
+1. SQL editor: `sql/001` → `002` → … → `007` (en ese orden; se pueden repetir).
 2. Project Settings → Data API → Exposed schemas → agregar `marea`.
 3. En `public/index.html` pegar `SB_URL` y `SB_ANON`, subir `BUILD_TAG`, `scripts/deploy.sh`.
 4. `scripts/funciones.sh` (necesita el `.env`): despliega `marea-admin-personas`, `marea-leer-gasto` (facturas con Claude), `marea-menu` (fichas de platos) y `marea-info` (lo esencial).
 
-Validado en Postgres 16 local: los 5 SQL corren dos veces sin error, 20 tablas en `marea`, 0 en `public`, balances correctos, un invitado no toca la asistencia de otro, no crea comidas ni edita el presupuesto, nadie sube a otro a un carro y un carro lleno no recibe más (`tests/sql/`). Pruebas de navegador en `tests/e2e-*.mjs`.
+Validado en Postgres 16 local: los 7 SQL corren dos veces sin error, 20 tablas en `marea`, 0 en `public`, balances correctos, un invitado no toca la asistencia de otro, no crea comidas ni edita el presupuesto, nadie sube a otro a un carro y un carro lleno no recibe más (`tests/sql/`). Pruebas de navegador en `tests/e2e-*.mjs`.
 
 ## Pendiente
 - **Airbnb**: este entorno no puede abrir airbnb.cl ni a0.muscache.com (política de red). Las fotos de la casa se suben desde Admin → Lo esencial; la descripción se pega y la IA saca las comodidades.
-- Lista de invitados nueva: dos Kevin (Kevin y Kevin López), **Luciana** (no Luciano), **Grijalba**. Natalia Villar sigue aunque no venía en la última lista. Vanesa y John se agregan desde Admin si van.
+- Lista de invitados cerrada en 8 (ver v8).
 - Imágenes: hay que correr `scripts/generar-imagenes.mjs` en la Mac (aquí no hay credenciales de Google).
 - Fotos de la casa: guardarlas como `public/img/casa/{sala,terraza,cuarto,playa}.jpg` o subirlas en Admin → Lo esencial.
-- Teléfonos: Daniel mandó 5 contactos (Naty Vásquez, Dome, Jhon, Mony Flores y uno guardado como «Mejora»). **No van al repo, porque es público.** Se cargan en Admin al crear cada invitado con su cédula.
+- Teléfonos: Daniel mandó los de Naty Vásquez y Dome (los otros 3 contactos no están en la lista de 8). **No van al repo, porque es público.** Se cargan en Admin al crear cada invitado con su cédula.
 - Realtime (hoy refresca cada 45 s), varios pagadores por gasto.
 
 ## Le toca a Daniel
 - [ ] `scripts/deploy.sh` y amarrar marea.fieldbuil.ai
 - [ ] Fechas reales del viaje (Admin → El viaje)
 - [ ] Conectar Supabase (pasos de arriba)
-- [ ] Cédulas y WhatsApp de los invitados, y enviar las invitaciones
+- [ ] Celular y cumpleaños de los 8 en Admin, y enviar las invitaciones
+- [ ] Guardar los 3 collages en `public/img/looks/` (welcome-white.jpg, golden-hour.jpg, tiki-boho.jpg)
 - [ ] Fotos de la casa (la descripción ya está)
-- [ ] Confirmar cupo: el Airbnb es para 8 personas
+- [x] Cupo: son 8 invitados y el Airbnb es para 8
 - [ ] Poner el repo en privado (GitHub → Settings → Make private)

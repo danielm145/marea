@@ -5,14 +5,14 @@ const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleF
 pg.on('pageerror',e=>errs.push(e.message)); pg.on('console',m=>{if(m.type()==='error'&&!/ERR_FAILED/.test(m.text()))errs.push(m.text())});
 await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.abort());
 await pg.goto('file:///home/user/marea/public/index.html');
-await pg.fill('#lced','100000001'); await pg.fill('#lpin','2026'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
+await pg.fill('#lced','0990000001'); await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
 log('lo esencial:', (await pg.$$eval('.esen button',x=>x.map(e=>e.textContent))).join(', '));
 await pg.click('.esen button >> text=Qué llevar'); log('qué llevar ítems:', await pg.locator('#sheetBody .sub-item').count()); await pg.keyboard.press('Escape');
 await pg.screenshot({path:'v4-01-hoy.png'});
 await pg.click('button[aria-label="Administrar"]'); await pg.waitForSelector('.tiles');
 log('tiles:', (await pg.locator('.tiles').innerText()).replace(/\n/g,' '));
 await pg.screenshot({path:'v4-02-admin.png'});
-await pg.click('text=Invitar a los que no han entrado'); await pg.click('text=Generar 12 claves'); await pg.waitForSelector('text=Invitaciones listas');
+await pg.click('text=Invitar a los que no han entrado'); await pg.click('text=Armar'); await pg.waitForSelector('text=Invitaciones listas');
 log('invitaciones:', await pg.locator('#sheetBody .item').count()); await pg.keyboard.press('Escape');
 await pg.waitForTimeout(200); log('tiles después:', (await pg.locator('.tiles').innerText()).replace(/\n/g,' '));
 await pg.click('.chips.scroll .chip >> text=Invitados sin entrar'); log('invitados sin entrar:', await pg.locator('#main .card .item').count());

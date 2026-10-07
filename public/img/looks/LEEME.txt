@@ -1,0 +1,5 @@
+Collages de inspiración de cada look (salen grandes en Planes → Dress code):
+  welcome-white.jpg   → Welcome White Night (llegada)
+  golden-hour.jpg     → Golden Hour (día 2)
+  tiki-boho.jpg       → Tiki Boho Funny (día 3)
+Guárdalos con ese nombre exacto, sube BUILD_TAG y despliega (scripts/deploy.sh).

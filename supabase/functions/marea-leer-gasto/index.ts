@@ -55,7 +55,7 @@ Gastos y comprobantes:
 3. Categorías: hospedaje (casa, anticipo), despensa (supermercado, víveres), bebidas (bar, hielo, licor), cocinera (sueldo o pagos a la cocinera), logistica (equipo, carbón, parlante, proyector), restaurantes (comer afuera), transporte, actividades (lancha, clases), otros.
 4. alcance: "fijo" si es un costo de todo el grupo (casa, cocinera, despensa común); "consumo" si es de algunos.
 5. Captura de transferencia entre dos personas del viaje: es un pago entre ellos. Llena pago_entre con sus ids; tipo_documento "transferencia".
-6. Nombres → ids del contexto. "todos" = participante_ids vacío. "menos X" saca a X. Hay tres Natalias y dos Kevin: si un nombre es ambiguo NO adivines, déjalo fuera y dilo en dudas.
+6. Nombres → ids del contexto. "todos" = participante_ids vacío. "menos X" saca a X. Si un nombre es ambiguo (por ejemplo, dos personas con el mismo nombre de pila) NO adivines: déjalo fuera y dilo en dudas.
 7. Quien escribe suele ser quien pagó: "pagué" → pagador_ids = [autor_id].
 8. modo "igual" salvo que pidan porcentajes o montos por persona (que deben sumar 100 o el monto).
 8b. Número de factura con el formato 001-001-000012345 y la clave de acceso de 49 dígitos si se ve.

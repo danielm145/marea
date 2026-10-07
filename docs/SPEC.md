@@ -54,16 +54,14 @@ docs/SPEC.md (este), docs/ESTADO.md (bitácora para Daniel)
 | 3 | Alegría | Alegría | invitado |
 | 4 | Kevin López | Kevin | invitado |
 | 5 | Ana Cristina Grijalva | Ana Cris ❤️ | invitado |
-| 6 | Doménica Pérez | Dome | invitado |
-| 7 | Natalia Vázquez | Nati V. | invitado |
-| 8 | Natalia Villar | Nati Vi. | invitado |
-| 9 | Natalia Orquera | Nati O. | invitado |
-| 10 | Andrés Villalba | Andrés | invitado |
-| 11 | Valentina Villalba | Vale | invitado |
-| 12 | Luciano Villalba | Lucho | invitado |
+| 6 | Domenika Pérez | Dome | invitado |
+| 7 | Natalia Vásquez | Naty | invitado |
+| 8 | Amelia Camacho | Amelia | invitado |
+
+> 7-oct-2026: Daniel confirmó que los invitados son SOLO estos 8 (los de las fotos de Instagram). El Airbnb es para 8.
 
 Las cédulas las carga Daniel `[DANIEL]`. Para desarrollo usar cédulas de prueba
-`100000001`…`100000012` y **borrarlas** antes de entregar (dejar un botón "Eliminar
+`100000001`…`100000008` y **borrarlas** antes de entregar (dejar un botón "Eliminar
 cuenta de prueba" o un SQL `sql/999_limpiar_pruebas.sql`). La UI muestra apodo si existe,
 si no nombre + inicial del apellido cuando hay repetidos.
 

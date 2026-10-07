@@ -1,0 +1,26 @@
+import { chromium } from 'playwright';
+const errs=[], log=(...a)=>console.log(...a);
+const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();
+pg.on('pageerror',e=>errs.push(e.message)); pg.on('console',m=>{if(m.type()==='error'&&!/ERR_FILE|404/.test(m.text()))errs.push(m.text())});
+const rotas=[]; pg.on('requestfailed',r=>{const u=r.url();if(u.startsWith('file:'))rotas.push(u.split('/public/')[1])});
+await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
+await pg.goto('file:///home/user/marea/public/index.html');
+await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}}); await pg.reload();
+await pg.fill('#lced','0990000003'); await pg.fill('#lpin','1211'); await pg.click('#lbtn'); await pg.waitForSelector('.hero'); await pg.waitForTimeout(400);
+log('hero:', (await pg.locator('.hero .row').innerText()).replace(/\n/g,' '));
+await pg.screenshot({path:'v8-01-hoy.png'});
+await pg.click('.tab:nth-child(3)'); await pg.waitForSelector('.sem-d'); await pg.waitForTimeout(500);
+log('seg:', (await pg.locator('#main .seg button').allInnerTexts()).join(' | '));
+for(const d of await pg.locator('.sem-d').all()) log(' ', (await d.locator('.sem-h').innerText()).replace(/\n/g,' '),'→',(await d.locator('.sem-c').allInnerTexts()).join(' / '));
+log('fotos cargadas:', await pg.evaluate(()=>[...document.querySelectorAll('.sem-img img')].filter(i=>i.complete&&i.naturalWidth>0).length), 'de', await pg.locator('.sem-img').count());
+await pg.screenshot({path:'v8-02-menu.png'});
+await pg.screenshot({path:'v8-03-menu-full.png',fullPage:true});
+await pg.click('.sem-poster'); await pg.waitForTimeout(300); log('poster imgs:', await pg.locator('#sheetBody img').count()); await pg.keyboard.press('Escape');
+await pg.click('.sem-d >> nth=3 >> .sem-t >> nth=2'); await pg.waitForTimeout(300); log('plato día 3 alm:', (await pg.locator('#sheetBody').innerText()).slice(0,200).replace(/\n+/g,' / ')); await pg.keyboard.press('Escape');
+await pg.click('.tab:nth-child(4)'); await pg.waitForSelector('.day'); log('días itinerario:', (await pg.locator('.day-h b').allInnerTexts()).join(' | '));
+await pg.screenshot({path:'v8-04-plan.png'});
+const dress=pg.locator('#main button:has-text("Dress code")'); if(await dress.count()){await dress.first().click(); await pg.waitForTimeout(300); log('dress:', (await pg.$$eval('#main .look h3',x=>x.map(e=>e.textContent))).join(' | '), '| fotos look:', await pg.locator('.look-img').count()); await pg.screenshot({path:'v8-05-dress.png',fullPage:true});}
+log('scrollW', await pg.evaluate(()=>document.documentElement.scrollWidth));
+log('archivos que faltan:', [...new Set(rotas)].join(', ')||'ninguno');
+log('errores:', errs.length?errs:'ninguno'); await b.close();

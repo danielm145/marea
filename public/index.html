@@ -263,6 +263,19 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
 .casa-g::-webkit-scrollbar{display:none}
 .casa-g img{flex:none;width:85%;max-width:520px;aspect-ratio:4/3;object-fit:cover;border-radius:16px;scroll-snap-align:center}
 /* ---------- imágenes ---------- */
+.sem-poster{display:flex;gap:12px;align-items:center;width:100%;text-align:left;border:0;cursor:pointer;margin-top:14px;font:inherit;color:inherit}.sem-poster img{width:96px;height:64px;object-fit:cover;border-radius:12px;flex:none}
+.sem-h{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}.sem-h .muted{min-width:0}.sem-h .link{white-space:nowrap;margin-left:auto;border:0;background:none;color:var(--tide);font-weight:600;cursor:pointer;padding:4px 0;font-size:14px}.sem-n{font-family:var(--f-disp);font-weight:800;font-size:22px}
+.sem-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sem-t{border:0;background:var(--surface);border-radius:16px;overflow:hidden;padding:0 0 10px;text-align:left;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;font:inherit;color:inherit}
+.sem-img{display:block;aspect-ratio:16/10;background:var(--surface-2);overflow:hidden;position:relative}.sem-img img{position:relative;width:100%;height:100%;object-fit:cover;display:block}.sem-g>.sem-t:only-child{grid-column:span 2}.sem-g>.sem-t:only-child .sem-img{aspect-ratio:21/9}.sem-ic{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-3)}
+.sem-l{align-self:flex-start;margin:8px 10px 0;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
+.sem-c{font-size:13.5px;font-weight:600;line-height:1.25;padding:4px 10px 0}
+.look{background:var(--surface);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);margin-top:16px}
+.look-h{padding:18px 18px 16px}.look-h h3{font-family:var(--f-disp);font-weight:800;font-size:30px;line-height:1.05;margin-top:4px}
+.look-d{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.85}.look-e{font-size:13px;font-weight:600;margin-top:6px;opacity:.85}
+.look-b{padding:16px 18px 18px}.swatch.lg{width:34px;height:34px}
+.look-img{display:block;width:100%;max-height:560px;object-fit:cover;cursor:zoom-in}
+.gia .thumb{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-bottom:10px}.gia-t{font-family:var(--f-disp);font-weight:800;font-size:22px;line-height:1.15;margin-top:4px}.gia-m{font-family:var(--f-disp);font-weight:800;font-size:36px;color:var(--tide-deep);margin-top:4px}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -299,7 +312,7 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v7';
+const BUILD_TAG='v8';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -474,9 +487,13 @@ function diasViaje(){ if(!CFG.desde||!CFG.hasta) return []; const n=difDias(CFG.
    ============================================================================ */
 const DEMO_KEY='marea_demo_v1', DEMO_SES='marea_demo_sesion';
 const DEMO_GENTE=[
-  ['Daniel Martínez','admin'],['Ana Paula',''],['Alegría',''],['Kevin',''],['Kevin López',''],['Ana Cristina Grijalba',''],['Doménica Pérez',''],
-  ['Natalia Vázquez',''],['Natalia Villar',''],['Natalia Orquera',''],['Andrés Villalba',''],['Valentina Villalba',''],['Luciana Villalba','']];
-const DEMO_APODOS={'Ana Cristina Grijalba':'Ana Cris ❤️','Doménica Pérez':'Dome','Valentina Villalba':'Vale','Luciana Villalba':'Lu','Ana Paula':'Ana Pau','Kevin López':'Kevin L.'};
+  ['Daniel Martínez','admin'],['Ana Paula',''],['Alegría',''],['Kevin López',''],['Ana Cristina Grijalva',''],['Domenika Pérez',''],
+  ['Natalia Vásquez',''],['Amelia Camacho','']];
+/* Instagram de cada quien (los pasó Daniel); sale en su ficha */
+const DEMO_IG={'Daniel Martínez':'@danielmartinez.ecommerce','Ana Paula':'@anaribadeneira','Alegría':'@alegria_r.g.c','Kevin López':'@kevin_l.c.h','Ana Cristina Grijalva':'@grijalvaanacristina','Natalia Vásquez':'@natyvasqueza','Domenika Pérez':'@domenikaperez_23','Amelia Camacho':'@amelia_c19'};
+/* demo: celular 099 000 00NN y cumpleaños inventado (clave = DDMM) */
+const demoTel=i=>'5939900000'+String(i+1).padStart(2,'0'), demoCumple=i=>String((i*5)%12+1).padStart(2,'0')+'-'+String(10+i).padStart(2,'0');
+const DEMO_APODOS={'Ana Cristina Grijalva':'Ana Cris ❤️','Domenika Pérez':'Dome','Ana Paula':'Ana Pau','Natalia Vásquez':'Naty'};
 /* dress code de cada noche: nombre, idea, paleta (hex) e ideas de prendas */
 const ESTILOS={
  'Noche Tropical':{nombre:'Noche Tropical / Chicas',descripcion:'Tejidos ligeros con movimiento, hombros al descubierto y tonos vivos de atardecer.',paleta:['#FF7A55','#F2C14E','#2BB3A3','#F7E8D0'],ideas:['Vestidos de lino','Camisas de flores','Sandalias','Dorado mínimo']},
@@ -486,19 +503,23 @@ const ESTILOS={
  'De gala playera':{nombre:'De gala playera',descripcion:'Lo más elegante que quepa en la maleta; descalzos si se quiere.',paleta:['#0E2A33','#C9A227','#FFFFFF'],ideas:['Algo que brille','Saco sin corbata','Vestido largo']},
  'Tierra y lino':{nombre:'Tierra y lino',descripcion:'Tonos arena y tierra, ropa cómoda para sentarse alrededor de la fogata.',paleta:['#C2A07A','#8B6B4A','#EDE3D2'],ideas:['Lino','Manta','Abrigo ligero']},
  'Adventure Meets Caribbean Chic':{nombre:'Adventure Meets Caribbean Chic',descripcion:'Estética mediterránea para la producción de fotos: blanco impecable, tonos Santorini y un toque de aventura (sombrero, lino, cuero natural).',paleta:['#FFFFFF','#E9E2D3','#2F6DB5','#B98B4E'],ideas:['Blanco impecable','Lino y algodón','Sombrero','Gafas de sol','Cuero natural']},
+ 'Welcome White Night':{nombre:'Welcome White Night',descripcion:'La noche de llegada, todos de blanco: lino, crochet y algodón en tonos crudo y arena. Fresco, limpio y para la primera foto del grupo.',paleta:['#FFFFFF','#F3EDE2','#E4D8C4','#B89B72'],ideas:['Lino blanco','Crochet o tejido','Camisa blanca abierta','Bikini o enterizo blanco debajo','Sandalias de cuero','Sombrero de paja']},
+ 'Golden Hour':{nombre:'Golden Hour · Día 2',descripcion:'Dorado, beige y chocolate para la parrillada al atardecer: brillos, satén y lino en los colores del sol cuando baja.',paleta:['#C9A227','#E6D3A3','#8B5E3C','#F5EBDD'],ideas:['Vestido con brillo dorado o satinado','Lino beige o arena','Camisa café o camel abierta','Joyas doradas','Falda larga chocolate','Sandalias doradas']},
+ 'Tiki Boho Funny':{nombre:'Tiki Boho Funny · Día 3',descripcion:'Camisas hawaianas, flores, boho y un toque de humor: entre más tropical y divertido, mejor. Combina con las gafas de Freaky Monkey.',paleta:['#F28C28','#E8457C','#2BB3A3','#F6D55C','#6B3E26'],ideas:['Camisa hawaiana','Collar de flores','Sombrero de paja o bucket','Falda boho larga','Flor en el pelo','Accesorios con conchas','Gafas Freaky Monkey']},
  'Gafas de sol y blanco':{nombre:'Gafas de sol y blanco',descripcion:'Base blanca o negra; las gafas de sol son las protagonistas de la foto.',paleta:['#FFFFFF','#141414','#F2C14E'],ideas:['Gafas de sol','Camisa blanca','Sombrero']}};
 /* noches temáticas y actividades de día. dia = índice del día del viaje (sin dia = propuesta) */
 const SEMILLA_EVENTOS=[
  {titulo:'Llegada y check-in',tematica:'Llegada',bloque:'tarde',hora:'15:00',lugar:'casa',dress_code:'',descripcion:'Llegamos, repartimos cuartos, guardamos la despensa en los coolers y conocemos la casa.',dia:0},
- {titulo:'Círculo de intenciones bajo las estrellas',tematica:'Bienvenida',bloque:'noche',hora:'21:30',lugar:'playa',dress_code:'Tierra y lino',descripcion:'Después de la cena ligera costeña: fogata, mantas y una ronda de intenciones para abrir el viaje.',dia:0},
+ {titulo:'Círculo de intenciones bajo las estrellas',tematica:'Bienvenida',bloque:'noche',hora:'21:30',lugar:'playa',dress_code:'Welcome White Night',descripcion:'Welcome White Night: después de la cena ligera costeña: fogata, mantas y una ronda de intenciones para abrir el viaje.',dia:0},
  {titulo:'Yoga matutino',tematica:'Bienestar',bloque:'manana',hora:'07:00',lugar:'playa',dress_code:'Ropa deportiva',descripcion:'Sesión suave frente al mar antes del desayuno.',dia:1},
  {titulo:'Torneo de panzazos en la piscina',tematica:'Piscina',bloque:'tarde',hora:'15:00',lugar:'piscina',dress_code:'Traje de baño',descripcion:'Jurado de tres, notas del 1 al 10 por salpicadura y estilo.',dia:1},
- {titulo:'Taco & Sunset Grill Night',tematica:'Parrillada al atardecer',bloque:'atardecer',hora:'17:30',lugar:'terraza',dress_code:'Noche Tropical',descripcion:'Parrillada al atardecer con tacos de camarón y de carne y salsas variadas. Rompehielo: dos verdades y una mentira.',dia:1},
+ {titulo:'Pizza & Game Night',tematica:'Pizza y juegos',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',descripcion:'Pizzas caseras armadas entre todos (margarita, pepperoni, prosciutto con rúcula, cuatro quesos y libre). Juegos: UNO, Jenga, Pictionary, charadas y Heads Up! Competencia a la mejor y a la peor pizza. Monopoly y Risk quedan en la mesa para los valientes.',dia:1},
  {titulo:'Spike ball, red y paletas de playa',tematica:'Juegos de playa',bloque:'tarde',hora:'16:00',lugar:'playa',dress_code:'Color del equipo',descripcion:'Red, pelota, paletas y spike ball. Parejas sorteadas y eliminación directa.',dia:2},
- {titulo:'Karaoke y Talent Show',tematica:'Karaoke y talentos',bloque:'noche',hora:'21:00',lugar:'sala',dress_code:'Brillos y neón',descripcion:'Proyector y dos micrófonos. Primero el karaoke, una canción obligatoria por persona; luego el show: cada quien presenta el talento que anotó en su ficha.',dia:2},
- {titulo:'Sesión de fotos con gafas de sol',tematica:'Fotos de marca',bloque:'atardecer',hora:'17:00',lugar:'playa',dress_code:'Adventure Meets Caribbean Chic',descripcion:'Golden hour: fotos de grupo y de marca con gafas de sol, estética mediterránea.',dia:3},
- {titulo:'Pizza & Boardgames Night',tematica:'Juegos de mesa',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',descripcion:'Pizzas artesanales armadas al gusto y mesas paralelas de Risk y Monopoly. Risk arranca temprano o no termina.',dia:3},
- {titulo:'Spanish Tapas & Wine Night',tematica:'Tapas, enología e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Santorini / Mediterranean Chic',descripcion:'Tablas de tapas y quesos con una clase corta de enología; cierra con la sesión de hipnosis.',dia:4},
+ {titulo:'BBQ & Cocktail Night',tematica:'Parrillada y cócteles',bloque:'atardecer',hora:'18:00',lugar:'terraza',dress_code:'Golden Hour',descripcion:'Parrillada al atardecer: picaña o entraña, pollo, chorizos, mazorcas, maduros y papas, con chimichurri. Barra de cócteles (mojitos, margaritas, cuba libre) y opciones sin alcohol.',dia:2},
+ {titulo:'Karaoke y Talent Show',tematica:'Karaoke y talentos',bloque:'noche',hora:'21:30',lugar:'sala',dress_code:'Golden Hour',descripcion:'Después de la parrillada: proyector y dos micrófonos. Primero el karaoke, una canción obligatoria por persona; luego el show: cada quien presenta el talento que anotó en su ficha.',dia:2},
+ {titulo:'Sesión de fotos Freaky Monkey',tematica:'Fotos con gafas',bloque:'atardecer',hora:'17:00',lugar:'playa',dress_code:'Tiki Boho Funny',descripcion:'Al atardecer con las gafas de Freaky Monkey: fotos de grupo, por parejas y de cerca a las gafas, con el look Tiki Boho del día 3.',dia:3},
+ {titulo:'Tapas & Wine Night',tematica:'Tapas, vino e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Tiki Boho Funny',descripcion:'Gambas al ajillo, patatas bravas, tortilla española, pan con tomate y jamón, croquetas; quesos, embutidos y aceitunas. Vino blanco y tinto Tempranillo o Rioja, con una clase corta de enología. Cierra con la sesión de hipnosis.',dia:3},
+ {titulo:'Restaurant Night',tematica:'Cena de despedida',bloque:'noche',hora:'20:00',lugar:'restaurante',dress_code:'De gala playera',descripcion:'Última noche fuera de casa: cena tranquila para cerrar el viaje. Sin cocinar ni limpiar.',dia:4},
  {titulo:'Throwback 2000s',tematica:'Década',bloque:'noche',lugar:'casa',dress_code:'Y2K',descripcion:'Ropa de la época, reguetón viejo y trivia de la década.'},
  {titulo:'Cine bajo las estrellas',tematica:'Cine',bloque:'noche',lugar:'terraza',dress_code:'Cobija',descripcion:'Proyector afuera, canguil y mantas; la película se vota.'},
  {titulo:'Búsqueda del tesoro',tematica:'Juego',bloque:'tarde',lugar:'playa',dress_code:'',descripcion:'Pistas en QR escondidas por la casa y la playa.'},
@@ -506,96 +527,102 @@ const SEMILLA_EVENTOS=[
 /* el menú base: desayuno dual (A healthy / B tradicional), almuerzo costeño de la cocinera,
    estaciones de todos los días (café pasado, fruta, ceviche bar) y cenas colaborativas temáticas */
 const MENU_BASE={
- A:[{nombre:'Bowl de yogur con papaya, sandía y frutos rojos',ingredientes:['Yogur natural','Papaya','Sandía','Frutos rojos','Granola','Miel'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Yogur cremoso con la papaya y la sandía del día, frutos rojos y granola crocante.'},
-    {nombre:'Pancakes de avena y banano',ingredientes:['Avena','Banano','Huevo','Canela','Miel','Papaya y sandía picadas'],tags:['#Healthy'],estilo:'A la plancha, sin harina blanca',descripcion:'Esponjosos, dulces de puro banano, con la fruta del día encima.'},
-    {nombre:'Avocado toast',ingredientes:['Pan de masa madre','Aguacate','Huevo pochado','Limón','Ají','Papaya y sandía picadas'],tags:['#Healthy'],estilo:'Tostado y armado al momento',descripcion:'Pan crocante, aguacate machacado con limón y un huevo pochado que se rompe encima.'}],
- B:[{nombre:'Tigrillo clásico',ingredientes:['Verde','Queso fresco','Huevo','Cebolla blanca','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Verde majado y sofrito con huevo y queso que se derrite, como en la costa.'},
-    {nombre:'Tigrillo especial con chicharrón',ingredientes:['Verde','Chicharrón','Queso fresco','Huevo','Cebolla blanca'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'El tigrillo de siempre con chicharrón crocante por encima.'},
-    {nombre:'Bolones de verde',ingredientes:['Verde','Queso fresco','Chicharrón','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Majados a mano y dorados',descripcion:'Bolas de verde rellenas de queso o chicharrón, doraditas por fuera y suaves por dentro.'},
-    {nombre:'Pancakes de queso',ingredientes:['Harina','Queso fresco','Huevo','Leche','Miel'],tags:['#Tradicional'],estilo:'Receta de casa',descripcion:'Los pancakes de la abuela con queso fresco en la masa y miel.'}],
- alm:[{nombre:'Encocado de pescado',ingredientes:['Pescado fresco','Leche de coco','Pimiento','Cebolla','Ajo','Achiote','Arroz blanco','Patacones','Ensalada fresca'],tags:['#Costeño','#SinMariscos'],estilo:'Esmeraldeño, de la cocinera',descripcion:'Pescado del día en salsa de coco, con arroz blanco, patacones y ensalada fresca.'},
-    {nombre:'Seco de pollo',ingredientes:['Pollo','Naranjilla','Culantro','Pimiento','Arroz amarillo','Aguacate','Maduro frito'],tags:['#Costeño','#SinMariscos','#Tradicional'],estilo:'Costeño, a fuego lento',descripcion:'Pollo guisado con naranjilla y culantro, con arroz amarillo, aguacate y maduro frito.'},
-    {nombre:'Arroz marinero',ingredientes:['Arroz','Camarón','Calamar','Conchas','Mejillones','Pescado fresco','Pimiento','Patacones'],tags:['#Costeño'],estilo:'Costeño, en paila',descripcion:'Arroz meloso con mariscos del día y patacones crocantes.'},
-    {nombre:'Carne asada con menestra',ingredientes:['Carne de res','Menestra de lenteja','Arroz blanco','Maduro frito','Ensalada fresca'],tags:['#Tradicional','#SinMariscos'],estilo:'A la plancha',descripcion:'Carne asada jugosa con menestra de lenteja, arroz y maduro.'}],
+ /* desayunos y almuerzos: uno por día del viaje (día 1 = el primer día completo, después de la llegada). img = foto del menú de Kevin */
+ A:[{nombre:'Bowl de yogurt griego con granola, mango, banano y miel',img:'img/menu/d1-healthy.jpg',ingredientes:['Yogurt griego','Granola','Mango','Banano','Fruta fresca','Miel','Huevos al gusto'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Bowl de yogurt griego con granola, mango, banano, fruta fresca y miel, más huevos al gusto.'},
+    {nombre:'Yogurt griego con fruta y tostadas de aguacate',img:'img/menu/d2-healthy.jpg',ingredientes:['Yogurt griego','Fruta fresca','Pan','Aguacate','Huevo'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Yogurt griego con fruta y tostadas de aguacate con huevo.'},
+    {nombre:'Yogurt griego con granola, miel y frutas + huevos revueltos',img:'img/menu/d3-healthy.jpg',ingredientes:['Yogurt griego','Granola','Miel','Fruta fresca','Huevos'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Yogurt griego con granola, miel y frutas, con huevos revueltos al lado.'},
+    {nombre:'Yogurt griego tropical',img:'img/menu/d4-healthy.jpg',ingredientes:['Yogurt griego','Mango','Piña','Banano','Granola','Miel','Pan','Aguacate','Huevo'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Yogurt griego con mango, piña, banano, granola y miel, más tostada de aguacate y huevo.'}],
+ B:[{nombre:'Tigrillo de queso con huevo',img:'img/menu/d1-normal.jpg',ingredientes:['Verde','Queso fresco','Huevo','Aguacate','Cebolla blanca','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo de queso con huevo y aguacate, con café y jugo.'},
+    {nombre:'Tigrillo mixto de queso y chicharrón',img:'img/menu/d2-normal.jpg',ingredientes:['Verde','Queso fresco','Chicharrón','Huevo','Cebolla blanca'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo mixto de queso y chicharrón con huevo.'},
+    {nombre:'Bolón mixto de queso y chicharrón',img:'img/menu/d3-normal.jpg',ingredientes:['Verde','Queso fresco','Chicharrón','Huevo','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Majado a mano y dorado',descripcion:'Bolón mixto de queso y chicharrón con huevo.'},
+    {nombre:'Tigrillo de queso con huevo frito',img:'img/menu/d4-normal.jpg',ingredientes:['Verde','Queso fresco','Huevo','Aguacate','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo de queso con huevo frito y aguacate.'}],
+ alm:[{nombre:'Encocado de pescado',img:'img/menu/d1-almuerzo.jpg',ingredientes:['Pescado fresco','Leche de coco','Pimiento','Cebolla','Ajo','Achiote','Arroz blanco','Patacones','Ensalada fresca'],tags:['#Costeño','#SinMariscos'],estilo:'Esmeraldeño, de la cocinera',descripcion:'Encocado de pescado con arroz blanco, patacones y ensalada fresca.'},
+    {nombre:'Seco de pollo',img:'img/menu/d2-almuerzo.jpg',ingredientes:['Pollo','Naranjilla','Culantro','Arroz amarillo','Maduro frito','Aguacate','Ensalada'],tags:['#Costeño','#SinMariscos','#Tradicional'],estilo:'Costeño, a fuego lento',descripcion:'Seco de pollo con arroz amarillo, maduro frito, aguacate y ensalada.'},
+    {nombre:'Arroz marinero',img:'img/menu/d3-almuerzo.jpg',ingredientes:['Arroz','Camarón','Pescado fresco','Calamar','Pimiento','Patacones','Ensalada'],tags:['#Costeño'],estilo:'Costeño, en paila',descripcion:'Arroz marinero con camarón, pescado y calamar, patacones y ensalada.'},
+    {nombre:'Carne asada con menestra',img:'img/menu/d4-almuerzo.jpg',ingredientes:['Carne de res','Menestra','Arroz','Patacones','Ensalada'],tags:['#Tradicional','#SinMariscos'],estilo:'A la plancha',descripcion:'Carne asada con menestra, arroz, patacones y ensalada.'}],
  estaciones:[
    {nombre:'Café pasado de especialidad',turno:'desayuno',ingredientes:['Café de altura molido','Agua'],tags:['#ZeroAlcohol'],estilo:'Filtrado o pasado, nunca soluble',descripcion:'Café de especialidad pasado todos los días. Regla de la casa: cero café soluble.'},
-   {nombre:'Fruta fresca del día',turno:'desayuno',ingredientes:['Papaya','Sandía'],tags:['#Healthy'],estilo:'Picada cada mañana',descripcion:'Papaya y sandía picadas, siempre en la mesa.'},
+   {nombre:'Fruta fresca del día',turno:'desayuno',ingredientes:['Mango','Piña','Papaya','Sandía'],tags:['#Healthy'],estilo:'Picada cada mañana',descripcion:'Fruta picada, siempre en la mesa.'},
    {nombre:'Jugos y bebidas de la mañana',turno:'desayuno',ingredientes:['Naranja','Maracuyá','Agua de coco'],tags:['#ZeroAlcohol'],estilo:'Natural',descripcion:'Jugo de naranja o maracuyá y agua de coco.'},
    {nombre:'Ceviche bar',turno:'almuerzo',ingredientes:['Camarón','Pescado fresco','Limón','Cebolla colorada','Tomate','Cilantro','Chifles','Canguil'],tags:['#Costeño','#Compartir'],estilo:'Bol grande para todos',descripcion:'Ceviche mixto de camarón y pescado fresco: la entrada fija de todos los almuerzos.'}],
  cenas:{
-  'Taco & Sunset Grill Night':[
-    {nombre:'Tacos de camarón',ingredientes:['Tortilla de maíz','Camarón','Col morada','Salsa de mango','Limón'],tags:['#Compartir'],descripcion:'Camarón a la plancha con col morada y salsa de mango, en tortilla de maíz.'},
-    {nombre:'Tacos de carne asada',ingredientes:['Tortilla de maíz','Carne de res','Pico de gallo','Guacamole'],tags:['#Compartir','#SinMariscos'],descripcion:'Carne asada recién salida de la parrilla con pico de gallo y guacamole.'},
-    {nombre:'Parrillada al atardecer',ingredientes:['Carne de res','Chorizo','Pollo','Choclo','Maduro'],tags:['#Compartir','#SinMariscos'],descripcion:'La parrilla prendida mientras baja el sol: carnes, chorizo, choclo y maduro.'},
-    {nombre:'Margaritas sin alcohol',ingredientes:['Limón','Hielo','Sal','Jarabe natural'],tags:['#ZeroAlcohol'],descripcion:'Limón, hielo y borde de sal, para todos los que hoy no toman.'}],
-  'Pizza & Boardgames Night':[
-    {nombre:'Pizzas caseras al gusto',ingredientes:['Masa de pizza','Salsa de tomate','Mozzarella','Toppings variados'],tags:['#Compartir'],descripcion:'Cada equipo arma la suya entre turno y turno de Risk.'},
-    {nombre:'Tabla de picadas',ingredientes:['Quesos','Embutidos','Aceitunas','Galletas'],tags:['#Compartir'],descripcion:'Para picar sin soltar los dados.'},
-    {nombre:'Cerveza fría',ingredientes:['Cerveza'],tags:[],descripcion:'Bien helada.'},
-    {nombre:'Cerveza cero',ingredientes:['Cerveza sin alcohol'],tags:['#ZeroAlcohol'],descripcion:'Mismo sabor, cero alcohol.'}],
-  'Spanish Tapas & Wine Night':[
-    {nombre:'Tapas españolas',ingredientes:['Pan','Tomate','Jamón serrano','Tortilla española','Aceitunas'],tags:['#Compartir'],descripcion:'Pan con tomate, jamón serrano, tortilla de papas y aceitunas.'},
-    {nombre:'Tabla de quesos',ingredientes:['Quesos maduros','Uvas','Frutos secos','Mermelada'],tags:['#Compartir'],descripcion:'Quesos maduros con uvas, frutos secos y mermelada.'},
-    {nombre:'Vino con maridaje guiado',ingredientes:['Vino tinto','Vino blanco'],tags:[],descripcion:'Un tinto y un blanco, con la explicación de qué va con qué.'},
-    {nombre:'Sangría sin alcohol',ingredientes:['Jugo de uva','Frutas picadas','Soda'],tags:['#ZeroAlcohol'],descripcion:'Jugo de uva con fruta picada y soda.'}],
   'Círculo de intenciones bajo las estrellas':[
     {nombre:'Pescado a la plancha con ensalada de pepino y aguacate',ingredientes:['Pescado fresco','Pepino','Aguacate','Limón','Cebolla colorada'],tags:['#Costeño','#Healthy','#SinMariscos'],descripcion:'Ligero para la primera noche: pescado del día a la plancha con ensalada fresca.'},
     {nombre:'Patacones con queso',ingredientes:['Verde','Queso fresco'],tags:['#Costeño','#Vegetariano'],descripcion:'Crocantes, con queso fresco rallado encima.'},
     {nombre:'Agua de coco y jugos naturales',ingredientes:['Agua de coco','Maracuyá','Naranja'],tags:['#ZeroAlcohol'],descripcion:'Para brindar por el viaje sin alcohol, o con lo que cada quien traiga.'}],
+  'Pizza & Game Night':[
+    {nombre:'Pizzas caseras armadas entre todos',img:'img/menu/d1-cena.jpg',ingredientes:['Masa de pizza','Salsa de tomate','Mozzarella','Pepperoni','Prosciutto','Rúcula','Cuatro quesos','Albahaca'],tags:['#Compartir'],descripcion:'Margarita, pepperoni, prosciutto con rúcula, cuatro quesos y una libre. Premio a la mejor y a la peor.'},
+    {nombre:'Cerveza fría y gaseosas',ingredientes:['Cerveza','Gaseosas','Hielo'],tags:[],descripcion:'Bien heladas, entre partida y partida.'},
+    {nombre:'Cerveza cero',ingredientes:['Cerveza sin alcohol'],tags:['#ZeroAlcohol'],descripcion:'Mismo sabor, cero alcohol.'}],
+  'BBQ & Cocktail Night':[
+    {nombre:'Parrillada',img:'img/menu/d2-cena.jpg',ingredientes:['Picaña o entraña','Pollo','Chorizo','Mazorca','Maduro','Papas'],tags:['#Compartir','#SinMariscos'],descripcion:'Picaña o entraña, pollo, chorizos, mazorcas, maduros y papas, recién salidos de la parrilla.'},
+    {nombre:'Chimichurri y acompañamientos',ingredientes:['Perejil','Ajo','Aceite de oliva','Vinagre','Ají'],tags:['#Vegetariano'],descripcion:'Chimichurri de la casa y lo que acompaña la parrilla.'},
+    {nombre:'Barra de cócteles',ingredientes:['Ron','Tequila','Hierbabuena','Limón','Cola','Hielo'],tags:[],descripcion:'Mojitos, margaritas y cuba libre.'},
+    {nombre:'Cócteles sin alcohol',ingredientes:['Hierbabuena','Limón','Maracuyá','Soda','Hielo'],tags:['#ZeroAlcohol'],descripcion:'Mojito virgen, limonada de hierbabuena y maracuyá con soda.'}],
+  'Tapas & Wine Night':[
+    {nombre:'Tapas españolas',img:'img/menu/d3-cena.jpg',ingredientes:['Gambas','Ajo','Papas','Tortilla española','Pan','Tomate','Jamón serrano','Croquetas'],tags:['#Compartir'],descripcion:'Gambas al ajillo, patatas bravas, tortilla española, pan con tomate y jamón, y croquetas.'},
+    {nombre:'Quesos, embutidos y aceitunas',ingredientes:['Quesos maduros','Embutidos','Aceitunas'],tags:['#Compartir'],descripcion:'La tabla para picar mientras se sirve el vino.'},
+    {nombre:'Vino blanco y Tempranillo o Rioja',ingredientes:['Vino blanco','Vino tinto Tempranillo'],tags:[],descripcion:'Un blanco y un Tempranillo o Rioja, con la explicación de qué va con qué.'},
+    {nombre:'Sangría sin alcohol',ingredientes:['Jugo de uva','Frutas picadas','Soda'],tags:['#ZeroAlcohol'],descripcion:'Jugo de uva con fruta picada y soda.'}],
+  'Restaurant Night':[],
   'Picadas y hamburguesas caseras':[
     {nombre:'Hamburguesas caseras',ingredientes:['Pan de hamburguesa','Carne de res','Queso','Lechuga','Tomate'],tags:['#Compartir','#SinMariscos'],descripcion:'Carne a la plancha, queso derretido y todo lo demás al gusto.'},
     {nombre:'Papas rústicas',ingredientes:['Papas','Romero','Ajo'],tags:['#Vegetariano'],descripcion:'Papas al horno con romero y ajo.'}]}};
+/* foto de cada plato del menú de Kevin, por nombre (sirve igual en demo y en Supabase, sin columna nueva) */
+const FOTO_MENU={};
+[...MENU_BASE.A,...MENU_BASE.B,...MENU_BASE.alm,...Object.values(MENU_BASE.cenas).flat()].forEach(p=>{if(p.img)FOTO_MENU[norm(p.nombre)]=p.img});
+const CENA_FUERA=new Set(['Restaurant Night']);
+const nomDia=(i,n=diasViaje().length)=>i===0&&n>1?'Llegada':`Día ${n>1?i:i+1}`;
 /* arma comidas y platos para los días del viaje. Puro: no toca el estado global */
 function generarMenuBase({dias,eventos,gente,autor,conEstaciones}){
   const comidas=[],platos=[];
-  const mk=(o,extra)=>({id:uid(),descripcion:'',estilo:'',porciones:null,alergenos:[],opcion:null,foto:null,permanente:false,turno:null,comida_id:null,creado_por:autor,...o,...extra});
+  const mk=({img,...o},extra)=>({id:uid(),descripcion:'',estilo:'',porciones:null,alergenos:[],opcion:null,foto:null,permanente:false,turno:null,comida_id:null,creado_por:autor,...o,...extra});
   const cm=o=>({id:uid(),responsables:[],evento_id:null,notas:'',creado_por:autor,...o});
   if(conEstaciones) MENU_BASE.estaciones.forEach(e=>platos.push(mk(e,{permanente:true})));
   let k=0;
   dias.forEach((d,i)=>{
     if(i===0&&dias.length>1){ /* día de llegada: solo la cena */ }else{
     const des=cm({dia:d,turno:'desayuno',titulo:'Desayuno dual',modalidad:'dual',hora:'08:30',notas:'Café pasado y fruta fresca todos los días.'});
-    comidas.push(des); platos.push(mk(MENU_BASE.A[i%3],{comida_id:des.id,opcion:'A'})); platos.push(mk(MENU_BASE.B[i%4],{comida_id:des.id,opcion:'B'}));
+    comidas.push(des); const j=(i-(dias.length>1?1:0))%4; platos.push(mk(MENU_BASE.A[j],{comida_id:des.id,opcion:'A'})); platos.push(mk(MENU_BASE.B[j],{comida_id:des.id,opcion:'B'}));
     const alm=cm({dia:d,turno:'almuerzo',titulo:'Almuerzo costeño',modalidad:'cocinera',hora:'13:30',notas:'Lo prepara la cocinera local. Ceviche bar de entrada.'});
-    comidas.push(alm); platos.push(mk(MENU_BASE.alm[i%4],{comida_id:alm.id}));
+    comidas.push(alm); platos.push(mk(MENU_BASE.alm[j],{comida_id:alm.id}));
     }
     const evN=eventos.find(e=>e.dia===d&&(e.bloque==='noche'||e.bloque==='atardecer')&&MENU_BASE.cenas[e.titulo]), evAny=evN||eventos.filter(e=>e.dia===d&&(e.bloque==='noche'||e.bloque==='atardecer')).sort((a,b)=>String(b.hora||'').localeCompare(String(a.hora||'')))[0];
-    const libre=!evN&&i===dias.length-1&&dias.length>2;
-    const cenaN={'Círculo de intenciones bajo las estrellas':'Cena ligera costeña de bienvenida'}, plat=evN?evN.titulo:libre?'':'Picadas y hamburguesas caseras', titulo=evN?(cenaN[evN.titulo]||evN.titulo):libre?'Cena libre o restaurante del pueblo':'Picadas y hamburguesas caseras';
+    const libre=evN?CENA_FUERA.has(evN.titulo):i===dias.length-1&&dias.length>2;
+    const cenaN={'Círculo de intenciones bajo las estrellas':'Cena ligera costeña de bienvenida'}, plat=evN?evN.titulo:libre?'':'Picadas y hamburguesas caseras', titulo=evN?(cenaN[evN.titulo]||(libre?evN.titulo+' · cena fuera':evN.titulo)):libre?'Cena libre o restaurante del pueblo':'Picadas y hamburguesas caseras';
     const resp=libre||!gente.length?[]:[0,1,2].map(()=>gente[(k++)%gente.length]);
-    const cen=cm({dia:d,turno:'cena',titulo,modalidad:libre?'libre':'colaborativa',hora:evN&&evN.hora?(evN.titulo in cenaN?'20:00':evN.hora):'20:00',responsables:resp,evento_id:evAny?evAny.id:null,notas:libre?'Cada quien elige; se puede reservar un restaurante en Same o en Tonsupa.':'Cocinan los responsables; los demás ayudan a lavar.'});
+    const cen=cm({dia:d,turno:'cena',titulo,modalidad:libre?'libre':'colaborativa',hora:evN&&evN.hora?(evN.titulo in cenaN?'20:00':evN.hora):'20:00',responsables:resp,evento_id:evAny?evAny.id:null,notas:libre?'Última noche fuera de casa: se reserva un restaurante en Same o en Tonsupa. Sin cocinar ni limpiar.':'Cocinan los responsables; los demás ayudan a lavar.'});
     comidas.push(cen); (MENU_BASE.cenas[plat]||[]).forEach(p=>platos.push(mk(p,{comida_id:cen.id})));
   });
   return {comidas,platos};
 }
 function seedDemo(){
-  const personas=DEMO_GENTE.map(([n,rol],i)=>({id:'p'+String(i+1).padStart(2,'0'),cedula:String(100000001+i),nombre:n,apodo:DEMO_APODOS[n]||null,telefono:null,rol:rol||'invitado',activo:true,perfil:{},emergencia:null,ultimo_acceso:null}));
-  const pins=Object.fromEntries(personas.map(p=>[p.cedula,'2026']));
+  const personas=DEMO_GENTE.map(([n,rol],i)=>({id:'p'+String(i+1).padStart(2,'0'),cedula:null,nombre:n,apodo:DEMO_APODOS[n]||null,telefono:demoTel(i),cumple:demoCumple(i),rol:rol||'invitado',activo:true,perfil:DEMO_IG[n]?{instagram:DEMO_IG[n]}:{},emergencia:null,ultimo_acceso:null}));
   const ids=personas.map(p=>p.id), id=n=>personas.find(p=>p.nombre===n).id;
-  personas.find(p=>p.nombre==='Alegría').perfil={restricciones:['sin_conchas','sin_oscuros'],alergias:'No come conchas ni mariscos oscuros'};
+  personas.find(p=>p.nombre==='Alegría').perfil={instagram:DEMO_IG['Alegría'],restricciones:['sin_conchas','sin_oscuros'],alergias:'No come conchas ni mariscos oscuros'};
   const desde=addDias(hoyISO(),21), hasta=addDias(desde,4), dias=Array.from({length:5},(_,i)=>addDias(desde,i));
   const autor=id('Daniel Martínez');
   const ev=SEMILLA_EVENTOS.map(s=>({id:uid(),titulo:s.titulo,tematica:s.tematica,descripcion:s.descripcion,bloque:s.bloque,lugar:s.lugar,dress_code:s.dress_code,estilo:ESTILOS[s.dress_code]||null,
     dia:s.dia!=null?dias[s.dia]:null,hora:s.hora||null,playlist_url:'',estado:s.dia!=null?'oficial':'propuesta',anfitriones:[],etiquetas:[],lista:[],menu:[],creado_por:autor,created_at:new Date().toISOString()}));
   const evT=t=>ev.find(x=>x.titulo===t), anf=(t,ns)=>evT(t).anfitriones=ns.map(id);
-  anf('Círculo de intenciones bajo las estrellas',['Daniel Martínez']); anf('Taco & Sunset Grill Night',['Daniel Martínez','Ana Paula']); anf('Karaoke y Talent Show',['Alegría','Valentina Villalba']); anf('Pizza & Boardgames Night',['Andrés Villalba','Kevin']);
-  anf('Spanish Tapas & Wine Night',['Ana Cristina Grijalba','Natalia Orquera']); anf('Yoga matutino',['Natalia Villar']); anf('Torneo de panzazos en la piscina',['Kevin López','Luciana Villalba']);
+  anf('Círculo de intenciones bajo las estrellas',['Daniel Martínez']); anf('BBQ & Cocktail Night',['Daniel Martínez','Ana Paula']); anf('Karaoke y Talent Show',['Alegría','Amelia Camacho']); anf('Pizza & Game Night',['Kevin López','Domenika Pérez']);
+  anf('Tapas & Wine Night',['Ana Cristina Grijalva','Ana Paula']); anf('Yoga matutino',['Natalia Vásquez']); anf('Torneo de panzazos en la piscina',['Kevin López','Amelia Camacho']);
   evT('Karaoke y Talent Show').lista=[{txt:'Proyector',ok:false},{txt:'Dos micrófonos',ok:false},{txt:'Cable HDMI',ok:false}];
   const votos=[]; const v=(t,ns)=>{const e=evT(t);ns.forEach(i=>votos.push({evento_id:e.id,persona_id:ids[i]}))};
-  v('Throwback 2000s',[0,1,2,4,5,6,9]); v('Cine bajo las estrellas',[1,6,11]); v('Búsqueda del tesoro',[3,10]); v('Olimpiadas de playa',[3,4,10,12]);
+  v('Throwback 2000s',[0,1,2,4,5,6]); v('Cine bajo las estrellas',[1,6,7]); v('Búsqueda del tesoro',[3,7]); v('Olimpiadas de playa',[3,4,6,7]);
   const todos=ids.map(i=>({persona_id:i,valor:0}));
   const g=(o)=>({id:uid(),tipo:'gasto',moneda:'USD',fecha:hoyISO(),evento_id:null,etiquetas:[],fondo:false,respaldo_path:null,lectura_ia:null,factura:null,nota:'',eliminado:false,created_at:new Date().toISOString(),origen:'manual',...o});
   const gastos=[
     g({descripcion:'Anticipo de la casa (ejemplo)',monto:650,categoria:'hospedaje',alcance:'fijo',pagadores:[{persona_id:autor,monto:650}],reparto:{modo:'igual',partes:todos},creado_por:autor,nota:'50% del alquiler'}),
     g({descripcion:'Despensa de llegada (ejemplo)',monto:186.40,categoria:'despensa',alcance:'fijo',pagadores:[{persona_id:id('Ana Paula'),monto:186.40}],reparto:{modo:'igual',partes:todos},creado_por:id('Ana Paula'),
        factura:{tipo_documento:'factura',comercio:'Supermercado (ejemplo)',ruc:null,fecha:hoyISO(),items:[{descripcion:'Verde (racimo)',cantidad:2,total:6.5},{descripcion:'Queso fresco',cantidad:3,total:14.85},{descripcion:'Huevos (cubeta)',cantidad:2,total:9.6},{descripcion:'Café molido de altura',cantidad:2,total:17}],subtotal:166.43,impuestos:19.97,propina:null,total:186.40}}),
-    g({descripcion:'Hielo y cervezas (ejemplo)',monto:48,categoria:'bebidas',alcance:'consumo',pagadores:[{persona_id:id('Andrés Villalba'),monto:48}],reparto:{modo:'igual',partes:todos.filter(p=>p.persona_id!==id('Luciana Villalba'))},creado_por:id('Andrés Villalba'),origen:'texto',nota:'Va para todos menos Luciana'}),
-    g({descripcion:'Gasolina de ida (ejemplo)',monto:60,categoria:'transporte',alcance:'consumo',pagadores:[{persona_id:id('Kevin López'),monto:60}],reparto:{modo:'porcentaje',partes:['Kevin López','Ana Paula','Alegría','Doménica Pérez'].map(n=>({persona_id:id(n),valor:25}))},creado_por:id('Kevin López'),nota:'Los cuatro del carro de Kevin L.'})];
+    g({descripcion:'Hielo y cervezas (ejemplo)',monto:48,categoria:'bebidas',alcance:'consumo',pagadores:[{persona_id:id('Ana Cristina Grijalva'),monto:48}],reparto:{modo:'igual',partes:todos.filter(p=>p.persona_id!==id('Natalia Vásquez'))},creado_por:id('Ana Cristina Grijalva'),origen:'texto',nota:'Va para todos menos Naty'}),
+    g({descripcion:'Gasolina de ida (ejemplo)',monto:60,categoria:'transporte',alcance:'consumo',pagadores:[{persona_id:id('Kevin López'),monto:60}],reparto:{modo:'porcentaje',partes:['Kevin López','Ana Paula','Alegría','Domenika Pérez'].map(n=>({persona_id:id(n),valor:25}))},creado_por:id('Kevin López'),nota:'Los cuatro del carro de Kevin'})];
   const tareas=[
-    {titulo:'Comprar carbón y fundas de hielo para el Sunset Grill',grupo:'Compras',prioridad:'alta',estado:'por_hacer',responsable:id('Andrés Villalba'),evento_id:evT('Taco & Sunset Grill Night').id,fecha:dias[0],subtareas:[{txt:'Carbón',ok:false},{txt:'3 fundas de hielo',ok:true}]},
+    {titulo:'Comprar carbón y fundas de hielo para la BBQ',grupo:'Compras',prioridad:'alta',estado:'por_hacer',responsable:id('Amelia Camacho'),evento_id:evT('BBQ & Cocktail Night').id,fecha:dias[0],subtareas:[{txt:'Carbón',ok:false},{txt:'3 fundas de hielo',ok:true}]},
     {titulo:'Llevar los dos micrófonos y el proyector',grupo:'Logística',prioridad:'alta',estado:'por_hacer',responsable:null,evento_id:evT('Karaoke y Talent Show').id,subtareas:[]},
     {titulo:'Contratar a la cocinera y acordar menú',grupo:'Comida',prioridad:'alta',estado:'en_curso',responsable:autor,evento_id:null,subtareas:[{txt:'Precio por día',ok:false},{txt:'Pasarle el menú de almuerzos',ok:false}]},
-    {titulo:'Empacar Risk y Monopoly',grupo:'Actividades',prioridad:'media',estado:'listo',responsable:id('Kevin'),evento_id:evT('Pizza & Boardgames Night').id,subtareas:[]},
+    {titulo:'Empacar UNO, Jenga, Pictionary y Heads Up!',grupo:'Actividades',prioridad:'media',estado:'listo',responsable:id('Kevin López'),evento_id:evT('Pizza & Game Night').id,subtareas:[]},
     {titulo:'Spike ball y paletas',grupo:'Actividades',prioridad:'baja',estado:'por_hacer',responsable:id('Kevin López'),evento_id:evT('Spike ball, red y paletas de playa').id,subtareas:[]}]
     .map(t=>({id:uid(),detalle:'',fecha:null,etiquetas:[],creado_por:autor,created_at:new Date().toISOString(),...t}));
   const etiquetas=['bienvenida','karaoke','juegos','parrillada','playa','desayuno','fiesta','despensa','turnos'].map((n,i)=>({id:i+1,nombre:n}));
@@ -604,8 +631,8 @@ function seedDemo(){
   const asistencia=[];
   if(almArroz) asistencia.push({comida_id:almArroz,persona_id:id('Alegría'),va:true,opcion:null,variante:'Mi arroz sin conchas ni mejillones, por favor'});
   const des1=menu.comidas.find(c=>c.dia===dias[1]&&c.turno==='desayuno');
-  [['Alegría','A'],['Natalia Villar','A'],['Kevin','B'],['Andrés Villalba','B'],['Ana Paula','A']].forEach(([n,o])=>asistencia.push({comida_id:des1.id,persona_id:id(n),va:true,opcion:o,variante:''}));
-  asistencia.push({comida_id:menu.comidas.find(c=>c.dia===dias[1]&&c.turno==='almuerzo').id,persona_id:id('Natalia Orquera'),va:false,opcion:null,variante:''});
+  [['Alegría','A'],['Natalia Vásquez','A'],['Kevin López','B'],['Amelia Camacho','B'],['Ana Paula','A']].forEach(([n,o])=>asistencia.push({comida_id:des1.id,persona_id:id(n),va:true,opcion:o,variante:''}));
+  asistencia.push({comida_id:menu.comidas.find(c=>c.dia===dias[1]&&c.turno==='almuerzo').id,persona_id:id('Domenika Pérez'),va:false,opcion:null,variante:''});
   const presupuesto=[
     {id:uid(),nombre:'Alquiler de la casa',categoria:'hospedaje',minimo:1300,maximo:1500,tipo:'fijo',nota:'',orden:1},
     {id:uid(),nombre:'Compras iniciales de despensa',categoria:'despensa',minimo:700,maximo:1000,tipo:'fijo',nota:'',orden:2},
@@ -613,32 +640,40 @@ function seedDemo(){
     {id:uid(),nombre:'Bebidas y bar',categoria:'bebidas',minimo:null,maximo:null,tipo:'variable',nota:'Por definir',orden:4},
     {id:uid(),nombre:'Equipos y trípodes',categoria:'logistica',minimo:null,maximo:null,tipo:'variable',nota:'Por definir',orden:5}];
   const equipo=EQUIPO_BASE.map(([nombre,categoria,cantidad])=>({id:uid(),nombre,categoria,cantidad,responsable:null,estado:'falta',evento_id:null,nota:'',creado_por:autor}));
-  const eqq=n=>equipo.find(e=>e.nombre===n); Object.assign(eqq('Parlante'),{responsable:id('Kevin'),estado:'empacado'}); Object.assign(eqq('Micrófonos'),{responsable:id('Alegría'),estado:'confirmado',evento_id:evT('Karaoke y Talent Show').id});
-  Object.assign(eqq('Proyector'),{evento_id:evT('Karaoke y Talent Show').id}); Object.assign(eqq('Monopoly'),{responsable:id('Kevin'),estado:'empacado'}); Object.assign(eqq('Risk'),{responsable:id('Kevin'),estado:'empacado'});
-  Object.assign(eqq('Coolers'),{responsable:id('Andrés Villalba'),estado:'confirmado'}); Object.assign(eqq('Trípode'),{responsable:id('Ana Cristina Grijalba'),estado:'confirmado',evento_id:evT('Sesión de fotos con gafas de sol').id});
-  const vehiculos=[{id:uid(),nombre:'Camioneta de Daniel',conductor:autor,puestos:7,maletas:6,salida:'Quito, 6:00 a.m.',nota:'',creado_por:autor},{id:uid(),nombre:'Carro de Kevin L.',conductor:id('Kevin López'),puestos:5,maletas:4,salida:'Quito, 7:00 a.m.',nota:'',creado_por:id('Kevin López')}];
+  const eqq=n=>equipo.find(e=>e.nombre===n); Object.assign(eqq('Parlante'),{responsable:id('Kevin López'),estado:'empacado'}); Object.assign(eqq('Micrófonos'),{responsable:id('Alegría'),estado:'confirmado',evento_id:evT('Karaoke y Talent Show').id});
+  Object.assign(eqq('Proyector'),{evento_id:evT('Karaoke y Talent Show').id}); Object.assign(eqq('Monopoly'),{responsable:id('Kevin López'),estado:'empacado'}); Object.assign(eqq('Risk'),{responsable:id('Kevin López'),estado:'empacado'});
+  Object.assign(eqq('Coolers'),{responsable:id('Natalia Vásquez'),estado:'confirmado'}); Object.assign(eqq('Trípode'),{responsable:id('Ana Cristina Grijalva'),estado:'confirmado',evento_id:evT('Sesión de fotos Freaky Monkey').id});
+  const vehiculos=[{id:uid(),nombre:'Camioneta de Daniel',conductor:autor,puestos:7,maletas:6,salida:'Quito, 6:00 a.m.',nota:'',creado_por:autor},{id:uid(),nombre:'Carro de Kevin',conductor:id('Kevin López'),puestos:5,maletas:4,salida:'Quito, 7:00 a.m.',nota:'',creado_por:id('Kevin López')}];
   const pasajeros=[]; const sube=(v,ns,t)=>ns.forEach(n=>pasajeros.push({vehiculo_id:vehiculos[v].id,persona_id:id(n),trayecto:t,maletas:1}));
-  ['ida','regreso'].forEach(t=>{sube(0,['Daniel Martínez','Ana Paula','Alegría','Andrés Villalba'],t);sube(1,['Kevin López','Doménica Pérez','Natalia Vázquez'],t)});
-  return {personas,pins,config:{nombre:'Beach Trip',lugar:'Same, Esmeraldas',desde,hasta,moneda:'USD',ejemplo:true,info:{...CASA_AIRBNB,casa_fotos:[],direccion:'Condominio Alcazaba del Río, Casablanca · Same, Esmeraldas',mapa_url:'',checkin:'15:00',checkout:'12:00',wifi_red:'',wifi_clave:'',
-    que_llevar:['Protector solar y repelente','Traje de baño y toalla de playa','Outfit Noche Tropical','Todo blanco para la noche Santorini','Brillos para el karaoke','Pijama elegante','Gafas de sol para la sesión de fotos','Tu número para el Talent Show','Medicinas personales'],
+  ['ida','regreso'].forEach(t=>{sube(0,['Daniel Martínez','Ana Paula','Alegría','Ana Cristina Grijalva'],t);sube(1,['Kevin López','Domenika Pérez','Natalia Vásquez','Amelia Camacho'],t)});
+  return {personas,config:{nombre:'Beach Trip',lugar:'Same, Esmeraldas',desde,hasta,moneda:'USD',ejemplo:true,info:{...CASA_AIRBNB,casa_fotos:[],direccion:'Condominio Alcazaba del Río, Casablanca · Same, Esmeraldas',mapa_url:'',checkin:'15:00',checkout:'12:00',wifi_red:'',wifi_clave:'',
+    que_llevar:['Protector solar y repelente','Traje de baño y toalla de playa','Todo blanco para la Welcome White Night','Pijama elegante para la Pizza & Game Night','Look dorado o beige para la Golden Hour (día 2)','Camisa hawaiana o look boho para el Tiki Boho Funny (día 3)','Algo elegante para la Restaurant Night','Tu número para el Talent Show','Medicinas personales'], /* las gafas de la sesión las pone Freaky Monkey */
     reglas:['Cero café soluble: se pasa café de verdad','Cada quien lava lo que usa en las cenas colaborativas','Todo gasto se sube con foto a la app','Silencio después de la 1 a.m. por los vecinos'],
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
     faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
-    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],v:6};
+    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],v:9};
 }
-function pinNuevo(){const malos=new Set(['0000','1111','2222','3333','4444','5555','6666','7777','8888','9999','1234','4321','0123','2580']);for(;;){const a=new Uint32Array(1);crypto.getRandomValues(a);const p=String(a[0]%10000).padStart(4,'0');if(!malos.has(p))return p}}
-function mensajeWA(nombre,pin){const primer=(nombre||'').trim().split(/\s+/)[0]||'';const lugar=(typeof CFG!=='undefined'&&CFG.lugar)||'la playa';
-  return `¡Hola ${primer}! 🌊🌙\nYa está lista MAREA ALTA, la app de nuestro viaje a ${lugar}.\n\n👉 Entra desde tu celular: ${APP_URL}\n🪪 Usuario: tu número de cédula\n🔑 Tu clave: ${pin.split('').join(' ')}\n\nAhí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El itinerario y las noches temáticas con su dress code\n🍽️ El menú de cada día (márcanos si no comes algo)\n📸 El álbum para subir las fotos del viaje\n🙋 Tu ficha: alergias, tu talento y tu canción de karaoke\n\nTip: ábrela y en el menú del navegador elige "Agregar a pantalla de inicio" para tenerla como app.\nLa clave es solo tuya, no la compartas.`}
+/* se entra con el CELULAR + clave = día y mes del cumpleaños (DDMM). Mismas reglas que marea-admin-personas */
+function normTel(t){let d=String(t??'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d.startsWith('0'))d='593'+d.slice(1);else if(d.length===9&&d.startsWith('9'))d='593'+d;else if(d.length===10&&d.startsWith('3'))d='57'+d;return /^[0-9]{11,15}$/.test(d)?d:null}
+function normCumple(c){const t=String(c??'').trim();let dd,mm,m;if(m=t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)){mm=+m[2];dd=+m[3]}else if(m=t.match(/^(\d{1,2})[\/\-. ](\d{1,2})/)){dd=+m[1];mm=+m[2]}else if(m=t.match(/^(\d{2})(\d{2})$/)){dd=+m[1];mm=+m[2]}else return null;
+  const max=[31,29,31,30,31,30,31,31,30,31,30,31][mm-1];if(!max||dd<1||dd>max)return null;return String(mm).padStart(2,'0')+'-'+String(dd).padStart(2,'0')}
+const pinDe=c=>c?c.slice(3,5)+c.slice(0,2):'';
+const MESES_L=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const cumpleTxt=c=>c?`${+c.slice(3,5)} de ${MESES_L[+c.slice(0,2)-1]}`:'';
+/* 593985576470 → 098 557 6470 (Ecuador); los demás, con su + */
+const telLocal=t=>!t?'':/^593\d{9}$/.test(t)?('0'+t.slice(3)).replace(/^(\d{3})(\d{3})(\d{4})$/,'$1 $2 $3'):'+'+t;
+function mensajeWA(nombre){const primer=(nombre||'').trim().split(/\s+/)[0]||'';const lugar=(typeof CFG!=='undefined'&&CFG.lugar)||'la playa',app=(typeof CFG!=='undefined'&&CFG.nombre)||'Beach Trip';
+  return `¡Hola ${primer}! 🌴☀️\nYa está lista ${app}, la app de nuestro viaje a ${lugar}.\n\n👉 Entra desde tu celular: ${APP_URL}\n📱 Usuario: tu número de celular\n🔑 Clave: el día y el mes de tu cumpleaños (4 números: si naciste el 7 de marzo, es 0703)\n\nAhí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El plan de cada día y el look de cada noche\n🍽️ El menú de los 4 días (márcanos si no comes algo)\n📸 El álbum para subir las fotos del viaje\n🙋 Tu ficha: alergias, tu talento y tu canción de karaoke\n\nTip: ábrela y en el menú del navegador elige "Agregar a pantalla de inicio" para tenerla como app.`}
 function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`https://wa.me/${t}?text=${encodeURIComponent(msg)}`:null}
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==6){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==9){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
-  async login(ced,pin){const p=this.d.personas.find(x=>x.cedula===ced);if(!p||this.d.pins[ced]!==pin)throw new Error('Cédula o clave incorrecta');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
+  async login(tel,pin){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p||!p.cumple||pinDe(p.cumple)!==pin)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
   async logout(){lsDel(DEMO_SES)},
-  async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];COMIDAS=[...(d.comidas||[])];PLATOS=[...(d.platos||[])];ASIST=[...(d.asistencia||[])];PRESU=[...(d.presupuesto||[])];INSPI=[...(d.inspiracion||[])];MURO=[...(d.muro||[])];EQUIPO=[...(d.equipo||[])];VEHICULOS=[...(d.vehiculos||[])];PASAJEROS=[...(d.pasajeros||[])];COMERCIOS=[...(d.comercios||[])];ME=d.personas.find(p=>p.id===ME.id)||ME},
+  async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,cumple,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];COMIDAS=[...(d.comidas||[])];PLATOS=[...(d.platos||[])];ASIST=[...(d.asistencia||[])];PRESU=[...(d.presupuesto||[])];INSPI=[...(d.inspiracion||[])];MURO=[...(d.muro||[])];EQUIPO=[...(d.equipo||[])];VEHICULOS=[...(d.vehiculos||[])];PASAJEROS=[...(d.pasajeros||[])];COMERCIOS=[...(d.comercios||[])];ME=d.personas.find(p=>p.id===ME.id)||ME},
   async saveGasto(g,nuevo){const L=this.d.gastos;if(nuevo){L.unshift({...g,created_at:new Date().toISOString()})}else{const i=L.findIndex(x=>x.id===g.id);if(i<0)throw new Error('No encuentro ese gasto');this.d.historial.push({gasto_id:g.id,version:L[i],cambiado_por:ME.id,ts:new Date().toISOString()});L[i]={...L[i],...g}}this.save()},
   async historial(id){return this.d.historial.filter(h=>h.gasto_id===id)},
   async saveTarea(t,nuevo){const L=this.d.tareas;if(nuevo)L.push({...t,created_at:new Date().toISOString()});else{const i=L.findIndex(x=>x.id===t.id);L[i]={...L[i],...t}}this.save()},
@@ -675,12 +710,12 @@ const Demo={
   async admin(action,b){
     const d=this.d;
     if(action==='listar') return {personas:d.personas.map(p=>({...p}))};
-    if(action==='crear'){const ced=String(b.cedula||'').replace(/\D/g,'');if(!/^\d{6,12}$/.test(ced))throw new Error('Cédula inválida (6 a 12 dígitos)');if(d.personas.some(p=>p.cedula===ced))throw new Error('Esa cédula ya está registrada');if(String(b.nombre||'').trim().length<2)throw new Error('Falta el nombre');
-      const p={id:uid(),cedula:ced,nombre:b.nombre.trim(),apodo:(b.apodo||'').trim()||null,telefono:(b.telefono||'').replace(/[^\d+]/g,'')||null,rol:b.rol==='admin'?'admin':'invitado',activo:true,perfil:{},emergencia:null,ultimo_acceso:null};
-      const pin=pinNuevo();p.invitado_en=new Date().toISOString();d.personas.push(p);d.pins[ced]=pin;this.save();const m=mensajeWA(p.nombre,pin);return{persona:p,pin,mensaje:m,wa_url:waUrl(p.telefono,m)}}
-    if(action==='reset_pin'){const p=d.personas.find(x=>x.id===b.id);const pin=pinNuevo();d.pins[p.cedula]=pin;p.invitado_en=new Date().toISOString();this.save();const m=mensajeWA(p.nombre,pin);return{pin,mensaje:m,wa_url:waUrl(p.telefono,m)}}
+    if(action==='crear'){const tel=normTel(b.telefono),cu=normCumple(b.cumple);if(!tel)throw new Error('Celular inválido (ej. 0985576470 o +593 98 557 6470)');if(!cu)throw new Error('Cumpleaños inválido (día/mes, ej. 07/03)');if(d.personas.some(p=>p.telefono===tel))throw new Error('Ese celular ya está registrado');if(String(b.nombre||'').trim().length<2)throw new Error('Falta el nombre');
+      const p={id:uid(),cedula:null,nombre:b.nombre.trim(),apodo:(b.apodo||'').trim()||null,telefono:tel,cumple:cu,rol:b.rol==='admin'?'admin':'invitado',activo:true,perfil:{},emergencia:null,ultimo_acceso:null};
+      p.invitado_en=new Date().toISOString();d.personas.push(p);this.save();const m=mensajeWA(p.nombre);return{persona:p,pin:pinDe(cu),mensaje:m,wa_url:waUrl(p.telefono,m)}}
+    if(action==='reset_pin'){const p=d.personas.find(x=>x.id===b.id);if(!p.telefono||!p.cumple)throw new Error('Falta el celular o el cumpleaños');p.invitado_en=new Date().toISOString();this.save();const m=mensajeWA(p.nombre);return{pin:pinDe(p.cumple),mensaje:m,wa_url:waUrl(p.telefono,m)}}
     if(action==='toggle'){const p=d.personas.find(x=>x.id===b.id);p.activo=!!b.activo;this.save();return{ok:true}}
-    if(action==='actualizar'){const p=d.personas.find(x=>x.id===b.id);Object.assign(p,b.campos);this.save();return{persona:p}}
+    if(action==='actualizar'){const p=d.personas.find(x=>x.id===b.id),c={...b.campos};if('telefono' in c){c.telefono=normTel(c.telefono);if(!c.telefono)throw new Error('Celular inválido');if(d.personas.some(x=>x.id!==p.id&&x.telefono===c.telefono))throw new Error('Ese celular ya es de otra persona')}if('cumple' in c){c.cumple=normCumple(c.cumple);if(!c.cumple)throw new Error('Cumpleaños inválido')}Object.assign(p,c);this.save();return{persona:p}}
     throw new Error('Acción desconocida')
   },
   reiniciar(){this.d=seedDemo();this.save()}
@@ -694,9 +729,9 @@ const Sb={
   init(){this.c=window.supabase.createClient(SB_URL,SB_ANON,{db:{schema:'marea'}})},
   t(n){return this.c.from(n)},
   ok(r){if(r.error)throw new Error(r.error.message);return r.data},
-  async me(uid){const p=this.ok(await this.t('personas').select('id,auth_id,cedula,nombre,apodo,telefono,rol,activo,perfil,emergencia').eq('auth_id',uid).maybeSingle());if(!p)throw new Error('Tu usuario no tiene perfil en Marea. Escríbele a Daniel.');if(!p.activo){await this.c.auth.signOut();throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.')}return p},
+  async me(uid){const p=this.ok(await this.t('personas').select('id,auth_id,nombre,apodo,telefono,cumple,rol,activo,perfil,emergencia').eq('auth_id',uid).maybeSingle());if(!p)throw new Error('Tu usuario no tiene perfil en Marea. Escríbele a Daniel.');if(!p.activo){await this.c.auth.signOut();throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.')}return p},
   async restore(){const{data}=await this.c.auth.getSession();return data.session?this.me(data.session.user.id):null},
-  async login(ced,pin){const{data,error}=await this.c.auth.signInWithPassword({email:ced+'@marea.local',password:ced+'#'+pin});if(error)throw new Error('Cédula o clave incorrecta');return this.me(data.user.id)},
+  async login(tel,pin){const{data,error}=await this.c.auth.signInWithPassword({email:tel+'@marea.local',password:tel+'#'+pin});if(error)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');return this.me(data.user.id)},
   async logout(){await this.c.auth.signOut()},
   async loadAll(){
     const[p,c,g,t,e,v,et]=await Promise.all([
@@ -781,7 +816,9 @@ function leerLocal(texto,conFoto,modo){
     desc=desc.charAt(0).toUpperCase()+desc.slice(1);
     const dudas=[]; let pagador=ME.id;
     const pm=t.match(/\bpag[óo]\s+([a-záéíóúñ ]+?)(?=\s*(?:,|\.|$|\d|\bde\b|\ben\b|\bpor\b))/i);
+    const pm2=!pm&&t.match(/(?:^|\n|,\s*)([a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)?)\s+pag[óo](?![a-záéíóúñ])/i);
     if(pm){const r=buscarPersonas(pm[1]);if(r.ids[0])pagador=r.ids[0];dudas.push(...r.dudas)}
+    else if(pm2&&!/^(yo|ya|se|lo|la|le)$/i.test(pm2[1])){const r=buscarPersonas(pm2[1]);if(r.ids[0])pagador=r.ids[0]}
     let part=activos().map(p=>p.id);
     const sm=t.match(/\b(?:solo|s[oó]lo|entre)\s+([a-záéíóúñ ,]+?)(?=\s*(?:\.|;|$|\bmenos\b))/i);
     if(sm){const r=buscarPersonas(sm[1]);if(r.ids.length){part=r.ids;if(!part.includes(pagador)&&/\bentre\b/i.test(sm[0]))part.push(pagador)}dudas.push(...r.dudas)}
@@ -789,7 +826,7 @@ function leerLocal(texto,conFoto,modo){
     if(xm){const r=buscarPersonas(xm[1]);part=part.filter(id=>!r.ids.includes(id));dudas.push(...r.dudas)}
     const cat=categoriaDe(t), ca=leerClaveAcceso(t);
     if(!monto) dudas.push(conFoto?'Sin conexión a la IA todavía: escribe el total de la factura.':'No encontré el monto: escríbelo.');
-    prop.gastos.push({factura:ca?{tipo_documento:'factura',comercio:null,ruc:ca.ruc,fecha:ca.fecha,numero:ca.numero,clave_acceso:ca.clave_acceso,items:[],subtotal:null,impuestos:null,propina:null,total:monto||null}:null,descripcion:ca&&desc.length>40?'Factura '+ca.numero:desc||'Gasto',monto,fecha:ca?ca.fecha:null,categoria:cat,pagador_ids:[pagador],participante_ids:part,modo:'igual',partes:null,evento_id:null,etiquetas:[],confianza:monto?0.7:0.1,dudas});
+    prop.gastos.push({factura:ca?{tipo_documento:'factura',comercio:null,ruc:ca.ruc,fecha:ca.fecha,numero:ca.numero,clave_acceso:ca.clave_acceso,items:[],subtotal:null,impuestos:null,propina:null,total:monto||null}:null,descripcion:ca&&desc.length>40?'Factura '+ca.numero:desc||'Gasto',monto,fecha:ca?ca.fecha:null,categoria:cat,pagador_ids:[pagador],participante_ids:part,modo:'igual',partes:null,evento_id:null,etiquetas:[],confianza:monto?0.7:0.1,dudas,evento_id:eventoDe(t)});
     prop.resumen='Lectura rápida en el teléfono (sin IA). Revisa antes de guardar.';
   } else if(t){
     partirTareas(t).forEach(s=>{let resp=null;const rm=s.match(/^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)\s+(?=(prende|lleva|compra|trae|hace|arma|cocina|maneja|organiza|consigue|reserva))/);if(rm){const r=buscarPersonas(rm[1]);resp=r.ids[0]||null}
@@ -813,7 +850,7 @@ function partirTareas(t){
   let verbo='';
   return items.map(s=>{const m=s.match(rv);if(m)verbo=m[1];else if(verbo&&!/^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s+(?:prende|lleva|compra|trae|hace|arma|cocina|maneja|organiza)/.test(s))s=verbo.toLowerCase()+' '+s;return s.charAt(0).toUpperCase()+s.slice(1)});
 }
-const EV_CLAVES=[[/karaoke|microfono|proyector/,/karaoke/],[/asado|parrill|grill|carbon|taco/,/grill|parrill|asado|taco/],[/pizza|risk|monopol|juegos de mesa/,/pizza|juegos/],[/tapas|vino|hipnosis/,/tapas/],[/talento|talent/,/talent/],[/yoga/,/yoga/],[/gafas|sesion de fotos/,/fotos/],[/panzazo|piscina/,/panzazo/],[/intenciones|fogata/,/intenciones/]];
+const EV_CLAVES=[[/karaoke|microfono|proyector/,/karaoke/],[/asado|parrill|grill|carbon|taco|bbq|coctel|cocktail|mojito|margarita/,/bbq|grill|parrill|asado|taco/],[/restaurante|restaurant|despedida|ultima noche/,/restaurant/],[/pizza|risk|monopol|juegos de mesa/,/pizza|juegos/],[/tapas|vino|hipnosis|tempranillo|rioja/,/tapas/],[/talento|talent/,/talent/],[/yoga/,/yoga/],[/gafas|sesion de fotos|freaky/,/fotos/],[/panzazo|piscina/,/panzazo/],[/intenciones|fogata/,/intenciones/]];
 function eventoDe(txt){const t=norm(txt);for(const[q,e]of EV_CLAVES)if(q.test(t)){const ev=EVENTOS.find(x=>x.estado!=='cancelado'&&e.test(norm(x.titulo+' '+(x.tematica||''))));if(ev)return ev.id}return null}
 function categoriaDe(t){t=norm(t);
   if(/cocinera|sueldo/.test(t))return'cocinera';
@@ -868,16 +905,16 @@ function pintarLogin(msg){
     <div class="login-logo">${logo(230)}</div>
     <div style="text-align:center"><h1>¡Nos vamos a la playa!</h1><p class="tag">Same, Esmeraldas · buenos amigos, mejores historias.</p></div>
     <form id="lf" class="stack" autocomplete="on">
-      <div class="field"><label for="lced">Tu cédula</label><input id="lced" class="in" inputmode="numeric" autocomplete="username" placeholder="Número de cédula" value="${esc(lsGet('marea_ced')||'')}" required></div>
-      <div class="field"><label for="lpin">Clave de 4 dígitos</label><input id="lpin" class="in pin-in" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="••••" required></div>
+      <div class="field"><label for="lced">Tu celular</label><input id="lced" class="in" type="tel" inputmode="tel" autocomplete="username" placeholder="098 557 6470" value="${esc(telLocal(lsGet('marea_tel')||''))}" required></div>
+      <div class="field"><label for="lpin">Tu clave: día y mes de tu cumpleaños</label><input id="lpin" class="in pin-in" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="DDMM" required><div class="muted tiny" style="margin-top:6px">Si naciste el 7 de marzo, tu clave es <b class="num">0703</b>.</div></div>
       <div id="lerr" class="banner bad" ${msg?'':'hidden'}>${esc(msg||'')}</div>
       <button class="btn primary block" id="lbtn">Entrar</button>
     </form>
-    <p class="muted tiny">¿No tienes clave? Escríbele a Daniel por WhatsApp.</p>
-    ${MODO==='demo'?`<div class="banner tide"><div><b>Modo demo.</b> Los datos viven solo en este teléfono. Entra como Daniel con la cédula <b class="num">100000001</b> y la clave <b class="num">2026</b>, o como cualquier invitado de 100000002 a 100000012.</div></div>`:''}
+    <p class="muted tiny">¿No te deja entrar? Escríbele a Daniel por WhatsApp.</p>
+    ${MODO==='demo'?`<div class="banner tide"><div><b>Modo demo.</b> Los datos viven solo en este teléfono. Entra como Daniel con el celular <b class="num">${telLocal(demoTel(0))}</b> y la clave <b class="num">${pinDe(demoCumple(0))}</b> (cumple el ${cumpleTxt(demoCumple(0))}). Los demás: ${telLocal(demoTel(1))} … ${telLocal(demoTel(DEMO_GENTE.length-1))}, cada uno con su cumpleaños de ejemplo en Admin.</div></div>`:''}
     <p class="foot">${BUILD_TAG} · ${MODO}</p></div>`;
   $('#lf').onsubmit=async e=>{e.preventDefault();const b=$('#lbtn');b.disabled=true;b.textContent='Entrando…';
-    try{const ced=$('#lced').value.replace(/\D/g,'');ME=await API.login(ced,$('#lpin').value.trim());lsSet('marea_ced',ced);await cargar();TAB='hoy';try{history.replaceState(null,'','#hoy')}catch(x){}render()}
+    try{const tel=normTel($('#lced').value);if(!tel)throw new Error('Escribe tu número de celular completo (ej. 098 557 6470).');const pin=$('#lpin').value.replace(/\D/g,'');if(pin.length!==4)throw new Error('La clave son 4 números: día y mes de tu cumpleaños.');ME=await API.login(tel,pin);lsSet('marea_tel',tel);await cargar();TAB='hoy';try{history.replaceState(null,'','#hoy')}catch(x){}render()}
     catch(err){$('#lerr').hidden=false;$('#lerr').textContent=err.message;b.disabled=false;b.textContent='Entrar'}};
 }
 async function salir(){await API.logout();ME=null;closeSheet(true);pintarLogin()}
@@ -906,7 +943,7 @@ function vHoy(){
   let big='',lbl='',lvl=12;
   if(dias.length){const n=difDias(hoy,CFG.desde),tot=dias.length;
     if(n>0){const ms=new Date(CFG.desde+'T'+(String(infoV().checkin||'15:00').match(/^\d{1,2}:\d{2}$/)?infoV().checkin:'15:00')+':00')-new Date();const h=Math.max(0,Math.floor(ms/36e5)%24),m=Math.max(0,Math.floor(ms/6e4)%60);big=Math.floor(ms/864e5);lbl=`días ${h} h ${m} min para llegar a ${CFG.lugar||'la playa'}`;if(big<0){big=n;lbl='días para el viaje'}lvl=Math.max(8,30-Math.min(n,30))}
-    else if(difDias(hoy,CFG.hasta)>=0){const k=1-n;big=`Día ${k}`;lbl=`de ${tot} · ${diaSem(hoy)} ${fechaCorta(hoy)}`;lvl=30+Math.round(55*k/tot)}
+    else if(difDias(hoy,CFG.hasta)>=0){const k=1-n;big=k===1&&tot>1?'Llegada':`Día ${tot>1?k-1:k}`;lbl=`${k===1&&tot>1?'':'de '+(tot>1?tot-1:tot)+' · '}${diaSem(hoy)} ${fechaCorta(hoy)}`;lvl=30+Math.round(55*k/tot)}
     else{big='Fin';lbl='del viaje. Hora de saldar cuentas';lvl=90}}
   else{big='—';lbl='Faltan las fechas del viaje';}
   const b=balances().find(x=>x.id===ME.id)||{saldo:0};
@@ -1050,6 +1087,51 @@ function formDesdePropuesta(pg,respaldo,lectura,origen){
   const cat=pg.categoria==='mercado'?'despensa':pg.categoria==='comida'?'restaurantes':pg.categoria;
   return aplicarHistorial(nuevoForm({etq_ia:pg.etiquetas||[],factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja}));
 }
+/* lo que armó la IA, en limpio: se guarda o se le corrige con texto. Sin formulario. */
+function pintarConfirmGasto(){
+  const m=r2(parseFloat(String(F.monto).replace(',','.'))||0), ev=EVENTOS.find(e=>e.id===F.evento_id);
+  const fuera=activos().filter(p=>!F.part.includes(p.id)), etq=[...new Set([...F.etiquetas.map(id=>(ETIQUETAS.find(t=>t.id===id)||{}).nombre).filter(Boolean),...etiquetasAuto(F)])];
+  const parte=id=>F.modo==='igual'?(F.part.length?m/F.part.length:0):F.modo==='porcentaje'?m*(+F.valores[id]||0)/100:(+F.valores[id]||0);
+  const err=validarF();
+  openSheet(`${sheetH(F.nuevo?'Así quedó tu gasto':'Cambiar este gasto')}<div class="stack">
+    ${F.nuevo?'':`<p class="muted" style="margin:0">Dile a la IA qué cambió y ella lo arregla: <i>"Naty no estuvo"</i>, <i>"fueron 52"</i>, <i>"pagó Kevin"</i>.</p>`}
+    ${F.dudas&&F.dudas.length?`<div class="banner warn"><div><b>Revisa esto</b><br>${F.dudas.map(esc).join('<br>')}</div></div>`:''}
+    ${F.historial?`<div class="banner tide tiny"><div><b>✦ Lo aprendió de antes.</b> ${esc(F.historial)}</div></div>`:''}
+    <div class="card gia">
+      ${F.respaldo?`<img class="thumb" id="fthumb" alt="Factura">`:''}
+      <div class="eyebrow" style="color:var(--sun)">${esc(CATN[F.categoria]||'Gasto')}${F.factura&&F.factura.comercio?' · '+esc(F.factura.comercio):''}</div>
+      <div class="gia-t">${esc(F.descripcion||'Sin descripción')}</div>
+      <div class="gia-m num">${m>0?money(m):'—'}</div>
+      <dl class="kv" style="margin-top:10px"><dt>Pagó</dt><dd>${esc(nom(F.pagador))}</dd>
+        <dt>Entre</dt><dd>${F.part.length===activos().length?'Todos':F.part.length+' personas'} · ${F.modo==='igual'?'partes iguales':F.modo==='porcentaje'?'por porcentaje':'por montos'}</dd>
+        ${fuera.length?`<dt>Sin</dt><dd>${fuera.map(p=>esc(nom(p.id))).join(', ')}</dd>`:''}
+        <dt>Ligado a</dt><dd>${ev?esc(ev.titulo):'Gasto general del viaje'}</dd>
+        <dt>Fecha</dt><dd>${fechaCorta(F.fecha)}</dd></dl>
+      <div class="chips" style="margin-top:10px">${F.part.map(id=>`<span class="pill">${esc(nom(id))} <b class="num">${money(r2(parte(id)))}</b></span>`).join('')}</div>
+      ${etq.length?`<div class="chips" style="margin-top:8px">${etq.map(t=>`<span class="pill tide">#${esc(t)}</span>`).join('')}</div>`:''}
+      ${F.factura&&(F.factura.items||[]).length?`<details style="margin-top:10px"><summary class="tiny muted" style="cursor:pointer">Lo que dice la factura (${F.factura.items.length} ítems)</summary>${facturaTabla(F.factura)}</details>`:''}
+    </div>
+    ${F.texto_ia?`<div class="tiny muted">Le dijiste: <i>"${esc(F.texto_ia)}"</i></div>`:''}
+    <div class="field"><label for="fcorr">¿Algo no está bien? Díselo a la IA</label><textarea id="fcorr" class="in" rows="2" placeholder="Ej. Naty sí entra · pagó Kevin · es de la BBQ · fueron 52"></textarea>
+      <button class="btn sm" id="fcorrb" style="margin-top:8px" onclick="corregirConIA()">${ic('spark')} Corregir con IA</button></div>
+    <div class="field"><label for="fnota">Nota (opcional)</label><input id="fnota" class="in" value="${esc(F.nota)}" oninput="F.nota=this.value" placeholder="Si pasa el presupuesto, escribe aquí por qué"></div>
+    <div id="fdup"></div><div id="ferr" class="banner bad" ${err?'':'hidden'}>${esc(err)}</div>
+    <button class="btn primary block" id="fsave" onclick="guardarGasto()" ${err?'disabled':''}>${F.nuevo?'Guardar gasto':'Guardar los cambios'}</button>
+    ${!F.nuevo&&(F.creado_por===ME.id||esAdmin())?`<button class="btn danger block" onclick="eliminarGasto(this)">Eliminar gasto</button>`:''}</div>`);
+  if(F.respaldo){const im=$('#fthumb');const set=u=>{if(im)im.src=u};if(String(F.respaldo).startsWith('data:'))set(F.respaldo);else API.urlFoto(F.respaldo).then(set).catch(()=>{})}
+}
+async function corregirConIA(){
+  const c=$('#fcorr').value.trim(); if(!c){$('#fcorr').focus();return}
+  const b=$('#fcorrb');b.disabled=true;b.textContent='Corrigiendo…';
+  const antes={respaldo:F.respaldo,nota:F.nota,ev:F.evento_id,factura:F.factura};
+  const txt=[F.texto_ia||'',`El gasto hoy dice: ${F.descripcion}, ${F.monto}, pagó ${nom(F.pagador)}, entre ${F.part.map(nom).join(', ')}.`,`Corrección: ${c}`].filter(Boolean).join('\n');
+  try{const p=await API.leer({texto:txt,dataUrl:null,ref:F.respaldo&&!String(F.respaldo).startsWith('data:')?F.respaldo:null,modo:'gasto'});
+    const g=(p.gastos||[])[0]; if(!g)throw new Error('No entendí la corrección. Dila con otras palabras.');
+    const viejo=F; F=formDesdePropuesta(g,antes.respaldo,p,viejo.origen); F.id=viejo.id; F.nuevo=viejo.nuevo; F.creado_por=viejo.creado_por;
+    if(!g.monto&&viejo.monto)F.monto=viejo.monto; if(!F.factura&&antes.factura)F.factura=antes.factura; if(!F.evento_id&&antes.ev&&!/no es de|sin evento|general/i.test(c))F.evento_id=antes.ev;
+    F.nota=antes.nota;F.texto_ia=(viejo.texto_ia?viejo.texto_ia+' · ':'')+c;pintarConfirmGasto()}
+  catch(e){b.disabled=false;b.innerHTML=ic('spark')+' Corregir con IA';toast(e.message)}
+}
 function validarF(){
   const m=r2(parseFloat(String(F.monto).replace(',','.'))||0);
   if(!String(F.descripcion).trim()) return 'Falta la descripción';
@@ -1061,6 +1143,7 @@ function validarF(){
   return '';
 }
 function pintarFormGasto(){
+  if(F.tipo==='gasto')return pintarConfirmGasto();
   const titulo=F.tipo==='aporte'?'Aporte al fondo':F.tipo==='pago'?'Pago entre dos':F.nuevo?'Nuevo gasto':'Editar gasto';
   const evs=EVENTOS.filter(e=>e.estado!=='cancelado');
   openSheet(`${sheetH(titulo)}<div class="stack">
@@ -1199,45 +1282,46 @@ function abrirAgregar(){
   const op=(icon,t,s,fn,sun)=>`<button class="add-opt" onclick="${fn}"><span class="ic ${sun?'s':''}">${ic(icon)}</span><span><b>${t}</b><span class="muted tiny">${s}</span></span></button>`;
   openSheet(`${sheetH('Agregar')}<div class="stack">
     <label class="add-opt" style="cursor:pointer"><span class="ic">${ic('cam')}</span><span><b>Fotos al álbum</b><span class="muted tiny">Para que todos las vean</span></span><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label>
-    ${op('receipt','Foto de una factura','La leo y te propongo el gasto','abrirLector(true)',true)}
-    ${op('chat','Contar un gasto','"Pagué 48 de hielo, para todos menos Lucho"','abrirLector(false)',true)}
-    ${op('receipt','Gasto a mano','Formulario completo','F=nuevoForm();pintarFormGasto()')}
+    ${op('receipt','Nuevo gasto','Foto de la factura y cuéntale a la IA quién sí, quién no y de qué es','abrirLector(true)',true)}
     ${op('list','Lista de tareas','Pega una lista y la convierto en tareas','abrirLector(false,true)')}
     ${op('tareas','Una tarea','Algo que hay que hacer','abrirFormTarea()')}
     ${op('planes','Proponer un plan','Una noche temática, un desayuno, un juego','abrirFormEvento()')}
   </div>`);
 }
 let LECT={dataUrl:null,blob:null};
-function abrirLector(foto,lista){
-  LECT={dataUrl:null,blob:null};
-  openSheet(`${sheetH(foto?'Foto de factura':lista?'Lista de tareas':'Contar un gasto')}<div class="stack">
-    ${foto?`<label class="add-opt" style="cursor:pointer"><span class="ic s">${ic('cam')}</span><span><b>Tomar o elegir foto</b><span class="muted tiny">Que se vea el total</span></span><input id="lfoto" type="file" accept="image/*" capture="environment" hidden onchange="leerFoto(this)"></label><img id="lthumb" class="thumb" hidden alt="">
+function abrirLector(foto,lista,ev){
+  LECT={dataUrl:null,blob:null,ev:ev||null};
+  const evN=ev&&EVENTOS.find(e=>e.id===ev);
+  openSheet(`${sheetH(lista?'Lista de tareas':'Nuevo gasto')}<div class="stack">
+    ${foto?`<p class="muted" style="margin:0">Sube la foto de la factura (si hay) y cuéntale a la IA en tus palabras: <b>quién pagó</b>, <b>para quién sí y para quién no</b>, y <b>de qué es</b>. Ella arma el gasto, lo reparte y lo liga.${evN?` Va ligado a <b>${esc(evN.titulo)}</b>.`:''}</p>`:''}
+    ${foto?`<label class="add-opt" style="cursor:pointer"><span class="ic s">${ic('cam')}</span><span><b>Foto de la factura o recibo</b><span class="muted tiny">Opcional · que se vea el total</span></span><input id="lfoto" type="file" accept="image/*" capture="environment" hidden onchange="leerFoto(this)"></label><img id="lthumb" class="thumb" hidden alt="">
     <label class="add-opt" style="cursor:pointer"><span class="ic">${ic('receipt')}</span><span><b>Tengo el XML de la factura electrónica</b><span class="muted tiny">El que llega al correo: se lee exacto, sin IA</span></span><input type="file" accept=".xml,text/xml,application/xml" hidden onchange="this.files[0]&&leerArchivoXml(this.files[0])"></label>`:''}
-    <div class="field"><label for="ltxt">${foto?'Algo más (opcional)':lista?'Pega o escribe la lista':'Cuéntalo como quieras'}</label>
-      <textarea id="ltxt" class="in" placeholder="${foto?'Ej. va para todos menos Lu':lista?'Comprar 3 fundas de hielo, carbón para el asado y llevar los dos micrófonos para el karaoke':'Ej. pagué 48 dólares de hielo y cervezas, para todos menos Luciana'}" ${foto?'':'autofocus'}></textarea>
+    <div class="field"><label for="ltxt">${foto?'Cuéntale a la IA':lista?'Pega o escribe la lista':'Cuéntalo como quieras'}</label>
+      <textarea id="ltxt" class="in" placeholder="${foto?'Ej. Pagué yo 48 de hielo y cervezas para la BBQ, para todos menos Naty':lista?'Comprar 3 fundas de hielo, carbón para el asado y llevar los dos micrófonos para el karaoke':'Ej. pagué 48 dólares de hielo y cervezas, para todos menos Luciana'}" rows="${foto?4:3}"></textarea>
       <span class="muted tiny">Puedes dictarlo con el micrófono del teclado.</span></div>
     ${MODO==='demo'?`<div class="banner tide tiny">En el modo demo la lectura es rápida y sin IA. Con Supabase conectado la hace Claude y también lee las fotos.</div>`:''}
     <div id="lerr2" class="banner bad" hidden></div>
-    <button class="btn primary block" id="lgo" onclick="procesarLector(${foto},${!!lista})">${ic('spark')} Leer</button></div>`);
+    <button class="btn primary block" id="lgo" onclick="procesarLector(${foto},${!!lista})">${ic('spark')} ${foto?'Armar el gasto con IA':'Leer'}</button></div>`);
 }
 async function leerFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{LECT=await achicar(f,1600,.82);const im=$('#lthumb');im.src=LECT.dataUrl;im.hidden=false}catch(e){toast(e.message)}}
 async function procesarLector(foto,lista){
   const txt=$('#ltxt').value.trim(), b=$('#lgo'), er=$('#lerr2');
-  if(foto&&!LECT.dataUrl){er.hidden=false;er.textContent='Primero toma o elige la foto.';return}
-  if(!foto&&!txt){er.hidden=false;er.textContent='Escribe algo para leer.';return}
+  if(!LECT.dataUrl&&!txt){er.hidden=false;er.textContent=foto?'Sube la foto o cuéntale a la IA de qué es el gasto.':'Escribe algo para leer.';return}
   b.disabled=true;b.textContent='Leyendo…';
   try{
-    let ref=null; if(foto){ref=MODO==='demo'?LECT.dataUrl:await API.subirFoto('marea-respaldos',LECT.blob,LECT.dataUrl)}
-    const p=await API.leer({texto:txt,dataUrl:LECT.dataUrl,ref,modo:lista?'tareas':'gasto'});
-    mostrarPropuesta(p,ref,foto?'foto':'texto');
+    let ref=null; if(LECT.dataUrl){ref=MODO==='demo'?LECT.dataUrl:await API.subirFoto('marea-respaldos',LECT.blob,LECT.dataUrl)}
+    LECT.txt=txt;LECT.ref=ref;
+    const evN=LECT.ev&&EVENTOS.find(e=>e.id===LECT.ev);
+    const p=await API.leer({texto:(evN?`(Es un gasto de: ${evN.titulo})\n`:'')+txt,dataUrl:LECT.dataUrl,ref,modo:lista?'tareas':'gasto'});
+    mostrarPropuesta(p,ref,LECT.dataUrl?'foto':'texto');
   }catch(e){b.disabled=false;b.innerHTML=ic('spark')+' Leer';er.hidden=false;er.textContent=e.message}
 }
 let PROP=null;
 function mostrarPropuesta(p,ref,origen){
   PROP={...p,ref,origen};
-  if(p.gastos&&p.gastos.length===1&&!(p.tareas||[]).length&&!(p.eventos||[]).length){F=formDesdePropuesta(p.gastos[0],ref,p,origen);if(p.resumen&&!F.dudas.includes(p.resumen)&&p.local)F.dudas=[...F.dudas];pintarFormGasto();return}
+  if(p.gastos&&p.gastos.length===1&&!(p.tareas||[]).length&&!(p.eventos||[]).length){F=formDesdePropuesta(p.gastos[0],ref,p,origen);if(LECT.ev&&!F.evento_id)F.evento_id=LECT.ev;F.texto_ia=LECT.txt||'';F.resumen_ia=p.resumen||'';if(p.resumen&&!F.dudas.includes(p.resumen)&&p.local)F.dudas=[...F.dudas];pintarFormGasto();return}
   const n=(p.gastos||[]).length+(p.tareas||[]).length+(p.eventos||[]).length;
-  if(!n){openSheet(`${sheetH('No encontré nada')}<div class="stack"><p class="muted">No pude sacar un gasto ni tareas de eso. Prueba con el formulario.</p><button class="btn primary block" onclick="F=nuevoForm({respaldo:PROP.ref,origen:PROP.origen});pintarFormGasto()">Llenar a mano</button></div>`);return}
+  if(!n){openSheet(`${sheetH('No encontré un gasto')}<div class="stack"><p class="muted">No pude sacar el gasto de eso. Cuéntalo con el monto, por ejemplo: <i>"pagué 48 de hielo para todos menos Naty"</i>.</p><button class="btn primary block" onclick="abrirLector(true,false,LECT.ev)">Volver a contarlo</button></div>`);return}
   openSheet(`${sheetH('Esto es lo que encontré')}<div class="stack">
     ${p.resumen?`<div class="banner tide">${esc(p.resumen)}</div>`:''}
     ${(p.gastos||[]).map((g,i)=>`<button class="add-opt" onclick="F=formDesdePropuesta(PROP.gastos[${i}],PROP.ref,PROP,PROP.origen);pintarFormGasto()"><span class="ic s">${ic('receipt')}</span><span><b>${esc(g.descripcion||'Gasto')} · ${money(g.monto)}</b><span class="muted tiny">Revisar y guardar</span></span></button>`).join('')}
@@ -1383,7 +1467,7 @@ function vPrograma(){
   +dias.map((d,i)=>{const E=of.filter(e=>e.dia===d), C=comidasDia(d).filter(c=>!EVENTOS.some(e=>e.id===c.evento_id&&e.dia===d&&E.includes(e))&&(!MIAG||miAsis(c.id).va!==false));
     const noche=EVENTOS.filter(e=>e.dia===d&&esNoche(e)&&(e.estado==='oficial'||e.estado==='hecho')&&e.estilo).sort((a,b)=>minEv(b)-minEv(a))[0];
     const L=[...E.map(e=>({m:minEv(e),h:evCard(e)})),...C.map(c=>({m:minDe(c.hora)??({desayuno:510,almuerzo:810,cena:1200}[c.turno]),h:mealRow(c)}))].sort((a,b)=>a.m-b.m);
-    return `<div class="day"><div class="day-h"><b>Día ${i+1}</b><span class="muted">${diaSem(d)} ${fechaCorta(d)}</span>${d===hoyISO()?'<span class="pill sun">Hoy</span>':''}</div>
+    return `<div class="day"><div class="day-h"><b>${nomDia(i,dias.length)}</b><span class="muted">${diaSem(d)} ${fechaCorta(d)}</span>${d===hoyISO()?'<span class="pill sun">Hoy</span>':''}</div>
       ${noche?`<div class="day-tema">${(noche.estilo.paleta||[]).filter(hexOk).slice(0,4).map(c=>`<i style="background:${c}"></i>`).join('')}<span>${esc(noche.estilo.nombre)}</span></div>`:''}
       ${L.length?`<div class="stack tl">${L.map(x=>x.h).join('')}</div>`:`<div class="muted tiny" style="padding:4px 2px">Libre. Playa y siesta.</div>`}</div>`}).join('')
     +(sinDia.length?`<div class="day"><div class="day-h"><b>Por programar</b></div><div class="stack">${sinDia.map(evCard).join('')}</div></div>`:'');
@@ -1411,10 +1495,10 @@ function abrirEvento(id){
     ${esAdmin()&&e.estado==='propuesta'?`<div class="card"><div class="eyebrow" style="margin-bottom:8px">Pasar al programa</div>${selectorDia(e)}<button class="btn primary block" style="margin-top:10px" onclick="hacerOficial('${e.id}')">Hacer oficial</button></div>`:''}
     ${esAdmin()&&e.estado==='oficial'?`<div class="row"><button class="btn grow" onclick="patchEvento('${e.id}',{estado:'hecho'})">Marcar como hecho</button><button class="btn" onclick="patchEvento('${e.id}',{estado:'propuesta',dia:null})">Sacar del programa</button></div>`:''}
     ${puedeEditarEv(e)?`<button class="btn block" onclick="abrirFormEvento('${e.id}')">${ic('pen')} Editar</button>`:''}
-    <button class="btn block" onclick="F=nuevoForm({evento_id:'${e.id}'});pintarFormGasto()">${ic('receipt')} Registrar un gasto de este plan</button>
+    <button class="btn block" onclick="abrirLector(true,false,'${e.id}')">${ic('receipt')} Registrar un gasto de este plan</button>
     ${esAdmin()?`<button class="btn danger block" onclick="borrarEvento('${e.id}',this)">Eliminar plan</button>`:''}</div>`);
 }
-function selectorDia(e){const dias=diasViaje();return `<div class="grid2"><div class="field"><label for="odia">Día</label><select id="odia" class="in">${dias.length?dias.map((d,i)=>`<option value="${d}" ${e.dia===d?'selected':''}>Día ${i+1} · ${diaSem(d)} ${fechaCorta(d)}</option>`).join(''):'<option value="">Sin fechas del viaje</option>'}</select></div>
+function selectorDia(e){const dias=diasViaje();return `<div class="grid2"><div class="field"><label for="odia">Día</label><select id="odia" class="in">${dias.length?dias.map((d,i)=>`<option value="${d}" ${e.dia===d?'selected':''}>${nomDia(i)} · ${diaSem(d)} ${fechaCorta(d)}</option>`).join(''):'<option value="">Sin fechas del viaje</option>'}</select></div>
   <div class="field"><label for="oblq">Momento</label><select id="oblq" class="in">${BLOQUES.map(([k,l])=>`<option value="${k}" ${e.bloque===k?'selected':''}>${l}</option>`).join('')}</select></div></div>`}
 async function hacerOficial(id){await patchEvento(id,{estado:'oficial',dia:$('#odia').value||null,bloque:$('#oblq').value});toast('Pasó al programa')}
 async function patchEvento(id,c,reabrir=true){const e=EVENTOS.find(x=>x.id===id);try{await API.saveEvento({...e,...c},false);await cargar();if(reabrir)abrirEvento(id);render()}catch(err){toast(err.message)}}
@@ -1436,7 +1520,7 @@ function abrirFormEvento(id,pre){
     <div class="grid2">${fld('lugar','Dónde','casa, playa, terraza')}${fld('dress_code','Dress code','Ej. todo blanco')}</div>
     <div class="field"><label for="ef_menu">Menú (un plato por línea)</label><textarea id="ef_menu" class="in" rows="4" placeholder="Tacos de camarón&#10;Guacamole&#10;Micheladas" oninput="EF.menu=this.value.split('\n').map(x=>x.trim()).filter(Boolean)">${esc((e.menu||[]).join('\n'))}</textarea></div>
     ${fld('playlist_url','Playlist (link)','https://open.spotify.com/…')}
-    ${esAdmin()&&e.estado!=='propuesta'?`<div class="grid2"><div class="field"><label for="ef_dia">Día</label><select id="ef_dia" class="in" onchange="EF.dia=this.value||null"><option value="">Sin día</option>${diasViaje().map((d,i)=>`<option value="${d}" ${e.dia===d?'selected':''}>Día ${i+1} · ${fechaCorta(d)}</option>`).join('')}</select></div><div class="field"><label for="ef_hora">Hora</label><input id="ef_hora" type="time" class="in" value="${esc(e.hora?String(e.hora).slice(0,5):'')}" onchange="EF.hora=this.value||null"></div></div>`:''}
+    ${esAdmin()&&e.estado!=='propuesta'?`<div class="grid2"><div class="field"><label for="ef_dia">Día</label><select id="ef_dia" class="in" onchange="EF.dia=this.value||null"><option value="">Sin día</option>${diasViaje().map((d,i)=>`<option value="${d}" ${e.dia===d?'selected':''}>${nomDia(i)} · ${fechaCorta(d)}</option>`).join('')}</select></div><div class="field"><label for="ef_hora">Hora</label><input id="ef_hora" type="time" class="in" value="${esc(e.hora?String(e.hora).slice(0,5):'')}" onchange="EF.hora=this.value||null"></div></div>`:''}
     <button class="btn primary block" onclick="guardarEvento()">${id?'Guardar':'Proponer'}</button></div>`);
 }
 async function guardarEvento(){if(!String(EF.titulo).trim()){toast('Ponle un nombre');return}const n=EF.nuevo;const e={...EF};delete e.nuevo;if(n)e.creado_por=ME.id;try{await API.saveEvento(e,n);await cargar();closeSheet();toast(n?'Propuesta creada: que voten':'Plan actualizado');if(n){SUBE='propuestas';TAB='planes'}render()}catch(err){toast(err.message)}}
@@ -1463,7 +1547,7 @@ function abrirPersona(id){
   openSheet(`${sheetH('')}<div class="stack" style="margin-top:-30px"><div class="row">${av(id,'lg')}<div class="grow"><h2 style="font-size:26px">${esc(nom(id))}</h2><div class="muted">${esc(p.nombre)}${p.rol==='admin'?' · organiza':''}</div></div></div>
     ${ins.length?`<div class="chips">${ins.map(t=>`<span class="badge">${esc(t)}</span>`).join('')}</div>`:''}
     ${pf.bio?`<p style="margin:0">${esc(pf.bio)}</p>`:''}
-    ${filas.length?`<div class="card"><dl class="kv">${filas.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl></div>`:`<div class="card flat empty">${id===ME.id?'Tu ficha está vacía.':'Todavía no ha llenado su ficha.'}</div>`}
+    ${filas.length?`<div class="card"><dl class="kv">${filas.map(([k,v])=>`<dt>${k}</dt><dd>${k==='Instagram'&&/^@?[\w.]{1,30}$/.test(String(v).trim())?`<a href="https://instagram.com/${esc(String(v).trim().replace(/^@/,''))}" target="_blank" rel="noopener">${esc(v)}</a>`:esc(v)}</dd>`).join('')}</dl></div>`:`<div class="card flat empty">${id===ME.id?'Tu ficha está vacía.':'Todavía no ha llenado su ficha.'}</div>`}
     ${(()=>{const fs=MURO.filter(f=>f.persona_id===id).slice(0,9);return fs.length?`<div class="eyebrow">Sus fotos del viaje</div><div class="alb">${fs.map(f=>{const u=fotoUrl(f.foto_path);return `<button onclick="FALB='';verFoto('${f.id}')">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}</button>`}).join('')}</div>`:''})()}
     ${id===ME.id?`<button class="btn primary block" onclick="abrirMiPerfil()">Editar mi ficha</button>`:''}</div>`);
 }
@@ -1530,15 +1614,16 @@ function vAdmin(){
 function abrirNuevoInvitado(){
   openSheet(`${sheetH('Nuevo invitado')}<div class="stack">
     <div class="field"><label for="ni_n">Nombre completo</label><input id="ni_n" class="in" autofocus></div>
-    <div class="field"><label for="ni_c">Cédula</label><input id="ni_c" class="in" inputmode="numeric"></div>
-    <div class="grid2"><div class="field"><label for="ni_a">Apodo (opcional)</label><input id="ni_a" class="in"></div><div class="field"><label for="ni_t">WhatsApp (opcional)</label><input id="ni_t" class="in" inputmode="tel" placeholder="593…"></div></div>
+    <div class="grid2"><div class="field"><label for="ni_t">Celular (su usuario)</label><input id="ni_t" class="in" type="tel" inputmode="tel" placeholder="098 557 6470"></div><div class="field"><label for="ni_c">Cumpleaños (día/mes)</label><input id="ni_c" class="in" inputmode="numeric" placeholder="07/03"></div></div>
+    <div class="field"><label for="ni_a">Apodo (opcional)</label><input id="ni_a" class="in"></div>
+    <p class="muted tiny" style="margin:0">Su clave es el día y el mes del cumpleaños: 07/03 → 0703.</p>
     <div id="ni_e" class="banner bad" hidden></div>
-    <button class="btn primary block" onclick="crearInvitado(this)">Crear y generar clave</button></div>`);
+    <button class="btn primary block" onclick="crearInvitado(this)">Crear y armar la invitación</button></div>`);
 }
-async function crearInvitado(btn){btn.disabled=true;try{const r=await API.admin('crear',{nombre:$('#ni_n').value,cedula:$('#ni_c').value,apodo:$('#ni_a').value,telefono:$('#ni_t').value});ADM=null;await cargar();mostrarPin(r.persona.nombre,r)}catch(e){btn.disabled=false;const x=$('#ni_e');x.hidden=false;x.textContent=e.message}}
+async function crearInvitado(btn){btn.disabled=true;try{const r=await API.admin('crear',{nombre:$('#ni_n').value,cumple:$('#ni_c').value,apodo:$('#ni_a').value,telefono:$('#ni_t').value});ADM=null;await cargar();mostrarPin(r.persona.nombre,r)}catch(e){btn.disabled=false;const x=$('#ni_e');x.hidden=false;x.textContent=e.message}}
 function mostrarPin(nombre,r){
   openSheet(`${sheetH('Clave de '+esc(nombre.split(' ')[0]))}<div class="stack">
-    <div class="card"><div class="eyebrow" style="text-align:center">Clave de 4 dígitos</div><div class="pin-big num">${esc(r.pin)}</div><p class="muted tiny" style="text-align:center;margin:0">Solo se muestra ahora. Si se pierde, generas otra.</p></div>
+    <div class="card"><div class="eyebrow" style="text-align:center">Su clave es su cumpleaños</div><div class="pin-big num">${esc(r.pin)}</div><p class="muted tiny" style="text-align:center;margin:0">Entra con su celular${r.persona?' '+esc(telLocal(r.persona.telefono)):''} y estos 4 números. El mensaje explica la regla, no lleva la clave.</p></div>
     <div class="field"><label for="wa_msg">Mensaje para WhatsApp</label><textarea id="wa_msg" class="in" rows="7" readonly onclick="this.select()">${esc(r.mensaje)}</textarea></div>
     <button class="btn primary block" onclick="copiar($('#wa_msg').value,'Mensaje copiado: pégalo en WhatsApp')">${ic('copy')} Copiar mensaje</button>
     ${r.wa_url?`<a class="btn sun block" href="${esc(r.wa_url)}" target="_blank" rel="noopener">${ic('wa')} Abrir WhatsApp</a>`:'<p class="muted tiny" style="margin:0">Si guardas su número, aparece el botón para abrir WhatsApp directo.</p>'}
@@ -1547,37 +1632,38 @@ function mostrarPin(nombre,r){
 function abrirInvitado(id){
   const p=ADM.find(x=>x.id===id); if(!p) return;
   openSheet(`${sheetH(esc(p.nombre))}<div class="stack">
-    <div class="card"><dl class="kv"><dt>Cédula</dt><dd class="num">${esc(p.cedula)}</dd><dt>Rol</dt><dd>${p.rol}</dd><dt>WhatsApp</dt><dd>${esc(p.telefono||'—')}</dd><dt>Invitación</dt><dd>${p.invitado_en?'Enviada el '+new Date(p.invitado_en).toLocaleString('es-EC'):'Sin enviar'}</dd><dt>Último acceso</dt><dd>${p.ultimo_acceso?new Date(p.ultimo_acceso).toLocaleString('es-EC'):'Nunca'}</dd></dl></div>
-    <div class="grid2"><div class="field"><label for="ei_a">Apodo</label><input id="ei_a" class="in" value="${esc(p.apodo||'')}"></div><div class="field"><label for="ei_t">WhatsApp</label><input id="ei_t" class="in" inputmode="tel" value="${esc(p.telefono||'')}"></div></div>
+    <div class="card"><dl class="kv"><dt>Celular</dt><dd class="num">${esc(telLocal(p.telefono)||'—')}</dd><dt>Cumpleaños</dt><dd>${p.cumple?esc(cumpleTxt(p.cumple))+' · clave <b class="num">'+pinDe(p.cumple)+'</b>':'—'}</dd><dt>Rol</dt><dd>${p.rol}</dd><dt>Invitación</dt><dd>${p.invitado_en?'Enviada el '+new Date(p.invitado_en).toLocaleString('es-EC'):'Sin enviar'}</dd><dt>Último acceso</dt><dd>${p.ultimo_acceso?new Date(p.ultimo_acceso).toLocaleString('es-EC'):'Nunca'}</dd></dl></div>
+    <div class="grid2"><div class="field"><label for="ei_t">Celular</label><input id="ei_t" class="in" type="tel" inputmode="tel" value="${esc(telLocal(p.telefono))}"></div><div class="field"><label for="ei_c">Cumpleaños (día/mes)</label><input id="ei_c" class="in" inputmode="numeric" value="${p.cumple?p.cumple.slice(3,5)+'/'+p.cumple.slice(0,2):''}"></div></div>
+    <div class="field"><label for="ei_a">Apodo</label><input id="ei_a" class="in" value="${esc(p.apodo||'')}"></div>
     <button class="btn block" onclick="editarInvitado('${p.id}')">Guardar cambios</button>
     <button class="btn primary block" onclick="nuevaClave('${p.id}',this)">${ic('wa')} Enviar invitación por WhatsApp</button>
-    <p class="muted tiny" style="margin:0">Genera una clave nueva de 4 dígitos y arma el mensaje. La clave anterior deja de servir.</p>
+    <p class="muted tiny" style="margin:0">Arma el mensaje con el link y la regla de la clave (su cumpleaños).</p>
     ${p.id!==ME.id?`<button class="btn ${p.activo?'danger':''} block" onclick="bloquear('${p.id}',${!p.activo})">${p.activo?'Bloquear acceso':'Desbloquear'}</button>`:''}</div>`);
 }
-async function editarInvitado(id){try{await API.admin('actualizar',{id,campos:{apodo:$('#ei_a').value.trim()||null,telefono:$('#ei_t').value.replace(/[^\d+]/g,'')||null}});ADM=null;await cargar();closeSheet();toast('Guardado');render()}catch(e){toast(e.message)}}
+async function editarInvitado(id){try{await API.admin('actualizar',{id,campos:{apodo:$('#ei_a').value.trim()||null,telefono:$('#ei_t').value,cumple:$('#ei_c').value}});ADM=null;await cargar();closeSheet();toast('Guardado');render()}catch(e){toast(e.message)}}
 async function nuevaClave(id,btn){btn.disabled=true;try{const p=ADM.find(x=>x.id===id);const r=await API.admin('reset_pin',{id});mostrarPin(p.nombre,r)}catch(e){btn.disabled=false;toast(e.message)}}
 async function invitarPendientes(btn){
   const L=(ADM||[]).filter(p=>p.activo&&!p.ultimo_acceso&&p.id!==ME.id);
   if(!L.length){toast('Todos ya entraron al menos una vez');return}
-  if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent=`Generar ${L.length} claves nuevas y armar los mensajes`;return}
+  if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent=`Armar ${L.length} invitaciones para WhatsApp`;return}
   btn.disabled=true;const out=[];
   for(const p of L){try{const r=await API.admin('reset_pin',{id:p.id});out.push({nombre:p.nombre,ok:true,r})}catch(e){out.push({nombre:p.nombre,ok:false,err:e.message})}}
   window.CM=out;ADM=null;render();
   openSheet(`${sheetH('Invitaciones listas')}<div class="stack"><p class="muted" style="margin:0">Toca cada WhatsApp para enviarla. Si alguien no tiene número guardado, copia su mensaje.</p>
-    <div class="card"><div class="list">${out.map((o,i)=>`<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(o.nombre)}</div><div class="s">${o.ok?'Clave '+esc(o.r.pin):esc(o.err)}</div></div>${o.ok?(o.r.wa_url?`<a class="btn sm sun" href="${esc(o.r.wa_url)}" target="_blank" rel="noopener">${ic('wa')}</a>`:'')+`<button class="btn sm" onclick="copiar(CM[${i}].r.mensaje,'Mensaje copiado')">${ic('copy')}</button>`:'<span class="pill bad">error</span>'}</div>`).join('')}</div></div>
+    <div class="card"><div class="list">${out.map((o,i)=>`<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(o.nombre)}</div><div class="s">${o.ok?'Clave (cumpleaños) '+esc(o.r.pin):esc(o.err)}</div></div>${o.ok?(o.r.wa_url?`<a class="btn sm sun" href="${esc(o.r.wa_url)}" target="_blank" rel="noopener">${ic('wa')}</a>`:'')+`<button class="btn sm" onclick="copiar(CM[${i}].r.mensaje,'Mensaje copiado')">${ic('copy')}</button>`:'<span class="pill bad">error</span>'}</div>`).join('')}</div></div>
     <button class="btn primary block" onclick="copiar(CM.filter(o=>o.ok).map(o=>o.r.mensaje).join('\n\n———\n\n'),'Todos los mensajes copiados')">Copiar todos los mensajes</button></div>`);
 }
 async function bloquear(id,activo){try{await API.admin('toggle',{id,activo});ADM=null;await cargar();closeSheet();toast(activo?'Desbloqueado':'Bloqueado');render()}catch(e){toast(e.message)}}
 function abrirCargaMasiva(){
-  openSheet(`${sheetH('Cargar varios invitados')}<div class="stack"><p class="muted">Una persona por línea: <b>cédula, nombre, apodo, whatsapp</b>. Apodo y WhatsApp son opcionales.</p>
-    <textarea id="cm" class="in" rows="8" placeholder="1712345678, Natalia Orquera, Nati O., 593991234567"></textarea>
+  openSheet(`${sheetH('Cargar varios invitados')}<div class="stack"><p class="muted">Una persona por línea: <b>celular, cumpleaños (día/mes), nombre, apodo</b>. El apodo es opcional.</p>
+    <textarea id="cm" class="in" rows="8" placeholder="0991234567, 07/03, Amelia Camacho, Ame"></textarea>
     <button class="btn primary block" id="cmb" onclick="cargaMasiva()">Crear todos</button><div id="cmr"></div></div>`);
 }
 async function cargaMasiva(){
   const filas=$('#cm').value.split('\n').map(l=>l.split(',').map(s=>s.trim())).filter(f=>f[0]&&f[1]); const b=$('#cmb'); b.disabled=true; const out=[];
-  for(const [cedula,nombre,apodo,telefono] of filas){try{const r=await API.admin('crear',{cedula,nombre,apodo,telefono});out.push({nombre,ok:true,r})}catch(e){out.push({nombre,ok:false,err:e.message})}}
+  for(const [telefono,cumple,nombre,apodo] of filas){try{const r=await API.admin('crear',{telefono,cumple,nombre,apodo});out.push({nombre,ok:true,r})}catch(e){out.push({nombre,ok:false,err:e.message})}}
   ADM=null; await cargar(); window.CM=out;
-  $('#cmr').innerHTML=`<div class="card"><div class="list">${out.map((o,i)=>`<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(o.nombre)}</div><div class="s">${o.ok?'Clave '+esc(o.r.pin):esc(o.err)}</div></div>${o.ok?`<button class="btn sm" onclick="copiar(CM[${i}].r.mensaje,'Mensaje copiado')">${ic('copy')}</button>`:'<span class="pill bad">error</span>'}</div>`).join('')}</div></div>
+  $('#cmr').innerHTML=`<div class="card"><div class="list">${out.map((o,i)=>`<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(o.nombre)}</div><div class="s">${o.ok?'Clave (cumpleaños) '+esc(o.r.pin):esc(o.err)}</div></div>${o.ok?`<button class="btn sm" onclick="copiar(CM[${i}].r.mensaje,'Mensaje copiado')">${ic('copy')}</button>`:'<span class="pill bad">error</span>'}</div>`).join('')}</div></div>
     <button class="btn primary block" style="margin-top:10px" onclick="copiar(CM.filter(o=>o.ok).map(o=>o.r.mensaje).join('\\n\\n———\\n\\n'),'Todos los mensajes copiados')">Copiar todos los mensajes</button>`;
 }
 async function guardarViaje(){const c={nombre:$('#cv_n').value.trim()||'Beach Trip',lugar:$('#cv_l').value.trim(),desde:$('#cv_d').value||null,hasta:$('#cv_h').value||null,moneda:$('#cv_m').value};
@@ -1634,16 +1720,31 @@ function platoVisual(p,cls=''){
   const ilu=!url&&imgPlato(p);
   return `<span class="pv ${cls}" style="background:${bg};color:${fg}">${url?`<img src="${esc(url)}" alt="">`:ic(beb?'bebidas':'menu')+(ilu?imgTag(ilu,'pv-ilu'):'')}</span>`;
 }
-let DIA_MENU=null, SUBM='carta', RANGO_C='2';
+let DIA_MENU=null, SUBM='semana', RANGO_C='2';
 function vMenu(){
   const dias=diasViaje();
   if(!dias.length) return `<div class="card flat empty">${ic('menu')}<div>Primero hay que poner las fechas del viaje${esAdmin()?' en Admin':''}.</div></div>`;
   if(!DIA_MENU||!dias.includes(DIA_MENU)) DIA_MENU=dias.includes(hoyISO())?hoyISO():dias[0];
-  const seg=`<div class="seg"><button aria-pressed="${SUBM==='carta'}" onclick="SUBM='carta';render()">Carta del día</button><button aria-pressed="${SUBM==='compras'}" onclick="SUBM='compras';render()">Lista de compras</button></div>`;
+  const seg=`<div class="seg"><button aria-pressed="${SUBM==='semana'}" onclick="SUBM='semana';render()">Los ${Math.max(1,dias.length-1)} días</button><button aria-pressed="${SUBM==='carta'}" onclick="SUBM='carta';render()">Carta del día</button><button aria-pressed="${SUBM==='compras'}" onclick="SUBM='compras';render()">Lista de compras</button></div>`;
   if(!COMIDAS.length) return seg+`<div class="card flat empty" style="margin-top:14px">${ic('menu')}<div>Todavía no hay menú.</div>${esAdmin()?`<button class="btn primary" style="margin-top:12px" onclick="armarMenuBase(this)">Armar el menú base del viaje</button><p class="muted tiny">Desayuno dual, almuerzos costeños de la cocinera, ceviche bar y cenas temáticas. Después se edita plato por plato.</p>`:'<p class="muted tiny">Daniel lo arma desde aquí.</p>'}</div>`;
-  return seg+(SUBM==='carta'?vCarta(dias):vCompras(dias));
+  return seg+(SUBM==='semana'?vSemana(dias):SUBM==='carta'?vCarta(dias):vCompras(dias));
 }
-function chipsDias(dias){return `<div class="chips scroll" style="margin-top:14px">${dias.map((d,i)=>`<button class="chip" aria-pressed="${DIA_MENU===d}" onclick="DIA_MENU='${d}';render()">Día ${i+1} · ${diaSem(d).slice(0,3)} ${fechaCorta(d)}</button>`).join('')}</div>`}
+function chipsDias(dias){return `<div class="chips scroll" style="margin-top:14px">${dias.map((d,i)=>`<button class="chip" aria-pressed="${DIA_MENU===d}" onclick="DIA_MENU='${d}';render()">${nomDia(i,dias.length)} · ${diaSem(d).slice(0,3)} ${fechaCorta(d)}</button>`).join('')}</div>`}
+/* el menú completo de un vistazo, como el que armó Kevin: por día, desayuno healthy / normal, almuerzo y cena */
+const SEM_COL={A:['Healthy','#5E8B5A'],B:['Normal','#B8902F'],alm:['Almuerzo','#C8643F'],cena:['Cena','#1F4466']};
+function vSemana(dias){
+  const tile=(k,p,tit,img,click)=>`<button class="sem-t" onclick="${click}"><span class="sem-img"><span class="sem-ic">${ic('menu')}</span>${img?imgTag(img):''}</span><span class="sem-l" style="background:${SEM_COL[k][1]}">${SEM_COL[k][0]}</span><span class="sem-c">${esc(tit)}</span></button>`;
+  const dia=(d,i)=>{const cs=comidasDia(d),des=cs.find(c=>c.turno==='desayuno'),alm=cs.find(c=>c.turno==='almuerzo'),cen=cs.find(c=>c.turno==='cena');
+    const pd=des?platosDe(des.id):[],A=pd.find(p=>p.opcion==='A'),B=pd.find(p=>p.opcion==='B'),L=alm&&platosDe(alm.id)[0],C=cen&&platosDe(cen.id)[0],ev=cen&&EVENTOS.find(e=>e.id===cen.evento_id);
+    const vis=p=>p&&(fotoUrl(p.foto)||imgPlato(p)), ir=`DIA_MENU='${d}';SUBM='carta';render()`;
+    const ts=[A&&tile('A',A,A.nombre,vis(A),`abrirPlato('${A.id}')`),B&&tile('B',B,B.nombre,vis(B),`abrirPlato('${B.id}')`),L&&tile('alm',L,L.nombre,vis(L),`abrirPlato('${L.id}')`),
+      cen&&tile('cena',C,cen.titulo,vis(C)||(ev?imgEvento(ev):''),C?`abrirPlato('${C.id}')`:ir)].filter(Boolean);
+    if(!ts.length)return'';
+    return `<section class="sem-d"><div class="sem-h"><span class="sem-n">${nomDia(i,dias.length)}</span><span class="muted tiny">${diaSem(d)} ${fechaCorta(d)}${ev&&ev.dress_code?' · '+esc(ev.dress_code):''}</span><button class="link" onclick="${ir}">Ver el día</button></div><div class="sem-g">${ts.join('')}</div></section>`};
+  return `<button class="card sem-poster" onclick="verMenuKevin()"><img src="img/menu/menu-same-fotos.jpg" alt="" loading="lazy" onerror="this.remove()"><div><div class="eyebrow" style="color:var(--sun)">Menú Same</div><b>${Math.max(1,dias.length-1)} días de buena comida, playa y amigos</b><div class="muted tiny">Lo armó Kevin · toca para verlo completo</div></div></button>
+    <div class="stack" style="margin-top:14px">${dias.map(dia).join('')||'<div class="card flat empty">Todavía no hay comidas cargadas.</div>'}</div>`;
+}
+function verMenuKevin(){openSheet(sheetH('El menú de Kevin')+`<div class="stack"><img src="img/menu/menu-same-fotos.jpg" alt="Menú Same con fotos" style="width:100%;border-radius:16px"><img src="img/menu/menu-same.jpg" alt="Menú Same" style="width:100%;border-radius:16px"><p class="muted tiny">Cada plato ya está en la carta del día, con sus ingredientes y alertas de alergias.</p></div>`)}
 function vCarta(dias){
   const est=estaciones();
   return chipsDias(dias)+`<div class="stack" style="margin-top:14px">${comidasDia(DIA_MENU).map(comidaCard).join('')||'<div class="card flat empty">Este día no tiene comidas cargadas.</div>'}</div>
@@ -1756,7 +1857,7 @@ function abrirFormComida(id){
   window.CF={...c,responsables:[...(c.responsables||[])],nuevo:!id};
   openSheet(`${sheetH(id?'Editar comida':'Nueva comida')}<div class="stack">
     <div class="field"><label for="cf_t">Nombre</label><input id="cf_t" class="in" value="${esc(c.titulo)}" oninput="CF.titulo=this.value" placeholder="Ej. Almuerzo costeño"></div>
-    <div class="grid2"><div class="field"><label for="cf_d">Día</label><select id="cf_d" class="in" onchange="CF.dia=this.value">${diasViaje().map((d,i)=>`<option value="${d}" ${c.dia===d?'selected':''}>Día ${i+1} · ${fechaCorta(d)}</option>`).join('')}</select></div>
+    <div class="grid2"><div class="field"><label for="cf_d">Día</label><select id="cf_d" class="in" onchange="CF.dia=this.value">${diasViaje().map((d,i)=>`<option value="${d}" ${c.dia===d?'selected':''}>${nomDia(i)} · ${fechaCorta(d)}</option>`).join('')}</select></div>
       <div class="field"><label for="cf_h">Hora</label><input id="cf_h" type="time" class="in" value="${esc(String(c.hora||'').slice(0,5))}" onchange="CF.hora=this.value"></div></div>
     <div class="field"><span class="lbl">Turno</span><div class="seg">${TURNOS.map(([k,l])=>`<button aria-pressed="${c.turno===k}" onclick="CF.turno='${k}';segSel(this)">${l}</button>`).join('')}</div></div>
     <div class="field"><span class="lbl">Quién cocina</span><div class="chips">${Object.entries(MODAL).map(([k,l])=>`<button class="chip" aria-pressed="${c.modalidad===k}" onclick="CF.modalidad='${k}';this.parentElement.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===this))">${l}</button>`).join('')}</div></div>
@@ -1843,15 +1944,29 @@ function vFacturas(){
   return L.length?`<div class="fotos">${L.map(g=>{const u=fotoUrl(g.respaldo_path);return `<button class="foto" onclick="abrirGasto('${g.id}')">${u?`<img src="${esc(u)}" alt="Factura">`:`<span class="pv">${ic('receipt')}</span>`}<span class="cap"><b class="num">${money(g.monto)}</b> · ${esc((g.factura&&g.factura.comercio)||g.descripcion)}<br>${fechaCorta(g.fecha)} · ${esc(nom((g.pagadores||[])[0]?.persona_id))}</span></button>`}).join('')}</div>`
     :`<div class="card flat empty" style="margin-top:14px">${ic('receipt')}<div>Aún no hay fotos de facturas. Toca ＋ y "Foto de una factura".</div></div>`;
 }
+/* foto de cada look: el collage que manda el grupo (img/looks/) o, si no está, la que genera la IA (img/playa/estilo-*) */
+const LOOK_IMG=[[/welcome|white/i,'welcome-white'],[/golden/i,'golden-hour'],[/tiki|boho/i,'tiki-boho']];
+function lookImg(nombre){const f=(LOOK_IMG.find(([re])=>re.test(nombre||''))||[])[1];if(!f)return '';
+  return `<img class="look-img" src="img/looks/${f}.jpg" alt="Inspiración ${esc(nombre)}" loading="lazy" onclick="verLook(this.src)" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='img/playa/estilo-${f}.jpg'}else this.remove()">`}
+function verLook(src){openSheet(sheetH('Inspiración')+`<img src="${esc(src)}" alt="" style="width:100%;border-radius:16px">`)}
 function vDress(){
   const L=EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&(e.estilo||e.dress_code)).sort((a,b)=>(String(a.dia||'9')+(a.hora||'')).localeCompare(String(b.dia||'9')+(b.hora||'')));
-  return L.map(e=>{const st=e.estilo||{},fotos=INSPI.filter(x=>x.evento_id===e.id);
-    return `<div class="card" style="margin-top:14px"><div class="eyebrow">${e.dia?diaSem(e.dia)+' '+fechaCorta(e.dia)+' · ':''}${esc(e.titulo)}</div>
-      <h3 style="font-size:22px;margin-top:4px">${esc(st.nombre||e.dress_code)}</h3>
-      ${(st.paleta||[]).filter(hexOk).length?`<div class="row" style="gap:6px;margin-top:10px">${st.paleta.filter(hexOk).map(c=>`<span class="swatch" style="background:${c}" title="${c}"></span>`).join('')}</div>`:''}
-      ${st.descripcion?`<p class="muted" style="margin:10px 0 0">${esc(st.descripcion)}</p>`:''}
-      ${(st.ideas||[]).length?`<div class="chips" style="margin-top:10px">${st.ideas.map(i=>`<span class="pill sun">${esc(i)}</span>`).join('')}</div>`:''}
-      <div class="insp">${fotos.map(f=>{const u=fotoUrl(f.foto);return u?`<img src="${esc(u)}" alt="Inspiración de ${esc(nom(f.persona_id))}" title="${esc(nom(f.persona_id))}">`:''}).join('')}<label class="insp-add">${ic('cam')}<span>Subir inspiración</span><input type="file" accept="image/*" hidden onchange="subirInspiracion('${e.id}',this)"></label></div></div>`}).join('')
+  /* un look por día aunque esa noche tenga dos planes (BBQ + karaoke): una sola tarjeta */
+  const G=[];L.forEach(x=>{const k=(x.dia||'')+'|'+((x.estilo||{}).nombre||x.dress_code);const g=G.find(y=>y.k===k);g?g.evs.push(x):G.push({k,evs:[x]})});
+  const noche=G.filter(g=>g.evs.some(esNoche)), dia=G.filter(g=>!g.evs.some(esNoche));
+  return `<p class="muted" style="margin:14px 0 0">El look de cada noche. Toca una foto para verla grande y sube tu inspiración.</p>`+noche.map(({evs})=>{const e=evs[0],st=e.estilo||{},fotos=INSPI.filter(x=>evs.some(v=>v.id===x.evento_id));
+    const pal=(st.paleta||[]).filter(hexOk), fondo=pal.length>1?`linear-gradient(135deg,${pal.slice(0,4).join(',')})`:'var(--hero)';
+    const claro=pal.length&&pal.slice(0,2).every(c=>{const n=parseInt(c.slice(1),16);return ((n>>16)*299+((n>>8)&255)*587+(n&255)*114)/1000>170});
+    const di=e.dia?diasViaje().indexOf(e.dia):-1;
+    return `<article class="look">
+      <div class="look-h" style="background:${fondo};color:${claro?'#0B2547':'#fff'}"><div class="look-d">${di>=0?nomDia(di)+' · ':''}${e.dia?diaSem(e.dia)+' '+fechaCorta(e.dia):''}</div>
+        <h3>${esc((st.nombre||e.dress_code).replace(/ · Día \d+$/,''))}</h3><div class="look-e">${evs.map(v=>esc(v.titulo)).join(' + ')}</div></div>
+      ${lookImg(st.nombre||e.dress_code)}
+      <div class="look-b">
+      ${st.descripcion?`<p style="margin:0">${esc(st.descripcion)}</p>`:''}
+      ${pal.length?`<div class="row" style="gap:8px;margin-top:12px">${pal.map(c=>`<span class="swatch lg" style="background:${c}" title="${c}"></span>`).join('')}</div>`:''}
+      ${(st.ideas||[]).length?`<div class="chips" style="margin-top:12px">${st.ideas.map(i=>`<span class="pill sun">${esc(i)}</span>`).join('')}</div>`:''}
+      <div class="insp">${fotos.map(f=>{const u=fotoUrl(f.foto);return u?`<img src="${esc(u)}" alt="Inspiración de ${esc(nom(f.persona_id))}" title="${esc(nom(f.persona_id))}" onclick="verLook(this.src)">`:''}).join('')}<label class="insp-add">${ic('cam')}<span>Subir inspiración</span><input type="file" accept="image/*" hidden onchange="subirInspiracion('${e.id}',this)"></label></div></div></article>`}).join('')+(dia.length?`<div class="sec-h"><h2>De día</h2></div><div class="card"><div class="list">${dia.map(({evs})=>{const e=evs[0],st=e.estilo||{};return `<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(st.nombre||e.dress_code)}</div><div class="s">${evs.map(v=>esc(v.titulo)).join(' + ')}${e.dia?' · '+nomDia(diasViaje().indexOf(e.dia)):''}</div></div></div>`}).join('')}</div></div>`:'')
     ||`<div class="card flat empty" style="margin-top:14px">Cuando haya noches en el itinerario, aquí sale el dress code de cada una.</div>`;
 }
 async function subirInspiracion(evId,inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,900,.8);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);if(MODO!=='demo')FOTOS[ref]=dataUrl;await API.addInspiracion({id:uid(),evento_id:evId,persona_id:ME.id,foto:ref,nota:''});await cargar();toast('Inspiración subida');render()}catch(e){toast(e.message)}}
@@ -1872,7 +1987,7 @@ function vAlbum(){
   const dias=diasViaje(), L=fotosFiltradas(), noches=EVENTOS.filter(e=>MURO.some(f=>f.evento_id===e.id));
   return `<div class="row" style="margin-top:14px"><div class="grow"><h2 style="font-size:22px">${MURO.length} foto${MURO.length===1?'':'s'} del viaje</h2><div class="muted tiny">Las sube cualquiera; las ven todos.</div></div>
       <label class="btn sun sm">${ic('cam')} Subir<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div>
-    <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FALB}" onclick="FALB='';render()">Todas</button>${dias.map((d,i)=>`<button class="chip" aria-pressed="${FALB===d}" onclick="FALB='${d}';render()">Día ${i+1}</button>`).join('')}${noches.map(e=>`<button class="chip sunny" aria-pressed="${FALB==='ev:'+e.id}" onclick="FALB='ev:${e.id}';render()">${esc(e.titulo)}</button>`).join('')}<button class="chip" aria-pressed="${FALB==='antes'}" onclick="FALB='antes';render()">Antes del viaje</button></div>
+    <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FALB}" onclick="FALB='';render()">Todas</button>${dias.map((d,i)=>`<button class="chip" aria-pressed="${FALB===d}" onclick="FALB='${d}';render()">${nomDia(i,dias.length)}</button>`).join('')}${noches.map(e=>`<button class="chip sunny" aria-pressed="${FALB==='ev:'+e.id}" onclick="FALB='ev:${e.id}';render()">${esc(e.titulo)}</button>`).join('')}<button class="chip" aria-pressed="${FALB==='antes'}" onclick="FALB='antes';render()">Antes del viaje</button></div>
     ${L.length?`<div class="alb" style="margin-top:12px">${L.map(f=>{const u=fotoUrl(f.foto_path);return `<button onclick="verFoto('${f.id}')" aria-label="Foto de ${esc(nom(f.persona_id))}">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}</button>`}).join('')}</div>`
       :`<div class="card flat empty" style="margin-top:12px">${ic('cam')}<div>${MURO.length?'No hay fotos con ese filtro.':'Todavía no hay fotos. Sube la primera: la del grupo saliendo de viaje.'}</div></div>`}`;
 }
@@ -1883,7 +1998,7 @@ async function elegirFotos(inp){
     openSheet(`${sheetH(`Subir ${listas.length} foto${listas.length===1?'':'s'}`)}<div class="stack">
       <div class="alb">${listas.map(x=>`<button style="cursor:default"><img src="${x.dataUrl}" alt=""></button>`).join('')}</div>
       <div class="field"><label for="ft_t">Pie de foto (opcional)</label><input id="ft_t" class="in" placeholder="Ej. el atardecer del primer día"></div>
-      <div class="grid2"><div class="field"><label for="ft_d">Día</label><select id="ft_d" class="in"><option value="">Antes del viaje</option>${dias.map((d,i)=>`<option value="${d}" ${d===hoy?'selected':''}>Día ${i+1} · ${fechaCorta(d)}</option>`).join('')}</select></div>
+      <div class="grid2"><div class="field"><label for="ft_d">Día</label><select id="ft_d" class="in"><option value="">Antes del viaje</option>${dias.map((d,i)=>`<option value="${d}" ${d===hoy?'selected':''}>${nomDia(i)} · ${fechaCorta(d)}</option>`).join('')}</select></div>
         <div class="field"><label for="ft_e">Noche o actividad</label><select id="ft_e" class="in"><option value="">Ninguna</option>${EVENTOS.filter(e=>e.estado!=='propuesta'&&e.estado!=='cancelado').map(e=>`<option value="${e.id}" ${evHoy&&evHoy.id===e.id?'selected':''}>${esc(e.titulo)}</option>`).join('')}</select></div></div>
       <button class="btn primary block" id="ft_go" onclick="subirFotos()">Subir al álbum</button></div>`);
   }catch(e){toast(e.message)}
@@ -1997,8 +2112,8 @@ const CAT_EQN=Object.fromEntries(CAT_EQ);
 const EST_EQ=[['falta','Nadie lo lleva','bad'],['confirmado','Alguien lo lleva','sol'],['empacado','Listo','ok'],['en_casa','Listo','ok']];
 const estEq=e=>(e.estado==='empacado'||e.estado==='en_casa')?'empacado':e.responsable?'confirmado':'falta';
 const EST_EQN=Object.fromEntries(EST_EQ.map(x=>[x[0],x]));
-const EQUIPO_BASE=[['Parlante','audio',1],['Micrófonos','audio',2],['Proyector','audio',1],['Cable HDMI y extensión','audio',1],['Monopoly','juegos',1],['Risk','juegos',1],['UNO y cartas','juegos',1],
-  ['Red de vóley','playa',1],['Pelota','playa',2],['Paletas / raquetas de playa','playa',4],['Spike ball','playa',1],['Coolers','frio',2],['Fundas de hielo','frio',6],['Trípode','fotos',1],['Gafas de sol para la sesión','fotos',1],['Carbón y pinzas de parrilla','cocina',1]];
+const EQUIPO_BASE=[['Parlante','audio',1],['Micrófonos','audio',2],['Proyector','audio',1],['Cable HDMI y extensión','audio',1],['Monopoly','juegos',1],['Risk','juegos',1],['UNO y cartas','juegos',1],['Jenga','juegos',1],['Pictionary y Heads Up!','juegos',1],
+  ['Red de vóley','playa',1],['Pelota','playa',2],['Paletas / raquetas de playa','playa',4],['Spike ball','playa',1],['Coolers','frio',2],['Fundas de hielo','frio',6],['Trípode','fotos',1],['Gafas Freaky Monkey para la sesión','fotos',12],['Carbón y pinzas de parrilla','cocina',1]];
 let SUBT='tareas', TRAY='ida';
 function vTabsTareas(){return `<div class="seg"><button aria-pressed="${SUBT==='tareas'}" onclick="SUBT='tareas';render()">Tareas</button><button aria-pressed="${SUBT==='equipo'}" onclick="SUBT='equipo';render()">Equipo</button><button aria-pressed="${SUBT==='carros'}" onclick="SUBT='carros';render()">Carros</button></div>`}
 function vEquipo(){
@@ -2066,9 +2181,10 @@ async function borrarCarro(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';b
 const IMG='img/playa/', CASA_DEF=['img/casa/sala.jpg','img/casa/terraza.jpg','img/casa/cuarto.jpg','img/casa/playa.jpg'];
 const imgTag=(src,cls='',alt='')=>`<img class="${cls}" src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()">`;
 function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));
-  for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill/,'sunset-grill'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas/,'fotos-gafas'],[/pizza|juegos de mesa|board/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t))return IMG+f+'.jpg';
+  for(const[re,f]of [[/pizza/,'d1-cena'],[/bbq|cocktail/,'d2-cena'],[/tapas/,'d3-cena'],[/restaurant/,'d4-cena']])if(re.test(t))return 'img/menu/'+f+'.jpg';
+  for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill|bbq|cocktail/,'sunset-grill'],[/restaurant/,'restaurante'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas|freaky/,'fotos-gafas'],[/pizza|juegos de mesa|board|game night/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t))return IMG+f+'.jpg';
   return IMG+'portada.jpg'}
-function imgPlato(p){const t=norm(p.nombre+' '+(p.ingredientes||[]).join(' '));
+function imgPlato(p){const f=FOTO_MENU[norm(p.nombre)];if(f)return f;const t=norm(p.nombre+' '+(p.ingredientes||[]).join(' '));
   for(const[re,f]of [[/ceviche/,'ceviche'],[/cafe/,'cafe'],[/yogur|bowl|avena|avocado|toast|fruta/,'desayuno-healthy'],[/tigrillo|bolon|pancakes de queso/,'desayuno-tradicional'],[/encocado|seco de|marinero|carne asada|menestra|patacon|pescado a la plancha/,'almuerzo-costeno'],[/taco|parrillada/,'sunset-grill'],[/pizza|picada/,'pizza-juegos'],[/tapa|queso|vino|sangria/,'tapas'],[/hamburgues|papas/,'hamburguesas'],[/margarita|jugo|agua de coco|cerveza/,'bebidas']])if(re.test(t))return IMG+'comida-'+f+'.jpg';
   return ''}
 /* ---------- instalar la app en el teléfono ---------- */

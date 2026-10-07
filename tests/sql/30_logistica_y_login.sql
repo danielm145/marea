@@ -13,3 +13,14 @@ insert into equipo(nombre,categoria,creado_por) values ('Trípode','fotos','aaaa
 insert into eventos(titulo,bloque,creado_por) values ('Atardecer test','atardecer','aaaaaaaa-0000-0000-0000-000000000002');
 reset role;
 select count(*) as eventos_atardecer from eventos where bloque='atardecer';
+-- 007: el invitado no cambia su celular ni su cumpleaños (son usuario y clave)
+alter table marea.personas disable trigger personas_guard;
+update marea.personas set telefono='593990000002', cumple='03-07' where id='aaaaaaaa-0000-0000-0000-000000000002';
+alter table marea.personas enable trigger personas_guard;
+set role authenticated; set request.jwt.claim.sub = '22222222-2222-2222-2222-222222222222';
+do $$ begin update marea.personas set telefono='593999999999' where id='aaaaaaaa-0000-0000-0000-000000000002'; raise exception 'NO DEBIA'; exception when others then if sqlerrm like '%solo el admin%' or sqlerrm like '%row-level%' then raise notice 'celular protegido OK'; else raise; end if; end $$;
+do $$ begin update marea.personas set cumple='01-01' where id='aaaaaaaa-0000-0000-0000-000000000002'; raise exception 'NO DEBIA'; exception when others then if sqlerrm like '%solo el admin%' or sqlerrm like '%row-level%' then raise notice 'cumple protegido OK'; else raise; end if; end $$;
+reset role;
+alter table marea.personas disable trigger personas_guard;
+do $$ begin update marea.personas set cumple='13-01' where id='aaaaaaaa-0000-0000-0000-000000000002'; exception when check_violation then raise notice 'cumple raro rechazado OK'; end $$;
+alter table marea.personas enable trigger personas_guard;

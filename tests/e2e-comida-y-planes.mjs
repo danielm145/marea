@@ -10,26 +10,26 @@ await pg.goto('file:///home/user/marea/public/index.html');
 const shot=n=>pg.screenshot({path:`./v2-${n}.png`});
 const esc=()=>pg.keyboard.press('Escape');
 // Alegría (100000003)
-await pg.fill('#lced','100000003'); await pg.fill('#lpin','2026'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
+await pg.fill('#lced','0990000003'); await pg.fill('#lpin','1211'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
 log('pestañas:', (await pg.$$eval('.tab span',x=>x.map(e=>e.textContent))).join(','));
 log('lugar:', await pg.textContent('.brand small'));
 await shot('01-hoy');
 // MENÚ
-await pg.click('.tab:nth-child(3)'); await pg.waitForSelector('.carta'); await pg.evaluate(()=>{DIA_MENU=diasViaje()[1];render()}); await pg.waitForSelector('.carta'); await shot('02-menu-dia1');
+await pg.click('.tab:nth-child(3)'); await pg.evaluate(()=>{SUBM='carta';render()}); await pg.waitForSelector('.carta'); await pg.evaluate(()=>{DIA_MENU=diasViaje()[1];render()}); await pg.waitForSelector('.carta'); await shot('02-menu-dia1');
 log('día 1 comidas:', (await pg.$$eval('.carta .carta-t',x=>x.map(e=>e.textContent))).join(' | '));
 log('día 1 platos:', (await pg.$$eval('.carta .plato-n',x=>x.map(e=>e.textContent))).join(' | '));
 // elegir A en el desayuno
 await pg.click('.carta >> nth=0 >> text=Quiero la A'); await pg.waitForTimeout(150);
 log('desayuno A elegidos:', await pg.textContent('.carta >> nth=0 >> .eyebrow >> nth=1'));
 // día 3: arroz marinero → alerta para Alegría
-await pg.click('.chips.scroll .chip >> nth=2'); await pg.waitForSelector('.carta');
+await pg.click('.chips.scroll .chip >> nth=3'); await pg.waitForSelector('.carta');
 const alerta=await pg.locator('.carta .banner.warn').allTextContents(); log('alertas día 3:', alerta.join(' / ')||'(ninguna)');
 log('pedidos especiales día 3:', (await pg.locator('.carta >> text=Pedidos especiales').count()));
 await shot('03-menu-dia3');
 // abrir plato y completar con IA local
 await pg.click('.plato >> text=Arroz marinero'); await pg.waitForSelector('#sheetBody .pv.lg');
 log('alérgenos arroz:', (await pg.$$eval('#sheetBody .pill.warn',x=>x.map(e=>e.textContent))).join(', '));
-log('no apto:', (await pg.locator('#sheetBody .banner.bad').textContent()).trim());
+log('no apto:', (await pg.locator('#sheetBody .banner.bad').count())?(await pg.locator('#sheetBody .banner.bad').textContent()).trim():'nadie (el arroz de Kevin no lleva conchas)');
 await shot('04-plato'); await esc();
 // lista de compras
 await pg.click('text=Lista de compras'); await pg.waitForSelector('.sub-item'); await pg.click('text=Todo el viaje');
@@ -58,7 +58,7 @@ await pg.click('text=Crear las marcadas'); await pg.waitForSelector('.trow'); aw
 // Mi ficha: restricciones + talento
 await pg.click('.me-btn'); await pg.fill('#pf_talento','Imitaciones de profesores'); await pg.click('text=Guardar mi ficha'); await pg.waitForTimeout(150);
 // Admin
-await pg.evaluate(()=>salir()); await pg.fill('#lced','100000001'); await pg.fill('#lpin','2026'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
+await pg.evaluate(()=>salir()); await pg.fill('#lced','0990000001'); await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
 await pg.click('button[aria-label="Administrar"]'); await pg.waitForSelector('text=Comida y presupuesto'); await shot('12-admin');
 log('invitados admin:', await pg.locator('#main .item').count());
 // Talent show muestra el talento de Alegría

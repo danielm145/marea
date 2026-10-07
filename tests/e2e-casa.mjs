@@ -6,7 +6,7 @@ pg.on('pageerror',e=>errs.push(e.message)); pg.on('console',m=>{if(m.type()==='e
 await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.abort());
 await pg.goto('file:///home/user/marea/public/index.html');
 await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}}); await pg.reload();
-await pg.fill('#lced','100000001'); await pg.fill('#lpin','2026'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
+await pg.fill('#lced','0990000001'); await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
 await pg.click('button[aria-label="Administrar"]'); await pg.click('text=Llenar con IA');
 await pg.fill('#in_ia','Casa frente al mar en Same con piscina privada, parrilla, cocina equipada, wifi y aire acondicionado en todas las habitaciones. https://www.airbnb.cl/rooms/49074368');
 await pg.click('#in_iab'); await pg.waitForTimeout(300);

@@ -7,7 +7,7 @@ await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')
 await pg.goto('file:///home/user/marea/public/index.html');
 await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}}); await pg.reload(); await pg.waitForTimeout(700);
 await pg.screenshot({path:'v7-01-login.png'});
-await pg.fill('#lced','100000001'); await pg.fill('#lpin','2026'); await pg.click('#lbtn'); await pg.waitForSelector('.hero'); await pg.waitForTimeout(500);
+await pg.fill('#lced','0990000001'); await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hero'); await pg.waitForTimeout(500);
 await pg.screenshot({path:'v7-02-hoy.png'});
 log('rapido:', (await pg.locator('.rapido button').allInnerTexts()).join(' | '));
 log('scrollW', await pg.evaluate(()=>document.documentElement.scrollWidth));
