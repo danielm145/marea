@@ -54,11 +54,15 @@ function pinNuevo(): string {
 export const emailDe = (cedula: string) => `${cedula}@marea.local`;
 export const passwordDe = (cedula: string, pin: string) => `${cedula}#${pin}`;
 
-function mensajeWA(nombre: string, pin: string) {
+async function mensajeWA(nombre: string, pin: string) {
   const primer = (nombre || "").trim().split(/\s+/)[0] || "";
-  return `Hola ${primer} 👋 Esta es tu entrada a MAREA ALTA, la app del viaje 🏖️🌙\n` +
-    `🔗 ${APP}\n🪪 Usuario: tu número de cédula\n🔑 Clave: ${pin.split("").join(" ")}\n` +
-    `Ahí vemos los gastos, las tareas y las noches temáticas. ¡No la compartas!`;
+  const { data: cfg } = await admin.from("config").select("valor").eq("clave", "viaje").maybeSingle();
+  const lugar = (cfg?.valor as Record<string, string>)?.lugar || "la playa";
+  return `¡Hola ${primer}! 🌊🌙\nYa está lista MAREA ALTA, la app de nuestro viaje a ${lugar}.\n\n` +
+    `👉 Entra desde tu celular: ${APP}\n🪪 Usuario: tu número de cédula\n🔑 Tu clave: ${pin.split("").join(" ")}\n\n` +
+    `Ahí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El itinerario y las noches temáticas con su dress code\n` +
+    `🍽️ El menú de cada día (márcanos si no comes algo)\n📸 El álbum para subir las fotos del viaje\n🙋 Tu ficha: alergias, tu talento y tu canción de karaoke\n\n` +
+    `Tip: ábrela y en el menú del navegador elige "Agregar a pantalla de inicio" para tenerla como app.\nLa clave es solo tuya, no la compartas.`;
 }
 function waUrl(telefono: string | null, mensaje: string) {
   const tel = (telefono || "").replace(/\D/g, "");
@@ -99,7 +103,10 @@ Deno.serve(async (req) => {
         admin.from("personas").select("*").order("nombre"), ultimosAccesos(),
       ]);
       if (error) throw error;
-      return reply(req, 200, { personas: (personas ?? []).map((p) => ({ ...p, ultimo_acceso: p.auth_id ? acc[p.auth_id] ?? null : null })) });
+      const { data: aud } = await admin.from("admin_audit").select("objetivo,ts").in("accion", ["crear", "reset_pin"]).order("ts", { ascending: false }).limit(2000);
+      const inv: Record<string, string> = {};
+      for (const x of aud ?? []) if (x.objetivo && !inv[x.objetivo]) inv[x.objetivo] = x.ts;
+      return reply(req, 200, { personas: (personas ?? []).map((p) => ({ ...p, ultimo_acceso: p.auth_id ? acc[p.auth_id] ?? null : null, invitado_en: inv[p.cedula] ?? null })) });
     }
 
     if (action === "crear") {
@@ -123,7 +130,7 @@ Deno.serve(async (req) => {
         .insert({ auth_id: au.user.id, cedula, nombre, apodo, telefono, rol }).select().single();
       if (ep) { await admin.auth.admin.deleteUser(au.user.id); throw ep; }
       await audit(actor, "crear", cedula, { nombre, rol });
-      const mensaje = mensajeWA(nombre, pin);
+      const mensaje = await mensajeWA(nombre, pin);
       return reply(req, 200, { persona, pin, mensaje, wa_url: waUrl(telefono, mensaje) });
     }
 
@@ -134,7 +141,7 @@ Deno.serve(async (req) => {
       const { error } = await admin.auth.admin.updateUserById(p.auth_id, { password: passwordDe(p.cedula, pin) });
       if (error) throw error;
       await audit(actor, "reset_pin", p.cedula, null);
-      const mensaje = mensajeWA(p.nombre, pin);
+      const mensaje = await mensajeWA(p.nombre, pin);
       return reply(req, 200, { pin, mensaje, wa_url: waUrl(p.telefono, mensaje) });
     }
 

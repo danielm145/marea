@@ -1,64 +1,45 @@
 # Estado · Marea Alta
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026, noche**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026, noche · v3**.
 
-## v1 · la app completa funciona en MODO DEMO
+## Qué hay (todo probado en navegador a 390 px, como invitado y como admin)
 
-`public/index.html` (un solo archivo) trae todo construido y probado en navegador:
-
-| Módulo | Qué hace |
+| Sección | Qué hace |
 |---|---|
-| **Hoy** | Cuenta regresiva o "Día N de M", la temática de esta noche en grande (dress code + menú), lo próximo del itinerario, mi saldo, mis tareas, propuestas sin votar |
-| **Gastos (Splitwise)** | Cada gasto dice **"prestaste $X"** o **"debes $X"**. Arriba "Tus cuentas": *En total te deben / debes* y con quién. Partes iguales, por % o por montos. Fondo común. "Quién debe a quién" con el mínimo de transferencias y botón **Ya se pagó**. Historial de cambios. Exportar CSV y resumen final |
-| **Agregar (＋)** | Foto de factura, contar un gasto en texto ("pagué 30 de hielo, para todos menos Lucho"), gasto a mano, lista de tareas, tarea, propuesta de plan. Todo cae en un formulario que la persona confirma |
-| **Tareas** | Por hacer / En curso / Listo, grupos, "Yo me encargo", checklist, generador de turnos (admin) |
-| **Planes** | **Itinerario** por día (mañana/tarde/noche) con temática, dress code y **menú**; **Propuestas** con votos; anfitriones; lista de compras → tareas; alergias del grupo junto al menú |
-| **Nosotros** | Ficha de cada invitado (alergias, canción de karaoke, juego, talla, superpoder), insignias, aviso de alergias para la cocina |
-| **Admin** | Invitados (crear con clave de 4 dígitos + mensaje de WhatsApp listo, clave nueva, bloquear, carga masiva), datos del viaje (lugar, fechas, moneda), respaldo JSON |
+| **Invitación** | Admin genera la clave de 4 dígitos y el mensaje de WhatsApp: link, cédula, clave y lo que encuentran (gastos primero). "Invitar a los que no han entrado" arma todos los mensajes de una. El teléfono recuerda la cédula. |
+| **Hoy** | Portada con la foto de la casa, cuenta regresiva, **Lo esencial** (la casa, cómo llegar, WiFi, qué llevar, reglas, contactos, preguntas), mi saldo, la noche temática, lo que se come, álbum, mis tareas. |
+| **Gastos (Splitwise)** | Cada gasto dice *prestaste* o *debes*. Tus cuentas, saldos con el mínimo de transferencias, costo fijo del grupo vs consumo de algunos, **presupuesto vs real** (casa 1.300–1.500, despensa 700–1.000), galería de **facturas**, detalle de factura (comercio, RUC, ítems, IVA, propina). |
+| **Menú** | Carta por día: **desayuno dual** (A healthy / B tradicional), **almuerzo costeño de la cocinera**, **cenas colaborativas** de cada noche, y de todos los días: café pasado (cero soluble), fruta, **ceviche bar**. Voy / No voy, elegir A o B, pedir variante, alertas de alérgenos por persona (Alegría: conchas y mariscos oscuros), completar plato con IA, foto del plato, **lista de compras** por pasillo que se vuelve tarea. |
+| **Planes** | Itinerario por día como app de crucero: *Ahora y lo siguiente*, línea de tiempo con comidas y actividades, paleta de la noche, **Mi agenda**, *Me apunto*. **Dress code** con paleta, ideas e inspiración subida por el grupo. Propuestas con votos. |
+| **Tareas** | Prioridad, checklist, "Yo me encargo". Una frase dictada se parte en tareas y se asocia a su noche. |
+| **Álbum** | Fotos del viaje por día y por noche, visor, cada quien borra las suyas. Fichas de invitados con restricciones, talento (sale en el programa del Talent Show), preferencias, Instagram. |
+| **Admin** (engranaje arriba) | Invitados como app de bodas: cuántos entraron, faltan, fichas listas, filtros y recordatorio. Lo esencial con **Llenar con IA** (pegar texto del Airbnb o del dueño). Menú base. Presupuesto. Respaldo. |
 
-Probado con Playwright a 390 px, como invitado y como admin: claves malas rechazadas, el
-invitado no ve Admin ni puede editar gastos ajenos, **los saldos suman 0,00**, sin
-desborde horizontal, tema día y noche.
+**Modo demo** = cada teléfono guarda sus datos. Daniel: cédula `100000001`, clave `2026`; invitados `100000002`…`100000013`.
 
-**Modo demo** = los datos viven en el navegador de cada quien (no se comparten). Entrar como
-Daniel: cédula `100000001`, clave `2026`; invitados `100000002`…`100000012`, misma clave.
-
-Vista previa privada: https://claude.ai/artifact/AToFHmhjWFu3Fj255xnhoT
-
-## Para publicarlo en marea.fieldbuil.ai (Mac de Daniel, 1 minuto)
-
+## Publicar (Mac de Daniel, 1 minuto)
 ```
 cd ~/marea && git pull && scripts/deploy.sh
+scripts/deploy.sh wrangler.dominio.toml     # una vez, para marea.fieldbuil.ai
 ```
-Queda en https://marea.daniel-martinez9094.workers.dev. Para el dominio (una vez):
-```
-scripts/deploy.sh wrangler.dominio.toml
-```
-Si ese segundo comando falla por permisos: dash.cloudflare.com → Workers & Pages → marea →
-Settings → Domains & Routes → Add → Custom domain → `marea.fieldbuil.ai`.
 
-## Para que todos compartan los mismos datos (conectar Supabase fieldbuilt-lab)
-
-1. SQL editor de fieldbuilt-lab: pegar `sql/001_esquema.sql` y luego `sql/002_menu.sql`.
+## Conectar Supabase fieldbuilt-lab (para que todos compartan los datos)
+1. SQL editor: `sql/001_esquema.sql`, `sql/002_menu.sql`, `sql/003_comida_presupuesto_album.sql` (en ese orden; se pueden repetir).
 2. Project Settings → Data API → Exposed schemas → agregar `marea`.
-3. En `public/index.html` pegar `SB_URL` y `SB_ANON` (Project Settings → API; son públicas).
-4. Edge Functions (crear invitados y leer facturas con Claude): `scripts/funciones.sh`
-   (necesita el `.env` lleno: service_role, access token, ANTHROPIC_API_KEY).
-5. Subir `BUILD_TAG` y `scripts/deploy.sh`.
+3. En `public/index.html` pegar `SB_URL` y `SB_ANON`, subir `BUILD_TAG`, `scripts/deploy.sh`.
+4. `scripts/funciones.sh` (necesita el `.env`): despliega `marea-admin-personas`, `marea-leer-gasto` (facturas con Claude), `marea-menu` (fichas de platos) y `marea-info` (lo esencial).
 
-Mientras falte el paso 4, la app funciona pero no puede crear invitados desde Admin (se
-pueden crear en Authentication → Users con email `<cedula>@marea.local` y contraseña
-`<cedula>#<pin>`, más su fila en `marea.personas`) y la lectura de facturas cae al lector
-rápido sin IA.
+Validado en Postgres 16 local: los 3 SQL corren dos veces sin error, 16 tablas en `marea`, 0 en `public`, balances correctos, un invitado no toca la asistencia de otro, no crea comidas ni edita el presupuesto (`tests/sql/`).
 
-## Pendiente / ideas que Daniel puede pedir
-- Realtime de Supabase (hoy refresca cada 45 s y al volver a la app).
-- Varias personas pagando un mismo gasto (hoy: un pagador por gasto).
-- Muro de fotos por día.
-- Torneos con tabla de posiciones (karaoke, Risk, olimpiadas).
+## Pendiente
+- **Airbnb**: este entorno no puede abrir airbnb.cl ni a0.muscache.com (política de red). Las fotos de la casa se suben desde Admin → Lo esencial; la descripción se pega y la IA saca las comodidades.
+- Lista de invitados nueva: dos Kevin (Kevin y Kevin López), **Luciana** (no Luciano), **Grijalba**. Natalia Villar sigue aunque no venía en la última lista. Vanesa y John se agregan desde Admin si van.
+- Imágenes generadas por IA para los platos: no incluidas (Claude no genera imágenes); por ahora foto real o ícono.
+- Realtime (hoy refresca cada 45 s), varios pagadores por gasto.
 
 ## Le toca a Daniel
-- [ ] Correr `scripts/deploy.sh` en el Mac
-- [ ] Amarrar marea.fieldbuil.ai
-- [ ] Decidir cuándo conectar Supabase (pasos de arriba)
-- [ ] Fechas reales del viaje, cédulas y teléfonos de los 12
+- [ ] `scripts/deploy.sh` y amarrar marea.fieldbuil.ai
+- [ ] Fechas reales del viaje (Admin → El viaje)
+- [ ] Conectar Supabase (pasos de arriba)
+- [ ] Cédulas y WhatsApp de los invitados, y enviar las invitaciones
+- [ ] Fotos y descripción de la casa en Lo esencial

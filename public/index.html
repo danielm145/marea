@@ -100,7 +100,7 @@ a{color:var(--tide)}
 .pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
 .pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.tide{background:var(--tide-soft);color:var(--tide-deep)} .pill.sun{background:var(--sun-soft);color:var(--sun)}
 .seg{display:flex;background:var(--surface-2);border-radius:12px;padding:4px;gap:4px}
-.seg button{flex:1;border:0;background:none;border-radius:9px;min-height:38px;font-weight:700;font-size:14px;color:var(--ink-2);cursor:pointer}
+.seg button{flex:1;border:0;background:none;border-radius:9px;min-height:38px;font-weight:700;font-size:14px;color:var(--ink-2);cursor:pointer;white-space:nowrap;padding:0 12px}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .field{display:flex;flex-direction:column;gap:6px}
 .field>label,.lbl{font-size:13px;font-weight:700;color:var(--ink-2)}
@@ -209,6 +209,61 @@ table.t{border-collapse:collapse;width:100%;font-size:14px}
 table.t th,table.t td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
 table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}
 
+/* ---------- carta de comida ---------- */
+.carta{background:var(--surface);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
+.carta-t{font-size:22px;margin-top:2px;line-height:1.15}
+.plato{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:start;padding:12px 0;border:0;border-bottom:1px dashed var(--line);background:none;width:100%;text-align:left;cursor:pointer;color:inherit}
+.plato:last-of-type{border-bottom:0}
+.plato-n{font-family:var(--f-disp);font-weight:700;font-size:17px;line-height:1.2}
+.plato-d{font-size:14px;color:var(--ink-2);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pv{width:64px;height:64px;border-radius:14px;display:grid;place-items:center;overflow:hidden;flex:none}
+.pv svg{width:28px;height:28px}.pv img{width:100%;height:100%;object-fit:cover}
+.pv.sm{width:40px;height:40px;border-radius:10px}.pv.sm svg{width:20px;height:20px}
+.pv.lg{width:100%;height:200px;border-radius:18px}.pv.lg svg{width:56px;height:56px}
+.meal{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;align-items:center;border:1px dashed var(--line);background:none;border-radius:14px;padding:8px 12px;width:100%;text-align:left;cursor:pointer;color:inherit}
+.pbar{height:10px;border-radius:5px;background:var(--surface-2);position:relative;overflow:hidden;margin-top:8px}
+.pbar .band{position:absolute;top:0;bottom:0;background:var(--tide-soft)}
+.pbar .fill{position:absolute;left:0;top:3px;bottom:3px;border-radius:3px;background:var(--tide)}.pbar .fill.over{background:var(--bad)}
+.fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}
+.foto{border:0;padding:0;background:var(--surface);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;text-align:left;display:flex;flex-direction:column;color:inherit}
+.foto img,.foto .pv{width:100%;height:150px;object-fit:cover;border-radius:0}
+.foto .cap{padding:8px 10px;font-size:13px;color:var(--ink-2)}
+.swatch{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);flex:none}
+.insp{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:12px}
+.insp img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px}
+.insp-add{aspect-ratio:3/4;border:1.5px dashed var(--line);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--ink-2);font-size:12px;text-align:center;cursor:pointer;padding:6px}
+.insp-add svg{width:22px;height:22px}
+.seg.sm4 button{font-size:13px;padding:0 4px}
+
+/* ---------- itinerario tipo app de crucero ---------- */
+.ahora{margin-top:14px;background:linear-gradient(135deg,var(--surface) 40%,var(--tide-soft))}
+.ah-t{font-family:var(--f-disp);font-weight:800;font-size:19px;line-height:1.2;margin-top:2px}
+.day-tema{display:flex;align-items:center;gap:4px;margin:-2px 0 10px;font-size:13px;font-weight:700;color:var(--ink-2)}
+.day-tema i{width:12px;height:12px;border-radius:50%;border:1px solid var(--line)}.day-tema span{margin-left:6px}
+.tl{position:relative;padding-left:14px}.tl::before{content:"";position:absolute;left:3px;top:8px;bottom:8px;width:2px;border-radius:1px;background:var(--line)}
+.tl>*{position:relative}.tl>*::before{content:"";position:absolute;left:-15px;top:18px;width:8px;height:8px;border-radius:50%;background:var(--tide);box-shadow:0 0 0 3px var(--bg)}
+/* ---------- álbum ---------- */
+.alb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.alb button{aspect-ratio:1;border:0;padding:0;overflow:hidden;border-radius:8px;background:var(--surface-2);cursor:pointer}
+.alb img{width:100%;height:100%;object-fit:cover;display:block}
+.lb img{width:100%;max-height:70vh;object-fit:contain;border-radius:16px;background:var(--ink)}
+/* ---------- lo esencial ---------- */
+.esen{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:14px}
+.esen button span:last-child{font-size:12px;line-height:1.15;text-align:center}
+.esen button{background:var(--surface);border:0;border-radius:14px;box-shadow:var(--shadow);padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer}
+.esen .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--tide-soft);color:var(--tide-deep)}.esen .ic svg{width:20px;height:20px}
+/* ---------- gestión de invitados ---------- */
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tiles div{background:var(--surface);border-radius:14px;padding:10px 8px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;text-align:center}
+.tiles b{font-family:var(--f-disp);font-size:24px;line-height:1.1}.tiles span{font-size:11px;color:var(--ink-2);font-weight:600}
+/* ---------- la casa ---------- */
+.hero.con-foto{min-height:220px;display:flex;align-items:flex-end}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero.con-foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,20,24,.05) 30%,rgba(4,20,24,.7));z-index:0}
+.hero.con-foto .in-hero{z-index:2;color:#fff}.hero.con-foto .wave{z-index:1}
+.casa-g{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding-inline:16px;scrollbar-width:none}
+.casa-g::-webkit-scrollbar{display:none}
+.casa-g img{flex:none;width:85%;max-width:520px;aspect-ratio:4/3;object-fit:cover;border-radius:16px;scroll-snap-align:center}
 /* ---------- login ---------- */
 .login{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-inline:20px;padding-block:32px;max-width:420px;margin:0 auto;gap:22px}
 .login h1{font-size:44px;font-weight:800;line-height:1;letter-spacing:-.03em}
@@ -235,7 +290,7 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v1';
+const BUILD_TAG='v3';
 const SB_URL='';   // ← Project URL de fieldbuilt-lab, ej. https://abcd.supabase.co
 const SB_ANON='';  // ← anon public key de fieldbuilt-lab
 const MODO=(SB_URL&&SB_ANON&&window.supabase)?'supabase':'demo';
@@ -292,12 +347,16 @@ const P={
   out:'<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l4-4-4-4M14 12H4"/>',
   moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>', sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'
 };
+P.despensa=P.mercado;P.restaurantes=P.comida;
+P.menu='<circle cx="13" cy="12.5" r="6"/><circle cx="13" cy="12.5" r="2.8"/><path d="M3.5 3.5v5a1.5 1.5 0 0 0 3 0v-5M5 3.5v17"/><path d="M21 3.5v17"/>';
+P.cocinera='<path d="M7 17.5h10V21H7z"/><path d="M7 17.5v-4.2A4 4 0 0 1 6 5.5a4 4 0 0 1 6-1.8 4 4 0 0 1 6 1.8 4 4 0 0 1-1 7.8v4.2"/>';
+P.logistica='<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5Z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/>';
 const ic=(k,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[k]||P.otros}</svg>`;
 const LOGO=`<svg width="38" height="38" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="var(--tide)"/><circle cx="31" cy="15" r="6.5" fill="var(--tide-ink)"/><circle cx="34" cy="13" r="6" fill="var(--tide)"/><path d="M6 30c4 0 4-3 9-3s5 3 9 3 4-3 9-3 5 3 9 3" fill="none" stroke="var(--tide-ink)" stroke-width="3.2" stroke-linecap="round"/><path d="M6 37c4 0 4-3 9-3s5 3 9 3 4-3 9-3 5 3 9 3" fill="none" stroke="var(--tide-ink)" stroke-width="3.2" stroke-linecap="round" opacity=".55"/></svg>`;
 
 /* ---------- catálogos ---------- */
-const CATS=[['comida','Comida'],['bebidas','Bebidas'],['mercado','Mercado'],['hospedaje','Hospedaje'],['transporte','Transporte'],['actividades','Actividades'],['otros','Otros']];
-const CATN=Object.fromEntries(CATS);
+const CATS=[['hospedaje','Hospedaje'],['despensa','Despensa'],['bebidas','Bebidas y bar'],['cocinera','Cocinera'],['logistica','Equipo y logística'],['restaurantes','Restaurantes'],['transporte','Transporte'],['actividades','Actividades'],['otros','Otros']];
+const CATN={...Object.fromEntries(CATS),mercado:'Despensa',comida:'Restaurantes'};
 const GRUPOS=['Comida','Bebidas','Logística','Casa','Actividades','Compras','Turnos'];
 const ESTADOS=[['por_hacer','Por hacer'],['en_curso','En curso'],['listo','Listo']];
 const BLOQUES=[['manana','Mañana'],['tarde','Tarde'],['noche','Noche']];
@@ -308,7 +367,7 @@ const AVC=[['#D5EDEA','#075A56'],['#FCE5DC','#B23C1C'],['#E6E3FA','#4B3BA8'],['#
 
 /* ---------- estado ---------- */
 let ME=null, PERSONAS=[], PMAP={}, CFG={nombre:'Marea Alta',lugar:'',desde:null,hasta:null,moneda:'USD'};
-let GASTOS=[], TAREAS=[], EVENTOS=[], VOTOS=[], ETIQUETAS=[];
+let GASTOS=[], TAREAS=[], EVENTOS=[], VOTOS=[], ETIQUETAS=[], COMIDAS=[], PLATOS=[], ASIST=[], PRESU=[], INSPI=[], MURO=[];
 let TAB='hoy', SUBG='mov', SUBE='programa', FILT={cat:'',per:'',q:''}, FILTT={grupo:'',solo:false};
 const FOTOS={}; // ref → url resuelta
 const esAdmin=()=>ME&&ME.rol==='admin';
@@ -369,79 +428,156 @@ function diasViaje(){ if(!CFG.desde||!CFG.hasta) return []; const n=difDias(CFG.
    ============================================================================ */
 const DEMO_KEY='marea_demo_v1', DEMO_SES='marea_demo_sesion';
 const DEMO_GENTE=[
-  ['Daniel Martínez','admin'],['Ana Paula',''],['Alegría',''],['Kevin López',''],['Ana Cristina Grijalva',''],['Doménica Pérez',''],
-  ['Natalia Vázquez',''],['Natalia Villar',''],['Natalia Orquera',''],['Andrés Villalba',''],['Valentina Villalba',''],['Luciano Villalba','']];
-const DEMO_APODOS={'Ana Cristina Grijalva':'Ana Cris ❤️','Doménica Pérez':'Dome','Valentina Villalba':'Vale','Luciano Villalba':'Lucho','Ana Paula':'Ana Pau'};
+  ['Daniel Martínez','admin'],['Ana Paula',''],['Alegría',''],['Kevin',''],['Kevin López',''],['Ana Cristina Grijalba',''],['Doménica Pérez',''],
+  ['Natalia Vázquez',''],['Natalia Villar',''],['Natalia Orquera',''],['Andrés Villalba',''],['Valentina Villalba',''],['Luciana Villalba','']];
+const DEMO_APODOS={'Ana Cristina Grijalba':'Ana Cris ❤️','Doménica Pérez':'Dome','Valentina Villalba':'Vale','Luciana Villalba':'Lu','Ana Paula':'Ana Pau','Kevin López':'Kevin L.'};
+/* dress code de cada noche: nombre, idea, paleta (hex) e ideas de prendas */
+const ESTILOS={
+ 'Noche Tropical':{nombre:'Noche Tropical',descripcion:'Telas ligeras, hombros descubiertos, estampados de flores y colores de atardecer.',paleta:['#FF7A55','#F2C14E','#2BB3A3','#F7E8D0'],ideas:['Vestidos de lino','Camisas de flores','Sandalias','Dorado mínimo']},
+ 'Brillos y neón':{nombre:'Brillos y neón',descripcion:'Lentejuelas, colores eléctricos y algo que brille con el proyector.',paleta:['#C13CFF','#FF3CAC','#2B5BFF','#141414'],ideas:['Lentejuelas','Gafas de colores','Pulseras de neón']},
+ 'Pijama elegante':{nombre:'Pijama elegante',descripcion:'Cómodo para cuatro horas de Risk, pero con estilo: satín, sets combinados.',paleta:['#F4D6CC','#9AB0C9','#FFFFFF'],ideas:['Pijama de satín','Pantuflas','Bata']},
+ 'Santorini / Mediterranean Chic':{nombre:'Santorini / Mediterranean Chic',descripcion:'Blanco impecable para la producción de fotos: lino y algodón con toques azul Egeo y dorado.',paleta:['#FFFFFF','#F1ECE2','#1F5FAF','#C9A227'],ideas:['Todo blanco','Lino','Sombrero de ala ancha','Sandalias de cuero']},
+ 'De gala playera':{nombre:'De gala playera',descripcion:'Lo más elegante que quepa en la maleta; descalzos si se quiere.',paleta:['#0E2A33','#C9A227','#FFFFFF'],ideas:['Algo que brille','Saco sin corbata','Vestido largo']},
+ 'Tierra y lino':{nombre:'Tierra y lino',descripcion:'Tonos arena y tierra, ropa cómoda para sentarse alrededor de la fogata.',paleta:['#C2A07A','#8B6B4A','#EDE3D2'],ideas:['Lino','Manta','Abrigo ligero']},
+ 'Gafas de sol y blanco':{nombre:'Gafas de sol y blanco',descripcion:'Base blanca o negra; las gafas de sol son las protagonistas de la foto.',paleta:['#FFFFFF','#141414','#F2C14E'],ideas:['Gafas de sol','Camisa blanca','Sombrero']}};
+/* noches temáticas y actividades de día. dia = índice del día del viaje (sin dia = propuesta) */
 const SEMILLA_EVENTOS=[
- ['Taquiza del mar','Bienvenida','Tacos de camarón, pescado apanado y pulpo; barra de salsas; micheladas. Rompehielo: dos verdades y una mentira del viaje.','noche','casa','Camisa hawaiana o vestido florido'],
- ['Karaoke · Grandes éxitos','Karaoke','Cada quien trae UNA canción obligatoria (la de su perfil). Rondas: solos, duetos sorteados y una balada de todos. Se corona rey o reina por votación.','noche','casa','Brillos'],
- ['Casino sin plata','Juegos de mesa','Mesas paralelas: Monopolio, Risk (arranca temprano o no termina) y una mesa rápida con UNO, Jenga y Dixit. Tabla de posiciones en la app.','noche','casa','Pijama elegante'],
- ['Asado de los Villalba','Parrillada','Carnes, choripanes, maduros y ensaladas. Cocinan los que marcaron "Cocino" en su perfil. Playlist colaborativa.','noche','terraza','Delantal para los anfitriones'],
- ['Noche blanca','White party','Todos de blanco en la playa, luces, fogata si se permite y el cóctel oficial del viaje (nombre por votación).','noche','playa','Todo blanco'],
- ['Throwback 2000s','Década','Ropa de la época, reguetón viejo y pop, trivia de la década con puntos.','noche','casa','Y2K'],
- ['Cine bajo las estrellas','Cine','Proyector o tele afuera, canguil y mantas; la película se elige por votación.','noche','terraza','Cobija'],
- ['Cada quien su cóctel','Mixología','Por parejas sorteadas, cada pareja inventa un cóctel; jurado popular.','noche','casa','Libre'],
- ['Mystery menu','Cena a ciegas','Dos personas cocinan un menú sorpresa con lo que sobre; los demás adivinan ingredientes. Ideal para la última noche.','noche','casa','Libre'],
- ["Playa's Got Talent",'Talentos','Tres minutos por persona o grupo; vale todo.','noche','casa','De gala playera'],
- ['Olimpiadas de playa','Deporte','Equipos sorteados: vóley, fútbol-tenis, carrera de sacos, relevos con baldes y castillo de arena con jurado. Tabla de medallas.','tarde','playa','Color del equipo'],
- ['Búsqueda del tesoro','Juego','Pistas en QR escondidas por la casa y la playa.','tarde','playa','Libre'],
- ['Reto Chopped','Cocina','Tres canastas sorpresa del mercado local; equipos cocinan contra reloj.','tarde','casa','Libre'],
- ['Pancakes bar','Desayuno','Pancakes con barra de toppings. Lo preparan dos personas por turno.','manana','casa','Pijama'],
- ['Brunch de frutas y smoothies','Desayuno','Para el día después de la noche larga.','manana','casa','Pijama'],
- ['Yoga al amanecer','Bienestar','Para los que madrugan. Opcional caminata por la orilla.','manana','playa','Deportiva']];
-const MENUS_SEMILLA={
- 'Taquiza del mar':['Tacos de camarón','Tacos de pescado apanado','Pulpo a la plancha','Guacamole y pico de gallo','Micheladas y limonada'],
- 'Karaoke · Grandes éxitos':['Picada de quesos y embutidos','Canguil','Shots para los que desafinan'],
- 'Casino sin plata':['Pizzas caseras','Nachos con queso','Cerveza fría'],
- 'Asado de los Villalba':['Lomo y costillas','Choripanes','Maduros con queso','Ensalada de la casa','Chimichurri'],
- 'Noche blanca':['Ceviche de camarón','Patacones','El cóctel oficial del viaje'],
- 'Throwback 2000s':['Hot dogs','Papas fritas','Gaseosas de vidrio'],
- 'Cine bajo las estrellas':['Canguil','Chocolates','Chocolate caliente'],
- 'Mystery menu':['Sorpresa de los cocineros'],
- 'Reto Chopped':['Lo que salga de las canastas'],
- 'Pancakes bar':['Pancakes','Frutas picadas','Miel, Nutella y manjar','Café y jugo de naranja'],
- 'Brunch de frutas y smoothies':['Bowl de frutas','Smoothies de mango y frutilla','Tostadas con aguacate','Huevos revueltos'],
- 'Yoga al amanecer':['Agua de coco','Granola con yogur']};
+ {titulo:'Taco & Sunset Grill Night',tematica:'Bienvenida',bloque:'noche',hora:'19:00',lugar:'terraza',dress_code:'Noche Tropical',descripcion:'Parrillada al atardecer con tacos de camarón y de carne y salsas variadas. Rompehielo: dos verdades y una mentira del viaje.',dia:0},
+ {titulo:'Karaoke con proyector',tematica:'Karaoke',bloque:'noche',hora:'21:30',lugar:'sala',dress_code:'Brillos y neón',descripcion:'Proyector, dos micrófonos y una canción obligatoria por persona (la de su ficha). Rondas: solos, duetos sorteados y una balada de todos.',dia:1},
+ {titulo:'Pizza & Boardgames Night',tematica:'Juegos de mesa',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',descripcion:'Pizzas caseras armadas al gusto y mesas paralelas de Risk y Monopoly. Risk arranca temprano o no termina.',dia:2},
+ {titulo:'Spanish Tapas & Wine Night',tematica:'Tapas, vino e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Santorini / Mediterranean Chic',descripcion:'Tablas de tapas y quesos con maridaje guiado. Cierra con la sesión de hipnosis.',dia:3},
+ {titulo:'Talent Show',tematica:'Talentos',bloque:'noche',hora:'20:30',lugar:'sala',dress_code:'De gala playera',descripcion:'Tres minutos por persona o grupo. Cada quien anota en su ficha qué va a presentar.',dia:4},
+ {titulo:'Círculo de intenciones bajo las estrellas',tematica:'Cierre del viaje',bloque:'noche',hora:'22:30',lugar:'playa',dress_code:'Tierra y lino',descripcion:'Fogata, mantas y una ronda de intenciones para cerrar el viaje.',dia:4},
+ {titulo:'Yoga matutino',tematica:'Bienestar',bloque:'manana',hora:'07:00',lugar:'playa',dress_code:'Ropa deportiva',descripcion:'Sesión suave frente al mar antes del desayuno.',dia:1},
+ {titulo:'Torneo de panzazos en la piscina',tematica:'Piscina',bloque:'tarde',hora:'15:30',lugar:'piscina',dress_code:'Traje de baño',descripcion:'Jurado de tres, notas del 1 al 10 por salpicadura y estilo.',dia:1},
+ {titulo:'Spike ball y paletas de playa',tematica:'Deporte',bloque:'tarde',hora:'16:00',lugar:'playa',dress_code:'Color del equipo',descripcion:'Parejas sorteadas y eliminación directa.',dia:2},
+ {titulo:'Sesión de fotos con gafas de sol',tematica:'Fotos',bloque:'tarde',hora:'17:30',lugar:'playa',dress_code:'Gafas de sol y blanco',descripcion:'Golden hour: fotos de grupo y de marca con gafas de sol.',dia:3},
+ {titulo:'Throwback 2000s',tematica:'Década',bloque:'noche',lugar:'casa',dress_code:'Y2K',descripcion:'Ropa de la época, reguetón viejo y trivia de la década.'},
+ {titulo:'Cine bajo las estrellas',tematica:'Cine',bloque:'noche',lugar:'terraza',dress_code:'Cobija',descripcion:'Proyector afuera, canguil y mantas; la película se vota.'},
+ {titulo:'Búsqueda del tesoro',tematica:'Juego',bloque:'tarde',lugar:'playa',dress_code:'',descripcion:'Pistas en QR escondidas por la casa y la playa.'},
+ {titulo:'Olimpiadas de playa',tematica:'Deporte',bloque:'tarde',lugar:'playa',dress_code:'Color del equipo',descripcion:'Vóley, carrera de sacos, relevos con baldes y castillo de arena.'}];
+/* el menú base: desayuno dual (A healthy / B tradicional), almuerzo costeño de la cocinera,
+   estaciones de todos los días (café pasado, fruta, ceviche bar) y cenas colaborativas temáticas */
+const MENU_BASE={
+ A:[{nombre:'Bowl de yogur con papaya, sandía y frutos rojos',ingredientes:['Yogur natural','Papaya','Sandía','Frutos rojos','Granola','Miel'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Yogur cremoso con la papaya y la sandía del día, frutos rojos y granola crocante.'},
+    {nombre:'Pancakes de avena y banano',ingredientes:['Avena','Banano','Huevo','Canela','Miel','Papaya y sandía picadas'],tags:['#Healthy'],estilo:'A la plancha, sin harina blanca',descripcion:'Esponjosos, dulces de puro banano, con la fruta del día encima.'},
+    {nombre:'Avocado toast',ingredientes:['Pan de masa madre','Aguacate','Huevo pochado','Limón','Ají','Papaya y sandía picadas'],tags:['#Healthy'],estilo:'Tostado y armado al momento',descripcion:'Pan crocante, aguacate machacado con limón y un huevo pochado que se rompe encima.'}],
+ B:[{nombre:'Tigrillo clásico',ingredientes:['Verde','Queso fresco','Huevo','Cebolla blanca','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Verde majado y sofrito con huevo y queso que se derrite, como en la costa.'},
+    {nombre:'Tigrillo especial con chicharrón',ingredientes:['Verde','Chicharrón','Queso fresco','Huevo','Cebolla blanca'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'El tigrillo de siempre con chicharrón crocante por encima.'},
+    {nombre:'Bolones de verde',ingredientes:['Verde','Queso fresco','Chicharrón','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Majados a mano y dorados',descripcion:'Bolas de verde rellenas de queso o chicharrón, doraditas por fuera y suaves por dentro.'},
+    {nombre:'Pancakes de queso',ingredientes:['Harina','Queso fresco','Huevo','Leche','Miel'],tags:['#Tradicional'],estilo:'Receta de casa',descripcion:'Los pancakes de la abuela con queso fresco en la masa y miel.'}],
+ alm:[{nombre:'Encocado de pescado',ingredientes:['Pescado fresco','Leche de coco','Pimiento','Cebolla','Ajo','Achiote','Arroz blanco','Patacones','Ensalada fresca'],tags:['#Costeño','#SinMariscos'],estilo:'Esmeraldeño, de la cocinera',descripcion:'Pescado del día en salsa de coco, con arroz blanco, patacones y ensalada fresca.'},
+    {nombre:'Seco de pollo',ingredientes:['Pollo','Naranjilla','Culantro','Pimiento','Arroz amarillo','Aguacate','Maduro frito'],tags:['#Costeño','#SinMariscos','#Tradicional'],estilo:'Costeño, a fuego lento',descripcion:'Pollo guisado con naranjilla y culantro, con arroz amarillo, aguacate y maduro frito.'},
+    {nombre:'Arroz marinero',ingredientes:['Arroz','Camarón','Calamar','Conchas','Mejillones','Pescado fresco','Pimiento','Patacones'],tags:['#Costeño'],estilo:'Costeño, en paila',descripcion:'Arroz meloso con mariscos del día y patacones crocantes.'},
+    {nombre:'Carne asada con menestra',ingredientes:['Carne de res','Menestra de lenteja','Arroz blanco','Maduro frito','Ensalada fresca'],tags:['#Tradicional','#SinMariscos'],estilo:'A la plancha',descripcion:'Carne asada jugosa con menestra de lenteja, arroz y maduro.'}],
+ estaciones:[
+   {nombre:'Café pasado de especialidad',turno:'desayuno',ingredientes:['Café de altura molido','Agua'],tags:['#ZeroAlcohol'],estilo:'Filtrado o pasado, nunca soluble',descripcion:'Café de especialidad pasado todos los días. Regla de la casa: cero café soluble.'},
+   {nombre:'Fruta fresca del día',turno:'desayuno',ingredientes:['Papaya','Sandía'],tags:['#Healthy'],estilo:'Picada cada mañana',descripcion:'Papaya y sandía picadas, siempre en la mesa.'},
+   {nombre:'Jugos y bebidas de la mañana',turno:'desayuno',ingredientes:['Naranja','Maracuyá','Agua de coco'],tags:['#ZeroAlcohol'],estilo:'Natural',descripcion:'Jugo de naranja o maracuyá y agua de coco.'},
+   {nombre:'Ceviche bar',turno:'almuerzo',ingredientes:['Camarón','Pescado fresco','Limón','Cebolla colorada','Tomate','Cilantro','Chifles','Canguil'],tags:['#Costeño','#Compartir'],estilo:'Bol grande para todos',descripcion:'Ceviche mixto de camarón y pescado fresco: la entrada fija de todos los almuerzos.'}],
+ cenas:{
+  'Taco & Sunset Grill Night':[
+    {nombre:'Tacos de camarón',ingredientes:['Tortilla de maíz','Camarón','Col morada','Salsa de mango','Limón'],tags:['#Compartir'],descripcion:'Camarón a la plancha con col morada y salsa de mango, en tortilla de maíz.'},
+    {nombre:'Tacos de carne asada',ingredientes:['Tortilla de maíz','Carne de res','Pico de gallo','Guacamole'],tags:['#Compartir','#SinMariscos'],descripcion:'Carne asada recién salida de la parrilla con pico de gallo y guacamole.'},
+    {nombre:'Parrillada al atardecer',ingredientes:['Carne de res','Chorizo','Pollo','Choclo','Maduro'],tags:['#Compartir','#SinMariscos'],descripcion:'La parrilla prendida mientras baja el sol: carnes, chorizo, choclo y maduro.'},
+    {nombre:'Margaritas sin alcohol',ingredientes:['Limón','Hielo','Sal','Jarabe natural'],tags:['#ZeroAlcohol'],descripcion:'Limón, hielo y borde de sal, para todos los que hoy no toman.'}],
+  'Pizza & Boardgames Night':[
+    {nombre:'Pizzas caseras al gusto',ingredientes:['Masa de pizza','Salsa de tomate','Mozzarella','Toppings variados'],tags:['#Compartir'],descripcion:'Cada equipo arma la suya entre turno y turno de Risk.'},
+    {nombre:'Tabla de picadas',ingredientes:['Quesos','Embutidos','Aceitunas','Galletas'],tags:['#Compartir'],descripcion:'Para picar sin soltar los dados.'},
+    {nombre:'Cerveza fría',ingredientes:['Cerveza'],tags:[],descripcion:'Bien helada.'},
+    {nombre:'Cerveza cero',ingredientes:['Cerveza sin alcohol'],tags:['#ZeroAlcohol'],descripcion:'Mismo sabor, cero alcohol.'}],
+  'Spanish Tapas & Wine Night':[
+    {nombre:'Tapas españolas',ingredientes:['Pan','Tomate','Jamón serrano','Tortilla española','Aceitunas'],tags:['#Compartir'],descripcion:'Pan con tomate, jamón serrano, tortilla de papas y aceitunas.'},
+    {nombre:'Tabla de quesos',ingredientes:['Quesos maduros','Uvas','Frutos secos','Mermelada'],tags:['#Compartir'],descripcion:'Quesos maduros con uvas, frutos secos y mermelada.'},
+    {nombre:'Vino con maridaje guiado',ingredientes:['Vino tinto','Vino blanco'],tags:[],descripcion:'Un tinto y un blanco, con la explicación de qué va con qué.'},
+    {nombre:'Sangría sin alcohol',ingredientes:['Jugo de uva','Frutas picadas','Soda'],tags:['#ZeroAlcohol'],descripcion:'Jugo de uva con fruta picada y soda.'}],
+  'Picadas y hamburguesas caseras':[
+    {nombre:'Hamburguesas caseras',ingredientes:['Pan de hamburguesa','Carne de res','Queso','Lechuga','Tomate'],tags:['#Compartir','#SinMariscos'],descripcion:'Carne a la plancha, queso derretido y todo lo demás al gusto.'},
+    {nombre:'Papas rústicas',ingredientes:['Papas','Romero','Ajo'],tags:['#Vegetariano'],descripcion:'Papas al horno con romero y ajo.'}]}};
+/* arma comidas y platos para los días del viaje. Puro: no toca el estado global */
+function generarMenuBase({dias,eventos,gente,autor,conEstaciones}){
+  const comidas=[],platos=[];
+  const mk=(o,extra)=>({id:uid(),descripcion:'',estilo:'',porciones:null,alergenos:[],opcion:null,foto:null,permanente:false,turno:null,comida_id:null,creado_por:autor,...o,...extra});
+  const cm=o=>({id:uid(),responsables:[],evento_id:null,notas:'',creado_por:autor,...o});
+  if(conEstaciones) MENU_BASE.estaciones.forEach(e=>platos.push(mk(e,{permanente:true})));
+  let k=0;
+  dias.forEach((d,i)=>{
+    const des=cm({dia:d,turno:'desayuno',titulo:'Desayuno dual',modalidad:'dual',hora:'08:30',notas:'Café pasado y fruta fresca todos los días.'});
+    comidas.push(des); platos.push(mk(MENU_BASE.A[i%3],{comida_id:des.id,opcion:'A'})); platos.push(mk(MENU_BASE.B[i%4],{comida_id:des.id,opcion:'B'}));
+    const alm=cm({dia:d,turno:'almuerzo',titulo:'Almuerzo costeño',modalidad:'cocinera',hora:'13:30',notas:'Lo prepara la cocinera local. Ceviche bar de entrada.'});
+    comidas.push(alm); platos.push(mk(MENU_BASE.alm[i%4],{comida_id:alm.id}));
+    const evN=eventos.find(e=>e.dia===d&&e.bloque==='noche'&&MENU_BASE.cenas[e.titulo]);
+    const libre=!evN&&i===dias.length-1&&dias.length>2;
+    const titulo=evN?evN.titulo:libre?'Cena libre o restaurante del pueblo':'Picadas y hamburguesas caseras';
+    const resp=libre||!gente.length?[]:[0,1,2].map(()=>gente[(k++)%gente.length]);
+    const cen=cm({dia:d,turno:'cena',titulo,modalidad:libre?'libre':'colaborativa',hora:evN&&evN.hora?evN.hora:'20:00',responsables:resp,evento_id:evN?evN.id:null,notas:libre?'Cada quien elige; se puede reservar un restaurante en Same o en Tonsupa.':'Cocinan los responsables; los demás ayudan a lavar.'});
+    comidas.push(cen); (MENU_BASE.cenas[titulo]||[]).forEach(p=>platos.push(mk(p,{comida_id:cen.id})));
+  });
+  return {comidas,platos};
+}
 function seedDemo(){
   const personas=DEMO_GENTE.map(([n,rol],i)=>({id:'p'+String(i+1).padStart(2,'0'),cedula:String(100000001+i),nombre:n,apodo:DEMO_APODOS[n]||null,telefono:null,rol:rol||'invitado',activo:true,perfil:{},emergencia:null,ultimo_acceso:null}));
   const pins=Object.fromEntries(personas.map(p=>[p.cedula,'2026']));
   const ids=personas.map(p=>p.id), id=n=>personas.find(p=>p.nombre===n).id;
-  const desde=addDias(hoyISO(),21), hasta=addDias(desde,4);
-  const ev=SEMILLA_EVENTOS.map(([titulo,tematica,descripcion,bloque,lugar,dress_code])=>({id:uid(),titulo,tematica,descripcion,bloque,lugar,dress_code,dia:null,hora:null,playlist_url:'',estado:'propuesta',anfitriones:[],etiquetas:[],lista:[],creado_por:id('Daniel Martínez'),created_at:new Date().toISOString()}));
-  const of=(t,d,anf)=>{const e=ev.find(x=>x.titulo===t);e.estado='oficial';e.dia=addDias(desde,d);e.anfitriones=anf};
-  of('Taquiza del mar',0,[id('Daniel Martínez'),id('Ana Paula')]); of('Olimpiadas de playa',1,[id('Kevin López')]); of('Karaoke · Grandes éxitos',1,[id('Alegría')]); of('Casino sin plata',2,[id('Andrés Villalba')]);
-  ev.forEach(e=>e.menu=MENUS_SEMILLA[e.titulo]||[]);
-  const asado=ev.find(x=>x.titulo==='Asado de los Villalba'); asado.lista=[{txt:'Carbón',ok:false},{txt:'Limones',ok:false},{txt:'Chorizos',ok:false}];
-  const votos=[]; const v=(t,ns)=>{const e=ev.find(x=>x.titulo===t);ns.forEach(i=>votos.push({evento_id:e.id,persona_id:ids[i]}))};
-  v('Noche blanca',[0,1,2,4,5,6,9]); v('Asado de los Villalba',[0,3,9,10,11]); v('Throwback 2000s',[2,4,7,8]); v('Cine bajo las estrellas',[1,6]); v('Pancakes bar',[5,10,11]);
+  personas.find(p=>p.nombre==='Alegría').perfil={restricciones:['sin_conchas','sin_oscuros'],alergias:'No come conchas ni mariscos oscuros'};
+  const desde=addDias(hoyISO(),21), hasta=addDias(desde,4), dias=Array.from({length:5},(_,i)=>addDias(desde,i));
+  const autor=id('Daniel Martínez');
+  const ev=SEMILLA_EVENTOS.map(s=>({id:uid(),titulo:s.titulo,tematica:s.tematica,descripcion:s.descripcion,bloque:s.bloque,lugar:s.lugar,dress_code:s.dress_code,estilo:ESTILOS[s.dress_code]||null,
+    dia:s.dia!=null?dias[s.dia]:null,hora:s.hora||null,playlist_url:'',estado:s.dia!=null?'oficial':'propuesta',anfitriones:[],etiquetas:[],lista:[],menu:[],creado_por:autor,created_at:new Date().toISOString()}));
+  const evT=t=>ev.find(x=>x.titulo===t), anf=(t,ns)=>evT(t).anfitriones=ns.map(id);
+  anf('Taco & Sunset Grill Night',['Daniel Martínez','Ana Paula']); anf('Karaoke con proyector',['Alegría']); anf('Pizza & Boardgames Night',['Andrés Villalba','Kevin']);
+  anf('Spanish Tapas & Wine Night',['Ana Cristina Grijalba','Natalia Orquera']); anf('Talent Show',['Valentina Villalba']); anf('Yoga matutino',['Natalia Villar']); anf('Torneo de panzazos en la piscina',['Kevin López','Luciana Villalba']);
+  evT('Karaoke con proyector').lista=[{txt:'Proyector',ok:false},{txt:'Dos micrófonos',ok:false},{txt:'Cable HDMI',ok:false}];
+  const votos=[]; const v=(t,ns)=>{const e=evT(t);ns.forEach(i=>votos.push({evento_id:e.id,persona_id:ids[i]}))};
+  v('Throwback 2000s',[0,1,2,4,5,6,9]); v('Cine bajo las estrellas',[1,6,11]); v('Búsqueda del tesoro',[3,10]); v('Olimpiadas de playa',[3,4,10,12]);
   const todos=ids.map(i=>({persona_id:i,valor:0}));
+  const g=(o)=>({id:uid(),tipo:'gasto',moneda:'USD',fecha:hoyISO(),evento_id:null,etiquetas:[],fondo:false,respaldo_path:null,lectura_ia:null,factura:null,nota:'',eliminado:false,created_at:new Date().toISOString(),origen:'manual',...o});
   const gastos=[
-    {id:uid(),tipo:'gasto',descripcion:'Mercado de llegada (ejemplo)',monto:186.40,moneda:'USD',fecha:hoyISO(),categoria:'mercado',evento_id:null,etiquetas:[],fondo:false,pagadores:[{persona_id:id('Daniel Martínez'),monto:186.40}],reparto:{modo:'igual',partes:todos},respaldo_path:null,origen:'manual',lectura_ia:null,nota:'',creado_por:id('Daniel Martínez'),eliminado:false,created_at:new Date().toISOString()},
-    {id:uid(),tipo:'gasto',descripcion:'Hielo y cervezas (ejemplo)',monto:48,moneda:'USD',fecha:hoyISO(),categoria:'bebidas',evento_id:null,etiquetas:[],fondo:false,pagadores:[{persona_id:id('Andrés Villalba'),monto:48}],reparto:{modo:'igual',partes:todos.filter(p=>p.persona_id!==id('Luciano Villalba'))},respaldo_path:null,origen:'texto',lectura_ia:null,nota:'Va para todos menos Luciano',creado_por:id('Andrés Villalba'),eliminado:false,created_at:new Date().toISOString()},
-    {id:uid(),tipo:'gasto',descripcion:'Gasolina de ida (ejemplo)',monto:60,moneda:'USD',fecha:hoyISO(),categoria:'transporte',evento_id:null,etiquetas:[],fondo:false,pagadores:[{persona_id:id('Kevin López'),monto:60}],reparto:{modo:'porcentaje',partes:['Kevin López','Ana Paula','Alegría','Doménica Pérez'].map(n=>({persona_id:id(n),valor:25}))},respaldo_path:null,origen:'manual',lectura_ia:null,nota:'Los cuatro del carro de Kevin',creado_por:id('Kevin López'),eliminado:false,created_at:new Date().toISOString()}];
+    g({descripcion:'Anticipo de la casa (ejemplo)',monto:650,categoria:'hospedaje',alcance:'fijo',pagadores:[{persona_id:autor,monto:650}],reparto:{modo:'igual',partes:todos},creado_por:autor,nota:'50% del alquiler'}),
+    g({descripcion:'Despensa de llegada (ejemplo)',monto:186.40,categoria:'despensa',alcance:'fijo',pagadores:[{persona_id:id('Ana Paula'),monto:186.40}],reparto:{modo:'igual',partes:todos},creado_por:id('Ana Paula'),
+       factura:{tipo_documento:'factura',comercio:'Supermercado (ejemplo)',ruc:null,fecha:hoyISO(),items:[{descripcion:'Verde (racimo)',cantidad:2,total:6.5},{descripcion:'Queso fresco',cantidad:3,total:14.85},{descripcion:'Huevos (cubeta)',cantidad:2,total:9.6},{descripcion:'Café molido de altura',cantidad:2,total:17}],subtotal:166.43,impuestos:19.97,propina:null,total:186.40}}),
+    g({descripcion:'Hielo y cervezas (ejemplo)',monto:48,categoria:'bebidas',alcance:'consumo',pagadores:[{persona_id:id('Andrés Villalba'),monto:48}],reparto:{modo:'igual',partes:todos.filter(p=>p.persona_id!==id('Luciana Villalba'))},creado_por:id('Andrés Villalba'),origen:'texto',nota:'Va para todos menos Luciana'}),
+    g({descripcion:'Gasolina de ida (ejemplo)',monto:60,categoria:'transporte',alcance:'consumo',pagadores:[{persona_id:id('Kevin López'),monto:60}],reparto:{modo:'porcentaje',partes:['Kevin López','Ana Paula','Alegría','Doménica Pérez'].map(n=>({persona_id:id(n),valor:25}))},creado_por:id('Kevin López'),nota:'Los cuatro del carro de Kevin L.'})];
   const tareas=[
-    {titulo:'Comprar carbón, limones y chorizos',grupo:'Compras',estado:'por_hacer',responsable:id('Andrés Villalba'),evento_id:asado.id,subtareas:[{txt:'Carbón',ok:false},{txt:'Limones',ok:true},{txt:'Chorizos',ok:false}]},
-    {titulo:'Armar la playlist del karaoke',grupo:'Actividades',estado:'por_hacer',responsable:null,evento_id:ev.find(x=>x.tematica==='Karaoke').id,subtareas:[]},
-    {titulo:'Llevar el parlante y extensiones',grupo:'Logística',estado:'en_curso',responsable:id('Kevin López'),evento_id:null,subtareas:[]},
-    {titulo:'Empacar Monopolio y Risk',grupo:'Actividades',estado:'listo',responsable:id('Daniel Martínez'),evento_id:ev.find(x=>x.titulo==='Casino sin plata').id,subtareas:[]},
-    {titulo:'Desayuno día 1',grupo:'Turnos',estado:'por_hacer',responsable:id('Doménica Pérez'),evento_id:null,subtareas:[],fecha:desde}]
-    .map(t=>({id:uid(),detalle:'',fecha:null,etiquetas:[],creado_por:id('Daniel Martínez'),created_at:new Date().toISOString(),...t}));
-  const etiquetas=['bienvenida','karaoke','juegos','parrillada','playa','desayuno','fiesta','mercado','turnos'].map((n,i)=>({id:i+1,nombre:n}));
-  of('Pancakes bar',1,[id('Doménica Pérez'),id('Valentina Villalba')]); of('Asado de los Villalba',3,[id('Andrés Villalba'),id('Luciano Villalba')]); of('Brunch de frutas y smoothies',2,[id('Natalia Villar')]);
-  return {personas,pins,config:{nombre:'Marea Alta',lugar:'',desde,hasta,moneda:'USD',ejemplo:true},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],v:2};
+    {titulo:'Comprar carbón y fundas de hielo para el Sunset Grill',grupo:'Compras',prioridad:'alta',estado:'por_hacer',responsable:id('Andrés Villalba'),evento_id:evT('Taco & Sunset Grill Night').id,fecha:dias[0],subtareas:[{txt:'Carbón',ok:false},{txt:'3 fundas de hielo',ok:true}]},
+    {titulo:'Llevar los dos micrófonos y el proyector',grupo:'Logística',prioridad:'alta',estado:'por_hacer',responsable:null,evento_id:evT('Karaoke con proyector').id,subtareas:[]},
+    {titulo:'Contratar a la cocinera y acordar menú',grupo:'Comida',prioridad:'alta',estado:'en_curso',responsable:autor,evento_id:null,subtareas:[{txt:'Precio por día',ok:false},{txt:'Pasarle el menú de almuerzos',ok:false}]},
+    {titulo:'Empacar Risk y Monopoly',grupo:'Actividades',prioridad:'media',estado:'listo',responsable:id('Kevin'),evento_id:evT('Pizza & Boardgames Night').id,subtareas:[]},
+    {titulo:'Spike ball y paletas',grupo:'Actividades',prioridad:'baja',estado:'por_hacer',responsable:id('Kevin López'),evento_id:evT('Spike ball y paletas de playa').id,subtareas:[]}]
+    .map(t=>({id:uid(),detalle:'',fecha:null,etiquetas:[],creado_por:autor,created_at:new Date().toISOString(),...t}));
+  const etiquetas=['bienvenida','karaoke','juegos','parrillada','playa','desayuno','fiesta','despensa','turnos'].map((n,i)=>({id:i+1,nombre:n}));
+  const menu=generarMenuBase({dias,eventos:ev,gente:ids,autor,conEstaciones:true});
+  const arroz=menu.platos.find(p=>p.nombre==='Arroz marinero'), almArroz=arroz&&arroz.comida_id;
+  const asistencia=[];
+  if(almArroz) asistencia.push({comida_id:almArroz,persona_id:id('Alegría'),va:true,opcion:null,variante:'Mi arroz sin conchas ni mejillones, por favor'});
+  const des1=menu.comidas.find(c=>c.dia===dias[0]&&c.turno==='desayuno');
+  [['Alegría','A'],['Natalia Villar','A'],['Kevin','B'],['Andrés Villalba','B'],['Ana Paula','A']].forEach(([n,o])=>asistencia.push({comida_id:des1.id,persona_id:id(n),va:true,opcion:o,variante:''}));
+  asistencia.push({comida_id:menu.comidas.find(c=>c.dia===dias[1]&&c.turno==='almuerzo').id,persona_id:id('Natalia Orquera'),va:false,opcion:null,variante:''});
+  const presupuesto=[
+    {id:uid(),nombre:'Alquiler de la casa',categoria:'hospedaje',minimo:1300,maximo:1500,tipo:'fijo',nota:'',orden:1},
+    {id:uid(),nombre:'Compras iniciales de despensa',categoria:'despensa',minimo:700,maximo:1000,tipo:'fijo',nota:'',orden:2},
+    {id:uid(),nombre:'Sueldo de la cocinera',categoria:'cocinera',minimo:null,maximo:null,tipo:'fijo',nota:'Por definir',orden:3},
+    {id:uid(),nombre:'Bebidas y bar',categoria:'bebidas',minimo:null,maximo:null,tipo:'variable',nota:'Por definir',orden:4}];
+  return {personas,pins,config:{nombre:'Marea Alta',lugar:'Same, Esmeraldas',desde,hasta,moneda:'USD',ejemplo:true,info:{casa_titulo:'La casa en Same',casa_desc:'Las fotos y la descripción se cargan desde Admin → Lo esencial.',airbnb_url:'https://www.airbnb.cl/rooms/49074368',amenidades:[],casa_fotos:[],direccion:'Casa en Same, Esmeraldas (dirección de ejemplo)',mapa_url:'',checkin:'15:00',checkout:'12:00',wifi_red:'',wifi_clave:'',
+    que_llevar:['Protector solar y repelente','Traje de baño y toalla de playa','Outfit Noche Tropical','Todo blanco para la noche Santorini','Brillos para el karaoke','Pijama elegante','Gafas de sol para la sesión de fotos','Tu número para el Talent Show','Medicinas personales'],
+    reglas:['Cero café soluble: se pasa café de verdad','Cada quien lava lo que usa en las cenas colaborativas','Todo gasto se sube con foto a la app','Silencio después de la 1 a.m. por los vecinos'],
+    contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
+    faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
+    comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],v:3};
 }
 function pinNuevo(){const malos=new Set(['0000','1111','2222','3333','4444','5555','6666','7777','8888','9999','1234','4321','0123','2580']);for(;;){const a=new Uint32Array(1);crypto.getRandomValues(a);const p=String(a[0]%10000).padStart(4,'0');if(!malos.has(p))return p}}
-function mensajeWA(nombre,pin){const primer=(nombre||'').trim().split(/\s+/)[0]||'';return `Hola ${primer} 👋 Esta es tu entrada a MAREA ALTA, la app del viaje 🏖️🌙\n🔗 ${APP_URL}\n🪪 Usuario: tu número de cédula\n🔑 Clave: ${pin.split('').join(' ')}\nAhí vemos los gastos, las tareas y las noches temáticas. ¡No la compartas!`}
+function mensajeWA(nombre,pin){const primer=(nombre||'').trim().split(/\s+/)[0]||'';const lugar=(typeof CFG!=='undefined'&&CFG.lugar)||'la playa';
+  return `¡Hola ${primer}! 🌊🌙\nYa está lista MAREA ALTA, la app de nuestro viaje a ${lugar}.\n\n👉 Entra desde tu celular: ${APP_URL}\n🪪 Usuario: tu número de cédula\n🔑 Tu clave: ${pin.split('').join(' ')}\n\nAhí vas a encontrar:\n💸 Los gastos y cuánto te toca pagar, cada uno con su factura\n🗓️ El itinerario y las noches temáticas con su dress code\n🍽️ El menú de cada día (márcanos si no comes algo)\n📸 El álbum para subir las fotos del viaje\n🙋 Tu ficha: alergias, tu talento y tu canción de karaoke\n\nTip: ábrela y en el menú del navegador elige "Agregar a pantalla de inicio" para tenerla como app.\nLa clave es solo tuya, no la compartas.`}
 function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`https://wa.me/${t}?text=${encodeURIComponent(msg)}`:null}
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==2){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==3){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
   async login(ced,pin){const p=this.d.personas.find(x=>x.cedula===ced);if(!p||this.d.pins[ced]!==pin)throw new Error('Cédula o clave incorrecta');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
   async logout(){lsDel(DEMO_SES)},
-  async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];ME=d.personas.find(p=>p.id===ME.id)||ME},
+  async loadAll(){const d=this.d;PERSONAS=d.personas.map(({cedula,telefono,emergencia,ultimo_acceso,...p})=>({...p}));CFG={...d.config};GASTOS=d.gastos.filter(g=>!g.eliminado);TAREAS=[...d.tareas];EVENTOS=[...d.eventos];VOTOS=[...d.votos];ETIQUETAS=[...d.etiquetas];COMIDAS=[...(d.comidas||[])];PLATOS=[...(d.platos||[])];ASIST=[...(d.asistencia||[])];PRESU=[...(d.presupuesto||[])];INSPI=[...(d.inspiracion||[])];MURO=[...(d.muro||[])];ME=d.personas.find(p=>p.id===ME.id)||ME},
   async saveGasto(g,nuevo){const L=this.d.gastos;if(nuevo){L.unshift({...g,created_at:new Date().toISOString()})}else{const i=L.findIndex(x=>x.id===g.id);if(i<0)throw new Error('No encuentro ese gasto');this.d.historial.push({gasto_id:g.id,version:L[i],cambiado_por:ME.id,ts:new Date().toISOString()});L[i]={...L[i],...g}}this.save()},
   async historial(id){return this.d.historial.filter(h=>h.gasto_id===id)},
   async saveTarea(t,nuevo){const L=this.d.tareas;if(nuevo)L.push({...t,created_at:new Date().toISOString()});else{const i=L.findIndex(x=>x.id===t.id);L[i]={...L[i],...t}}this.save()},
@@ -451,17 +587,30 @@ const Demo={
   async votar(evId,si){if(si)this.d.votos.push({evento_id:evId,persona_id:ME.id});else this.d.votos=this.d.votos.filter(v=>!(v.evento_id===evId&&v.persona_id===ME.id));this.save()},
   async nuevaEtiqueta(nombre){const e={id:Math.max(0,...this.d.etiquetas.map(x=>x.id))+1,nombre};this.d.etiquetas.push(e);this.save();return e},
   async saveMiPerfil(apodo,perfil){const p=this.d.personas.find(x=>x.id===ME.id);p.apodo=apodo||null;p.perfil=perfil;this.save()},
-  async saveConfig(c){this.d.config={...this.d.config,...c,ejemplo:false};this.save()},
+  async saveConfig(c){this.d.config={...this.d.config,...c,...(c.desde||c.hasta?{ejemplo:false}:{})};this.save()},
   async subirFoto(bucket,blob,dataUrl){return dataUrl},
   async urlFoto(ref){return ref},
-  async leer({texto,dataUrl}){return leerLocal(texto,!!dataUrl)},
+  async leer({texto,dataUrl,modo}){return leerLocal(texto,!!dataUrl,modo)},
+  up(L,o,n){if(n)L.push({...o,created_at:new Date().toISOString()});else{const i=L.findIndex(x=>x.id===o.id);if(i<0)throw new Error('No encontrado');L[i]={...L[i],...o}}this.save()},
+  async saveComida(c,n){this.up(this.d.comidas,c,n)},
+  async borrarComida(id){this.d.comidas=this.d.comidas.filter(c=>c.id!==id);this.d.platos=this.d.platos.filter(p=>p.comida_id!==id);this.d.asistencia=this.d.asistencia.filter(a=>a.comida_id!==id);this.save()},
+  async savePlato(p,n){this.up(this.d.platos,p,n)},
+  async borrarPlato(id){this.d.platos=this.d.platos.filter(p=>p.id!==id);this.save()},
+  async bulkMenu(c,p){this.d.comidas.push(...c);this.d.platos.push(...p);this.save()},
+  async setAsis(cid,a){const L=this.d.asistencia,i=L.findIndex(x=>x.comida_id===cid&&x.persona_id===ME.id),row={comida_id:cid,persona_id:ME.id,va:a.va!==false,opcion:a.opcion||null,variante:a.variante||''};if(i<0)L.push(row);else L[i]=row;this.save()},
+  async savePresupuesto(list){this.d.presupuesto=list;this.save()},
+  async addInspiracion(x){this.d.inspiracion.push({...x,created_at:new Date().toISOString()});this.save()},
+  async enriquecer(p){return enriquecerLocal(p)},
+  async llenarInfo(t){return infoLocal(t)},
+  async addFoto(f){(this.d.muro=this.d.muro||[]).push({...f,created_at:new Date().toISOString()});this.save();if(JSON.stringify(this.d).length>4.5e6)toast('El demo guarda pocas fotos en el teléfono; con Supabase no hay límite')},
+  async borrarFoto(id){this.d.muro=(this.d.muro||[]).filter(f=>f.id!==id);this.save()},
   async admin(action,b){
     const d=this.d;
     if(action==='listar') return {personas:d.personas.map(p=>({...p}))};
     if(action==='crear'){const ced=String(b.cedula||'').replace(/\D/g,'');if(!/^\d{6,12}$/.test(ced))throw new Error('Cédula inválida (6 a 12 dígitos)');if(d.personas.some(p=>p.cedula===ced))throw new Error('Esa cédula ya está registrada');if(String(b.nombre||'').trim().length<2)throw new Error('Falta el nombre');
       const p={id:uid(),cedula:ced,nombre:b.nombre.trim(),apodo:(b.apodo||'').trim()||null,telefono:(b.telefono||'').replace(/[^\d+]/g,'')||null,rol:b.rol==='admin'?'admin':'invitado',activo:true,perfil:{},emergencia:null,ultimo_acceso:null};
-      const pin=pinNuevo();d.personas.push(p);d.pins[ced]=pin;this.save();const m=mensajeWA(p.nombre,pin);return{persona:p,pin,mensaje:m,wa_url:waUrl(p.telefono,m)}}
-    if(action==='reset_pin'){const p=d.personas.find(x=>x.id===b.id);const pin=pinNuevo();d.pins[p.cedula]=pin;this.save();const m=mensajeWA(p.nombre,pin);return{pin,mensaje:m,wa_url:waUrl(p.telefono,m)}}
+      const pin=pinNuevo();p.invitado_en=new Date().toISOString();d.personas.push(p);d.pins[ced]=pin;this.save();const m=mensajeWA(p.nombre,pin);return{persona:p,pin,mensaje:m,wa_url:waUrl(p.telefono,m)}}
+    if(action==='reset_pin'){const p=d.personas.find(x=>x.id===b.id);const pin=pinNuevo();d.pins[p.cedula]=pin;p.invitado_en=new Date().toISOString();this.save();const m=mensajeWA(p.nombre,pin);return{pin,mensaje:m,wa_url:waUrl(p.telefono,m)}}
     if(action==='toggle'){const p=d.personas.find(x=>x.id===b.id);p.activo=!!b.activo;this.save();return{ok:true}}
     if(action==='actualizar'){const p=d.personas.find(x=>x.id===b.id);Object.assign(p,b.campos);this.save();return{persona:p}}
     throw new Error('Acción desconocida')
@@ -488,13 +637,22 @@ const Sb={
       this.t('tareas').select('*').order('created_at'),this.t('eventos').select('*').order('created_at'),
       this.t('votos').select('evento_id,persona_id'),this.t('etiquetas').select('*').order('nombre')]);
     PERSONAS=this.ok(p);CFG={...CFG,...((this.ok(c)||{}).valor||{})};GASTOS=this.ok(g).map(x=>({...x,monto:+x.monto}));TAREAS=this.ok(t);EVENTOS=this.ok(e);VOTOS=this.ok(v);ETIQUETAS=this.ok(et);
+    /* tablas de sql/003 (comida, presupuesto, inspiración): si aún no existen, la app sigue sin ellas */
+    const x=await Promise.allSettled([this.t('comidas').select('*').order('dia'),this.t('platos').select('*').order('created_at'),this.t('asistencia').select('*'),this.t('presupuesto').select('*').order('orden'),this.t('inspiracion').select('*').order('created_at'),this.t('muro').select('*').order('created_at',{ascending:false})]);
+    const val=r=>r.status==='fulfilled'&&!r.value.error?r.value.data:null;
+    this.v3=val(x[0])!==null;
+    COMIDAS=val(x[0])||[];PLATOS=val(x[1])||[];ASIST=val(x[2])||[];PRESU=(val(x[3])||[]).map(r=>({...r,minimo:r.minimo==null?null:+r.minimo,maximo:r.maximo==null?null:+r.maximo}));INSPI=val(x[4])||[];MURO=val(x[5])||[];
     ME=await this.me(ME.auth_id);
   },
   pick(o,ks){const r={};ks.forEach(k=>{if(k in o)r[k]=o[k]});return r},
-  GK:['id','tipo','descripcion','monto','moneda','fecha','categoria','evento_id','etiquetas','fondo','pagadores','reparto','respaldo_path','origen','lectura_ia','nota','creado_por','eliminado'],
-  TK:['id','titulo','detalle','grupo','estado','responsable','evento_id','fecha','etiquetas','subtareas','creado_por'],
-  EK:['id','titulo','tematica','descripcion','dia','bloque','hora','lugar','dress_code','playlist_url','estado','anfitriones','etiquetas','lista','menu','creado_por'],
-  async up(tabla,ks,o,nuevo){const row=this.pick(o,ks);if(nuevo)this.ok(await this.t(tabla).insert(row));else{delete row.creado_por;this.ok(await this.t(tabla).update(row).eq('id',o.id))}},
+  GK:['id','tipo','descripcion','monto','moneda','fecha','categoria','evento_id','etiquetas','fondo','pagadores','reparto','respaldo_path','origen','lectura_ia','nota','creado_por','eliminado','alcance','factura'],
+  TK:['id','titulo','detalle','grupo','estado','responsable','evento_id','fecha','etiquetas','subtareas','creado_por','prioridad'],
+  CK:['id','dia','turno','titulo','modalidad','hora','responsables','evento_id','notas','creado_por'],
+  PK:['id','comida_id','nombre','descripcion','estilo','ingredientes','porciones','tags','alergenos','opcion','foto','permanente','turno','creado_por'],
+  PRK:['id','nombre','categoria','minimo','maximo','tipo','nota','orden'],
+  V3:['alcance','factura','prioridad','estilo'],
+  EK:['id','titulo','tematica','descripcion','dia','bloque','hora','lugar','dress_code','playlist_url','estado','anfitriones','etiquetas','lista','menu','creado_por','estilo'],
+  async up(tabla,ks,o,nuevo){const row=this.pick(o,ks);if(this.v3===false)this.V3.forEach(k=>delete row[k]);if(nuevo)this.ok(await this.t(tabla).insert(row));else{delete row.creado_por;this.ok(await this.t(tabla).update(row).eq('id',o.id))}},
   async saveGasto(g,n){return this.up('gastos',this.GK,g,n)},
   async historial(id){return this.ok(await this.t('gastos_historial').select('*').eq('gasto_id',id).order('ts'))},
   async saveTarea(t,n){return this.up('tareas',this.TK,t,n)},
@@ -508,8 +666,20 @@ const Sb={
   async subirFoto(bucket,blob){const path=`${ME.id}/${uid()}.jpg`;const{error}=await this.c.storage.from(bucket).upload(path,blob,{contentType:'image/jpeg',upsert:false});if(error)throw new Error('No se pudo subir la foto: '+error.message);return bucket+':'+path},
   async urlFoto(ref){const i=ref.indexOf(':');const b=ref.slice(0,i),p=ref.slice(i+1);const{data,error}=await this.c.storage.from(b).createSignedUrl(p,3600);if(error)throw error;return data.signedUrl},
   async fn(name,body){const{data}=await this.c.auth.getSession();const r=await fetch(`${SB_URL}/functions/v1/${name}`,{method:'POST',headers:{'Content-Type':'application/json',apikey:SB_ANON,Authorization:'Bearer '+(data.session?data.session.access_token:SB_ANON)},body:JSON.stringify(body)});const j=await r.json().catch(()=>({error:'Respuesta inválida'}));if(!r.ok||j.error&&!j.propuesta)throw new Error(j.error||('Error '+r.status));return j},
-  async leer({texto,ref}){const body={texto:texto||''};if(ref)body.archivo_path=ref.slice(ref.indexOf(':')+1);try{const j=await this.fn('marea-leer-gasto',body);return j.propuesta}catch(e){const p=leerLocal(texto,!!ref);p.resumen='La lectura con IA falló ('+e.message+'). Te dejo una lectura rápida para que la corrijas.';return p}},
-  async admin(action,b){return this.fn('marea-admin-personas',{action,...b})}
+  async leer({texto,ref,modo}){const body={texto:texto||'',modo:modo||'auto'};if(ref)body.archivo_path=ref.slice(ref.indexOf(':')+1);try{const j=await this.fn('marea-leer-gasto',body);return j.propuesta}catch(e){const p=leerLocal(texto,!!ref,modo);p.resumen='La lectura con IA falló ('+e.message+'). Te dejo una lectura rápida para que la corrijas.';return p}},
+  async admin(action,b){return this.fn('marea-admin-personas',{action,...b})},
+  async saveComida(c,n){return this.up('comidas',this.CK,c,n)},
+  async borrarComida(id){this.ok(await this.t('comidas').delete().eq('id',id))},
+  async savePlato(p,n){return this.up('platos',this.PK,p,n)},
+  async borrarPlato(id){this.ok(await this.t('platos').delete().eq('id',id))},
+  async bulkMenu(c,p){if(c.length)this.ok(await this.t('comidas').insert(c.map(x=>this.pick(x,this.CK))));if(p.length)this.ok(await this.t('platos').insert(p.map(x=>this.pick(x,this.PK))))},
+  async setAsis(cid,a){this.ok(await this.t('asistencia').upsert({comida_id:cid,persona_id:ME.id,va:a.va!==false,opcion:a.opcion||null,variante:a.variante||null},{onConflict:'comida_id,persona_id'}))},
+  async savePresupuesto(list){const ids=list.map(r=>r.id);const viejos=PRESU.filter(r=>!ids.includes(r.id)).map(r=>r.id);if(viejos.length)this.ok(await this.t('presupuesto').delete().in('id',viejos));if(list.length)this.ok(await this.t('presupuesto').upsert(list.map(r=>this.pick(r,this.PRK))))},
+  async llenarInfo(t){try{const j=await this.fn('marea-info',{texto:t});return j.info}catch(e){toast('La IA no respondió: '+e.message);return infoLocal(t)}},
+  async addFoto(f){const row=this.pick(f,['id','persona_id','foto_path','texto','dia','evento_id']);if(this.v3===false)delete row.evento_id;this.ok(await this.t('muro').insert(row))},
+  async borrarFoto(id){this.ok(await this.t('muro').delete().eq('id',id))},
+  async addInspiracion(x){this.ok(await this.t('inspiracion').insert(this.pick(x,['id','evento_id','persona_id','foto','nota'])))},
+  async enriquecer(p){try{const j=await this.fn('marea-menu',{plato:{nombre:p.nombre,ingredientes:p.ingredientes||[],descripcion:p.descripcion||'',estilo:p.estilo||''}});return j.plato}catch(e){const r=enriquecerLocal(p);toast('La IA no respondió: '+e.message);return r}}
 };
 const API=MODO==='supabase'?Sb:Demo;
 async function resolverFoto(ref){if(FOTOS[ref]!==undefined)return;FOTOS[ref]='';try{FOTOS[ref]=await API.urlFoto(ref);render()}catch(e){}}
@@ -525,10 +695,10 @@ function buscarPersonas(txt){
   }
   return {ids,dudas};
 }
-function leerLocal(texto,conFoto){
+function leerLocal(texto,conFoto,modo){
   const t=String(texto||'').trim(), prop={gastos:[],tareas:[],eventos:[],resumen:'',local:true};
   const mm=t.match(/(\d{1,3}(?:[.,]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)/);
-  if(mm||conFoto){
+  if(modo!=='tareas'&&(mm||conFoto||modo==='gasto')){
     let monto=mm?leerMonto(mm[1]):0;
     let desc=''; const dm=t.match(/(?:\bde\b|\ben\b|\bpor\b|\bpara la\b)\s+([^,.;]+?)(?=\s*(?:,|\.|;|$|\bpara\b|\bva\b|\bmenos\b|\bsin\b|\bexcepto\b|\bentre\b))/i);
     if(dm) desc=dm[1].replace(/\b(d[oó]lares|usd|pesos|plata)\b/ig,'').trim();
@@ -547,9 +717,9 @@ function leerLocal(texto,conFoto){
     prop.gastos.push({descripcion:desc||'Gasto',monto,fecha:null,categoria:cat,pagador_ids:[pagador],participante_ids:part,modo:'igual',partes:null,evento_id:null,etiquetas:[],confianza:monto?0.7:0.1,dudas});
     prop.resumen='Lectura rápida en el teléfono (sin IA). Revisa antes de guardar.';
   } else if(t){
-    const items=(t.includes('\n')?t.split('\n'):t.split(/[;,]/)).map(s=>s.replace(/^[\s\-–•*\d.)]+/,'').trim()).filter(s=>s.length>1);
-    items.forEach(s=>{let resp=null;const rm=s.match(/^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)\s+(?=(prende|lleva|compra|trae|hace|arma|cocina|maneja|organiza))/);if(rm){const r=buscarPersonas(rm[1]);resp=r.ids[0]||null}
-      prop.tareas.push({titulo:s.charAt(0).toUpperCase()+s.slice(1),detalle:null,grupo:grupoDe(s),responsable_id:resp,fecha:null,evento_id:null,etiquetas:[],subtareas:[]})});
+    partirTareas(t).forEach(s=>{let resp=null;const rm=s.match(/^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)\s+(?=(prende|lleva|compra|trae|hace|arma|cocina|maneja|organiza|consigue|reserva))/);if(rm){const r=buscarPersonas(rm[1]);resp=r.ids[0]||null}
+      const ev=EVENTOS.find(e=>e.id===eventoDe(s));
+      prop.tareas.push({titulo:s,detalle:null,grupo:grupoDe(s),prioridad:/urgente|ya mismo|\bhoy\b|importante|antes de/i.test(s)?'alta':'media',responsable_id:resp,fecha:ev&&ev.dia||null,evento_id:ev?ev.id:null,etiquetas:[],subtareas:[]})});
     prop.resumen=`Encontré ${prop.tareas.length} tarea${prop.tareas.length===1?'':'s'}. Marca las que quieres crear.`;
   }
   return prop;
@@ -559,13 +729,26 @@ function leerMonto(s){const pt=s.lastIndexOf('.'),cm=s.lastIndexOf(',');
   if(pt>=0&&cm>=0){const dec=pt>cm?'.':',';s=s.split(dec==='.'?',':'.').join('');s=s.replace(dec,'.')}
   else{const sep=pt>=0?'.':cm>=0?',':'';if(sep){const partes=s.split(sep);s=(partes.length>2||partes[partes.length-1].length===3)?partes.join(''):partes.join('.')}}
   return r2(parseFloat(s)||0)}
+const VERBOS='llevar|comprar|traer|armar|hacer|conseguir|reservar|limpiar|preparar|cocinar|organizar|pagar|alquilar|cargar|pedir|confirmar|buscar|lavar|contratar|imprimir';
+/* "Comprar 3 fundas de hielo, carbón para el asado y llevar los micrófonos" → 3 tareas; la segunda hereda el verbo */
+function partirTareas(t){
+  const re=new RegExp('[;,]|\\s+y\\s+(?=(?:'+VERBOS+')\\b)','i'), rv=new RegExp('^('+VERBOS+')\\b','i');
+  let items=t.includes('\n')?t.split('\n'):t.split(re);
+  items=items.map(s=>(s||'').replace(/^\s*(?:[-–•*]|\d+[.)])\s*/,'').trim()).filter(s=>s.length>1);
+  let verbo='';
+  return items.map(s=>{const m=s.match(rv);if(m)verbo=m[1];else if(verbo&&!/^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+\s+(?:prende|lleva|compra|trae|hace|arma|cocina|maneja|organiza)/.test(s))s=verbo.toLowerCase()+' '+s;return s.charAt(0).toUpperCase()+s.slice(1)});
+}
+const EV_CLAVES=[[/karaoke|microfono|proyector/,/karaoke/],[/asado|parrill|grill|carbon|taco/,/grill|parrill|asado|taco/],[/pizza|risk|monopol|juegos de mesa/,/pizza|juegos/],[/tapas|vino|hipnosis/,/tapas/],[/talento|talent/,/talent/],[/yoga/,/yoga/],[/gafas|sesion de fotos/,/fotos/],[/panzazo|piscina/,/panzazo/],[/intenciones|fogata/,/intenciones/]];
+function eventoDe(txt){const t=norm(txt);for(const[q,e]of EV_CLAVES)if(q.test(t)){const ev=EVENTOS.find(x=>x.estado!=='cancelado'&&e.test(norm(x.titulo+' '+(x.tematica||''))));if(ev)return ev.id}return null}
 function categoriaDe(t){t=norm(t);
+  if(/cocinera|sueldo/.test(t))return'cocinera';
   if(/hielo|cerveza|ron|trago|vino|whisky|aguardiente|michelada|bebida|cola|agua/.test(t))return'bebidas';
-  if(/mercado|super|tienda|despensa|frutas|verdura/.test(t))return'mercado';
+  if(/mercado|super|tienda|despensa|frutas|verdura|viveres/.test(t))return'despensa';
   if(/gasolina|taxi|uber|bus|peaje|parqueadero|vuelo|pasaje|carro/.test(t))return'transporte';
   if(/casa|hotel|airbnb|hospedaje|cabana|arriendo/.test(t))return'hospedaje';
   if(/lancha|tour|entrada|surf|snorkel|kayak|clase/.test(t))return'actividades';
-  if(/comida|almuerzo|cena|desayuno|taco|pizza|pescado|camaron|carne|asado|restaurante/.test(t))return'comida';
+  if(/parlante|microfono|proyector|carbon|gas|cooler|toldo|equipo/.test(t))return'logistica';
+  if(/comida|almuerzo|cena|desayuno|taco|pizza|pescado|camaron|carne|asado|restaurante/.test(t))return'restaurantes';
   return'otros'}
 function grupoDe(t){t=norm(t);
   if(/compra|comprar|mercado|super/.test(t))return'Compras';
@@ -578,12 +761,14 @@ function grupoDe(t){t=norm(t);
 /* ============================================================================
    NAVEGACIÓN Y HOJAS
    ============================================================================ */
-const TABS=[['hoy','Hoy'],['gastos','Gastos'],['tareas','Tareas'],['planes','Planes'],['nosotros','Nosotros']];
+const TABS=[['hoy','Hoy'],['gastos','Gastos'],['menu','Menú'],['planes','Planes'],['tareas','Tareas'],['nosotros','Álbum']];
 function tabsVisibles(){return esAdmin()?[...TABS,['admin','Admin']]:TABS}
+const TABS_BARRA=TABS;
 function irA(t){if(!tabsVisibles().some(x=>x[0]===t))t='hoy';if(location.hash!=='#'+t){try{history.pushState(null,'','#'+t)}catch(e){}}TAB=t;closeSheet(true);render();window.scrollTo(0,0)}
-window.addEventListener('popstate',()=>{const h=(location.hash||'#hoy').slice(1);if(!$('#sheet').hidden&&!h.endsWith('-m')){closeSheet(true);return}const t=h.replace(/-m$/,'');if(t!==TAB&&ME){TAB=tabsVisibles().some(x=>x[0]===t)?t:'hoy';render()}});
+let IGN_POP=false;
+window.addEventListener('popstate',()=>{if(IGN_POP){IGN_POP=false;try{history.replaceState(null,'','#'+TAB)}catch(e){}return}const h=(location.hash||'#hoy').slice(1);if(!$('#sheet').hidden&&!h.endsWith('-m')){closeSheet(true);return}const t=h.replace(/-m$/,'');if(t!==TAB&&ME){TAB=tabsVisibles().some(x=>x[0]===t)?t:'hoy';render()}});
 function openSheet(html){$('#sheetBody').innerHTML=html;const s=$('#sheet');if(s.hidden){s.hidden=false;document.body.style.overflow='hidden';try{history.pushState(null,'','#'+TAB+'-m')}catch(e){}}const f=$('#sheetBody [autofocus]');if(f)setTimeout(()=>f.focus(),60)}
-function closeSheet(silencioso){const s=$('#sheet');if(s.hidden)return;s.hidden=true;document.body.style.overflow='';$('#sheetBody').innerHTML='';if(!silencioso&&location.hash.endsWith('-m')){try{history.back()}catch(e){}}}
+function closeSheet(silencioso){const s=$('#sheet');if(s.hidden)return;s.hidden=true;document.body.style.overflow='';$('#sheetBody').innerHTML='';if(!silencioso&&location.hash.endsWith('-m')){IGN_POP=true;try{history.back()}catch(e){IGN_POP=false}}}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
 const sheetH=(t,extra='')=>`<div class="sheet-h"><h2 id="sheetTitle">${t}</h2>${extra}<button class="x" onclick="closeSheet()" aria-label="Cerrar">${ic('x')}</button></div>`;
 
@@ -608,7 +793,7 @@ function pintarLogin(msg){
     <div>${LOGO.replace('width="38" height="38"','width="64" height="64"')}</div>
     <div><h1>Marea Alta</h1><p class="tag">Playa de día, temática de noche.</p></div>
     <form id="lf" class="stack" autocomplete="on">
-      <div class="field"><label for="lced">Tu cédula</label><input id="lced" class="in" inputmode="numeric" autocomplete="username" placeholder="Número de cédula" required></div>
+      <div class="field"><label for="lced">Tu cédula</label><input id="lced" class="in" inputmode="numeric" autocomplete="username" placeholder="Número de cédula" value="${esc(lsGet('marea_ced')||'')}" required></div>
       <div class="field"><label for="lpin">Clave de 4 dígitos</label><input id="lpin" class="in pin-in" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" placeholder="••••" required></div>
       <div id="lerr" class="banner bad" ${msg?'':'hidden'}>${esc(msg||'')}</div>
       <button class="btn primary block" id="lbtn">Entrar</button>
@@ -617,7 +802,7 @@ function pintarLogin(msg){
     ${MODO==='demo'?`<div class="banner tide"><div><b>Modo demo.</b> Los datos viven solo en este teléfono. Entra como Daniel con la cédula <b class="num">100000001</b> y la clave <b class="num">2026</b>, o como cualquier invitado de 100000002 a 100000012.</div></div>`:''}
     <p class="foot">${BUILD_TAG} · ${MODO}</p></div>`;
   $('#lf').onsubmit=async e=>{e.preventDefault();const b=$('#lbtn');b.disabled=true;b.textContent='Entrando…';
-    try{ME=await API.login($('#lced').value.replace(/\D/g,''),$('#lpin').value.trim());await cargar();TAB='hoy';try{history.replaceState(null,'','#hoy')}catch(x){}render()}
+    try{const ced=$('#lced').value.replace(/\D/g,'');ME=await API.login(ced,$('#lpin').value.trim());lsSet('marea_ced',ced);await cargar();TAB='hoy';try{history.replaceState(null,'','#hoy')}catch(x){}render()}
     catch(err){$('#lerr').hidden=false;$('#lerr').textContent=err.message;b.disabled=false;b.textContent='Entrar'}};
 }
 async function salir(){await API.logout();ME=null;closeSheet(true);pintarLogin()}
@@ -629,14 +814,14 @@ function cambiarTema(){const r=document.documentElement;const oscuro=r.dataset.t
 function render(){
   if(!ME){pintarLogin();return}
   const sub=CFG.lugar?esc(CFG.lugar):(CFG.desde?`${fechaCorta(CFG.desde)} – ${fechaCorta(CFG.hasta)}`:'El viaje a la playa');
-  const views={hoy:vHoy,gastos:vGastos,tareas:vTareas,planes:vPlanes,nosotros:vNosotros,admin:vAdmin};
+  const views={hoy:vHoy,gastos:vGastos,menu:vMenu,tareas:vTareas,planes:vPlanes,nosotros:vNosotros,admin:vAdmin};
   $('#app').innerHTML=`<div class="wrap">
     <header class="top"><div class="brand">${LOGO}<div class="grow"><b>${esc(CFG.nombre||'Marea Alta')}</b><small>${sub}</small></div></div>
-      <button class="me-btn" onclick="abrirMiPerfil()" aria-label="Mi perfil">${av(ME.id)}</button></header>
+      ${esAdmin()?`<button class="x" onclick="irA('admin')" aria-label="Administrar" ${TAB==='admin'?'style="background:var(--tide);color:var(--tide-ink)"':''}>${ic('admin')}</button>`:''}<button class="me-btn" onclick="abrirMiPerfil()" aria-label="Mi perfil">${av(ME.id)}</button></header>
     <main id="main">${(views[TAB]||vHoy)()}</main>
     <p class="foot">Marea Alta ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     <button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>
-    <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${tabsVisibles().map(([k,l])=>`<button class="tab" ${k===TAB?'aria-current="page"':''} onclick="irA('${k}')">${ic(k)}<span>${l}</span></button>`).join('')}</div></nav>`;
+    <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===TAB?'aria-current="page"':''} onclick="irA('${k}')">${ic(k==='nosotros'?'cam':k)}<span>${l}</span></button>`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
 }
 
@@ -657,12 +842,14 @@ function vHoy(){
   const sinDueno=TAREAS.filter(t=>!t.responsable&&t.estado==='por_hacer').length;
   const ult=GASTOS.slice().sort((a,c)=>String(c.created_at||c.fecha).localeCompare(String(a.created_at||a.fecha))).slice(0,3);
   const props=EVENTOS.filter(e=>e.estado==='propuesta'), sinVoto=props.filter(e=>!VOTOS.some(v=>v.evento_id===e.id&&v.persona_id===ME.id)).length;
-  return `<section class="hero" style="--lvl:${lvl}%"><div class="in-hero">
+  const portada=fotoUrl(infoV().casa_fotos[0]);
+  return `<section class="hero ${portada?'con-foto':''}" style="--lvl:${lvl}%">${portada?`<img class="hero-img" src="${esc(portada)}" alt="">`:''}<div class="in-hero">
       <div class="eyebrow" style="color:inherit;opacity:.8">Hola, ${esc(nom(ME.id))}</div>
       <div class="row" style="align-items:flex-end;gap:12px;margin-top:6px"><span class="big num">${esc(String(big))}</span><span class="sub" style="padding-bottom:6px">${esc(lbl)}</span></div>
       ${CFG.ejemplo?`<span class="pill" style="margin-top:10px;background:rgba(255,255,255,.2);color:inherit">Fechas de ejemplo${esAdmin()?' · cámbialas en Admin':''}</span>`:''}
     </div><div class="wave"><svg viewBox="0 0 400 16" preserveAspectRatio="none"><path d="M0 8 Q25 0 50 8 T100 8 T150 8 T200 8 T250 8 T300 8 T350 8 T400 8 V16 H0Z" fill="var(--tide-deep)" opacity=".35"/></svg><div class="fill"></div></div></section>
 
+    ${esencialChips()}
     <div class="card" style="margin-top:14px"><button class="saldo item" style="padding:0;border:0" onclick="SUBG='bal';irA('gastos')">
       <div class="grow"><div class="eyebrow">Mi saldo</div><div class="muted tiny">${b.saldo>0.009?'Te deben':b.saldo<-0.009?'Debes':'Estás a paz y salvo'}</div></div>
       <span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span></button></div>
@@ -673,6 +860,8 @@ function vHoy(){
       :prox.length?`<div class="stack">${prox.map(e=>`<div class="tiny muted" style="margin-bottom:-6px">${diaSem(e.dia)} ${fechaCorta(e.dia)}</div>${evCard(e)}`).join('')}</div>`
       :noche?'':`<div class="card flat empty">Todavía no hay planes oficiales. Vota las propuestas en Planes.</div>`}
 
+    ${comidaHoyCard()}
+    ${fotosHoyCard()}
     <div class="sec-h"><h2>Mis tareas</h2><button class="link" onclick="FILTT.solo=true;irA('tareas')">Ver todas</button></div>
     ${mias.length?`<div class="card"><div class="list">${mias.slice(0,5).map(t=>`<button class="item" onclick="abrirTarea('${t.id}')"><span class="pill ${t.estado==='en_curso'?'warn':''}">${t.estado==='en_curso'?'En curso':'Por hacer'}</span><div class="grow"><div class="t">${esc(t.titulo)}</div><div class="s">${esc(t.grupo||'')}${t.fecha?' · '+fechaCorta(t.fecha):''}</div></div></button>`).join('')}</div></div>`
       :`<div class="card flat empty">No tienes tareas pendientes.${sinDueno?` Hay ${sinDueno} sin responsable: <button class="btn ghost sm" onclick="irA('tareas')">tomar una</button>`:''}</div>`}
@@ -700,7 +889,7 @@ function gastoItem(g){
   const pag=(g.pagadores||[])[0], mp=miParte(g);
   const ico=g.tipo==='pago'?'pago':g.tipo==='aporte'||g.fondo?'fondo':(g.categoria||'otros');
   const sub=g.tipo==='pago'?`${esc(nom(pag&&pag.persona_id))} le pagó a ${esc(nom(((g.reparto||{}).partes||[])[0]?.persona_id))}`
-    :g.fondo?'Pagado con el fondo común':`Pagó ${esc(nom(pag&&pag.persona_id))} · ${fechaCorta(g.fecha)}`;
+    :g.fondo?'Pagado con el fondo común':`Pagó ${esc(nom(pag&&pag.persona_id))}${g.factura&&g.factura.comercio?' en '+esc(g.factura.comercio):''} · ${fechaCorta(g.fecha)}`;
   const n=miNeto(g), part=(g.pagadores||[]).some(x=>x.persona_id===ME.id)||partesDe(g).some(x=>x.id===ME.id);
   const der=g.fondo?`<div class="s">del fondo</div>`:g.tipo==='aporte'&&n>0.009?`<div class="s pos">aportaste</div>`
     :n>0.009?`<div class="s pos">${g.tipo==='pago'?'pagaste':'prestaste'}</div><div class="amt pos">${money(n)}</div>`
@@ -716,7 +905,7 @@ function gastosFiltrados(){
 }
 function vGastos(){
   const total=GASTOS.filter(g=>g.tipo==='gasto').reduce((s,g)=>s+(+g.monto||0),0);
-  return `<div class="seg" role="tablist"><button aria-pressed="${SUBG==='mov'}" onclick="SUBG='mov';render()">Movimientos</button><button aria-pressed="${SUBG==='bal'}" onclick="SUBG='bal';render()">Quién debe a quién</button></div>
+  return `<div class="seg sm4" role="tablist"><button aria-pressed="${SUBG==='mov'}" onclick="SUBG='mov';render()">Movimientos</button><button aria-pressed="${SUBG==='bal'}" onclick="SUBG='bal';render()">Saldos</button><button aria-pressed="${SUBG==='pres'}" onclick="SUBG='pres';render()">Presupuesto</button><button aria-pressed="${SUBG==='fotos'}" onclick="SUBG='fotos';render()">Facturas</button></div>
   ${SUBG==='mov'?`
     ${misCuentas()}
     <div class="stack" style="margin-top:14px;gap:10px">
@@ -728,7 +917,7 @@ function vGastos(){
     <div class="card flat" style="margin-top:14px"><div class="row"><div class="grow"><div class="eyebrow">Gastado en el viaje</div><div class="amt" style="font-size:22px">${money(total)}</div></div>
       <div style="text-align:right"><div class="eyebrow">Promedio por persona</div><div class="amt muted">${money(activos().length?total/activos().length:0)}</div></div></div></div>
     <div class="row wrap-ok" style="margin-top:14px"><button class="btn sm" onclick="exportarCSV()">${ic('copy')} Exportar CSV</button><button class="btn sm" onclick="abrirResumen()">${ic('receipt')} Resumen final</button></div>`
-  :vBalances()}`;
+  :SUBG==='pres'?vPresupuesto():SUBG==='fotos'?vFacturas():vBalances()}`;
 }
 function misCuentas(){
   const bs=balances(), yo=bs.find(b=>b.id===ME.id)||{saldo:0}, tx=simplificar(bs).filter(t=>t.de===ME.id||t.a===ME.id);
@@ -764,17 +953,19 @@ function vBalances(){
 /* ---------- formulario de gasto (mismo para texto, foto y manual) ---------- */
 let F=null;
 function nuevoForm(base={}){
-  return {id:uid(),nuevo:true,tipo:'gasto',descripcion:'',monto:'',fecha:hoyISO(),categoria:'otros',pagador:ME.id,part:activos().map(p=>p.id),modo:'igual',valores:{},evento_id:'',etiquetas:[],nota:'',fondo:false,respaldo:null,origen:'manual',lectura_ia:null,dudas:[],baja:[],...base};
+  return {id:uid(),nuevo:true,tipo:'gasto',descripcion:'',monto:'',fecha:hoyISO(),categoria:'otros',pagador:ME.id,part:activos().map(p=>p.id),modo:'igual',valores:{},evento_id:'',etiquetas:[],nota:'',fondo:false,respaldo:null,origen:'manual',lectura_ia:null,factura:null,alcance:'fijo',dudas:[],baja:[],...base};
 }
 function formDesdeGasto(g){
   const ps=(g.reparto&&g.reparto.partes)||[];
-  return {id:g.id,nuevo:false,tipo:g.tipo,descripcion:g.descripcion,monto:g.monto,fecha:g.fecha,categoria:g.categoria||'otros',pagador:((g.pagadores||[])[0]||{}).persona_id||ME.id,part:ps.map(p=>p.persona_id),modo:(g.reparto||{}).modo||'igual',valores:Object.fromEntries(ps.map(p=>[p.persona_id,p.valor])),evento_id:g.evento_id||'',etiquetas:g.etiquetas||[],nota:g.nota||'',fondo:!!g.fondo,respaldo:g.respaldo_path,origen:g.origen,lectura_ia:g.lectura_ia,dudas:[],baja:[],creado_por:g.creado_por};
+  return {id:g.id,nuevo:false,tipo:g.tipo,descripcion:g.descripcion,monto:g.monto,fecha:g.fecha,categoria:g.categoria||'otros',pagador:((g.pagadores||[])[0]||{}).persona_id||ME.id,part:ps.map(p=>p.persona_id),modo:(g.reparto||{}).modo||'igual',valores:Object.fromEntries(ps.map(p=>[p.persona_id,p.valor])),evento_id:g.evento_id||'',etiquetas:g.etiquetas||[],nota:g.nota||'',fondo:!!g.fondo,respaldo:g.respaldo_path,origen:g.origen,lectura_ia:g.lectura_ia,factura:g.factura||null,alcance:alcanceDe(g),dudas:[],baja:[],creado_por:g.creado_por};
 }
 function formDesdePropuesta(pg,respaldo,lectura,origen){
   const part=(pg.participante_ids&&pg.participante_ids.length?pg.participante_ids:activos().map(p=>p.id)).filter(id=>PMAP[id]);
   const valores={}; (pg.partes||[]).forEach(p=>valores[p.persona_id]=p.valor);
   const baja=[]; if((pg.confianza??1)<0.6){baja.push('monto');if(!pg.descripcion)baja.push('descripcion')}
-  return nuevoForm({descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[pg.categoria]?pg.categoria:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja});
+  const pe=pg.pago_entre; if(pe&&PMAP[pe.de_id]&&PMAP[pe.a_id]) return nuevoForm({tipo:'pago',descripcion:`Pago de ${nom(pe.de_id)} a ${nom(pe.a_id)}`,monto:pg.monto||'',fecha:pg.fecha||hoyISO(),pagador:pe.de_id,part:[pe.a_id],modo:'porcentaje',valores:{[pe.a_id]:100},respaldo:respaldo||null,origen,lectura_ia:lectura,factura:pg.factura||null,dudas:pg.dudas||[],baja});
+  const cat=pg.categoria==='mercado'?'despensa':pg.categoria==='comida'?'restaurantes':pg.categoria;
+  return nuevoForm({factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja});
 }
 function validarF(){
   const m=r2(parseFloat(String(F.monto).replace(',','.'))||0);
@@ -792,12 +983,14 @@ function pintarFormGasto(){
   openSheet(`${sheetH(titulo)}<div class="stack">
     ${F.dudas&&F.dudas.length?`<div class="banner warn"><div><b>Revisa esto antes de guardar</b><br>${F.dudas.map(esc).join('<br>')}</div></div>`:''}
     ${F.respaldo?`<img class="thumb" id="fthumb" alt="Factura">`:''}
+    ${F.factura?facturaForm():''}
     <div class="field"><label for="fdesc">Descripción</label><input id="fdesc" class="in ${F.baja.includes('descripcion')?'flag':''}" value="${esc(F.descripcion)}" placeholder="Ej. hielo y cervezas" oninput="F.descripcion=this.value;pintarResumenF()" ${F.nuevo&&!F.descripcion?'autofocus':''}></div>
     <div class="grid2">
       <div class="field"><label for="fmonto">Monto (${esc(CFG.moneda||'USD')})</label><input id="fmonto" class="in num ${F.baja.includes('monto')?'flag':''}" inputmode="decimal" value="${esc(String(F.monto))}" placeholder="0.00" oninput="F.monto=this.value;pintarRepartoF()"></div>
       <div class="field"><label for="ffecha">Fecha</label><input id="ffecha" class="in" type="date" value="${esc(F.fecha)}" onchange="F.fecha=this.value"></div>
     </div>
     ${F.tipo==='gasto'?`<div class="field"><span class="lbl">Categoría</span><div class="chips">${CATS.map(([k,l])=>`<button class="chip" aria-pressed="${F.categoria===k}" onclick="F.categoria='${k}';pintarFormGasto()">${l}</button>`).join('')}</div></div>
+    ${!F.fondo?`<div class="field"><span class="lbl">¿Para quién es?</span><div class="seg"><button aria-pressed="${F.alcance==='fijo'}" onclick="F.alcance='fijo';F.part=activos().map(p=>p.id);F.modo='igual';pintarFormGasto()">Todo el grupo · costo fijo</button><button aria-pressed="${F.alcance==='consumo'}" onclick="F.alcance='consumo';pintarFormGasto()">Solo algunos · consumo</button></div></div>`:''}
     <label class="row" style="cursor:pointer"><input type="checkbox" ${F.fondo?'checked':''} onchange="F.fondo=this.checked;pintarFormGasto()" style="width:22px;height:22px;accent-color:var(--tide)"><span><b>Lo pagó el fondo común</b><br><span class="muted tiny">No suma ni resta a nadie: sale de lo que ya se aportó.</span></span></label>`:''}
     ${!(F.fondo&&F.tipo==='gasto')?`
     <div class="field"><span class="lbl">${F.tipo==='aporte'?'Quién aportó':F.tipo==='pago'?'Quién pagó':'Quién pagó'}</span><div class="chips">${activos().map(p=>`<button class="chip sunny" aria-pressed="${F.pagador===p.id}" onclick="F.pagador='${p.id}';pintarFormGasto()">${esc(nom(p.id))}</button>`).join('')}</div></div>
@@ -818,7 +1011,13 @@ function pintarFormGasto(){
   if(F.respaldo){const im=$('#fthumb');const set=u=>{if(im)im.src=u};if(String(F.respaldo).startsWith('data:'))set(F.respaldo);else API.urlFoto(F.respaldo).then(set).catch(()=>{})}
   pintarRepartoF();
 }
-function togglePart(id){F.part=F.part.includes(id)?F.part.filter(x=>x!==id):[...F.part,id];pintarFormGasto()}
+function togglePart(id){F.part=F.part.includes(id)?F.part.filter(x=>x!==id):[...F.part,id];F.alcance=F.part.length===activos().length?'fijo':'consumo';pintarFormGasto()}
+function facturaTabla(f){return `${(f.items||[]).length?`<div class="table-x" style="margin-top:8px"><table class="t num"><thead><tr><th>Ítem</th><th>Cant.</th><th>Total</th></tr></thead><tbody>${f.items.map(i=>`<tr><td style="white-space:normal">${esc(i.descripcion)}</td><td>${i.cantidad??''}</td><td>${i.total!=null?money(i.total):''}</td></tr>`).join('')}</tbody></table></div>`:''}
+  <div class="row wrap-ok tiny muted" style="margin-top:8px;gap:12px">${f.subtotal!=null?`<span>Subtotal <b class="num">${money(f.subtotal)}</b></span>`:''}${f.impuestos!=null?`<span>IVA <b class="num">${money(f.impuestos)}</b></span>`:''}${f.propina!=null?`<span>Propina <b class="num">${money(f.propina)}</b></span>`:''}${f.total!=null?`<span>Total <b class="num">${money(f.total)}</b></span>`:''}</div>`}
+function facturaForm(){const f=F.factura, m=r2(parseFloat(String(F.monto).replace(',','.'))||0);
+  return `<details open class="card flat"><summary class="lbl" style="cursor:pointer">Lo que se leyó de ${f.tipo_documento==='transferencia'?'la transferencia':f.tipo_documento==='ticket'?'el ticket':'la factura'}</summary>
+    <div class="grid2" style="margin-top:10px"><div class="field"><label for="fx_c">Comercio</label><input id="fx_c" class="in" value="${esc(f.comercio||'')}" oninput="F.factura.comercio=this.value"></div><div class="field"><label for="fx_r">RUC</label><input id="fx_r" class="in num" value="${esc(f.ruc||'')}" oninput="F.factura.ruc=this.value"></div></div>
+    ${facturaTabla(f)}${f.total!=null&&m&&Math.abs(f.total-m)>0.01?`<div class="banner warn tiny" style="margin-top:8px">El total leído (${money(f.total)}) no coincide con el monto (${money(m)}).</div>`:''}</details>`}
 function toggleEtq(id){F.etiquetas=F.etiquetas.includes(id)?F.etiquetas.filter(x=>x!==id):[...F.etiquetas,id];pintarFormGasto()}
 function cambiarModo(m){F.modo=m;const n=F.part.length||1,monto=r2(parseFloat(String(F.monto).replace(',','.'))||0);F.part.forEach((id,i)=>{if(F.valores[id]==null||F.valores[id]===''||F.modo!==m)F.valores[id]=m==='porcentaje'?r2(100/n):r2(monto/n)});
   if(m==='porcentaje'){const s=r2(F.part.reduce((a,id)=>a+(+F.valores[id]||0),0));if(F.part[0]&&Math.abs(s-100)>0.01&&Math.abs(s-100)<1)F.valores[F.part[0]]=r2(+F.valores[F.part[0]]+100-s)}
@@ -848,7 +1047,8 @@ async function guardarGasto(){
     evento_id:F.evento_id||null,etiquetas:F.etiquetas,fondo:!!F.fondo&&F.tipo==='gasto',
     pagadores:sinReparto?[]:[{persona_id:F.pagador,monto}],
     reparto:{modo:F.modo,partes:sinReparto?[]:F.part.map(id=>({persona_id:id,valor:F.modo==='igual'?0:r2(+F.valores[id]||0)}))},
-    respaldo_path:F.respaldo||null,origen:F.origen||'manual',lectura_ia:F.lectura_ia||null,nota:F.nota||'',eliminado:false};
+    respaldo_path:F.respaldo||null,origen:F.origen||'manual',lectura_ia:F.lectura_ia||null,nota:F.nota||'',eliminado:false,
+    alcance:F.tipo==='gasto'&&!F.fondo?(F.part.length===activos().length?'fijo':'consumo'):null,factura:F.factura||null};
   if(F.nuevo)g.creado_por=ME.id;
   try{await API.saveGasto(g,F.nuevo);await cargar();closeSheet();toast(F.nuevo?'Gasto guardado':'Cambios guardados');render()}
   catch(e){b.disabled=false;b.textContent='Guardar';const x=$('#ferr');x.hidden=false;x.textContent='No se pudo guardar: '+e.message}
@@ -868,6 +1068,8 @@ async function abrirGasto(id){
       ${(g.etiquetas||[]).length?`<div class="chips" style="margin-top:8px">${g.etiquetas.map(i=>{const t=ETIQUETAS.find(x=>x.id===i);return t?`<span class="pill tide">#${esc(t.nombre)}</span>`:''}).join('')}</div>`:''}</div>
     ${(()=>{const n=miNeto(g);return g.fondo?'':n>0.009?`<div class="banner tide"><b>Prestaste ${money(n)}.</b>&nbsp;Pagaste ${money(n+miParte(g))} y tu parte era ${money(miParte(g))}.</div>`:n<-0.009&&g.tipo!=='pago'?`<div class="banner bad"><b>Debes ${money(-n)}</b>&nbsp;a ${esc(nom((g.pagadores||[])[0]?.persona_id))} por este gasto.</div>`:''})()}
     ${g.respaldo_path?`<img class="thumb" id="gthumb" alt="Respaldo del gasto">`:`<div class="muted tiny">Sin foto de respaldo.</div>`}
+    ${g.factura?`<div class="card"><div class="eyebrow">${g.factura.tipo_documento==='transferencia'?'Transferencia':'Factura'}${g.factura.comercio?' · '+esc(g.factura.comercio):''}${g.factura.ruc?' · RUC '+esc(g.factura.ruc):''}</div>${facturaTabla(g.factura)}</div>`:''}
+    ${g.tipo==='gasto'&&!g.fondo?`<div class="muted tiny">${alcanceDe(g)==='fijo'?'Costo fijo de todo el grupo':'Consumo de algunos'}</div>`:''}
     ${ps.length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">${g.tipo==='pago'?'Recibió':'Cómo se reparte'} · ${g.reparto.modo==='igual'?'partes iguales':g.reparto.modo==='porcentaje'?'por porcentaje':'por montos'}</div>
       ${ps.map(p=>{const pg=(g.pagadores||[])[0]?.persona_id;return `<div class="row" style="padding:6px 0;border-bottom:1px solid var(--line)">${av(p.id,'xs')}<span class="grow">${esc(nom(p.id))}${g.tipo==='gasto'&&p.id!==pg?` <span class="muted tiny">le debe a ${esc(nom(pg))}</span>`:''}</span><span class="amt">${money(p.v)}</span></div>`}).join('')}</div>`:''}
     <div id="ghist" class="muted tiny"></div>
@@ -903,7 +1105,8 @@ function abrirResumen(){
 function abrirAgregar(){
   const op=(icon,t,s,fn,sun)=>`<button class="add-opt" onclick="${fn}"><span class="ic ${sun?'s':''}">${ic(icon)}</span><span><b>${t}</b><span class="muted tiny">${s}</span></span></button>`;
   openSheet(`${sheetH('Agregar')}<div class="stack">
-    ${op('cam','Foto de una factura','La leo y te propongo el gasto','abrirLector(true)',true)}
+    <label class="add-opt" style="cursor:pointer"><span class="ic">${ic('cam')}</span><span><b>Fotos al álbum</b><span class="muted tiny">Para que todos las vean</span></span><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label>
+    ${op('receipt','Foto de una factura','La leo y te propongo el gasto','abrirLector(true)',true)}
     ${op('chat','Contar un gasto','"Pagué 48 de hielo, para todos menos Lucho"','abrirLector(false)',true)}
     ${op('receipt','Gasto a mano','Formulario completo','F=nuevoForm();pintarFormGasto()')}
     ${op('list','Lista de tareas','Pega una lista y la convierto en tareas','abrirLector(false,true)')}
@@ -917,7 +1120,8 @@ function abrirLector(foto,lista){
   openSheet(`${sheetH(foto?'Foto de factura':lista?'Lista de tareas':'Contar un gasto')}<div class="stack">
     ${foto?`<label class="add-opt" style="cursor:pointer"><span class="ic s">${ic('cam')}</span><span><b>Tomar o elegir foto</b><span class="muted tiny">Que se vea el total</span></span><input id="lfoto" type="file" accept="image/*" capture="environment" hidden onchange="leerFoto(this)"></label><img id="lthumb" class="thumb" hidden alt="">`:''}
     <div class="field"><label for="ltxt">${foto?'Algo más (opcional)':lista?'Pega o escribe la lista':'Cuéntalo como quieras'}</label>
-      <textarea id="ltxt" class="in" placeholder="${foto?'Ej. va para todos menos Lucho':lista?'comprar hielo\ncarbón y limones\nAndrés prende la parrilla':'Ej. pagué 48 dólares de hielo y cervezas, para todos menos Luciano'}" ${foto?'':'autofocus'}></textarea></div>
+      <textarea id="ltxt" class="in" placeholder="${foto?'Ej. va para todos menos Lu':lista?'Comprar 3 fundas de hielo, carbón para el asado y llevar los dos micrófonos para el karaoke':'Ej. pagué 48 dólares de hielo y cervezas, para todos menos Luciana'}" ${foto?'':'autofocus'}></textarea>
+      <span class="muted tiny">Puedes dictarlo con el micrófono del teclado.</span></div>
     ${MODO==='demo'?`<div class="banner tide tiny">En el modo demo la lectura es rápida y sin IA. Con Supabase conectado la hace Claude y también lee las fotos.</div>`:''}
     <div id="lerr2" class="banner bad" hidden></div>
     <button class="btn primary block" id="lgo" onclick="procesarLector(${foto},${!!lista})">${ic('spark')} Leer</button></div>`);
@@ -930,7 +1134,7 @@ async function procesarLector(foto,lista){
   b.disabled=true;b.textContent='Leyendo…';
   try{
     let ref=null; if(foto){ref=MODO==='demo'?LECT.dataUrl:await API.subirFoto('marea-respaldos',LECT.blob,LECT.dataUrl)}
-    const p=await API.leer({texto:lista&&!/\d/.test(txt)?txt:txt,dataUrl:LECT.dataUrl,ref});
+    const p=await API.leer({texto:txt,dataUrl:LECT.dataUrl,ref,modo:lista?'tareas':'gasto'});
     mostrarPropuesta(p,ref,foto?'foto':'texto');
   }catch(e){b.disabled=false;b.innerHTML=ic('spark')+' Leer';er.hidden=false;er.textContent=e.message}
 }
@@ -943,7 +1147,7 @@ function mostrarPropuesta(p,ref,origen){
   openSheet(`${sheetH('Esto es lo que encontré')}<div class="stack">
     ${p.resumen?`<div class="banner tide">${esc(p.resumen)}</div>`:''}
     ${(p.gastos||[]).map((g,i)=>`<button class="add-opt" onclick="F=formDesdePropuesta(PROP.gastos[${i}],PROP.ref,PROP,PROP.origen);pintarFormGasto()"><span class="ic s">${ic('receipt')}</span><span><b>${esc(g.descripcion||'Gasto')} · ${money(g.monto)}</b><span class="muted tiny">Revisar y guardar</span></span></button>`).join('')}
-    ${(p.tareas||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Tareas</div>${p.tareas.map((t,i)=>`<label class="sub-item"><input type="checkbox" checked data-i="${i}"><span class="grow"><b>${esc(t.titulo)}</b><br><span class="muted tiny">${esc(t.grupo||'')}${t.responsable_id&&PMAP[t.responsable_id]?' · '+esc(nom(t.responsable_id)):''}</span></span></label>`).join('')}
+    ${(p.tareas||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Tareas</div>${p.tareas.map((t,i)=>`<label class="sub-item"><input type="checkbox" checked data-i="${i}"><span class="grow"><b>${esc(t.titulo)}</b><br><span class="muted tiny">${esc(t.grupo||'')}${t.prioridad==='alta'?' · prioridad alta':''}${t.responsable_id&&PMAP[t.responsable_id]?' · '+esc(nom(t.responsable_id)):''}${t.evento_id&&EVENTOS.find(e=>e.id===t.evento_id)?' · '+esc(EVENTOS.find(e=>e.id===t.evento_id).titulo):''}</span></span></label>`).join('')}
       <button class="btn primary block" style="margin-top:10px" onclick="crearTareasPropuestas()">Crear las marcadas</button></div>`:''}
     ${(p.eventos||[]).map((e,i)=>`<button class="add-opt" onclick="abrirFormEvento(null,PROP.eventos[${i}])"><span class="ic">${ic('planes')}</span><span><b>${esc(e.titulo)}</b><span class="muted tiny">Proponer este plan</span></span></button>`).join('')}
   </div>`);
@@ -951,7 +1155,7 @@ function mostrarPropuesta(p,ref,origen){
 async function crearTareasPropuestas(){
   const marc=[...document.querySelectorAll('#sheetBody input[data-i]')].filter(x=>x.checked).map(x=>PROP.tareas[+x.dataset.i]);
   if(!marc.length){toast('No marcaste ninguna');return}
-  try{for(const t of marc)await API.saveTarea({id:uid(),titulo:t.titulo,detalle:t.detalle||'',grupo:GRUPOS.includes(t.grupo)?t.grupo:'Logística',estado:'por_hacer',responsable:t.responsable_id&&PMAP[t.responsable_id]?t.responsable_id:null,evento_id:t.evento_id||null,fecha:t.fecha||null,etiquetas:[],subtareas:(t.subtareas||[]).map(s=>({txt:s,ok:false})),creado_por:ME.id},true);
+  try{for(const t of marc)await API.saveTarea({id:uid(),titulo:t.titulo,detalle:t.detalle||'',grupo:GRUPOS.includes(t.grupo)?t.grupo:'Logística',estado:'por_hacer',prioridad:['alta','media','baja'].includes(t.prioridad)?t.prioridad:'media',responsable:t.responsable_id&&PMAP[t.responsable_id]?t.responsable_id:null,evento_id:t.evento_id&&EVENTOS.some(e=>e.id===t.evento_id)?t.evento_id:null,fecha:t.fecha||null,etiquetas:[],subtareas:(t.subtareas||[]).map(s=>({txt:s,ok:false})),creado_por:ME.id},true);
     await cargar();closeSheet();toast(`${marc.length} tarea${marc.length===1?' creada':'s creadas'}`);TAB='tareas';render()}catch(e){toast(e.message)}
 }
 function achicar(file,lado,q){return new Promise((ok,mal)=>{const r=new FileReader();r.onerror=()=>mal(new Error('No pude leer la foto'));r.onload=()=>{const im=new Image();im.onerror=()=>mal(new Error('Ese archivo no es una imagen'));im.onload=()=>{const k=Math.min(1,lado/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);const dataUrl=c.toDataURL('image/jpeg',q);c.toBlob(blob=>ok({blob,dataUrl}),'image/jpeg',q)};im.src=r.result};r.readAsDataURL(file)})}
@@ -963,19 +1167,21 @@ function vTareas(){
   return `<div class="stack">
     <div class="row wrap-ok"><button class="chip" aria-pressed="${FILTT.solo}" onclick="FILTT.solo=!FILTT.solo;render()">Solo las mías</button>${libres?`<span class="pill sun">${libres} sin responsable</span>`:''}</div>
     <div class="chips"><button class="chip" aria-pressed="${!FILTT.grupo}" onclick="FILTT.grupo='';render()">Todos los grupos</button>${GRUPOS.map(g=>`<button class="chip" aria-pressed="${FILTT.grupo===g}" onclick="FILTT.grupo='${g}';render()">${g}</button>`).join('')}</div></div>
-  <div class="kanban" style="margin-top:16px">${ESTADOS.map(([k,l])=>{const C=L.filter(t=>t.estado===k);return `<div class="col"><h3>${l} <span class="pill">${C.length}</span></h3><div class="stack">${C.map(tCard).join('')||`<div class="muted tiny" style="padding:8px 2px">Nada aquí.</div>`}</div></div>`}).join('')}</div>
+  <div class="kanban" style="margin-top:16px">${ESTADOS.map(([k,l])=>{const C=L.filter(t=>t.estado===k).sort((a,b)=>ordPrio(a)-ordPrio(b));return `<div class="col"><h3>${l} <span class="pill">${C.length}</span></h3><div class="stack">${C.map(tCard).join('')||`<div class="muted tiny" style="padding:8px 2px">Nada aquí.</div>`}</div></div>`}).join('')}</div>
   ${esAdmin()?`<div class="row" style="margin-top:18px"><button class="btn sm" onclick="abrirTurnos()">${ic('list')} Generar turnos</button></div>`:''}`;
 }
+const ordPrio=t=>({alta:1,media:2,baja:3}[t.prioridad]||2);
+const PRION={alta:'Alta',media:'Media',baja:'Baja'};
 function tCard(t){const st=t.subtareas||[],ok=st.filter(s=>s.ok).length,ev=EVENTOS.find(e=>e.id===t.evento_id);
   return `<button class="tcard ${t.estado==='listo'?'done':''}" onclick="abrirTarea('${t.id}')"><div class="t">${esc(t.titulo)}</div>
-    <div class="row wrap-ok" style="gap:6px"><span class="pill tide">${esc(t.grupo||'—')}</span>${t.fecha?`<span class="pill">${fechaCorta(t.fecha)}</span>`:''}${ev?`<span class="pill sun">${esc(ev.titulo)}</span>`:''}</div>
+    <div class="row wrap-ok" style="gap:6px">${t.prioridad==='alta'&&t.estado!=='listo'?'<span class="pill bad">Prioridad alta</span>':''}<span class="pill tide">${esc(t.grupo||'—')}</span>${t.fecha?`<span class="pill">${fechaCorta(t.fecha)}</span>`:''}${ev?`<span class="pill sun">${esc(ev.titulo)}</span>`:''}</div>
     ${st.length?`<div class="prog"><i style="width:${ok/st.length*100}%"></i></div><div class="muted tiny">${ok} de ${st.length}</div>`:''}
     <div class="row">${t.responsable?`${av(t.responsable,'xs')}<span class="tiny muted">${esc(nom(t.responsable))}</span>`:`<span class="tiny" style="color:var(--sun);font-weight:700">Sin responsable</span>`}</div></button>`}
 function abrirTarea(id){
   const t=TAREAS.find(x=>x.id===id); if(!t) return; const ev=EVENTOS.find(e=>e.id===t.evento_id);
   openSheet(`${sheetH(esc(t.titulo))}<div class="stack">
     <div class="seg">${ESTADOS.map(([k,l])=>`<button aria-pressed="${t.estado===k}" onclick="patchTarea('${t.id}',{estado:'${k}'})">${l}</button>`).join('')}</div>
-    <div class="card"><dl class="kv"><dt>Responsable</dt><dd>${t.responsable?esc(nom(t.responsable)):'Nadie todavía'}</dd><dt>Grupo</dt><dd>${esc(t.grupo||'—')}</dd>${t.fecha?`<dt>Fecha</dt><dd>${diaSem(t.fecha)} ${fechaCorta(t.fecha)}</dd>`:''}${ev?`<dt>Evento</dt><dd>${esc(ev.titulo)}</dd>`:''}<dt>Creada por</dt><dd>${esc(nom(t.creado_por))}</dd></dl>${t.detalle?`<p class="muted" style="margin:10px 0 0">${esc(t.detalle)}</p>`:''}</div>
+    <div class="card"><dl class="kv"><dt>Responsable</dt><dd>${t.responsable?esc(nom(t.responsable)):'Nadie todavía'}</dd><dt>Grupo</dt><dd>${esc(t.grupo||'—')}</dd><dt>Prioridad</dt><dd>${PRION[t.prioridad]||'Media'}</dd>${t.fecha?`<dt>Fecha</dt><dd>${diaSem(t.fecha)} ${fechaCorta(t.fecha)}</dd>`:''}${ev?`<dt>Evento</dt><dd>${esc(ev.titulo)}</dd>`:''}<dt>Creada por</dt><dd>${esc(nom(t.creado_por))}</dd></dl>${t.detalle?`<p class="muted" style="margin:10px 0 0">${esc(t.detalle)}</p>`:''}</div>
     ${t.responsable!==ME.id?`<button class="btn sun block" onclick="patchTarea('${t.id}',{responsable:ME.id,estado:'${t.estado==='por_hacer'?'en_curso':t.estado}'})">Yo me encargo</button>`:`<button class="btn block" onclick="patchTarea('${t.id}',{responsable:null})">Soltar la tarea</button>`}
     <div class="card"><div class="eyebrow" style="margin-bottom:4px">Checklist</div>
       ${(t.subtareas||[]).map((s,i)=>`<label class="sub-item"><input type="checkbox" ${s.ok?'checked':''} onchange="checkSub('${t.id}',${i},this.checked)"><span class="grow" style="${s.ok?'text-decoration:line-through;color:var(--ink-3)':''}">${esc(s.txt)}</span></label>`).join('')}
@@ -987,12 +1193,13 @@ function checkSub(id,i,v){const t=TAREAS.find(x=>x.id===id);const st=(t.subtarea
 function addSub(id){const v=$('#nsub').value.trim();if(!v)return;const t=TAREAS.find(x=>x.id===id);patchTarea(id,{subtareas:[...(t.subtareas||[]),{txt:v,ok:false}]})}
 async function borrarTarea(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='¿Seguro?';return}try{await API.borrarTarea(id);await cargar();closeSheet();toast('Tarea borrada');render()}catch(e){toast(e.message)}}
 function abrirFormTarea(id,pre){
-  const t=id?TAREAS.find(x=>x.id===id):{id:uid(),titulo:'',detalle:'',grupo:'Logística',estado:'por_hacer',responsable:null,evento_id:pre&&pre.evento_id||null,fecha:null,etiquetas:[],subtareas:[],...(pre||{})};
+  const t=id?TAREAS.find(x=>x.id===id):{id:uid(),titulo:'',detalle:'',grupo:'Logística',prioridad:'media',estado:'por_hacer',responsable:null,evento_id:pre&&pre.evento_id||null,fecha:null,etiquetas:[],subtareas:[],...(pre||{})};
   window.TF={...t,nuevo:!id};
   openSheet(`${sheetH(id?'Editar tarea':'Nueva tarea')}<div class="stack">
     <div class="field"><label for="tt">Qué hay que hacer</label><input id="tt" class="in" value="${esc(t.titulo)}" oninput="TF.titulo=this.value" autofocus></div>
     <div class="field"><label for="td">Detalle (opcional)</label><textarea id="td" class="in" rows="3" oninput="TF.detalle=this.value">${esc(t.detalle||'')}</textarea></div>
     <div class="field"><span class="lbl">Grupo</span><div class="chips" id="tg">${GRUPOS.map(g=>`<button class="chip" aria-pressed="${t.grupo===g}" onclick="TF.grupo='${g}';this.parentElement.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===this))">${g}</button>`).join('')}</div></div>
+    <div class="field"><span class="lbl">Prioridad</span><div class="seg">${['alta','media','baja'].map(k=>`<button aria-pressed="${(t.prioridad||'media')===k}" onclick="TF.prioridad='${k}';segSel(this)">${PRION[k]}</button>`).join('')}</div></div>
     <div class="grid2"><div class="field"><label for="tr">Responsable</label><select id="tr" class="in" onchange="TF.responsable=this.value||null"><option value="">Nadie todavía</option>${activos().map(p=>`<option value="${p.id}" ${t.responsable===p.id?'selected':''}>${esc(nom(p.id))}</option>`).join('')}</select></div>
       <div class="field"><label for="tfe">Fecha</label><input id="tfe" type="date" class="in" value="${esc(t.fecha||'')}" onchange="TF.fecha=this.value||null"></div></div>
     <div class="field"><label for="tev">Evento</label><select id="tev" class="in" onchange="TF.evento_id=this.value||null"><option value="">Ninguno</option>${EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>`<option value="${e.id}" ${t.evento_id===e.id?'selected':''}>${esc(e.titulo)}</option>`).join('')}</select></div>
@@ -1021,24 +1228,43 @@ async function generarTurnos(){
 function evCard(e){const vs=votosDe(e.id).length;
   return `<button class="ev ${e.bloque==='noche'?'noche':''}" onclick="abrirEvento('${e.id}')"><div class="blk">${BLOQN[e.bloque]||'—'}${e.hora?`<br>${esc(String(e.hora).slice(0,5))}`:''}</div>
     <div style="min-width:0"><div class="eyebrow">${esc(e.tematica||'Plan')}</div><div class="t">${esc(e.titulo)}</div>
-    <div class="row wrap-ok" style="gap:6px;margin-top:6px">${e.dress_code?`<span class="pill sun">${esc(e.dress_code)}</span>`:''}${e.lugar?`<span class="pill">${esc(e.lugar)}</span>`:''}${e.estado==='hecho'?'<span class="pill ok">Hecho</span>':''}${vs?`<span class="pill">${vs} votos</span>`:''}</div>
-    ${(e.menu||[]).length?`<div class="tiny" style="margin-top:6px"><b>Menú:</b> <span class="muted">${e.menu.map(esc).join(' · ')}</span></div>`:''}
+    <div class="row wrap-ok" style="gap:6px;margin-top:6px">${e.dress_code?`<span class="pill sun">${esc(e.dress_code)}</span>`:''}${e.lugar?`<span class="pill">${esc(e.lugar)}</span>`:''}${e.estado==='hecho'?'<span class="pill ok">Hecho</span>':''}${vs?`<span class="pill ${e.estado==='propuesta'?'':'ok'}">${vs} ${e.estado==='propuesta'?'votos':'van'}</span>`:''}${e.estado!=='propuesta'&&voyA(e)?'<span class="pill sun">En tu agenda</span>':''}</div>
+    ${menuDeEvento(e).length?`<div class="tiny" style="margin-top:6px"><b>Menú:</b> <span class="muted">${menuDeEvento(e).map(esc).join(' · ')}</span></div>`:''}
     ${(e.anfitriones||[]).length?`<div class="row" style="margin-top:8px"><div class="avs">${e.anfitriones.map(a=>av(a,'xs')).join('')}</div><span class="tiny muted">anfitriones</span></div>`:''}</div></button>`}
 function vPlanes(){
   const props=EVENTOS.filter(e=>e.estado==='propuesta').sort((a,b)=>votosDe(b.id).length-votosDe(a.id).length);
-  return `<div class="seg"><button aria-pressed="${SUBE==='programa'}" onclick="SUBE='programa';render()">Itinerario</button><button aria-pressed="${SUBE==='propuestas'}" onclick="SUBE='propuestas';render()">Propuestas · ${props.length}</button></div>
-  ${SUBE==='programa'?vPrograma():`<p class="muted tiny" style="margin-top:12px">Vota las que te gustan. ${esAdmin()?'Tú decides cuáles pasan al programa.':'Daniel pasa las más votadas al programa.'}</p>
+  return `<div class="seg"><button aria-pressed="${SUBE==='programa'}" onclick="SUBE='programa';render()">Itinerario</button><button aria-pressed="${SUBE==='dress'}" onclick="SUBE='dress';render()">Dress code</button><button aria-pressed="${SUBE==='propuestas'}" onclick="SUBE='propuestas';render()">Propuestas · ${props.length}</button></div>
+  ${SUBE==='programa'?vPrograma():SUBE==='dress'?vDress():`<p class="muted tiny" style="margin-top:12px">Vota las que te gustan. ${esAdmin()?'Tú decides cuáles pasan al programa.':'Daniel pasa las más votadas al programa.'}</p>
     <div class="stack">${props.map(e=>{const vs=votosDe(e.id),yo=vs.some(v=>v.persona_id===ME.id);return `<div class="card prop"><button style="border:0;background:none;text-align:left;cursor:pointer;padding:0;min-width:0" onclick="abrirEvento('${e.id}')"><div class="eyebrow">${esc(e.tematica||'Plan')} · ${BLOQN[e.bloque]||''}</div><div style="font-family:var(--f-disp);font-weight:700;font-size:18px">${esc(e.titulo)}</div>
       <div class="muted tiny" style="margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(e.descripcion||'')}</div>${vs.length?`<div class="avs" style="margin-top:8px">${vs.slice(0,8).map(v=>av(v.persona_id,'xs')).join('')}</div>`:''}</button>
       <button class="vote" aria-pressed="${yo}" onclick="votar('${e.id}',${!yo})" aria-label="${yo?'Quitar voto':'Votar'}">${ic('thumb')}<span class="num">${vs.length}</span></button></div>`}).join('')||`<div class="card flat empty">No hay propuestas. Toca ＋ para proponer un plan.</div>`}</div>`}`;
 }
+let MIAG=false;
+const voyA=e=>votosDe(e.id).some(v=>v.persona_id===ME.id)||(e.anfitriones||[]).includes(ME.id);
+/* "Ahora y lo siguiente", como la app del crucero el día de navegación */
+function ahoraCard(){
+  const dias=diasViaje(), hoy=hoyISO(); if(!dias.length) return '';
+  if(!dias.includes(hoy)){const n=difDias(hoy,dias[0]);if(n<0)return '';const pr=EVENTOS.filter(e=>e.estado==='oficial'&&e.dia===dias[0]).sort((a,b)=>minEv(a)-minEv(b))[0];
+    return `<div class="card ahora"><div class="eyebrow">Zarpamos en ${n} día${n===1?'':'s'}</div><div class="ah-t">${pr?esc(pr.titulo):'Día 1 en '+esc(CFG.lugar||'la playa')}</div>${pr?`<div class="muted tiny">${diaSem(pr.dia)} ${fechaCorta(pr.dia)} · ${esc(String(pr.hora||BLOQN[pr.bloque]||'').slice(0,5))}${pr.lugar?' · '+esc(pr.lugar):''}</div>`:''}</div>`}
+  const ahora=new Date().getHours()*60+new Date().getMinutes();
+  const L=[...EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&e.dia===hoy).map(e=>({m:minEv(e),t:e.titulo,l:e.lugar,id:e.id,k:'e'})),...comidasDia(hoy).map(c=>({m:minDe(c.hora)??510,t:TURNON[c.turno]+': '+(platosDe(c.id).map(p=>p.nombre)[0]||c.titulo),l:'casa',id:c.id,k:'c'}))].sort((a,b)=>a.m-b.m);
+  const act=L.filter(x=>x.m<=ahora).pop(), sig=L.find(x=>x.m>ahora);
+  const hh=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+  return `<div class="card ahora"><div class="row" style="align-items:flex-start;gap:16px">
+    <div class="grow"><div class="eyebrow">Ahora</div><div class="ah-t">${act?esc(act.t):'Mañana libre'}</div>${act&&act.l?`<div class="muted tiny">${esc(act.l)}</div>`:''}</div>
+    <div class="grow"><div class="eyebrow">Lo siguiente${sig?' · '+hh(sig.m):''}</div><div class="ah-t">${sig?esc(sig.t):'Nada más hoy'}</div>${sig&&sig.m-ahora<=90?`<span class="pill sun">en ${sig.m-ahora} min</span>`:''}</div></div></div>`;
+}
 function vPrograma(){
-  const dias=diasViaje(), of=EVENTOS.filter(e=>e.estado==='oficial'||e.estado==='hecho');
+  const dias=diasViaje(), of=EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&(!MIAG||voyA(e)));
   const sinDia=of.filter(e=>!e.dia||!dias.includes(e.dia));
   if(!dias.length&&!of.length) return `<div class="card flat empty" style="margin-top:14px">${ic('planes')}<div>Todavía no hay fechas ni planes oficiales.${esAdmin()?' Pon las fechas en Admin y pasa propuestas al programa.':''}</div></div>`;
-  return dias.map((d,i)=>{const E=of.filter(e=>e.dia===d).sort((a,b)=>ordBloque(a)-ordBloque(b));
+  return ahoraCard()+`<div class="row wrap-ok" style="margin-top:12px"><button class="chip" aria-pressed="${!MIAG}" onclick="MIAG=false;render()">Todo el viaje</button><button class="chip sunny" aria-pressed="${MIAG}" onclick="MIAG=true;render()">Mi agenda</button></div>`
+  +dias.map((d,i)=>{const E=of.filter(e=>e.dia===d), C=comidasDia(d).filter(c=>!EVENTOS.some(e=>e.id===c.evento_id&&e.dia===d&&E.includes(e))&&(!MIAG||miAsis(c.id).va!==false));
+    const noche=EVENTOS.find(e=>e.dia===d&&e.bloque==='noche'&&(e.estado==='oficial'||e.estado==='hecho')&&e.estilo);
+    const L=[...E.map(e=>({m:minEv(e),h:evCard(e)})),...C.map(c=>({m:minDe(c.hora)??({desayuno:510,almuerzo:810,cena:1200}[c.turno]),h:mealRow(c)}))].sort((a,b)=>a.m-b.m);
     return `<div class="day"><div class="day-h"><b>Día ${i+1}</b><span class="muted">${diaSem(d)} ${fechaCorta(d)}</span>${d===hoyISO()?'<span class="pill sun">Hoy</span>':''}</div>
-      ${E.length?`<div class="stack">${E.map(evCard).join('')}</div>`:`<div class="muted tiny" style="padding:4px 2px">Libre. Playa y siesta.</div>`}</div>`}).join('')
+      ${noche?`<div class="day-tema">${(noche.estilo.paleta||[]).filter(hexOk).slice(0,4).map(c=>`<i style="background:${c}"></i>`).join('')}<span>${esc(noche.estilo.nombre)}</span></div>`:''}
+      ${L.length?`<div class="stack tl">${L.map(x=>x.h).join('')}</div>`:`<div class="muted tiny" style="padding:4px 2px">Libre. Playa y siesta.</div>`}</div>`}).join('')
     +(sinDia.length?`<div class="day"><div class="day-h"><b>Por programar</b></div><div class="stack">${sinDia.map(evCard).join('')}</div></div>`:'');
 }
 async function votar(id,si){try{await API.votar(id,si);await cargar();render()}catch(e){toast(e.message)}}
@@ -1051,10 +1277,12 @@ function abrirEvento(id){
     <div class="row wrap-ok" style="gap:6px"><span class="pill ${e.estado==='oficial'?'ok':e.estado==='propuesta'?'warn':e.estado==='hecho'?'tide':'bad'}">${{propuesta:'Propuesta',oficial:'En el programa',hecho:'Hecho',cancelado:'Cancelado'}[e.estado]}</span>${e.tematica?`<span class="pill sun">${esc(e.tematica)}</span>`:''}${e.dia?`<span class="pill">${diaSem(e.dia)} ${fechaCorta(e.dia)}</span>`:''}${e.bloque?`<span class="pill">${BLOQN[e.bloque]}${e.hora?' · '+esc(String(e.hora).slice(0,5)):''}</span>`:''}</div>
     ${e.descripcion?`<p style="margin:0">${esc(e.descripcion)}</p>`:''}
     <div class="card"><dl class="kv">${e.dress_code?`<dt>Dress code</dt><dd>${esc(e.dress_code)}</dd>`:''}${e.lugar?`<dt>Dónde</dt><dd>${esc(e.lugar)}</dd>`:''}<dt>Anfitriones</dt><dd>${(e.anfitriones||[]).length?e.anfitriones.map(a=>esc(nom(a))).join(', '):'Nadie todavía'}</dd>${e.playlist_url?`<dt>Playlist</dt><dd><a href="${esc(e.playlist_url)}" target="_blank" rel="noopener">Abrir</a></dd>`:''}${gs.length?`<dt>Gastado</dt><dd class="num">${money(tg)} en ${gs.length} gasto${gs.length===1?'':'s'}</dd>`:''}${ts.length?`<dt>Tareas</dt><dd>${ts.filter(t=>t.estado==='listo').length} de ${ts.length} listas</dd>`:''}</dl></div>
-    ${(e.menu||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Menú</div>${e.menu.map(m=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(m)}</div>`).join('')}
-      ${(()=>{const al=activos().filter(p=>p.perfil&&p.perfil.alergias);return al.length?`<div class="banner warn tiny" style="margin-top:10px">Ojo: ${al.map(p=>esc(nom(p.id))+' ('+esc(p.perfil.alergias)+')').join(', ')}</div>`:''})()}</div>`
-      :puedeEditarEv(e)?`<button class="btn block" onclick="abrirFormEvento('${e.id}')">Agregar el menú</button>`:''}
+    ${(()=>{const st=e.estilo;return st&&(st.paleta||[]).filter(hexOk).length?`<div class="card"><div class="eyebrow">Dress code · ${esc(st.nombre||e.dress_code)}</div><div class="row" style="gap:6px;margin-top:8px">${st.paleta.filter(hexOk).map(c=>`<span class="swatch" style="background:${c}"></span>`).join('')}</div>${st.descripcion?`<p class="muted tiny" style="margin:8px 0 0">${esc(st.descripcion)}</p>`:''}<button class="btn ghost sm" style="padding:0" onclick="SUBE='dress';closeSheet();irA('planes')">Ver inspiración</button></div>`:''})()}
+    ${(()=>{const c=COMIDAS.find(x=>x.evento_id===e.id);if(c)return `<div class="card"><div class="eyebrow" style="margin-bottom:4px">Menú de la noche</div>${platosDe(c.id).map(platoRow).join('')}<button class="btn ghost sm" style="padding:0" onclick="DIA_MENU='${c.dia}';SUBM='carta';closeSheet();irA('menu')">Ver en la carta</button></div>`;
+      return (e.menu||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Menú</div>${e.menu.map(m=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(m)}</div>`).join('')}</div>`:puedeEditarEv(e)?`<button class="btn block" onclick="abrirFormEvento('${e.id}')">Agregar el menú</button>`:''})()}
+    ${/talent/i.test(e.titulo+' '+(e.tematica||''))?(()=>{const ts=activos().filter(p=>p.perfil&&p.perfil.talento);return `<div class="card"><div class="eyebrow" style="margin-bottom:6px">Programa del show</div>${ts.length?ts.map(p=>`<div class="row" style="padding:5px 0">${av(p.id,'xs')}<b>${esc(nom(p.id))}</b><span class="muted grow">${esc(p.perfil.talento)}</span></div>`).join(''):'<div class="muted tiny">Nadie ha anotado su talento todavía. Se anota en "Mi ficha".</div>'}</div>`})():''}
     <div class="row"><button class="btn grow ${soyAnf?'':'sun'}" onclick="toggleAnf('${e.id}')">${soyAnf?'Ya no soy anfitrión':'Me apunto de anfitrión'}</button>${e.estado==='propuesta'?`<button class="vote" aria-pressed="${yo}" onclick="votar('${e.id}',${!yo}).then(()=>abrirEvento('${e.id}'))">${ic('thumb')}<span>${vs.length}</span></button>`:''}</div>
+    ${e.estado==='oficial'?`<button class="btn block ${yo?'':'primary'}" onclick="votar('${e.id}',${!yo}).then(()=>abrirEvento('${e.id}'))">${yo?'Ya no voy':'Me apunto'} · ${vs.length} van</button>${vs.length?`<div class="avs">${vs.slice(0,12).map(v=>av(v.persona_id,'xs')).join('')}</div>`:''}`:''}
     <div class="card"><div class="eyebrow" style="margin-bottom:4px">Lo que hay que llevar o comprar</div>
       ${(e.lista||[]).map((it,i)=>`<label class="sub-item"><input type="checkbox" ${it.ok?'checked':''} onchange="checkLista('${e.id}',${i},this.checked)"><span class="grow" style="${it.ok?'text-decoration:line-through;color:var(--ink-3)':''}">${esc(it.txt)}</span>${it.tarea_id?'<span class="pill tide">tarea</span>':''}</label>`).join('')||'<div class="muted tiny">Nada todavía.</div>'}
       <div class="row" style="margin-top:8px"><input id="nli" class="in" placeholder="Ej. carbón" onkeydown="if(event.key==='Enter')addLista('${e.id}')"><button class="btn sm" onclick="addLista('${e.id}')">${ic('plus')}</button></div>
@@ -1101,18 +1329,21 @@ function insignias(){
   return out;
 }
 function vNosotros(){
-  const ins=insignias(), conAlergias=activos().filter(p=>p.perfil&&p.perfil.alergias);
-  return `<div class="row" style="margin-bottom:14px"><div class="grow"><h2 style="font-size:24px">${activos().length} en el viaje</h2><div class="muted tiny">Toca a alguien para ver su ficha.</div></div><button class="btn sm primary" onclick="abrirMiPerfil()">Mi ficha</button></div>
-    ${conAlergias.length?`<div class="banner warn" style="margin-bottom:14px"><div><b>Ojo en la cocina:</b> ${conAlergias.map(p=>`${esc(nom(p.id))} (${esc(p.perfil.alergias)})`).join(', ')}</div></div>`:''}
+  const seg=`<div class="seg"><button aria-pressed="${SUBN==='album'}" onclick="SUBN='album';render()">Álbum de fotos</button><button aria-pressed="${SUBN==='gente'}" onclick="SUBN='gente';render()">Invitados · ${activos().length}</button></div>`;
+  if(SUBN==='album') return seg+vAlbum();
+  const ins=insignias(), conAlergias=activos().filter(p=>p.perfil&&(p.perfil.alergias||(p.perfil.restricciones||[]).length));
+  return seg+`<div class="row" style="margin:14px 0"><div class="grow"><h2 style="font-size:24px">${activos().length} en el viaje</h2><div class="muted tiny">Toca a alguien para ver su ficha.</div></div><button class="btn sm primary" onclick="abrirMiPerfil()">Mi ficha</button></div>
+    ${conAlergias.length?`<div class="banner warn" style="margin-bottom:14px"><div><b>Ojo en la cocina:</b> ${conAlergias.map(p=>`${esc(nom(p.id))} (${esc([...(p.perfil.restricciones||[]).map(r=>RNOM[r]),p.perfil.alergias].filter(Boolean).join(', '))})`).join(' · ')}</div></div>`:''}
     <div class="people">${activos().map(p=>{const pf=p.perfil||{};return `<button class="pcard" onclick="abrirPersona('${p.id}')">${av(p.id,'lg')}<div style="min-width:0"><div class="n">${esc(nom(p.id))}</div><div class="muted tiny" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(pf.superpoder||pf.ciudad||'Ficha sin llenar')}</div></div>${(ins[p.id]||[]).map(t=>`<span class="badge">${esc(t)}</span>`).join('')}</button>`}).join('')}</div>`;
 }
 function abrirPersona(id){
   const p=PMAP[id]; if(!p) return; const pf=p.perfil||{}, ins=insignias()[id]||[];
-  const filas=[['Cumpleaños',pf.cumple?fechaCorta(pf.cumple):''],['Ciudad',pf.ciudad],['Alergias o restricciones',pf.alergias],['Bebida favorita',pf.bebida],['Su canción de karaoke',pf.cancion],['Juego favorito',pf.juego],['Talla de camiseta',pf.talla],['Superpoder en el viaje',pf.superpoder]].filter(f=>f[1]);
+  const filas=[['Restricciones',(pf.restricciones||[]).map(r=>RNOM[r]).join(', ')],['Talento para el show',pf.talento],['Le gusta',(pf.preferencias||[]).join(', ')],['Instagram',pf.instagram],['WhatsApp',pf.whatsapp],['Cumpleaños',pf.cumple?fechaCorta(pf.cumple):''],['Ciudad',pf.ciudad],['Alergias',pf.alergias],['Bebida favorita',pf.bebida],['Su canción de karaoke',pf.cancion],['Juego favorito',pf.juego],['Talla de camiseta',pf.talla],['Superpoder en el viaje',pf.superpoder]].filter(f=>f[1]);
   openSheet(`${sheetH('')}<div class="stack" style="margin-top:-30px"><div class="row">${av(id,'lg')}<div class="grow"><h2 style="font-size:26px">${esc(nom(id))}</h2><div class="muted">${esc(p.nombre)}${p.rol==='admin'?' · organiza':''}</div></div></div>
     ${ins.length?`<div class="chips">${ins.map(t=>`<span class="badge">${esc(t)}</span>`).join('')}</div>`:''}
     ${pf.bio?`<p style="margin:0">${esc(pf.bio)}</p>`:''}
     ${filas.length?`<div class="card"><dl class="kv">${filas.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl></div>`:`<div class="card flat empty">${id===ME.id?'Tu ficha está vacía.':'Todavía no ha llenado su ficha.'}</div>`}
+    ${(()=>{const fs=MURO.filter(f=>f.persona_id===id).slice(0,9);return fs.length?`<div class="eyebrow">Sus fotos del viaje</div><div class="alb">${fs.map(f=>{const u=fotoUrl(f.foto_path);return `<button onclick="FALB='';verFoto('${f.id}')">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}</button>`}).join('')}</div>`:''})()}
     ${id===ME.id?`<button class="btn primary block" onclick="abrirMiPerfil()">Editar mi ficha</button>`:''}</div>`);
 }
 function abrirMiPerfil(){
@@ -1122,7 +1353,11 @@ function abrirMiPerfil(){
     <div class="row">${av(ME.id,'lg')}<label class="btn sm">${ic('cam')} ${pf.foto?'Cambiar foto':'Poner foto'}<input type="file" accept="image/*" hidden onchange="fotoPerfil(this)"></label></div>
     <div class="field"><label for="pf_apodo">Cómo te dicen</label><input id="pf_apodo" class="in" value="${esc(ME.apodo||'')}" placeholder="${esc((ME.nombre||'').split(' ')[0])}" oninput="PF.apodo=this.value"></div>
     <div class="grid2">${t('cumple','Cumpleaños','','date')}${t('ciudad','Ciudad','Ej. Quito')}</div>
-    ${t('alergias','Alergias o comida que no comes','Ej. mariscos, lactosa')}
+    <div class="field"><span class="lbl">Lo que no comes o no tomas</span><div class="chips">${RESTR.map(([k,l])=>`<button class="chip" aria-pressed="${(pf.restricciones||[]).includes(k)}" onclick="const r=PF.perfil.restricciones=PF.perfil.restricciones||[];const i=r.indexOf('${k}');if(i<0)r.push('${k}');else r.splice(i,1);this.setAttribute('aria-pressed',r.includes('${k}'))">${l}</button>`).join('')}</div><span class="muted tiny">La carta te avisa cuando un plato no es para ti.</span></div>
+    ${t('alergias','Otra alergia o detalle','Ej. no me gusta el cilantro')}
+    ${t('talento','Tu talento para el Talent Show','Ej. stand-up de 3 minutos')}
+    <div class="field"><span class="lbl">Lo que más te gusta del viaje</span><div class="chips">${PREFS.map(x=>`<button class="chip" aria-pressed="${(pf.preferencias||[]).includes(x)}" onclick="const r=PF.perfil.preferencias=PF.perfil.preferencias||[];const i=r.indexOf('${x}');if(i<0)r.push('${x}');else r.splice(i,1);this.setAttribute('aria-pressed',r.includes('${x}'))">${x}</button>`).join('')}</div></div>
+    <div class="grid2">${t('instagram','Instagram','@usuario')}${t('whatsapp','WhatsApp (lo ve el grupo)','+593…')}</div>
     <div class="grid2">${t('bebida','Bebida favorita','Ej. michelada')}${t('juego','Juego de mesa favorito','Ej. Risk')}</div>
     ${t('cancion','Tu canción de karaoke','La que te sabes completa')}
     <div class="field"><span class="lbl">Talla de camiseta</span><div class="chips">${TALLAS.map(x=>`<button class="chip" aria-pressed="${pf.talla===x}" onclick="PF.perfil.talla='${x}';this.parentElement.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===this))">${x}</button>`).join('')}</div></div>
@@ -1136,14 +1371,24 @@ async function fotoPerfil(inp){const f=inp.files&&inp.files[0];if(!f)return;try{
 async function guardarPerfil(seguir){try{await API.saveMiPerfil(PF.apodo.trim(),PF.perfil);await cargar();toast('Ficha guardada');if(seguir)abrirMiPerfil();else{closeSheet();render()}}catch(e){toast(e.message)}}
 
 /* ---------- ADMIN ---------- */
-let ADM=null;
+let ADM=null, FADM='';
+const recordatorioFicha=()=>`🙋 Falta llenar la ficha en Marea Alta: alergias o lo que no comes, tu talento para el show y tu canción de karaoke. Sirve para armar el menú y el itinerario. Entra aquí: ${APP_URL}`;
 function vAdmin(){
   if(!esAdmin()) return '';
   if(!ADM){API.admin('listar').then(r=>{ADM=r.personas;render()}).catch(e=>{ADM=[];toast(e.message)});return `<div class="card flat empty">Cargando invitados…</div>`}
-  const L=ADM.slice().sort((a,b)=>a.nombre.localeCompare(b.nombre));
-  return `<div class="sec-h" style="margin-top:4px"><h2>Invitados · ${L.filter(p=>p.activo).length}</h2><button class="link" onclick="abrirNuevoInvitado()">+ Agregar</button></div>
-    <div class="card"><div class="list">${L.map(p=>`<button class="item" onclick="abrirInvitado('${p.id}')">${av(p.id)}<div class="grow"><div class="t">${esc(p.nombre)}${p.rol==='admin'?' <span class="pill tide">admin</span>':''}${p.activo?'':' <span class="pill bad">bloqueado</span>'}</div><div class="s num">${esc(p.cedula)} · ${p.ultimo_acceso?'entró '+fechaCorta(String(p.ultimo_acceso).slice(0,10)):'nunca ha entrado'}</div></div></button>`).join('')}</div></div>
-    <div class="row wrap-ok" style="margin-top:10px"><button class="btn sm" onclick="abrirCargaMasiva()">${ic('list')} Cargar varios</button></div>
+  const est=p=>!p.activo?'bloq':p.ultimo_acceso?'dentro':p.invitado_en?'invitado':'sin';
+  const fichaOk=p=>{const pf=(PMAP[p.id]||{}).perfil||{};return['restricciones','alergias','talento','cancion','superpoder','cumple','ciudad','foto'].filter(k=>pf[k]&&(!Array.isArray(pf[k])||pf[k].length)).length>=3};
+  const T=ADM.filter(p=>p.activo), n={sin:T.filter(p=>est(p)==='sin').length,invitado:T.filter(p=>est(p)==='invitado').length,dentro:T.filter(p=>est(p)==='dentro').length,ficha:T.filter(fichaOk).length};
+  const F=[['','Todos',ADM.length],['sin','Sin invitar',n.sin],['invitado','Invitados sin entrar',n.invitado],['dentro','Ya entraron',n.dentro],['nof','Ficha incompleta',T.length-n.ficha]];
+  const L=ADM.filter(p=>!FADM||(FADM==='nof'?p.activo&&!fichaOk(p):est(p)===FADM)).sort((a,b)=>a.nombre.localeCompare(b.nombre));
+  const PILL={sin:'<span class="pill">Sin invitar</span>',invitado:'<span class="pill warn">Invitado · no ha entrado</span>',dentro:'<span class="pill ok">Ya entró</span>',bloq:'<span class="pill bad">Bloqueado</span>'};
+  return `<div class="sec-h" style="margin-top:4px"><h2>Invitados</h2><button class="link" onclick="abrirNuevoInvitado()">+ Agregar</button></div>
+    <div class="tiles"><div><b class="num">${T.length}</b><span>en la lista</span></div><div><b class="num" style="color:var(--ok)">${n.dentro}</b><span>ya entraron</span></div><div><b class="num" style="color:var(--warn)">${n.invitado+n.sin}</b><span>faltan</span></div><div><b class="num">${n.ficha}</b><span>fichas listas</span></div></div>
+    <div class="bar" style="height:8px;margin:12px 0 4px"><i class="p" style="left:0;width:${T.length?n.dentro/T.length*100:0}%"></i></div>
+    <div class="chips scroll" style="margin-top:12px">${F.map(([k,l,c])=>`<button class="chip" aria-pressed="${FADM===k}" onclick="FADM='${k}';render()">${l} · ${c}</button>`).join('')}</div>
+    <div class="card" style="margin-top:12px"><div class="list">${L.map(p=>`<button class="item" onclick="abrirInvitado('${p.id}')">${av(p.id)}<div class="grow"><div class="t">${esc(p.nombre)}${p.rol==='admin'?' <span class="pill tide">admin</span>':''}</div><div class="row wrap-ok" style="gap:4px;margin-top:3px">${PILL[est(p)]}${p.activo&&!fichaOk(p)?'<span class="pill">Ficha incompleta</span>':''}${p.telefono?'':'<span class="pill">Sin WhatsApp</span>'}</div></div></button>`).join('')||'<div class="muted tiny" style="padding:10px 0">Nadie en este filtro.</div>'}</div></div>
+    ${FADM==='nof'&&L.length?`<button class="btn sm block" style="margin-top:10px" onclick="copiar(recordatorioFicha(),'Recordatorio copiado: pégalo en el grupo')">${ic('copy')} Copiar recordatorio para el grupo</button>`:''}
+    <div class="row wrap-ok" style="margin-top:10px"><button class="btn sm sun" onclick="invitarPendientes(this)">${ic('wa')} Invitar a los que no han entrado</button><button class="btn sm" onclick="abrirCargaMasiva()">${ic('list')} Cargar varios</button></div>
     <div class="sec-h"><h2>El viaje</h2></div>
     <div class="card stack">
       <div class="field"><label for="cv_n">Nombre</label><input id="cv_n" class="in" value="${esc(CFG.nombre||'')}"></div>
@@ -1152,6 +1397,11 @@ function vAdmin(){
       <div class="field"><label for="cv_m">Moneda</label><select id="cv_m" class="in">${['USD','COP','EUR'].map(m=>`<option ${CFG.moneda===m?'selected':''}>${m}</option>`).join('')}</select></div>
       ${CFG.ejemplo?'<div class="banner warn tiny">Estas fechas son de ejemplo. Pon las reales.</div>':''}
       <button class="btn primary" onclick="guardarViaje()">Guardar el viaje</button></div>
+    <div class="sec-h"><h2>Lo esencial</h2><button class="link" onclick="abrirInfoAdmin()">Editar</button></div>
+    <div class="card"><div class="muted tiny">Dirección, check-in, WiFi, qué llevar, reglas, contactos y preguntas. Los invitados lo ven arriba en Hoy. Puedes pegar un texto y la IA llena los campos.</div><button class="btn sm sun" style="margin-top:10px" onclick="abrirInfoAdmin()">${ic('spark')} Llenar con IA</button></div>
+    <div class="sec-h"><h2>Comida y presupuesto</h2></div>
+    <div class="card stack"><div class="muted tiny">${COMIDAS.length?`${COMIDAS.length} comidas y ${PLATOS.length} platos cargados.`:'Todavía no hay menú.'} ${PRESU.length} rubros de presupuesto.</div>
+      <div class="row wrap-ok">${COMIDAS.length?`<button class="btn sm" onclick="irA('menu')">${ic('menu')} Ver la carta</button>`:`<button class="btn sm primary" onclick="armarMenuBase(this)">${ic('menu')} Armar el menú base</button>`}<button class="btn sm" onclick="abrirPresupuesto()">${ic('pen')} Editar presupuesto</button></div></div>
     <div class="sec-h"><h2>Respaldo</h2></div>
     <div class="card stack"><p class="muted tiny" style="margin:0">Copia completa de gastos, tareas, planes y votos en JSON.</p><button class="btn sm" onclick="respaldoJSON()">${ic('copy')} Ver respaldo</button></div>
     <p class="muted tiny" style="margin-top:14px">Motor de datos: <b>${MODO}</b>. ${MODO==='demo'?'Para que todos compartan los mismos datos hay que conectar Supabase (ver docs/ESTADO.md).':'Proyecto fieldbuilt-lab · esquema marea.'}</p>`;
@@ -1176,14 +1426,26 @@ function mostrarPin(nombre,r){
 function abrirInvitado(id){
   const p=ADM.find(x=>x.id===id); if(!p) return;
   openSheet(`${sheetH(esc(p.nombre))}<div class="stack">
-    <div class="card"><dl class="kv"><dt>Cédula</dt><dd class="num">${esc(p.cedula)}</dd><dt>Rol</dt><dd>${p.rol}</dd><dt>WhatsApp</dt><dd>${esc(p.telefono||'—')}</dd><dt>Último acceso</dt><dd>${p.ultimo_acceso?new Date(p.ultimo_acceso).toLocaleString('es-EC'):'Nunca'}</dd></dl></div>
+    <div class="card"><dl class="kv"><dt>Cédula</dt><dd class="num">${esc(p.cedula)}</dd><dt>Rol</dt><dd>${p.rol}</dd><dt>WhatsApp</dt><dd>${esc(p.telefono||'—')}</dd><dt>Invitación</dt><dd>${p.invitado_en?'Enviada el '+new Date(p.invitado_en).toLocaleString('es-EC'):'Sin enviar'}</dd><dt>Último acceso</dt><dd>${p.ultimo_acceso?new Date(p.ultimo_acceso).toLocaleString('es-EC'):'Nunca'}</dd></dl></div>
     <div class="grid2"><div class="field"><label for="ei_a">Apodo</label><input id="ei_a" class="in" value="${esc(p.apodo||'')}"></div><div class="field"><label for="ei_t">WhatsApp</label><input id="ei_t" class="in" inputmode="tel" value="${esc(p.telefono||'')}"></div></div>
     <button class="btn block" onclick="editarInvitado('${p.id}')">Guardar cambios</button>
-    <button class="btn primary block" onclick="nuevaClave('${p.id}',this)">Generar clave nueva</button>
+    <button class="btn primary block" onclick="nuevaClave('${p.id}',this)">${ic('wa')} Enviar invitación por WhatsApp</button>
+    <p class="muted tiny" style="margin:0">Genera una clave nueva de 4 dígitos y arma el mensaje. La clave anterior deja de servir.</p>
     ${p.id!==ME.id?`<button class="btn ${p.activo?'danger':''} block" onclick="bloquear('${p.id}',${!p.activo})">${p.activo?'Bloquear acceso':'Desbloquear'}</button>`:''}</div>`);
 }
 async function editarInvitado(id){try{await API.admin('actualizar',{id,campos:{apodo:$('#ei_a').value.trim()||null,telefono:$('#ei_t').value.replace(/[^\d+]/g,'')||null}});ADM=null;await cargar();closeSheet();toast('Guardado');render()}catch(e){toast(e.message)}}
 async function nuevaClave(id,btn){btn.disabled=true;try{const p=ADM.find(x=>x.id===id);const r=await API.admin('reset_pin',{id});mostrarPin(p.nombre,r)}catch(e){btn.disabled=false;toast(e.message)}}
+async function invitarPendientes(btn){
+  const L=(ADM||[]).filter(p=>p.activo&&!p.ultimo_acceso&&p.id!==ME.id);
+  if(!L.length){toast('Todos ya entraron al menos una vez');return}
+  if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent=`Generar ${L.length} claves nuevas y armar los mensajes`;return}
+  btn.disabled=true;const out=[];
+  for(const p of L){try{const r=await API.admin('reset_pin',{id:p.id});out.push({nombre:p.nombre,ok:true,r})}catch(e){out.push({nombre:p.nombre,ok:false,err:e.message})}}
+  window.CM=out;ADM=null;render();
+  openSheet(`${sheetH('Invitaciones listas')}<div class="stack"><p class="muted" style="margin:0">Toca cada WhatsApp para enviarla. Si alguien no tiene número guardado, copia su mensaje.</p>
+    <div class="card"><div class="list">${out.map((o,i)=>`<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(o.nombre)}</div><div class="s">${o.ok?'Clave '+esc(o.r.pin):esc(o.err)}</div></div>${o.ok?(o.r.wa_url?`<a class="btn sm sun" href="${esc(o.r.wa_url)}" target="_blank" rel="noopener">${ic('wa')}</a>`:'')+`<button class="btn sm" onclick="copiar(CM[${i}].r.mensaje,'Mensaje copiado')">${ic('copy')}</button>`:'<span class="pill bad">error</span>'}</div>`).join('')}</div></div>
+    <button class="btn primary block" onclick="copiar(CM.filter(o=>o.ok).map(o=>o.r.mensaje).join('\n\n———\n\n'),'Todos los mensajes copiados')">Copiar todos los mensajes</button></div>`);
+}
 async function bloquear(id,activo){try{await API.admin('toggle',{id,activo});ADM=null;await cargar();closeSheet();toast(activo?'Desbloqueado':'Bloqueado');render()}catch(e){toast(e.message)}}
 function abrirCargaMasiva(){
   openSheet(`${sheetH('Cargar varios invitados')}<div class="stack"><p class="muted">Una persona por línea: <b>cédula, nombre, apodo, whatsapp</b>. Apodo y WhatsApp son opcionales.</p>
@@ -1200,8 +1462,410 @@ async function cargaMasiva(){
 async function guardarViaje(){const c={nombre:$('#cv_n').value.trim()||'Marea Alta',lugar:$('#cv_l').value.trim(),desde:$('#cv_d').value||null,hasta:$('#cv_h').value||null,moneda:$('#cv_m').value};
   if(c.desde&&c.hasta&&c.hasta<c.desde){toast('La fecha final va después de la inicial');return}
   try{await API.saveConfig(c);await cargar();toast('Viaje guardado');render()}catch(e){toast(e.message)}}
-function respaldoJSON(){const j=JSON.stringify({exportado:new Date().toISOString(),config:CFG,personas:PERSONAS,gastos:GASTOS,tareas:TAREAS,eventos:EVENTOS,votos:VOTOS,etiquetas:ETIQUETAS},null,1);
+function respaldoJSON(){const j=JSON.stringify({exportado:new Date().toISOString(),config:CFG,personas:PERSONAS,gastos:GASTOS,tareas:TAREAS,eventos:EVENTOS,votos:VOTOS,etiquetas:ETIQUETAS,comidas:COMIDAS,platos:PLATOS,asistencia:ASIST,presupuesto:PRESU},null,1);
   openSheet(`${sheetH('Respaldo')}<div class="stack"><textarea class="in" rows="12" readonly onclick="this.select()">${esc(j)}</textarea><button class="btn primary block" onclick="copiar(this.previousElementSibling.value,'Respaldo copiado')">${ic('copy')} Copiar</button></div>`)}
+
+/* ============================================================================
+   COMIDA · carta digital por día, asistencia, opción A/B, alérgenos y compras
+   ============================================================================ */
+const TURNOS=[['desayuno','Desayuno','08:30'],['almuerzo','Almuerzo','13:30'],['cena','Cena','20:00']];
+const TURNON=Object.fromEntries(TURNOS.map(t=>[t[0],t[1]]));
+const ordTurno=t=>({desayuno:1,almuerzo:2,cena:3}[t]||4);
+const MODAL={dual:'Dos opciones: A healthy o B tradicional',cocinera:'Lo prepara la cocinera local',colaborativa:'Cocinamos entre todos',libre:'Libre o en un restaurante'};
+/* restricción del perfil → alérgenos que esa persona no puede comer */
+const RESTR=[['sin_mariscos','Sin mariscos',['mariscos','conchas','oscuros']],['sin_conchas','Sin conchas',['conchas']],['sin_oscuros','Sin mariscos oscuros',['oscuros']],
+  ['sin_pescado','Sin pescado',['pescado']],['vegetariano','Vegetariano',['carne','cerdo','pescado','mariscos','conchas','oscuros']],['sin_cerdo','Sin cerdo',['cerdo']],
+  ['sin_lactosa','Sin lactosa',['lacteos']],['sin_gluten','Sin gluten',['gluten']],['sin_huevo','Sin huevo',['huevo']],['sin_mani','Sin maní',['mani']],['cero_alcohol','Cero alcohol',['alcohol']]];
+const RMAP=Object.fromEntries(RESTR.map(r=>[r[0],r[2]])), RNOM=Object.fromEntries(RESTR.map(r=>[r[0],r[1]]));
+const ALERG={mariscos:'mariscos',conchas:'conchas',oscuros:'mariscos oscuros',pescado:'pescado',carne:'carne',cerdo:'cerdo',lacteos:'lácteos',gluten:'gluten',huevo:'huevo',mani:'maní',alcohol:'alcohol'};
+const TAGS_PLATO=['#Healthy','#Costeño','#Tradicional','#SinMariscos','#ZeroAlcohol','#Vegetariano','#Compartir','#Picante'];
+const PREFS=['Playa','Piscina','Fiesta','Descanso','Deportes','Fotos','Cocinar','Juegos de mesa'];
+const hexOk=c=>/^#[0-9a-f]{3,8}$/i.test(String(c||''));
+
+function detectarAlergenos(txt){
+  let t=norm(txt); const s=new Set();
+  if(/mariscos? oscuros?/.test(t)){s.add('oscuros');t=t.replace(/mariscos? oscuros?/g,' ')}
+  if(/concha|mejillon|almeja|ostion|ostra/.test(t)){s.add('conchas');s.add('oscuros')}
+  if(/camaron|langost|pulpo|calamar|marisc|cangrejo|jaiba|marinero|percebe/.test(t))s.add('mariscos');
+  if(/pescado|corvina|dorado|atun|tilapia|picudo|robalo|bacalao|encocado de pescado/.test(t))s.add('pescado');
+  if(/chicharron|cerdo|chancho|tocino|jamon|chorizo|bondiola|salchich|embutido/.test(t)){s.add('cerdo');s.add('carne')}
+  if(/pollo|\bres\b|carne|lomo|costilla|parrillada|hamburgues/.test(t))s.add('carne');
+  if(/queso|leche(?! de coco)|yogur|mantequilla|crema|manjar|mozzarella|helado/.test(t))s.add('lacteos');
+  if(/harina|\bpan\b|pizza|pancake|panqueque|trigo|tostada|toast|pasta|galleta|masa|avena|apanado|empanizado/.test(t))s.add('gluten');
+  if(/huevo|tortilla espanola|mayonesa/.test(t))s.add('huevo');
+  if(/\bmani\b|cacahuate/.test(t))s.add('mani');
+  const sinAlc=/sin alcohol|alcohol free|free alcohol|cero alcohol|zero alcohol|0[.,]0|cerveza cero|mocktail/.test(t.replace(/-/g,' '));
+  if(!sinAlc&&/cerveza|vino|\bron\b|tequila|margarita|sangria|whisky|aguardiente|licor|michelada|coctel|cocktail|shot|maridaje/.test(t))s.add('alcohol');
+  return [...s];
+}
+const alergenosDe=p=>(p.alergenos&&p.alergenos.length)?p.alergenos:detectarAlergenos([p.nombre,...(p.ingredientes||[])].join(' · '));
+function prohibidosDe(x){const pf=x.perfil||{},s=new Set();(pf.restricciones||[]).forEach(r=>(RMAP[r]||[]).forEach(a=>s.add(a)));if(pf.alergias)detectarAlergenos(pf.alergias).forEach(a=>s.add(a));return s}
+function noAptos(p){const al=alergenosDe(p);if(!al.length)return[];return activos().map(x=>{const pr=prohibidosDe(x),c=al.filter(a=>pr.has(a));return c.length?{id:x.id,por:c}:null}).filter(Boolean)}
+const comidasDia=d=>COMIDAS.filter(c=>c.dia===d).sort((a,b)=>ordTurno(a.turno)-ordTurno(b.turno));
+const platosDe=cid=>PLATOS.filter(p=>p.comida_id===cid).sort((a,b)=>String(a.opcion||'').localeCompare(String(b.opcion||'')));
+const estaciones=turno=>PLATOS.filter(p=>p.permanente&&(!turno||p.turno===turno));
+const miAsis=cid=>ASIST.find(a=>a.comida_id===cid&&a.persona_id===ME.id)||{va:true,opcion:null,variante:''};
+function vanA(cid){const no=new Set(ASIST.filter(a=>a.comida_id===cid&&a.va===false).map(a=>a.persona_id));return activos().filter(p=>!no.has(p.id))}
+function fotoUrl(ref){if(!ref)return'';if(String(ref).startsWith('data:'))return ref;if(FOTOS[ref])return FOTOS[ref];resolverFoto(ref);return''}
+function platoVisual(p,cls=''){
+  const url=fotoUrl(p.foto), t=(p.tags||[]).join(' '), beb=/cafe|jugo|vino|cerveza|margarita|sangria|bebida|agua de coco|coctel|cocktail/.test(norm(p.nombre));
+  const [bg,fg]=/Healthy/.test(t)?['var(--ok-soft)','var(--ok)']:/Coste/.test(t)?['var(--sun-soft)','var(--sun)']:beb?['var(--tide-soft)','var(--tide-deep)']:['var(--surface-2)','var(--ink-2)'];
+  return `<span class="pv ${cls}" style="background:${bg};color:${fg}">${url?`<img src="${esc(url)}" alt="">`:ic(beb?'bebidas':'menu')}</span>`;
+}
+let DIA_MENU=null, SUBM='carta', RANGO_C='2';
+function vMenu(){
+  const dias=diasViaje();
+  if(!dias.length) return `<div class="card flat empty">${ic('menu')}<div>Primero hay que poner las fechas del viaje${esAdmin()?' en Admin':''}.</div></div>`;
+  if(!DIA_MENU||!dias.includes(DIA_MENU)) DIA_MENU=dias.includes(hoyISO())?hoyISO():dias[0];
+  const seg=`<div class="seg"><button aria-pressed="${SUBM==='carta'}" onclick="SUBM='carta';render()">Carta del día</button><button aria-pressed="${SUBM==='compras'}" onclick="SUBM='compras';render()">Lista de compras</button></div>`;
+  if(!COMIDAS.length) return seg+`<div class="card flat empty" style="margin-top:14px">${ic('menu')}<div>Todavía no hay menú.</div>${esAdmin()?`<button class="btn primary" style="margin-top:12px" onclick="armarMenuBase(this)">Armar el menú base del viaje</button><p class="muted tiny">Desayuno dual, almuerzos costeños de la cocinera, ceviche bar y cenas temáticas. Después se edita plato por plato.</p>`:'<p class="muted tiny">Daniel lo arma desde aquí.</p>'}</div>`;
+  return seg+(SUBM==='carta'?vCarta(dias):vCompras(dias));
+}
+function chipsDias(dias){return `<div class="chips scroll" style="margin-top:14px">${dias.map((d,i)=>`<button class="chip" aria-pressed="${DIA_MENU===d}" onclick="DIA_MENU='${d}';render()">Día ${i+1} · ${diaSem(d).slice(0,3)} ${fechaCorta(d)}</button>`).join('')}</div>`}
+function vCarta(dias){
+  const est=estaciones();
+  return chipsDias(dias)+`<div class="stack" style="margin-top:14px">${comidasDia(DIA_MENU).map(comidaCard).join('')||'<div class="card flat empty">Este día no tiene comidas cargadas.</div>'}</div>
+   ${est.length?`<div class="sec-h"><h2>Todos los días</h2></div><div class="card"><div class="list">${est.map(p=>`<button class="item" onclick="abrirPlato('${p.id}')">${platoVisual(p,'sm')}<div class="grow"><div class="t">${esc(p.nombre)}</div><div class="s">${TURNON[p.turno]||''} · ${esc(p.descripcion||'')}</div></div></button>`).join('')}</div></div>`:''}
+   <div class="row wrap-ok" style="margin-top:12px">${esAdmin()?`<button class="btn sm" onclick="abrirFormComida(null)">${ic('plus')} Agregar comida a este día</button>`:''}<button class="btn sm" onclick="abrirFormPlato(null,null)">${ic('plus')} Plato de todos los días</button></div>`;
+}
+function platoRow(p){const na=noAptos(p);
+  return `<button class="plato" onclick="abrirPlato('${p.id}')">${platoVisual(p)}<div style="min-width:0"><div class="plato-n">${esc(p.nombre)}</div>${p.descripcion?`<div class="plato-d">${esc(p.descripcion)}</div>`:''}
+    <div class="row wrap-ok" style="gap:4px;margin-top:6px">${(p.tags||[]).map(t=>`<span class="pill tide">${esc(t)}</span>`).join('')}${na.length?`<span class="pill bad">No apto: ${na.map(x=>esc(nom(x.id))).join(', ')}</span>`:''}</div></div></button>`}
+function comidaCard(c){
+  const ps=platosDe(c.id), van=vanA(c.id), yo=miAsis(c.id), ev=EVENTOS.find(e=>e.id===c.evento_id), as=ASIST.filter(a=>a.comida_id===c.id);
+  const conflictos=[]; ps.forEach(p=>noAptos(p).forEach(n=>{if(van.some(v=>v.id===n.id)&&!(c.modalidad==='dual'&&ps.some(o=>o.opcion&&o.opcion!==p.opcion&&!noAptos(o).some(m=>m.id===n.id))))conflictos.push({p,...n})}));
+  const grupo=(op,tit)=>{const L=ps.filter(p=>(p.opcion||null)===op);if(!L.length)return'';const n=as.filter(a=>a.opcion===op&&a.va!==false).length;
+    return `${tit?`<div class="eyebrow" style="margin-top:12px">${tit}${n?` · ${n} la eligen`:''}</div>`:''}${L.map(platoRow).join('')}`};
+  const pedidos=as.filter(a=>a.variante&&a.va!==false);
+  const cevi=c.turno==='almuerzo'?estaciones('almuerzo'):[];
+  return `<section class="carta" id="c-${c.id}">
+    <div class="row" style="align-items:flex-start"><div class="grow"><div class="eyebrow">${TURNON[c.turno]||''} · ${esc(String(c.hora||'').slice(0,5))}</div>
+      <h3 class="carta-t">${esc(c.titulo)}</h3>
+      <div class="muted tiny">${MODAL[c.modalidad]||''}${(c.responsables||[]).length?' · cocinan '+c.responsables.map(r=>esc(nom(r))).join(', '):''}</div>
+      ${ev?`<button class="btn ghost sm" style="padding:0;min-height:30px" onclick="abrirEvento('${ev.id}')">${ic('planes')} ${esc(ev.titulo)}${ev.dress_code?' · '+esc(ev.dress_code):''}</button>`:''}</div>
+      <span class="pill ${van.length===activos().length?'ok':'warn'}">${van.length} van</span></div>
+    ${cevi.length?`<div class="tiny" style="margin-top:8px"><b>De entrada:</b> ${cevi.map(p=>`<a href="#" onclick="event.preventDefault();abrirPlato('${p.id}')">${esc(p.nombre)}</a>`).join(', ')}</div>`:''}
+    ${c.modalidad==='dual'?grupo('A','Opción A · Healthy')+grupo('B','Opción B · Tradicional'):(ps.length?grupo(null,''):`<div class="muted tiny" style="padding:10px 0">${c.modalidad==='libre'?'Cada quien elige dónde comer.':'Sin platos todavía.'}</div>`)}
+    ${conflictos.length?`<div class="banner warn tiny" style="margin-top:10px"><div>${conflictos.map(x=>`<b>${esc(nom(x.id))}</b> no puede comer ${esc(x.p.nombre)} (${x.por.map(a=>ALERG[a]).join(', ')})`).join('<br>')}</div></div>`:''}
+    ${pedidos.length?`<div class="tiny" style="margin-top:8px"><b>Pedidos especiales:</b> ${pedidos.map(a=>esc(nom(a.persona_id))+': '+esc(a.variante)).join(' · ')}</div>`:''}
+    ${c.notas?`<div class="muted tiny" style="margin-top:6px">${esc(c.notas)}</div>`:''}
+    <div class="row wrap-ok" style="margin-top:12px;gap:8px">
+      <div class="seg" style="flex:none"><button aria-pressed="${yo.va!==false}" onclick="setAsis('${c.id}',{va:true})">Voy</button><button aria-pressed="${yo.va===false}" onclick="setAsis('${c.id}',{va:false})">No voy</button></div>
+      ${c.modalidad==='dual'&&yo.va!==false?['A','B'].map(o=>`<button class="chip sunny" aria-pressed="${yo.opcion===o}" onclick="setAsis('${c.id}',{opcion:'${o}'})">Quiero la ${o}</button>`).join(''):''}
+    </div>
+    <div class="row wrap-ok" style="margin-top:4px;gap:0">
+      <button class="btn ghost sm" onclick="pedirVariante('${c.id}')">${yo.variante?'Cambiar mi pedido':'Pedir variante'}</button>
+      ${c.modalidad!=='libre'?`<button class="btn ghost sm" onclick="abrirFormPlato(null,'${c.id}')">Agregar plato</button>`:''}
+      ${esAdmin()?`<button class="btn ghost sm" onclick="abrirFormComida('${c.id}')">Editar</button>`:''}</div></section>`;
+}
+async function setAsis(cid,cambios){const a={...miAsis(cid),...cambios};if(cambios.opcion)a.va=true;try{await API.setAsis(cid,a);await cargar();if($('#sheet').hidden)render();else{closeSheet(true);render()}}catch(e){toast(e.message)}}
+function pedirVariante(cid){const c=COMIDAS.find(x=>x.id===cid),yo=miAsis(cid);
+  openSheet(`${sheetH('Pedir una variante')}<div class="stack"><p class="muted" style="margin:0">${esc(c.titulo)} · ${diaSem(c.dia)} ${fechaCorta(c.dia)}. Lo ven los que cocinan.</p>
+    <div class="field"><label for="vv">Qué necesitas distinto</label><textarea id="vv" class="in" rows="3" placeholder="Ej. mi arroz sin conchas; sin queso; porción pequeña" autofocus>${esc(yo.variante||'')}</textarea></div>
+    <button class="btn primary block" onclick="setAsis('${cid}',{variante:$('#vv').value.trim()})">Guardar mi pedido</button>
+    ${yo.variante?`<button class="btn block" onclick="setAsis('${cid}',{variante:''})">Quitar mi pedido</button>`:''}</div>`)}
+function abrirPlato(id){
+  const p=PLATOS.find(x=>x.id===id); if(!p) return; const c=COMIDAS.find(x=>x.id===p.comida_id), al=alergenosDe(p), na=noAptos(p), n=c?vanA(c.id).length:activos().length;
+  openSheet(`${sheetH('')}<div class="stack" style="margin-top:-30px">${platoVisual(p,'lg')}
+    <div><div class="eyebrow">${c?`${TURNON[c.turno]} · ${diaSem(c.dia)} ${fechaCorta(c.dia)}${p.opcion?' · Opción '+p.opcion:''}`:'Todos los días · '+(TURNON[p.turno]||'')}</div>
+      <h2 style="font-size:28px;margin-top:4px">${esc(p.nombre)}</h2>${p.estilo?`<div class="muted" style="font-style:italic">${esc(p.estilo)}</div>`:''}</div>
+    ${p.descripcion?`<p style="margin:0;font-size:17px">${esc(p.descripcion)}</p>`:''}
+    ${(p.tags||[]).length?`<div class="chips">${p.tags.map(t=>`<span class="pill tide">${esc(t)}</span>`).join('')}</div>`:''}
+    ${(p.ingredientes||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Ingredientes</div>${p.ingredientes.map(i=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(i)}</div>`).join('')}
+      <div class="muted tiny" style="margin-top:8px">Para ${p.porciones||n} persona${(p.porciones||n)===1?'':'s'}${p.porciones?'':' (los que confirmaron)'}</div></div>`:''}
+    <div class="card"><div class="eyebrow" style="margin-bottom:6px">Alérgenos</div>${al.length?`<div class="chips">${al.map(a=>`<span class="pill warn">${ALERG[a]}</span>`).join('')}</div>`:'<div class="muted tiny">Ninguno de la lista.</div>'}
+      ${na.length?`<div class="banner bad tiny" style="margin-top:10px"><div>No apto para ${na.map(x=>`<b>${esc(nom(x.id))}</b> (${x.por.map(a=>ALERG[a]).join(', ')})`).join(', ')}. Que pida una variante.</div></div>`:''}</div>
+    <div class="row wrap-ok"><button class="btn sun grow" onclick="enriquecerPlato('${p.id}',this)">${ic('spark')} Completar con IA</button><label class="btn">${ic('cam')} Foto<input type="file" accept="image/*" hidden onchange="fotoPlato('${p.id}',this)"></label></div>
+    <div class="row"><button class="btn grow" onclick="abrirFormPlato('${p.id}')">${ic('pen')} Editar</button>${p.creado_por===ME.id||esAdmin()?`<button class="btn danger" onclick="borrarPlato('${p.id}',this)">Borrar</button>`:''}</div>
+    ${c?`<button class="btn block" onclick="pedirVariante('${c.id}')">Pedir una variante para mí</button>`:''}</div>`);
+}
+function abrirFormPlato(id,comidaId){
+  const p=id?PLATOS.find(x=>x.id===id):{id:uid(),comida_id:comidaId||null,nombre:'',descripcion:'',estilo:'',ingredientes:[],porciones:null,tags:[],alergenos:[],opcion:null,foto:null,permanente:!comidaId,turno:comidaId?null:'almuerzo'};
+  const c=COMIDAS.find(x=>x.id===p.comida_id); window.PL={...p,tags:[...(p.tags||[])],nuevo:!id,_ing:(p.ingredientes||[]).join('|')};
+  if(c&&c.modalidad==='dual'&&!PL.opcion)PL.opcion='A';
+  openSheet(`${sheetH(id?'Editar plato':'Nuevo plato')}<div class="stack">
+    <div class="field"><label for="pl_n">Nombre</label><input id="pl_n" class="in" value="${esc(p.nombre)}" oninput="PL.nombre=this.value" autofocus placeholder="Ej. Encocado de camarón"></div>
+    ${c&&c.modalidad==='dual'?`<div class="field"><span class="lbl">Opción</span><div class="seg">${['A','B'].map(o=>`<button aria-pressed="${PL.opcion===o}" onclick="PL.opcion='${o}';segSel(this)">${o==='A'?'A · Healthy':'B · Tradicional'}</button>`).join('')}</div></div>`:''}
+    ${!c?`<div class="field"><span class="lbl">Momento</span><div class="seg">${TURNOS.map(([k,l])=>`<button aria-pressed="${PL.turno===k}" onclick="PL.turno='${k}';segSel(this)">${l}</button>`).join('')}</div></div>`:''}
+    <div class="field"><label for="pl_i">Ingredientes (uno por línea)</label><textarea id="pl_i" class="in" rows="4" oninput="PL.ingredientes=this.value.split('\\n').map(x=>x.trim()).filter(Boolean)">${esc((p.ingredientes||[]).join('\n'))}</textarea></div>
+    <div class="field"><label for="pl_d">Descripción</label><textarea id="pl_d" class="in" rows="3" oninput="PL.descripcion=this.value" placeholder="Si la dejas vacía, la completa la IA">${esc(p.descripcion||'')}</textarea></div>
+    <div class="field"><label for="pl_e">Estilo de preparación</label><input id="pl_e" class="in" value="${esc(p.estilo||'')}" oninput="PL.estilo=this.value" placeholder="Ej. costeño, de la cocinera, a la parrilla"></div>
+    <div class="field"><span class="lbl">Etiquetas</span><div class="chips">${TAGS_PLATO.map(t=>`<button class="chip" aria-pressed="${PL.tags.includes(t)}" onclick="PL.tags=PL.tags.includes('${t}')?PL.tags.filter(x=>x!=='${t}'):[...PL.tags,'${t}'];this.setAttribute('aria-pressed',PL.tags.includes('${t}'))">${t}</button>`).join('')}</div></div>
+    <div class="field"><label for="pl_p">Porciones (vacío = las personas que confirmaron)</label><input id="pl_p" class="in" inputmode="numeric" value="${esc(p.porciones||'')}" oninput="PL.porciones=parseInt(this.value)||null"></div>
+    <button class="btn primary block" onclick="guardarPlato()">Guardar</button></div>`);
+}
+function segSel(b){b.parentElement.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b))}
+async function guardarPlato(){
+  if(!String(PL.nombre).trim()){toast('Ponle nombre al plato');return}
+  const n=PL.nuevo,p={...PL};delete p.nuevo;delete p._ing;
+  if((p.ingredientes||[]).join('|')!==PL._ing)p.alergenos=[]; /* cambian los ingredientes: se vuelven a detectar */
+  if(n)p.creado_por=ME.id;
+  try{await API.savePlato(p,n);await cargar();closeSheet();toast(n?'Plato agregado':'Plato actualizado');render()}catch(e){toast(e.message)}
+}
+async function borrarPlato(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='¿Seguro?';return}try{await API.borrarPlato(id);await cargar();closeSheet();toast('Plato borrado');render()}catch(e){toast(e.message)}}
+async function fotoPlato(id,inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,1200,.82);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);if(MODO!=='demo')FOTOS[ref]=dataUrl;const p=PLATOS.find(x=>x.id===id);await API.savePlato({...p,foto:ref},false);await cargar();abrirPlato(id);render()}catch(e){toast(e.message)}}
+function enriquecerLocal(p){
+  const ing=p.ingredientes||[], t=norm(p.nombre+' '+ing.join(' ')), al=detectarAlergenos([p.nombre,...ing].join(' · '));
+  const beb=/cafe|jugo|agua|cerveza|vino|margarita|sangria|coctel/.test(t), tags=new Set(p.tags||[]);
+  if(!beb&&!al.some(a=>['mariscos','conchas','oscuros'].includes(a)))tags.add('#SinMariscos');
+  if(beb&&!al.includes('alcohol'))tags.add('#ZeroAlcohol');
+  if(/fruta|yogur|avena|ensalada|bowl|aguacate|papaya|sandia|granola/.test(t))tags.add('#Healthy');
+  if(/verde|patacon|encocado|ceviche|bolon|tigrillo|maduro|coco|seco de|marinero/.test(t))tags.add('#Costeño');
+  if(!beb&&!al.some(a=>['carne','cerdo','pescado','mariscos','conchas','oscuros'].includes(a)))tags.add('#Vegetariano');
+  const b=ing.slice(0,3).map(x=>x.toLowerCase());
+  const desc=p.descripcion||(b.length?`${p.nombre} con ${b.length>1?b.slice(0,-1).join(', ')+' y ':''}${b[b.length-1]}, hecho en casa para compartir.`:'');
+  return {descripcion:desc,estilo:p.estilo||(tags.has('#Costeño')?'Costeño, de preparación casera':''),ingredientes:ing,tags:[...tags],alergenos:al,local:true};
+}
+async function enriquecerPlato(id,btn){
+  const p=PLATOS.find(x=>x.id===id); btn.disabled=true; btn.textContent='Pensando…';
+  try{const r=await API.enriquecer(p);
+    const q={...p,descripcion:r.descripcion||p.descripcion,estilo:r.estilo||p.estilo,ingredientes:(r.ingredientes&&r.ingredientes.length&&!(p.ingredientes||[]).length)?r.ingredientes:p.ingredientes,tags:r.tags&&r.tags.length?r.tags:p.tags,alergenos:r.alergenos||[]};
+    await API.savePlato(q,false);await cargar();toast(r.local?'Completado con la lectura rápida (sin IA)':'Completado con IA');abrirPlato(id);render()}
+  catch(e){btn.disabled=false;btn.innerHTML=ic('spark')+' Completar con IA';toast(e.message)}
+}
+async function armarMenuBase(btn){
+  if(btn){btn.disabled=true;btn.textContent='Armando…'}
+  const m=generarMenuBase({dias:diasViaje(),eventos:EVENTOS,gente:activos().map(p=>p.id),autor:ME.id,conEstaciones:!PLATOS.some(p=>p.permanente)});
+  try{await API.bulkMenu(m.comidas,m.platos);await cargar();toast(`Menú armado: ${m.comidas.length} comidas, ${m.platos.length} platos`);TAB='menu';SUBM='carta';render()}catch(e){if(btn){btn.disabled=false;btn.textContent='Armar el menú base del viaje'}toast(e.message)}
+}
+function abrirFormComida(id){
+  if(!esAdmin())return;
+  const c=id?COMIDAS.find(x=>x.id===id):{id:uid(),dia:DIA_MENU,turno:'cena',titulo:'',modalidad:'colaborativa',hora:'20:00',responsables:[],evento_id:null,notas:''};
+  window.CF={...c,responsables:[...(c.responsables||[])],nuevo:!id};
+  openSheet(`${sheetH(id?'Editar comida':'Nueva comida')}<div class="stack">
+    <div class="field"><label for="cf_t">Nombre</label><input id="cf_t" class="in" value="${esc(c.titulo)}" oninput="CF.titulo=this.value" placeholder="Ej. Almuerzo costeño"></div>
+    <div class="grid2"><div class="field"><label for="cf_d">Día</label><select id="cf_d" class="in" onchange="CF.dia=this.value">${diasViaje().map((d,i)=>`<option value="${d}" ${c.dia===d?'selected':''}>Día ${i+1} · ${fechaCorta(d)}</option>`).join('')}</select></div>
+      <div class="field"><label for="cf_h">Hora</label><input id="cf_h" type="time" class="in" value="${esc(String(c.hora||'').slice(0,5))}" onchange="CF.hora=this.value"></div></div>
+    <div class="field"><span class="lbl">Turno</span><div class="seg">${TURNOS.map(([k,l])=>`<button aria-pressed="${c.turno===k}" onclick="CF.turno='${k}';segSel(this)">${l}</button>`).join('')}</div></div>
+    <div class="field"><span class="lbl">Quién cocina</span><div class="chips">${Object.entries(MODAL).map(([k,l])=>`<button class="chip" aria-pressed="${c.modalidad===k}" onclick="CF.modalidad='${k}';this.parentElement.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===this))">${l}</button>`).join('')}</div></div>
+    <div class="field"><span class="lbl">Responsables</span><div class="chips">${activos().map(p=>`<button class="chip sunny" aria-pressed="${CF.responsables.includes(p.id)}" onclick="CF.responsables=CF.responsables.includes('${p.id}')?CF.responsables.filter(x=>x!=='${p.id}'):[...CF.responsables,'${p.id}'];this.setAttribute('aria-pressed',CF.responsables.includes('${p.id}'))">${esc(nom(p.id))}</button>`).join('')}</div></div>
+    <div class="field"><label for="cf_e">Noche temática</label><select id="cf_e" class="in" onchange="CF.evento_id=this.value||null"><option value="">Ninguna</option>${EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>`<option value="${e.id}" ${c.evento_id===e.id?'selected':''}>${esc(e.titulo)}</option>`).join('')}</select></div>
+    <div class="field"><label for="cf_n">Notas</label><input id="cf_n" class="in" value="${esc(c.notas||'')}" oninput="CF.notas=this.value"></div>
+    <button class="btn primary block" onclick="guardarComida()">Guardar</button>
+    ${id?`<button class="btn danger block" onclick="borrarComida('${id}',this)">Borrar esta comida y sus platos</button>`:''}</div>`);
+}
+async function guardarComida(){if(!String(CF.titulo).trim()){toast('Ponle nombre');return}const n=CF.nuevo,c={...CF};delete c.nuevo;if(n)c.creado_por=ME.id;try{await API.saveComida(c,n);await cargar();DIA_MENU=c.dia;closeSheet();toast('Comida guardada');render()}catch(e){toast(e.message)}}
+async function borrarComida(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='Toca otra vez para borrar';return}try{await API.borrarComida(id);await cargar();closeSheet();toast('Comida borrada');render()}catch(e){toast(e.message)}}
+/* lista de compras: suma los ingredientes de los platos de los días elegidos */
+const PASILLOS=[['Del mar',/camaron|pescado|concha|mejillon|calamar|pulpo|marisc|corvina|dorado|atun/],['Carnes',/pollo|\bres\b|carne|lomo|costilla|chorizo|chicharron|cerdo|jamon|embutido|tocino/],
+  ['Lácteos y huevos',/queso|leche(?! de coco)|yogur|mantequilla|crema|huevo|mozzarella|manjar/],['Frutas y verduras',/papaya|sandia|banano|verde|maduro|platano|aguacate|limon|tomate|cebolla|pimiento|cilantro|culantro|naranj|fruta|frutos|\bcol\b|lechuga|choclo|mango|maracuya|uva|\bajo\b|\baji\b|ensalada|papas|romero|patacon|coco/],
+  ['Bebidas',/cafe|vino|cerveza|jugo|agua|hielo|\bron\b|tequila|gaseosa|soda/],['Despensa',/./]];
+function listaCompras(sel){
+  const M=new Map(); const add=(txt,plato,veces=1)=>{const k=norm(txt).replace(/es$|s$/,'');if(!k)return;const o=M.get(k)||{txt,platos:new Set(),veces:0};o.veces+=veces;o.platos.add(plato);M.set(k,o)};
+  COMIDAS.filter(c=>sel.includes(c.dia)&&c.modalidad!=='libre').forEach(c=>platosDe(c.id).forEach(p=>(p.ingredientes||[]).forEach(i=>add(i,p.nombre))));
+  estaciones().forEach(p=>(p.ingredientes||[]).forEach(i=>add(i,p.nombre,sel.length)));
+  const grupos=PASILLOS.map(([n])=>({n,items:[]}));
+  [...M.values()].sort((a,b)=>a.txt.localeCompare(b.txt)).forEach(o=>{const i=PASILLOS.findIndex(([,re])=>re.test(norm(o.txt)));grupos[i].items.push(o)});
+  return grupos.filter(g=>g.items.length);
+}
+function vCompras(dias){
+  const i0=Math.max(0,dias.indexOf(DIA_MENU)), sel=RANGO_C==='todo'?dias:dias.slice(i0,i0+(+RANGO_C));
+  const grupos=listaCompras(sel), lbl=sel.length===1?`día ${dias.indexOf(sel[0])+1}`:`días ${dias.indexOf(sel[0])+1} a ${dias.indexOf(sel[sel.length-1])+1}`;
+  window.COMPRAS={lbl,items:grupos.flatMap(g=>g.items.map(o=>o.txt))};
+  return chipsDias(dias)+`<div class="row wrap-ok" style="margin-top:10px">${[['1','Ese día'],['2','Ese día y el siguiente'],['todo','Todo el viaje']].map(([k,l])=>`<button class="chip sunny" aria-pressed="${RANGO_C===k}" onclick="RANGO_C='${k}';render()">${l}</button>`).join('')}</div>
+    <div class="card" style="margin-top:14px"><div class="row"><div class="grow"><div class="eyebrow">Compras para ${lbl}</div><div class="muted tiny">Para unas ${activos().length} personas · incluye café, fruta y ceviche bar de cada día</div></div></div>
+    ${grupos.map(g=>`<div class="eyebrow" style="margin:14px 0 4px;color:var(--tide)">${g.n}</div>${g.items.map(o=>`<label class="sub-item"><input type="checkbox"><span class="grow">${esc(o.txt)}<br><span class="muted tiny">${[...o.platos].slice(0,3).map(esc).join(' · ')}${o.platos.size>3?' …':''}</span></span><span class="pill num">×${o.veces}</span></label>`).join('')}`).join('')||'<div class="muted">No hay ingredientes cargados para esos días.</div>'}</div>
+    ${grupos.length?`<button class="btn primary block" style="margin-top:12px" onclick="comprasATarea()">Crear la tarea de compras</button><p class="muted tiny">×N es cuántos platos lo usan. Las cantidades exactas las define quien compra.</p>`:''}`;
+}
+async function comprasATarea(){try{await API.saveTarea({id:uid(),titulo:'Compras para '+COMPRAS.lbl,detalle:'Sale de la carta del menú.',grupo:'Compras',prioridad:'alta',estado:'por_hacer',responsable:null,evento_id:null,fecha:null,etiquetas:[],subtareas:COMPRAS.items.map(t=>({txt:t,ok:false})),creado_por:ME.id},true);await cargar();toast('Tarea de compras creada');TAB='tareas';render()}catch(e){toast(e.message)}}
+/* la comida que viene, para Hoy */
+function comidaHoyCard(){
+  const dias=diasViaje(); if(!dias.length||!COMIDAS.length) return '';
+  const hoy=hoyISO(), d=dias.includes(hoy)?hoy:dias[0], h=new Date().getHours();
+  const turno=d!==hoy?'desayuno':h<10?'desayuno':h<15?'almuerzo':'cena';
+  const c=comidasDia(d).find(x=>x.turno===turno)||comidasDia(d)[0]; if(!c) return '';
+  const ps=platosDe(c.id), yo=miAsis(c.id);
+  return `<div class="sec-h"><h2>${d===hoy?'Lo que se come':'Primer '+TURNON[c.turno].toLowerCase()}</h2><button class="link" onclick="DIA_MENU='${d}';SUBM='carta';irA('menu')">Carta completa</button></div>
+    <div class="carta"><div class="eyebrow">${TURNON[c.turno]} · ${esc(String(c.hora||'').slice(0,5))} · ${MODAL[c.modalidad]||''}</div>
+    <div class="list" style="margin-top:6px">${ps.map(p=>`<button class="item" style="padding:8px 0" onclick="abrirPlato('${p.id}')">${platoVisual(p,'sm')}<div class="grow"><div class="t">${p.opcion?`<span class="pill sun">${p.opcion}</span> `:''}${esc(p.nombre)}</div></div></button>`).join('')||'<div class="muted tiny">Sin platos.</div>'}</div>
+    <div class="row" style="margin-top:10px"><span class="muted tiny grow">${yo.va===false?'Dijiste que no vas':'Cuentan contigo'}${yo.opcion?' · elegiste la '+yo.opcion:''}</span><button class="btn sm" onclick="setAsis('${c.id}',{va:${yo.va===false}})">${yo.va===false?'Sí voy':'No voy'}</button></div></div>`;
+}
+
+/* ============================================================================
+   PRESUPUESTO vs REAL · FACTURAS · DRESS CODE
+   ============================================================================ */
+const alcanceDe=g=>g.alcance||(((g.reparto&&g.reparto.partes)||[]).length>=activos().length?'fijo':'consumo');
+const catIgual=(gc,c)=>gc===c||(c==='despensa'&&gc==='mercado')||(c==='restaurantes'&&gc==='comida');
+function vPresupuesto(){
+  const gs=GASTOS.filter(g=>g.tipo==='gasto'), real=c=>r2(gs.filter(g=>catIgual(g.categoria,c)).reduce((a,g)=>a+ +g.monto,0));
+  const rows=PRESU.slice().sort((a,b)=>(a.orden||0)-(b.orden||0)).map(r=>({...r,real:real(r.categoria)}));
+  const fuera=r2(gs.filter(g=>!PRESU.some(r=>catIgual(g.categoria,r.categoria))).reduce((a,g)=>a+ +g.monto,0));
+  const pmin=rows.reduce((a,r)=>a+(+r.minimo||0),0), pmax=rows.reduce((a,r)=>a+(+r.maximo||0),0), realT=r2(gs.reduce((a,g)=>a+ +g.monto,0)), n=activos().length||1;
+  const fijo=r2(gs.filter(g=>alcanceDe(g)==='fijo').reduce((a,g)=>a+ +g.monto,0));
+  const est=r=>{if(!r.minimo&&!r.maximo)return['','Sin cifra'];if(!r.real)return['','Sin gastos aún'];if(r.maximo&&r.real>r.maximo)return['bad','Por encima'];if(r.minimo&&r.real>=r.minimo)return['ok','Dentro'];return['tide','Va en '+Math.round(r.real/(r.minimo||r.maximo)*100)+'%']};
+  return `<div class="card" style="margin-top:14px"><div class="grid2">
+      <div><div class="eyebrow">Proyectado</div><div class="amt" style="font-size:22px">${pmin?money(pmin)+' – '+money(pmax):'—'}</div><div class="muted tiny">${pmin?money(pmin/n)+' – '+money(pmax/n)+' por persona':''}</div></div>
+      <div><div class="eyebrow">Gastado</div><div class="amt" style="font-size:22px">${money(realT)}</div><div class="muted tiny">${money(realT/n)} por persona</div></div></div>
+    <div class="muted tiny" style="margin-top:10px">Costos fijos del grupo <b class="num">${money(fijo)}</b> · consumo de algunos <b class="num">${money(r2(realT-fijo))}</b></div></div>
+    <div class="card" style="margin-top:12px">${rows.map(r=>{const[cl,tx]=est(r),S=Math.max(+r.maximo||0,r.real,+r.minimo||0)*1.15||1;
+      return `<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div class="row"><b class="grow">${esc(r.nombre)}</b><span class="pill ${cl}">${tx}</span></div>
+        <div class="row tiny muted" style="margin-top:2px"><span class="grow">${r.minimo||r.maximo?`Presupuesto ${money(r.minimo||0)} – ${money(r.maximo||r.minimo)}`:esc(r.nota||'Por definir')} · ${r.tipo==='fijo'?'fijo':'variable'}</span><span class="amt" style="color:var(--ink)">${money(r.real)}</span></div>
+        <div class="pbar">${r.minimo||r.maximo?`<i class="band" style="left:${(+r.minimo||0)/S*100}%;width:${((+r.maximo||+r.minimo)-(+r.minimo||0))/S*100}%"></i>`:''}<i class="fill ${cl==='bad'?'over':''}" style="width:${Math.min(100,r.real/S*100)}%"></i></div></div>`}).join('')}
+      ${fuera?`<div class="row" style="padding-top:10px"><span class="grow muted">Fuera del presupuesto</span><span class="amt">${money(fuera)}</span></div>`:''}</div>
+    ${esAdmin()?`<button class="btn sm" style="margin-top:12px" onclick="abrirPresupuesto()">${ic('pen')} Editar presupuesto</button>`:''}`;
+}
+function abrirPresupuesto(){
+  window.PR=PRESU.map(r=>({...r}));
+  const fila=(r,i)=>`<div class="card flat stack" style="gap:8px"><input class="in" value="${esc(r.nombre)}" oninput="PR[${i}].nombre=this.value" aria-label="Rubro">
+    <div class="grid2"><select class="in" onchange="PR[${i}].categoria=this.value" aria-label="Categoría">${CATS.map(([k,l])=>`<option value="${k}" ${r.categoria===k?'selected':''}>${l}</option>`).join('')}</select><select class="in" onchange="PR[${i}].tipo=this.value" aria-label="Tipo"><option value="fijo" ${r.tipo==='fijo'?'selected':''}>Fijo</option><option value="variable" ${r.tipo!=='fijo'?'selected':''}>Variable</option></select></div>
+    <div class="grid2"><input class="in num" inputmode="decimal" placeholder="Mínimo" value="${r.minimo??''}" oninput="PR[${i}].minimo=parseFloat(this.value)||null" aria-label="Mínimo"><input class="in num" inputmode="decimal" placeholder="Máximo" value="${r.maximo??''}" oninput="PR[${i}].maximo=parseFloat(this.value)||null" aria-label="Máximo"></div>
+    <button class="btn ghost sm" style="align-self:flex-start" onclick="PR.splice(${i},1);abrirPresupuestoRe()">Quitar</button></div>`;
+  window.abrirPresupuestoRe=()=>{$('#prl').innerHTML=PR.map(fila).join('')};
+  openSheet(`${sheetH('Presupuesto')}<div class="stack"><div id="prl" class="stack">${PR.map(fila).join('')}</div>
+    <button class="btn" onclick="PR.push({id:uid(),nombre:'Nuevo rubro',categoria:'otros',minimo:null,maximo:null,tipo:'variable',nota:'',orden:PR.length+1});abrirPresupuestoRe()">${ic('plus')} Agregar rubro</button>
+    <button class="btn primary block" onclick="guardarPresupuesto()">Guardar presupuesto</button></div>`);
+}
+async function guardarPresupuesto(){try{await API.savePresupuesto(PR.map((r,i)=>({...r,orden:i+1})));await cargar();closeSheet();toast('Presupuesto guardado');render()}catch(e){toast(e.message)}}
+function vFacturas(){
+  const L=GASTOS.filter(g=>g.respaldo_path).sort((a,b)=>String(b.fecha).localeCompare(String(a.fecha)));
+  return L.length?`<div class="fotos">${L.map(g=>{const u=fotoUrl(g.respaldo_path);return `<button class="foto" onclick="abrirGasto('${g.id}')">${u?`<img src="${esc(u)}" alt="Factura">`:`<span class="pv">${ic('receipt')}</span>`}<span class="cap"><b class="num">${money(g.monto)}</b> · ${esc((g.factura&&g.factura.comercio)||g.descripcion)}<br>${fechaCorta(g.fecha)} · ${esc(nom((g.pagadores||[])[0]?.persona_id))}</span></button>`}).join('')}</div>`
+    :`<div class="card flat empty" style="margin-top:14px">${ic('receipt')}<div>Aún no hay fotos de facturas. Toca ＋ y "Foto de una factura".</div></div>`;
+}
+function vDress(){
+  const L=EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&(e.estilo||e.dress_code)).sort((a,b)=>(String(a.dia||'9')+(a.hora||'')).localeCompare(String(b.dia||'9')+(b.hora||'')));
+  return L.map(e=>{const st=e.estilo||{},fotos=INSPI.filter(x=>x.evento_id===e.id);
+    return `<div class="card" style="margin-top:14px"><div class="eyebrow">${e.dia?diaSem(e.dia)+' '+fechaCorta(e.dia)+' · ':''}${esc(e.titulo)}</div>
+      <h3 style="font-size:22px;margin-top:4px">${esc(st.nombre||e.dress_code)}</h3>
+      ${(st.paleta||[]).filter(hexOk).length?`<div class="row" style="gap:6px;margin-top:10px">${st.paleta.filter(hexOk).map(c=>`<span class="swatch" style="background:${c}" title="${c}"></span>`).join('')}</div>`:''}
+      ${st.descripcion?`<p class="muted" style="margin:10px 0 0">${esc(st.descripcion)}</p>`:''}
+      ${(st.ideas||[]).length?`<div class="chips" style="margin-top:10px">${st.ideas.map(i=>`<span class="pill sun">${esc(i)}</span>`).join('')}</div>`:''}
+      <div class="insp">${fotos.map(f=>{const u=fotoUrl(f.foto);return u?`<img src="${esc(u)}" alt="Inspiración de ${esc(nom(f.persona_id))}" title="${esc(nom(f.persona_id))}">`:''}).join('')}<label class="insp-add">${ic('cam')}<span>Subir inspiración</span><input type="file" accept="image/*" hidden onchange="subirInspiracion('${e.id}',this)"></label></div></div>`}).join('')
+    ||`<div class="card flat empty" style="margin-top:14px">Cuando haya noches en el itinerario, aquí sale el dress code de cada una.</div>`;
+}
+async function subirInspiracion(evId,inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,900,.8);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);if(MODO!=='demo')FOTOS[ref]=dataUrl;await API.addInspiracion({id:uid(),evento_id:evId,persona_id:ME.id,foto:ref,nota:''});await cargar();toast('Inspiración subida');render()}catch(e){toast(e.message)}}
+/* itinerario: comidas y planes del día en una sola línea de tiempo */
+const minDe=h=>{const m=String(h||'').match(/^(\d{1,2}):(\d{2})/);return m?(+m[1])*60+(+m[2]):null};
+const minEv=e=>minDe(e.hora)??({manana:600,tarde:960,noche:1290}[e.bloque]||1400);
+function mealRow(c){const ps=platosDe(c.id);
+  return `<button class="meal" onclick="DIA_MENU='${c.dia}';SUBM='carta';irA('menu')"><span class="pv sm" style="background:var(--surface-2);color:var(--ink-2)">${ic('menu')}</span>
+    <div style="min-width:0"><div class="tiny muted">${TURNON[c.turno]} · ${esc(String(c.hora||'').slice(0,5))}${c.modalidad==='cocinera'?' · cocinera':''}</div><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(ps.map(p=>p.nombre).join(' · ')||c.titulo)}</div></div></button>`}
+function menuDeEvento(e){const c=COMIDAS.find(x=>x.evento_id===e.id);const ps=c?platosDe(c.id).map(p=>p.nombre):[];return ps.length?ps:(e.menu||[])}
+
+/* ============================================================================
+   ÁLBUM COMPARTIDO (como la app de una boda): cada quien sube, todos ven
+   ============================================================================ */
+let SUBN='album', FALB='', SUBIR=null;
+function fotosFiltradas(){return MURO.filter(f=>!FALB||(FALB==='antes'?!f.dia||!diasViaje().includes(f.dia):FALB.startsWith('ev:')?f.evento_id===FALB.slice(3):f.dia===FALB)).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')))}
+function vAlbum(){
+  const dias=diasViaje(), L=fotosFiltradas(), noches=EVENTOS.filter(e=>MURO.some(f=>f.evento_id===e.id));
+  return `<div class="row" style="margin-top:14px"><div class="grow"><h2 style="font-size:22px">${MURO.length} foto${MURO.length===1?'':'s'} del viaje</h2><div class="muted tiny">Las sube cualquiera; las ven todos.</div></div>
+      <label class="btn sun sm">${ic('cam')} Subir<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div>
+    <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FALB}" onclick="FALB='';render()">Todas</button>${dias.map((d,i)=>`<button class="chip" aria-pressed="${FALB===d}" onclick="FALB='${d}';render()">Día ${i+1}</button>`).join('')}${noches.map(e=>`<button class="chip sunny" aria-pressed="${FALB==='ev:'+e.id}" onclick="FALB='ev:${e.id}';render()">${esc(e.titulo)}</button>`).join('')}<button class="chip" aria-pressed="${FALB==='antes'}" onclick="FALB='antes';render()">Antes del viaje</button></div>
+    ${L.length?`<div class="alb" style="margin-top:12px">${L.map(f=>{const u=fotoUrl(f.foto_path);return `<button onclick="verFoto('${f.id}')" aria-label="Foto de ${esc(nom(f.persona_id))}">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}</button>`}).join('')}</div>`
+      :`<div class="card flat empty" style="margin-top:12px">${ic('cam')}<div>${MURO.length?'No hay fotos con ese filtro.':'Todavía no hay fotos. Sube la primera: la del grupo saliendo de viaje.'}</div></div>`}`;
+}
+async function elegirFotos(inp){
+  const fs=[...(inp.files||[])].slice(0,20); if(!fs.length) return;
+  try{const listas=[];for(const f of fs)listas.push(await achicar(f,1600,.82));SUBIR=listas;
+    const hoy=hoyISO(), dias=diasViaje(), evHoy=EVENTOS.filter(e=>e.dia===hoy&&e.estado!=='propuesta').sort((a,b)=>minEv(b)-minEv(a))[0];
+    openSheet(`${sheetH(`Subir ${listas.length} foto${listas.length===1?'':'s'}`)}<div class="stack">
+      <div class="alb">${listas.map(x=>`<button style="cursor:default"><img src="${x.dataUrl}" alt=""></button>`).join('')}</div>
+      <div class="field"><label for="ft_t">Pie de foto (opcional)</label><input id="ft_t" class="in" placeholder="Ej. el atardecer del primer día"></div>
+      <div class="grid2"><div class="field"><label for="ft_d">Día</label><select id="ft_d" class="in"><option value="">Antes del viaje</option>${dias.map((d,i)=>`<option value="${d}" ${d===hoy?'selected':''}>Día ${i+1} · ${fechaCorta(d)}</option>`).join('')}</select></div>
+        <div class="field"><label for="ft_e">Noche o actividad</label><select id="ft_e" class="in"><option value="">Ninguna</option>${EVENTOS.filter(e=>e.estado!=='propuesta'&&e.estado!=='cancelado').map(e=>`<option value="${e.id}" ${evHoy&&evHoy.id===e.id?'selected':''}>${esc(e.titulo)}</option>`).join('')}</select></div></div>
+      <button class="btn primary block" id="ft_go" onclick="subirFotos()">Subir al álbum</button></div>`);
+  }catch(e){toast(e.message)}
+}
+async function subirFotos(){
+  const b=$('#ft_go'); b.disabled=true; const texto=$('#ft_t').value.trim(), dia=$('#ft_d').value||null, evento_id=$('#ft_e').value||null; let n=0;
+  try{for(const x of SUBIR){b.textContent=`Subiendo ${++n} de ${SUBIR.length}…`;const ref=MODO==='demo'?x.dataUrl:await API.subirFoto('marea-muro',x.blob,x.dataUrl);if(MODO!=='demo')FOTOS[ref]=x.dataUrl;
+      await API.addFoto({id:uid(),persona_id:ME.id,foto_path:ref,texto,dia,evento_id})}
+    SUBIR=null;await cargar();closeSheet();toast(`${n} foto${n===1?' subida':'s subidas'}`);SUBN='album';TAB='nosotros';render()}
+  catch(e){b.disabled=false;b.textContent='Subir al álbum';toast(e.message)}
+}
+function verFoto(id){
+  const L=fotosFiltradas(), i=L.findIndex(f=>f.id===id), f=L[i]; if(!f) return; const u=fotoUrl(f.foto_path), ev=EVENTOS.find(e=>e.id===f.evento_id);
+  openSheet(`${sheetH('')}<div class="stack lb" style="margin-top:-30px">${u?`<img src="${esc(u)}" alt="${esc(f.texto||'Foto del viaje')}">`:''}
+    <div class="row">${av(f.persona_id)}<div class="grow"><b>${esc(nom(f.persona_id))}</b><div class="muted tiny">${f.dia?diaSem(f.dia)+' '+fechaCorta(f.dia):'Antes del viaje'}${ev?' · '+esc(ev.titulo):''}</div></div></div>
+    ${f.texto?`<p style="margin:0;font-size:17px">${esc(f.texto)}</p>`:''}
+    <div class="row"><button class="btn grow" ${i>0?'':'disabled'} onclick="verFoto('${i>0?L[i-1].id:''}')">${ic('back')} Anterior</button><button class="btn grow" ${i<L.length-1?'':'disabled'} onclick="verFoto('${i<L.length-1?L[i+1].id:''}')">Siguiente</button></div>
+    ${u&&!u.startsWith('data:')?`<a class="btn block" href="${esc(u)}" target="_blank" rel="noopener">Abrir en tamaño completo</a>`:''}
+    ${f.persona_id===ME.id||esAdmin()?`<button class="btn danger block" onclick="borrarFoto('${f.id}',this)">Borrar foto</button>`:''}</div>`);
+}
+async function borrarFoto(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='Toca otra vez para borrar';return}try{await API.borrarFoto(id);await cargar();closeSheet();toast('Foto borrada');render()}catch(e){toast(e.message)}}
+function fotosHoyCard(){
+  if(!MURO.length) return `<div class="sec-h"><h2>Álbum del viaje</h2></div><label class="card flat empty" style="display:block;cursor:pointer">${ic('cam')}<div>Sube la primera foto del viaje.</div><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label>`;
+  const L=MURO.slice().sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''))).slice(0,6);
+  return `<div class="sec-h"><h2>Álbum del viaje</h2><button class="link" onclick="SUBN='album';FALB='';irA('nosotros')">Ver las ${MURO.length}</button></div>
+    <div class="alb">${L.map(f=>{const u=fotoUrl(f.foto_path);return `<button onclick="FALB='';verFoto('${f.id}')">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}</button>`}).join('')}</div>`;
+}
+
+/* ============================================================================
+   LO ESENCIAL (como la app de una boda): dirección, WiFi, qué llevar, reglas…
+   Vive en config.viaje.info. El admin lo llena a mano o pegando un texto (IA).
+   ============================================================================ */
+const INFO_VACIA={casa_titulo:'',casa_desc:'',airbnb_url:'',amenidades:[],casa_fotos:[],direccion:'',mapa_url:'',checkin:'',checkout:'',wifi_red:'',wifi_clave:'',que_llevar:[],reglas:[],contactos:[],faq:[]};
+const infoV=()=>({...INFO_VACIA,...(CFG.info||{})});
+const ESENCIAL=[['casa','La casa','hospedaje'],['donde','Cómo llegar','planes'],['wifi','WiFi','spark'],['llevar','Qué llevar','logistica'],['reglas','Reglas','list'],['contactos','Contactos','wa'],['faq','Preguntas','chat']];
+function esencialChips(){const I=infoV();const hay=k=>({casa:I.casa_fotos.length||I.casa_desc||I.airbnb_url,donde:I.direccion||I.checkin,wifi:I.wifi_red,llevar:I.que_llevar.length,reglas:I.reglas.length,contactos:I.contactos.length,faq:I.faq.length}[k]);
+  const L=ESENCIAL.filter(([k])=>hay(k));
+  if(!L.length) return esAdmin()?`<button class="card flat empty" style="display:block;width:100%;margin-top:14px;cursor:pointer" onclick="abrirInfoAdmin()">Agrega lo esencial: dirección, WiFi, qué llevar… <b style="color:var(--tide)">Llenar ahora</b></button>`:'';
+  return `<div class="esen">${L.map(([k,l,i])=>`<button onclick="verEsencial('${k}')"><span class="ic">${ic(i)}</span><span>${l}</span></button>`).join('')}</div>`}
+function verEsencial(k){
+  const I=infoV(), li=a=>a.map(x=>`<div class="sub-item">${esc(x)}</div>`).join('');
+  const cuerpo={
+    casa:`${I.casa_fotos.length?`<div class="casa-g">${I.casa_fotos.map(r=>{const u=fotoUrl(r);return u?`<img src="${esc(u)}" alt="La casa">`:''}).join('')}</div>`:''}
+      ${I.casa_titulo?`<h3 style="font-size:22px">${esc(I.casa_titulo)}</h3>`:''}${I.casa_desc?`<p style="margin:0;white-space:pre-line">${esc(I.casa_desc)}</p>`:''}
+      ${I.amenidades.length?`<div class="chips">${I.amenidades.map(a=>`<span class="pill tide">${esc(a)}</span>`).join('')}</div>`:''}
+      ${/^https:\/\/(www\.)?airbnb\./.test(I.airbnb_url)?`<a class="btn primary block" href="${esc(I.airbnb_url)}" target="_blank" rel="noopener">Ver la casa en Airbnb</a>`:''}`,
+    donde:`<div class="card"><dl class="kv">${I.direccion?`<dt>Dirección</dt><dd>${esc(I.direccion)}</dd>`:''}${I.checkin?`<dt>Check-in</dt><dd>${esc(I.checkin)}</dd>`:''}${I.checkout?`<dt>Check-out</dt><dd>${esc(I.checkout)}</dd>`:''}</dl></div>
+      ${I.mapa_url&&/^https:\/\//.test(I.mapa_url)?`<a class="btn primary block" href="${esc(I.mapa_url)}" target="_blank" rel="noopener">Abrir en el mapa</a>`:I.direccion?`<a class="btn primary block" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(I.direccion)}" target="_blank" rel="noopener">Buscar en Google Maps</a>`:''}`,
+    wifi:`<div class="card" style="text-align:center"><div class="eyebrow">Red</div><div class="ah-t">${esc(I.wifi_red)}</div>${I.wifi_clave?`<div class="eyebrow" style="margin-top:12px">Clave</div><div class="pin-big" style="font-size:30px;letter-spacing:.05em">${esc(I.wifi_clave)}</div><button class="btn block" style="margin-top:10px" onclick="copiar(${esc(JSON.stringify(I.wifi_clave))},'Clave copiada')">${ic('copy')} Copiar clave</button>`:''}</div>`,
+    llevar:`<div class="card">${I.que_llevar.map(x=>`<label class="sub-item"><input type="checkbox"><span class="grow">${esc(x)}</span></label>`).join('')}</div><p class="muted tiny">La lista es para ti; marcar no le avisa a nadie.</p>`,
+    reglas:`<div class="card">${li(I.reglas)}</div>`,
+    contactos:`<div class="card">${I.contactos.map(c=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><div class="grow"><b>${esc(c.nombre)}</b><div class="muted tiny">${esc(c.rol||'')}</div></div>${c.tel?`<span class="num tiny" style="user-select:all">${esc(c.tel)}</span><a class="btn sm" href="https://wa.me/${String(c.tel).replace(/\D/g,'')}" target="_blank" rel="noopener">${ic('wa')}</a>`:''}</div>`).join('')}</div>`,
+    faq:I.faq.map(f=>`<details class="card"><summary style="cursor:pointer;font-weight:700">${esc(f.p)}</summary><p class="muted" style="margin:8px 0 0">${esc(f.r)}</p></details>`).join('')};
+  openSheet(`${sheetH((ESENCIAL.find(x=>x[0]===k)||[])[1]||'')}<div class="stack">${cuerpo[k]||''}${esAdmin()?`<button class="btn ghost" onclick="abrirInfoAdmin()">${ic('pen')} Editar lo esencial</button>`:''}</div>`);
+}
+const lineas=a=>String(a||'').split('\n').map(x=>x.replace(/^\s*(?:[-–•*]|\d+[.)])\s*/,'').trim()).filter(Boolean);
+function abrirInfoAdmin(pre){
+  if(!esAdmin())return; const I={...infoV(),...(pre||{})}; window.CASA_FOTOS=[...I.casa_fotos];
+  const f=(k,l,ph='')=>`<div class="field"><label for="in_${k}">${l}</label><input id="in_${k}" class="in" value="${esc(I[k]||'')}" placeholder="${ph}"></div>`;
+  const ta=(k,l,v,ph)=>`<div class="field"><label for="in_${k}">${l}</label><textarea id="in_${k}" class="in" rows="4" placeholder="${ph}">${esc(v)}</textarea></div>`;
+  openSheet(`${sheetH('Lo esencial del viaje')}<div class="stack">
+    <div class="card" style="background:var(--sun-soft)"><div class="eyebrow" style="color:var(--sun)">Llenar con IA</div><p class="tiny" style="margin:4px 0 8px">Pega cualquier texto: el mensaje del dueño de la casa, notas del grupo, un pantallazo copiado. Se llenan los campos y tú revisas antes de guardar.</p>
+      <textarea id="in_ia" class="in" rows="4" placeholder="Ej. La casa queda en Same, vía a Tonsupa km 3. Check-in 3pm, salida 12. WiFi CasaSame clave playa2026. Llevar protector, repelente…"></textarea>
+      <button class="btn sun block" id="in_iab" style="margin-top:8px" onclick="llenarInfoIA()">${ic('spark')} Llenar los campos</button></div>
+    ${f('casa_titulo','Nombre de la casa','Ej. Casa frente al mar en Same')}${f('airbnb_url','Link de Airbnb','https://www.airbnb.cl/rooms/…')}
+    ${ta('casa_desc','Descripción de la casa',I.casa_desc,'Pega aquí la descripción del Airbnb')}
+    ${ta('amenidades','Comodidades (una por línea)',I.amenidades.join('\n'),'Piscina\nFrente a la playa\nParrilla')}
+    <div class="field"><span class="lbl">Fotos de la casa (la primera es la portada)</span><div class="alb" id="cfotos">${I.casa_fotos.map((r,i)=>`<button onclick="quitarFotoCasa(${i})" title="Quitar">${fotoUrl(r)?`<img src="${esc(fotoUrl(r))}" alt="">`:''}</button>`).join('')}<label class="insp-add" style="aspect-ratio:1">${ic('cam')}<span>Agregar fotos</span><input type="file" accept="image/*" multiple hidden onchange="subirFotosCasa(this)"></label></div><span class="muted tiny">Toca una foto para quitarla.</span></div>
+    ${f('direccion','Dirección','Casa en Same, Esmeraldas')}${f('mapa_url','Link del mapa (opcional)','https://maps.app.goo.gl/…')}
+    <div class="grid2">${f('checkin','Check-in','15:00')}${f('checkout','Check-out','12:00')}</div>
+    <div class="grid2">${f('wifi_red','Red WiFi')}${f('wifi_clave','Clave WiFi')}</div>
+    ${ta('que_llevar','Qué llevar (uno por línea)',I.que_llevar.join('\n'),'Protector solar\nRopa blanca para la noche Santorini')}
+    ${ta('reglas','Reglas de la casa (una por línea)',I.reglas.join('\n'),'Cero café soluble\nCada quien lava lo que usa')}
+    ${ta('contactos','Contactos (nombre · rol · teléfono)',I.contactos.map(c=>[c.nombre,c.rol,c.tel].filter(Boolean).join(' · ')).join('\n'),'Daniel · organiza · +593…')}
+    ${ta('faq','Preguntas (pregunta? respuesta)',I.faq.map(x=>x.p.replace(/\?*$/,'?')+' '+x.r).join('\n'),'¿Hay toallas? Sí, para la playa también.')}
+    <button class="btn primary block" onclick="guardarInfo()">Guardar</button></div>`);
+}
+function leerInfoForm(){const v=k=>$('#in_'+k).value.trim();
+  return {casa_titulo:v('casa_titulo'),casa_desc:v('casa_desc'),airbnb_url:v('airbnb_url'),amenidades:lineas(v('amenidades')),casa_fotos:[...(window.CASA_FOTOS||infoV().casa_fotos)],direccion:v('direccion'),mapa_url:v('mapa_url'),checkin:v('checkin'),checkout:v('checkout'),wifi_red:v('wifi_red'),wifi_clave:v('wifi_clave'),que_llevar:lineas(v('que_llevar')),reglas:lineas(v('reglas')),
+    contactos:lineas(v('contactos')).map(l=>{const p=l.split(/\s*[·|;]\s*|\s+-\s+/);const tel=(l.match(/\+?\d[\d\s-]{6,}\d/)||[''])[0].trim();return{nombre:p[0]||l,rol:p.length>2?p[1]:(p[1]&&!/\d{6}/.test(p[1])?p[1]:''),tel}}),
+    faq:lineas(v('faq')).map(l=>{const i=l.indexOf('?');return i>0?{p:l.slice(0,i+1).trim(),r:l.slice(i+1).trim()}:{p:l,r:''}})}}
+async function subirFotosCasa(inp){const fs=[...(inp.files||[])].slice(0,15);if(!fs.length)return;const actual=leerInfoForm();
+  try{for(const f of fs){const{blob,dataUrl}=await achicar(f,1600,.82);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);if(MODO!=='demo')FOTOS[ref]=dataUrl;actual.casa_fotos.push(ref)}abrirInfoAdmin(actual);toast(`${fs.length} foto${fs.length===1?'':'s'} agregada${fs.length===1?'':'s'}. Toca Guardar.`)}catch(e){toast(e.message)}}
+function quitarFotoCasa(i){const actual=leerInfoForm();actual.casa_fotos.splice(i,1);abrirInfoAdmin(actual)}
+async function guardarInfo(){try{await API.saveConfig({info:leerInfoForm()});await cargar();closeSheet();toast('Lo esencial quedó guardado');render()}catch(e){toast(e.message)}}
+async function llenarInfoIA(){const t=$('#in_ia').value.trim(),b=$('#in_iab');if(!t){toast('Pega un texto primero');return}b.disabled=true;b.textContent='Leyendo…';
+  try{const actual=leerInfoForm(),r=await API.llenarInfo(t),m={...actual};
+    for(const k of Object.keys(INFO_VACIA)){const v=r[k];if(Array.isArray(v)){if(v.length)m[k]=[...new Set([...(actual[k]||[]).map(x=>JSON.stringify(x)),...v.map(x=>JSON.stringify(x))])].map(x=>JSON.parse(x))}else if(v)m[k]=v}
+    abrirInfoAdmin(m);toast(r.local?'Llenado con la lectura rápida (sin IA). Revisa.':'Llenado con IA. Revisa y guarda.')}
+  catch(e){b.disabled=false;b.textContent='Llenar los campos';toast(e.message)}}
+/* lectura rápida sin IA para el demo o si la IA falla */
+function infoLocal(t){const r={local:true,que_llevar:[],reglas:[],contactos:[],faq:[]},n=norm(t);
+  const w=t.match(/wi-?fi[ \t]*(?:red|es|se llama|nombre)?[ \t]*[: \t][ \t]*([^\s,;:]+)/i);if(w&&!/^(clave|contrase)/i.test(w[1]))r.wifi_red=w[1];
+  const c=t.match(/(?:clave|contrase[ñn]a|password)[ \t]*(?:del wifi|wifi)?[: \t]+([^\s,;]+)/i);if(c)r.wifi_clave=c[1].replace(/[.,;:]+$/,'');
+  const ci=t.match(/check.?in[^\d]*(\d{1,2}(?::\d{2})?\s*(?:am|pm|h)?)/i);if(ci)r.checkin=ci[1].trim();
+  const co=t.match(/(?:check.?out|salida)[^\d]*(\d{1,2}(?::\d{2})?\s*(?:am|pm|h)?)/i);if(co)r.checkout=co[1].trim();
+  const d=t.match(/(?:direcci[oó]n|queda en|ubicad[ao] en)[:\s]+([^\n.]+)/i);if(d)r.direccion=d[1].trim();
+  const u=t.match(/https:\/\/[^\s]*(?:maps|goo\.gl)[^\s]*/i);if(u)r.mapa_url=u[0];
+  const ll=t.match(/(?:llevar|traer)[:\s]+([^\n.]+)/i);if(ll)r.que_llevar=ll[1].split(/,|\sy\s/).map(x=>x.trim()).filter(Boolean).map(x=>x.charAt(0).toUpperCase()+x.slice(1));
+  const AM=[['piscina','Piscina'],['frente al mar|frente a la playa|acceso a la playa|vista al mar','Frente al mar'],['wifi','WiFi'],['cocina','Cocina equipada'],['parrilla|bbq|barbacoa','Parrilla'],['aire acondicionado','Aire acondicionado'],['estacionamiento|parqueadero','Estacionamiento'],['lavadora','Lavadora'],['jacuzzi|tina','Jacuzzi'],['tv|televis','TV'],['hamaca','Hamacas'],['terraza','Terraza']];
+  AM.forEach(([re,l])=>{if(new RegExp(re).test(n))(r.amenidades=r.amenidades||[]).push(l)});
+  const air=t.match(/https:\/\/(?:www\.)?airbnb\.[a-z.]+\/rooms\/\d+/i);if(air)r.airbnb_url=air[0];
+  t.split('\n').forEach(l=>{if(/^\s*(no |prohibido|cada quien|favor |por favor|respetar)/i.test(l))r.reglas.push(l.trim());const tel=l.match(/\+?\d[\d\s-]{7,}\d/);if(tel){const nm=l.replace(tel[0],'').replace(/[:\-–·]+\s*$/,'').trim();if(nm)r.contactos.push({nombre:nm.slice(0,40),rol:'',tel:tel[0].trim()})}});
+  return r}
 
 /* ---------- service worker (solo en el sitio publicado) ---------- */
 try{if('serviceWorker' in navigator&&/fieldbuil\.ai$|workers\.dev$/.test(location.hostname))navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}
