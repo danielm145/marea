@@ -274,7 +274,7 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
 .look-h{padding:18px 18px 16px}.look-h h3{font-family:var(--f-disp);font-weight:800;font-size:30px;line-height:1.05;margin-top:4px}
 .look-d{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.85}.look-e{font-size:13px;font-weight:600;margin-top:6px;opacity:.85}
 .look-b{padding:16px 18px 18px}.swatch.lg{width:34px;height:34px}
-.look-img{display:block;width:100%;max-height:560px;object-fit:cover;cursor:zoom-in}
+.look-img{display:block;width:100%;max-height:72vh;object-fit:cover;object-position:top;cursor:zoom-in}
 .gia .thumb{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-bottom:10px}.gia-t{font-family:var(--f-disp);font-weight:800;font-size:22px;line-height:1.15;margin-top:4px}.gia-m{font-family:var(--f-disp);font-weight:800;font-size:36px;color:var(--tide-deep);margin-top:4px}
 .evh{position:relative;margin:-8px -16px 0;min-height:230px;display:flex;align-items:flex-end;overflow:hidden;color:#fff;border-radius:22px 22px 0 0}
 .evh-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -332,7 +332,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v9';
+const BUILD_TAG='v10';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1983,8 +1983,9 @@ function vFacturas(){
 }
 /* foto de cada look: el collage que manda el grupo (img/looks/) o, si no está, la que genera la IA (img/playa/estilo-*) */
 const LOOK_IMG=[[/welcome|white/i,'welcome-white'],[/golden/i,'golden-hour'],[/tiki|boho/i,'tiki-boho']];
+const LOOK_SRC={'welcome-white':'img/looks/welcome-white.jpg','golden-hour':'img/looks/golden-hour.jpg','tiki-boho':'img/looks/tiki-boho.jpg'};
 function lookImg(nombre){const f=(LOOK_IMG.find(([re])=>re.test(nombre||''))||[])[1];if(!f)return '';
-  return `<img class="look-img" src="img/looks/${f}.jpg" alt="Inspiración ${esc(nombre)}" loading="lazy" onclick="verLook(this.src)" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='img/playa/estilo-${f}.jpg'}else this.remove()">`}
+  return `<img class="look-img" src="${LOOK_SRC[f]}" alt="Inspiración ${esc(nombre)}" loading="lazy" onclick="verLook(this.src)" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='img/playa/estilo-${f}.jpg'}else this.remove()">`}
 function verLook(src){openSheet(sheetH('Inspiración')+`<img src="${esc(src)}" alt="" style="width:100%;border-radius:16px">`)}
 function vDress(){
   const L=EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&(e.estilo||e.dress_code)).sort((a,b)=>(String(a.dia||'9')+(a.hora||'')).localeCompare(String(b.dia||'9')+(b.hora||'')));
@@ -2218,6 +2219,7 @@ async function borrarCarro(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';b
 const IMG='img/playa/', CASA_DEF=['img/casa/sala.jpg','img/casa/terraza.jpg','img/casa/cuarto.jpg','img/casa/playa.jpg'];
 const imgTag=(src,cls='',alt='')=>`<img class="${cls}" src="${esc(src)}" alt="${esc(alt)}" loading="lazy" onerror="this.remove()">`;
 function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));
+  if(/intenciones/.test(t))return LOOK_SRC['welcome-white']; if(/freaky|gafas/.test(t))return LOOK_SRC['tiki-boho'];
   for(const[re,f]of [[/pizza/,'d1-cena'],[/bbq|cocktail/,'d2-cena'],[/tapas/,'d3-cena'],[/restaurant/,'d4-cena']])if(re.test(t))return 'img/menu/'+f+'.jpg';
   for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill|bbq|cocktail/,'sunset-grill'],[/restaurant/,'restaurante'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas|freaky/,'fotos-gafas'],[/pizza|juegos de mesa|board|game night/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t))return IMG+f+'.jpg';
   return IMG+'portada.jpg'}

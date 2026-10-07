@@ -94,7 +94,7 @@ Validado en Postgres 16 local: los 7 SQL corren dos veces sin error, 20 tablas e
 - [ ] Fechas reales del viaje (Admin → El viaje)
 - [ ] Conectar Supabase (pasos de arriba)
 - [ ] Celular y cumpleaños de los 8 en Admin, y enviar las invitaciones
-- [ ] Guardar los 3 collages en `public/img/looks/` (welcome-white.jpg, golden-hour.jpg, tiki-boho.jpg)
+- [x] Collages de los 3 looks en `public/img/looks/` (v10)
 - [ ] Fotos de la casa (la descripción ya está)
 - [x] Cupo: son 8 invitados y el Airbnb es para 8
 - [ ] Poner el repo en privado (GitHub → Settings → Make private)
