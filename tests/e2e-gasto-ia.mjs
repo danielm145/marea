@@ -6,7 +6,7 @@ pg.on('pageerror',e=>errs.push(e.message));
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
 await pg.goto('file:///home/user/marea/public/index.html');
 await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}}); await pg.reload();
-await pg.fill('#lced','0990000001'); await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
+await pg.fill('#lced','0990000001'); await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');
 await pg.click('.fab'); await pg.waitForTimeout(200);
 log('opciones:', (await pg.locator('#sheetBody .add-opt b').allInnerTexts()).join(' | '));
 await pg.click('#sheetBody .add-opt:has-text("Nuevo gasto")'); await pg.waitForSelector('#ltxt');
@@ -23,7 +23,7 @@ log('sheet abierto:', await pg.evaluate(()=>!document.querySelector('#sheet').hi
 log('último gasto:', await pg.evaluate(()=>{const g=GASTOS.slice().sort((a,c)=>String(c.created_at).localeCompare(String(a.created_at)))[0];return g.descripcion+' · '+g.monto+' · partes '+g.reparto.partes.length+' · ev '+((EVENTOS.find(e=>e.id===g.evento_id)||{}).titulo||'-')+' · foto '+!!g.respaldo_path}));
 // desde un plan
 await pg.evaluate(()=>{const e=EVENTOS.find(x=>x.titulo==='Tapas & Wine Night');abrirEvento(e.id)}); await pg.waitForTimeout(200);
-await pg.click('#sheetBody button:has-text("Registrar un gasto de este plan")'); await pg.waitForSelector('#ltxt');
+await pg.click('#sheetBody .ev-acc button:has-text("Gasto")'); await pg.waitForSelector('#ltxt');
 await pg.fill('#ltxt','Kevin pagó 85 del vino, solo Ana Pau, Ana Cris y Kevin'); await pg.click('#lgo'); await pg.waitForSelector('.gia');
 log('desde plan:', (await pg.locator('.gia dl').innerText()).replace(/\n+/g,' / '));
 log('errores:', errs.length?errs:'ninguno'); await b.close();

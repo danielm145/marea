@@ -2,6 +2,18 @@
 
 > Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v8**.
 
+## v15 (7-oct) · rediseño copiando el mockup de Daniel
+- Barra de abajo: **Hoy · Itinerario · Menú · Gastos · Más** (Tareas, Álbum, Viajeros, Looks, Info y Equipo viven en Más).
+- **Hoy**: portada a pantalla completa con foto, logo, fechas y frase en letra script; 4 cifras (días, viajeros,
+  actividades, pendientes); «Lo próximo» con foto y botón «Ver itinerario completo»; accesos rápidos.
+- Páginas internas con encabezado centrado (atrás · Beach Trip · ⋯ con Mi ficha / Administrar / Salir).
+- **Itinerario**: chips de día + línea de tiempo con hora a la izquierda y tarjetas con foto. Pestañas Itinerario ·
+  Propuestas (cuadrícula con corazón para votar) · Looks · Info (lo esencial como lista).
+- **Menú**: Carta del día (desayuno con lo incluido y Healthy/Normal para elegir; almuerzo y cena con Voy/No voy y
+  los platos en tarjetas grandes) · Los 4 días («Nuestro menú», una fila por día) · Lista de compras.
+- **Gastos**: «En total te deben» grande + quién te debe + Últimos movimientos. **Álbum** con portada y «Subir fotos».
+- Fuente script: Dancing Script. Azul marino `--navy:#14335C` para lo seleccionado.
+
 ## v13 (7-oct) · fotos de ambiente
 - `node scripts/fotos-stock.mjs` (en la Mac): baja fotos reales con licencia libre desde **Openverse** (sin llave) para
   cada plan y comida — gente en la playa, atardeceres, piscina, BBQ, tapas — a `public/img/playa/<nombre>.jpg`, y anota

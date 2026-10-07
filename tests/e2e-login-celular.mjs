@@ -8,15 +8,15 @@ await pg.goto('file:///home/user/marea/public/index.html');
 await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}}); await pg.reload(); await pg.waitForSelector('#lced');
 log('demo banner:', (await pg.locator('.banner.tide').innerText()).replace(/\n/g,' '));
 await pg.screenshot({path:'v8-10-login.png',fullPage:true});
-const intento=async(t,p)=>{await pg.fill('#lced',t);await pg.fill('#lpin',p);await pg.click('#lbtn');await pg.waitForTimeout(250);return await pg.locator('.hero').count()?'ENTRÓ':await pg.locator('#lerr').innerText()};
+const intento=async(t,p)=>{await pg.fill('#lced',t);await pg.fill('#lpin',p);await pg.click('#lbtn');await pg.waitForTimeout(250);return await pg.locator('.hh').count()?'ENTRÓ':await pg.locator('#lerr').innerText()};
 log('clave mala:', await intento('0990000001','2026'));
 log('celular raro:', await intento('12','1001'));
 log('+593 con espacios:', await intento('+593 99 000 0001','1001'));
 await pg.evaluate(()=>salir()); await pg.waitForSelector('#lced');
 log('celular recordado:', await pg.inputValue('#lced'));
 // admin crea a alguien
-await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hero');
-await pg.click('button[aria-label="Administrar"]'); await pg.waitForTimeout(300);
+await pg.fill('#lpin','1001'); await pg.click('#lbtn'); await pg.waitForSelector('.hh');
+await pg.evaluate(()=>irA('admin')); await pg.waitForTimeout(300);
 log('invitados en admin:', await pg.locator('#main .item').count());
 await pg.evaluate(()=>abrirNuevoInvitado()); await pg.fill('#ni_n','Prueba Nueva'); await pg.fill('#ni_t','0987654321'); await pg.fill('#ni_c','31/02');
 await pg.click('text=Crear y armar la invitación'); await pg.waitForTimeout(200); log('31 de febrero:', await pg.locator('#ni_e').innerText());

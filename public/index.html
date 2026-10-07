@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Dancing+Script:wght@600&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: una columna de 680px que vive en el celular; pestañas fijas abajo; todo lo que se edita sube en una hoja desde abajo.
    Solo tema claro (pedido de Daniel): arena, cielo al atardecer y mar turquesa, sacados del logo Beach Trip. */
@@ -323,6 +323,86 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .ok-go{background:var(--ok);color:#fff;border-color:var(--ok)}
 .pl-al.ok{background:var(--ok-soft)}.pl-al.ok svg{color:var(--ok)}
 .pl-ing{display:flex;flex-wrap:wrap;gap:6px}.pl-ing span{background:var(--surface-2);border-radius:999px;padding:6px 11px;font-size:14px;font-weight:600}
+:root{--navy:#14335C;--navy-ink:#fff}
+.script{font-family:'Dancing Script',cursive;font-weight:600}
+.btn.navy{background:var(--navy);color:#fff;border-color:var(--navy)}.btn.navy svg{width:18px;height:18px}
+.pg-t{font-family:var(--f-disp);font-weight:800;font-size:24px;margin:16px 0 4px}
+/* encabezado de las páginas internas */
+.top2{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:grid;grid-template-columns:44px 1fr 44px;align-items:center;padding:10px 0}
+.top2-t{text-align:center;line-height:1.15}.top2-t b{font-family:var(--f-disp);font-weight:800;font-size:19px;display:block}.top2-t small{color:var(--ink-3);font-size:12px}
+.wrap.en-hoy{padding-top:0}
+/* HOY */
+.hh{position:relative;margin:0 -16px;min-height:430px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;color:#fff;border-radius:0 0 30px 30px;background:var(--hero)}
+.hh-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hh::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,.15) 0%,rgba(6,20,45,.05) 35%,rgba(6,20,45,.62) 100%)}
+.hh-top{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:16px;z-index:2;background:rgba(255,255,255,.88);border-radius:999px;padding:4px 10px 4px 4px;display:flex;align-items:center}.hh-top .avs{display:flex;align-items:center}
+.hh-n{color:var(--ink);font-weight:800;font-size:13px;margin-left:6px}
+.hh-in{position:relative;z-index:1;text-align:center;padding:24px 20px 26px}.hh-in .logo{filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))}
+.hh-in h1{font-family:var(--f-disp);font-weight:800;font-size:42px;line-height:1;margin-top:6px;text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.hh-l{font-weight:700;margin-top:6px}.hh-f{font-weight:600;opacity:.92;font-size:14px;margin-top:2px}.hh-s{font-size:28px;margin-top:10px;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:-26px;position:relative;z-index:3;background:var(--surface);border-radius:22px;padding:12px 8px;box-shadow:var(--shadow)}
+.st{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font:inherit;color:inherit;padding:4px 0}
+.st-i{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;margin-bottom:4px}.st-i svg{width:21px;height:21px}
+.st b{font-family:var(--f-disp);font-size:22px;font-weight:800;line-height:1}.st span:last-child{font-size:12px;color:var(--ink-3)}
+.lp{margin-top:16px}.lp-r{display:flex;gap:12px}.lp-t{font-family:var(--f-disp);font-weight:800;font-size:20px}
+.lp-e{display:flex;gap:10px;align-items:baseline;margin:8px 0 6px}.lp-e b{color:var(--sun);font-size:17px}.lp-e span{font-weight:700;font-size:16.5px}
+.lp-img{width:112px;height:112px;border-radius:16px;overflow:hidden;flex:none;border:0;padding:0;background:var(--surface-2);cursor:pointer}.lp-img img{width:100%;height:100%;object-fit:cover}
+.lp .btn{margin-top:12px}.pill svg{width:13px;height:13px;vertical-align:-2px}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.qa button{border:0;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:14px 4px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;font-weight:700;font-size:13px;color:var(--ink);cursor:pointer}
+.qa button span{width:42px;height:42px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center}.qa svg{width:22px;height:22px}
+.saldo-c{display:flex;align-items:center;gap:10px;width:100%;margin-top:14px;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.quote{text-align:center;font-size:24px;color:var(--ink-2);margin:22px 0 6px}.quote svg{width:18px;height:18px;color:#B98B4E;vertical-align:-2px}
+.quote.card{background:var(--surface-2);box-shadow:none}
+/* ITINERARIO */
+.seg4 button{font-size:13.5px;padding-inline:6px}
+.dch{display:flex;gap:8px;overflow-x:auto;margin-top:14px;padding-bottom:2px;scrollbar-width:none}.dch::-webkit-scrollbar{display:none}
+.dch button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 15px;font:inherit;font-weight:700;font-size:14px;color:var(--ink-2);cursor:pointer}
+.dch button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.dh{display:flex;align-items:center;gap:10px;margin-top:16px}.dh h2{font-family:var(--f-disp);font-weight:800;font-size:24px}.dh-s{color:var(--sun);font-weight:700;font-size:14px}
+.dh-i{color:var(--sol)}.dh-i svg{width:30px;height:30px}
+.tl2{position:relative;margin-top:10px;padding-left:58px}.tl2::before{content:"";position:absolute;left:46px;top:12px;bottom:12px;width:2px;background:var(--line)}
+.tl2-i{position:relative;margin-bottom:14px}.tl2-h{position:absolute;left:-58px;top:12px;width:44px;font-weight:800;font-size:13.5px;font-variant-numeric:tabular-nums}
+.tl2-i::before{content:"";position:absolute;left:-16px;top:16px;width:10px;height:10px;border-radius:50%;background:var(--navy);box-shadow:0 0 0 4px var(--bg)}
+.tl2-c{display:flex;flex-direction:column;align-items:flex-start;gap:3px;width:100%;border:0;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:12px;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.tl2-c b{font-size:16.5px}.tl2-s{color:var(--tide);font-size:14px;font-weight:600}.tl2-p{color:var(--ink-3);font-size:13px}.tl2-p svg{width:13px;height:13px;vertical-align:-2px}
+.tl2-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;margin-top:8px}
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.pc{background:var(--surface);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}.pc-img{display:block;width:100%;aspect-ratio:4/3;border:0;padding:0;background:var(--hero);cursor:pointer;overflow:hidden}.pc-img img{width:100%;height:100%;object-fit:cover}
+.pc-b{display:flex;align-items:center;gap:6px;padding:10px 10px 12px}.pc-b b{display:block;font-size:14px;line-height:1.2}.pc-b span{font-size:12px;color:var(--ink-3)}
+.heart{border:0;background:none;cursor:pointer;color:var(--ink-3);padding:4px}.heart svg{width:24px;height:24px}.heart.on{color:#E5484D}.heart.on svg{fill:currentColor}
+/* MÁS */
+.mas-g{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mas-t{position:relative;aspect-ratio:1/1;border:0;padding:0;border-radius:20px;overflow:hidden;background:var(--hero);cursor:pointer}
+.mas-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.mas-t::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,0) 40%,rgba(6,20,45,.75))}
+.mas-ov{position:absolute;left:12px;right:12px;bottom:10px;z-index:1;color:#fff;text-align:left;display:flex;flex-direction:column}.mas-ov b{font-family:var(--f-disp);font-size:18px}.mas-ov span{font-size:12px;opacity:.9}
+/* MENÚ */
+.mrow{display:flex;gap:12px;align-items:center;width:100%;border:0;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:10px;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.mrow-img{width:96px;height:96px;border-radius:14px;object-fit:cover;flex:none}.mrow-d{display:block;font-weight:800;font-size:13px;color:var(--ink-2)}.mrow b{display:block;font-size:16px;margin-top:2px}
+.mrow ul{margin:6px 0 0;padding-left:16px;font-size:13px;color:var(--ink-2)}.mrow li::marker{color:var(--sun)}.mrow>svg,.item>svg{color:var(--ink-3);flex:none;width:20px;height:20px}.mrow>.grow{display:block;flex:1;min-width:0}
+.hat{width:46px;height:46px;border-radius:50%;background:var(--sol-soft);color:#B07A00;display:grid;place-items:center}
+.cev-h{display:flex;gap:10px;align-items:flex-start;padding:16px 16px 0}.cev-h .carta-t{font-family:var(--f-disp);font-weight:800;font-size:22px;margin:2px 0}
+.cev-ev{border:0;background:var(--sun-soft);color:var(--sun);font:inherit;font-weight:700;font-size:13px;border-radius:999px;padding:6px 12px;margin:10px 16px 0;cursor:pointer;display:inline-flex;gap:6px;align-items:center}.cev-ev svg{width:15px;height:15px}
+.dishes{display:flex;flex-direction:column;gap:12px;padding:0 16px}
+.dish{display:flex;flex-direction:column;gap:4px;border:0;background:none;padding:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.dish-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;margin-bottom:4px}.dish b{font-size:16.5px}.dish-d{font-size:13.5px;color:var(--ink-2)}
+.dish-t{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}.dish-t i{font-style:normal;font-size:12px;font-weight:700;color:var(--tide);background:var(--tide-soft);border-radius:999px;padding:3px 9px}.dish-t i.bad{color:var(--bad);background:var(--bad-soft)}
+.dish-s{background:var(--surface-2);border-radius:12px;padding:10px 12px}
+.cev .opt{position:relative}.opt-go{margin:8px 10px 0;border:1.5px solid var(--sun);background:var(--surface);color:var(--sun);border-radius:999px;padding:7px;font:inherit;font-weight:700;font-size:13px;cursor:pointer;display:flex;justify-content:center;gap:4px}.opt-go svg{width:15px;height:15px}
+.opt.sel{border-color:var(--sun);background:var(--sun-soft)}.opt.sel .opt-ok{display:grid}.opt.sel .opt-go{background:var(--sun);color:#fff}
+.opt-img{border:0;padding:0;cursor:pointer;width:100%}
+.cev-acc{font-size:13px;color:var(--ink-3)}
+/* GASTOS */
+.mc{margin-top:14px}.mc-l{color:var(--ink-2);font-weight:600}.mc-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.mc-m{font-family:var(--f-disp);font-weight:800;font-size:38px}
+.pill-b{margin-left:auto;border:0;background:var(--surface-2);border-radius:999px;padding:7px 12px;font:inherit;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;display:inline-flex;gap:4px;align-items:center}.pill-b svg{width:14px;height:14px}
+.mc-i{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+/* ÁLBUM */
+.ah{position:relative;margin-top:14px;min-height:300px;border-radius:24px;overflow:hidden;background:var(--hero);display:flex;align-items:flex-end}
+.ah-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.ah::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,.1),rgba(6,20,45,.55))}
+.ah-in{position:relative;z-index:1;padding:20px;width:100%;color:#fff;text-align:center}.ah-in .script{font-size:30px;line-height:1.15;margin-bottom:16px;text-shadow:0 2px 10px rgba(0,0,0,.35)}.ah-in svg{width:20px;height:20px}
+/* TAREAS */
+.prep{position:relative;overflow:hidden}.prep-img{position:absolute;right:0;top:0;width:45%;height:100%;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent,#000 60%);mask-image:linear-gradient(90deg,transparent,#000 60%);opacity:.9}
+.prep .grow{max-width:62%}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -359,7 +439,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v14';
+const BUILD_TAG='v15';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -399,6 +479,7 @@ const P={
   nosotros:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.2A5 5 0 0 1 21.5 19"/>',
   admin:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/>',
   plus:'<path d="M12 5v14M5 12h14"/>', x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  cal:'<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>', dots:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>', mas:'<rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><circle cx="16.75" cy="16.75" r="3.25"/>', pin:'<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>', heart:'<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z"/>', chev:'<path d="M9 5l7 7-7 7"/>', nav:'<path d="M4 11 20 4l-7 16-2-7-7-2Z"/>', gente:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><circle cx="17" cy="9.5" r="2.5"/><path d="M16 14.2c2.6.2 4.4 1.8 5 4.8"/>', info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v6M12 7.6v.1"/>',
   cam:'<path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H7l1.5-2h7L17 6h1.5A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5Z"/><circle cx="12" cy="13" r="3.5"/>',
   pen:'<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/>',
   chat:'<path d="M4 5h16v11H9l-5 4Z"/><path d="M8 9.5h8M8 12.5h5"/>',
@@ -920,9 +1001,10 @@ function grupoDe(t){t=norm(t);
 /* ============================================================================
    NAVEGACIÓN Y HOJAS
    ============================================================================ */
-const TABS=[['hoy','Hoy'],['gastos','Gastos'],['menu','Menú'],['planes','Planes'],['tareas','Tareas'],['nosotros','Álbum']];
+const TABS=[['hoy','Hoy'],['planes','Itinerario'],['menu','Menú'],['gastos','Gastos'],['mas','Más'],['tareas','Tareas'],['nosotros','Álbum']];
 function tabsVisibles(){return esAdmin()?[...TABS,['admin','Admin']]:TABS}
-const TABS_BARRA=TABS;
+const TABS_BARRA=TABS.slice(0,5), EN_MAS=['mas','tareas','nosotros','admin'];
+const TAB_IC={hoy:'hoy',planes:'cal',menu:'menu',gastos:'gastos',mas:'mas'};
 function irA(t){if(!tabsVisibles().some(x=>x[0]===t))t='hoy';if(location.hash!=='#'+t){try{history.pushState(null,'','#'+t)}catch(e){}}TAB=t;closeSheet(true);render();window.scrollTo(0,0)}
 let IGN_POP=false;
 window.addEventListener('popstate',()=>{if(IGN_POP){IGN_POP=false;try{history.replaceState(null,'','#'+TAB)}catch(e){}return}const h=(location.hash||'#hoy').slice(1);if(!$('#sheet').hidden&&!h.endsWith('-m')){closeSheet(true);return}const t=h.replace(/-m$/,'');if(t!==TAB&&ME){TAB=tabsVisibles().some(x=>x[0]===t)?t:'hoy';render()}});
@@ -973,69 +1055,65 @@ async function salir(){await API.logout();ME=null;closeSheet(true);pintarLogin()
 function render(){
   if(!ME){pintarLogin();return}
   const sub=CFG.lugar?esc(CFG.lugar):(CFG.desde?`${fechaCorta(CFG.desde)} – ${fechaCorta(CFG.hasta)}`:'El viaje a la playa');
-  const views={hoy:vHoy,gastos:vGastos,menu:vMenu,tareas:vTareas,planes:vPlanes,nosotros:vNosotros,admin:vAdmin};
-  $('#app').innerHTML=`<div class="wrap">
-    <header class="top"><div class="brand">${logo(42)}<div class="grow"><b>${esc(CFG.nombre||'Beach Trip')}</b><small>${sub}</small></div></div>
-      ${esAdmin()?`<button class="x" onclick="irA('admin')" aria-label="Administrar" ${TAB==='admin'?'style="background:var(--tide);color:var(--tide-ink)"':''}>${ic('admin')}</button>`:''}<button class="me-btn" onclick="abrirMiPerfil()" aria-label="Mi perfil">${av(ME.id)}</button></header>
+  const views={hoy:vHoy,gastos:vGastos,menu:vMenu,tareas:vTareas,planes:vPlanes,nosotros:vNosotros,admin:vAdmin,mas:vMas};
+  const enHoy=TAB==='hoy', activa=EN_MAS.includes(TAB)?'mas':TAB;
+  $('#app').innerHTML=`<div class="wrap ${enHoy?'en-hoy':''}">
+    ${enHoy?'':`<header class="top2"><button class="x" onclick="${EN_MAS.includes(TAB)&&TAB!=='mas'?"irA('mas')":"irA('hoy')"}" aria-label="Atrás">${ic('back')}</button>
+      <div class="top2-t"><b>${esc(CFG.nombre||'Beach Trip')}</b><small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
     <main id="main">${(views[TAB]||vHoy)()}</main>
     <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Beach Trip ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     <button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>
-    <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===TAB?'aria-current="page"':''} onclick="irA('${k}')">${ic(k==='nosotros'?'cam':k)}<span>${l}</span></button>`).join('')}</div></nav>`;
+    <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===activa?'aria-current="page"':''} onclick="irA('${k}')">${ic(TAB_IC[k]||k)}<span>${l}</span></button>`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
+}
+function abrirMenuMas(){openSheet(`${sheetH('Opciones')}<div class="card"><div class="list">
+  <button class="item" onclick="closeSheet(true);abrirMiPerfil()">${av(ME.id,'xs')}<div class="grow"><div class="t">Mi ficha</div><div class="s">Alergias, talento, canción de karaoke</div></div></button>
+  ${esAdmin()?`<button class="item" onclick="irA('admin')"><span class="cat-dot">${ic('admin')}</span><div class="grow"><div class="t">Administrar</div><div class="s">Invitados, fechas, lo esencial</div></div></button>`:''}
+  <button class="item" onclick="verCreditos()"><span class="cat-dot">${ic('cam')}</span><div class="grow"><div class="t">Créditos de las fotos</div></div></button>
+  <button class="item" onclick="salir()"><span class="cat-dot">${ic('out')}</span><div class="grow"><div class="t">Salir</div></div></button></div></div>`)}
+/* Más: lo que no cabe en la barra */
+function vMas(){
+  const L=TAREAS, listas=L.filter(t=>estadoAuto(t)==='listo').length, pct=L.length?Math.round(listas/L.length*100):0;
+  const t=(k,click,img,tit,sub)=>`<button class="mas-t" onclick="${click}">${imgTag(img,'mas-img')}<span class="mas-ov"><b>${tit}</b><span>${sub}</span></span></button>`;
+  return `<h2 class="pg-t">Más</h2><div class="mas-g">
+    ${t('tareas',"SUBT='tareas';irA('tareas')",'img/casa/condominio.jpg','Tareas',`${pct}% listo · ${L.length-listas} pendientes`)}
+    ${t('album',"SUBN='album';irA('nosotros')",[IMG+'portada.jpg','img/casa/playa.jpg'],'Álbum',`${MURO.length} fotos`)}
+    ${t('info',"SUBE='info';irA('planes')",'img/casa/piscina.jpg','Info del viaje','Casa, clima, qué llevar')}
+    ${t('gente',"SUBN='gente';irA('nosotros')",LOOK_SRC['welcome-white'],'Viajeros',`${activos().length} en el viaje`)}
+    ${t('looks',"SUBE='dress';irA('planes')",LOOK_SRC['tiki-boho'],'Looks','El outfit de cada noche')}
+    ${t('equipo',"SUBT='equipo';irA('tareas')",LOOK_SRC['golden-hour'],'Equipo y carros','Qué llevamos y quién va con quién')}</div>
+    <div class="card" style="margin-top:14px"><div class="list">
+      <button class="item" onclick="abrirMiPerfil()">${av(ME.id,'xs')}<div class="grow"><div class="t">Mi ficha</div></div>${ic('chev')}</button>
+      ${esAdmin()?`<button class="item" onclick="irA('admin')"><span class="cat-dot">${ic('admin')}</span><div class="grow"><div class="t">Administrar</div></div>${ic('chev')}</button>`:''}
+      <button class="item" onclick="salir()"><span class="cat-dot">${ic('out')}</span><div class="grow"><div class="t">Salir</div></div></button></div></div>`;
 }
 
 /* ---------- HOY ---------- */
 function vHoy(){
   const hoy=hoyISO(), dias=diasViaje();
-  let big='',lbl='',lvl=12;
-  if(dias.length){const n=difDias(hoy,CFG.desde),tot=dias.length;
-    if(n>0){const ms=new Date(CFG.desde+'T'+(String(infoV().checkin||'15:00').match(/^\d{1,2}:\d{2}$/)?infoV().checkin:'15:00')+':00')-new Date();const h=Math.max(0,Math.floor(ms/36e5)%24),m=Math.max(0,Math.floor(ms/6e4)%60);big=Math.floor(ms/864e5);lbl=`días ${h} h ${m} min para llegar a ${CFG.lugar||'la playa'}`;if(big<0){big=n;lbl='días para el viaje'}lvl=Math.max(8,30-Math.min(n,30))}
-    else if(difDias(hoy,CFG.hasta)>=0){const k=1-n;big=k===1&&tot>1?'Llegada':`Día ${tot>1?k-1:k}`;lbl=`${k===1&&tot>1?'':'de '+(tot>1?tot-1:tot)+' · '}${diaSem(hoy)} ${fechaCorta(hoy)}`;lvl=30+Math.round(55*k/tot)}
-    else{big='Fin';lbl='del viaje. Hora de saldar cuentas';lvl=90}}
-  else{big='—';lbl='Faltan las fechas del viaje';}
+  const portada=fotoUrl(infoV().casa_fotos[0])||'img/casa/playa.jpg';
+  const rango=CFG.desde?`${fechaCorta(CFG.desde)} – ${fechaCorta(CFG.hasta)}${CFG.desde?' '+String(CFG.hasta||CFG.desde).slice(0,4):''}`:'';
+  const acts=EVENTOS.filter(e=>e.estado==='oficial'||e.estado==='hecho').length, pend=TAREAS.filter(t=>t.responsable===ME.id&&estadoAuto(t)!=='listo').length;
+  const fin=dias.length&&difDias(hoy,CFG.hasta)<0;
+  const prox=[...EVENTOS.filter(e=>(e.estado==='oficial')&&e.dia&&e.dia>=hoy)].sort((a,b)=>(a.dia+String(minEv(a)).padStart(4,'0')).localeCompare(b.dia+String(minEv(b)).padStart(4,'0')))[0];
+  const n=dias.length?difDias(hoy,CFG.desde):0;
+  const cuando=prox?(prox.dia===hoy?'Hoy':prox.dia===addDias(hoy,1)?'Mañana':diaSem(prox.dia))+' · '+fechaCorta(prox.dia):'';
   const b=balances().find(x=>x.id===ME.id)||{saldo:0};
-  const eventosHoy=EVENTOS.filter(e=>e.dia===hoy&&e.estado!=='cancelado'&&e.estado!=='propuesta').sort((a,c)=>ordBloque(a)-ordBloque(c));
-  const noche=nocheDestacada(hoy);
-  const prox=EVENTOS.filter(e=>e.estado==='oficial'&&e.dia&&e.dia>=hoy&&(!noche||e.id!==noche.id)).sort((a,c)=>(a.dia+ordBloque(a)).localeCompare(c.dia+ordBloque(c))).slice(0,3);
-  const mias=TAREAS.filter(t=>t.responsable===ME.id&&estadoAuto(t)!=='listo');
-  const sinDueno=TAREAS.filter(t=>estadoAuto(t)==='por_hacer').length;
-  const ult=GASTOS.slice().sort((a,c)=>String(c.created_at||c.fecha).localeCompare(String(a.created_at||a.fecha))).slice(0,3);
-  const props=EVENTOS.filter(e=>e.estado==='propuesta'), sinVoto=props.filter(e=>!VOTOS.some(v=>v.evento_id===e.id&&v.persona_id===ME.id)).length;
-  const portada=fotoUrl(infoV().casa_fotos[0])||'img/casa/piscina.jpg';
-  return `<section class="hero ${portada?'con-foto':''}" style="--lvl:${lvl}%">${portada?`<img class="hero-img" src="${esc(portada)}" alt="" onerror="this.parentElement.classList.remove('con-foto');this.remove()">`:''}<div class="in-hero">
-      <div class="eyebrow" style="color:inherit;opacity:.8">Hola, ${esc(nom(ME.id))}</div>
-      <div class="row" style="align-items:flex-end;gap:12px;margin-top:6px"><span class="big num">${esc(String(big))}</span><span class="sub" style="padding-bottom:6px">${esc(lbl)}</span></div>
-      ${CFG.ejemplo?`<span class="pill" style="margin-top:10px;background:rgba(255,255,255,.2);color:inherit">Fechas de ejemplo${esAdmin()?' · cámbialas en Admin':''}</span>`:''}
-    </div><div class="wave"><svg viewBox="0 0 400 16" preserveAspectRatio="none"><path d="M0 8 Q25 0 50 8 T100 8 T150 8 T200 8 T250 8 T300 8 T350 8 T400 8 V16 H0Z" fill="#1FB0E0" opacity=".6"/></svg><div class="fill"></div></div></section>
-
-    <div class="rapido">
-      <button onclick="abrirAgregar()"><span class="ico" style="background:var(--sun-soft);color:var(--sun)">${ic('plus')}</span>Gasto</button>
-      <button onclick="SUBE='programa';irA('planes')"><span class="ico" style="background:var(--tide-soft);color:var(--tide)">${ic('planes')}</span>Plan</button>
-      <button onclick="irA('menu')"><span class="ico" style="background:var(--sol-soft);color:#B07A00">${ic('menu')}</span>Comida</button>
-      <button onclick="irA('nosotros')"><span class="ico" style="background:var(--mar-soft);color:#0B8C86">${ic('cam')}</span>Fotos</button>
-    </div>
+  const stat=(i,num,l,c,click)=>`<button class="st" onclick="${click}"><span class="st-i" style="background:${c}1f;color:${c}">${ic(i)}</span><b>${num}</b><span>${l}</span></button>`;
+  return `<section class="hh">${imgTag([portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
+      <div class="hh-in">${logo(78)}<h1>${esc(CFG.nombre||'Beach Trip')}</h1><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
+        <div class="script hh-s">${n>0?`Faltan ${n} día${n===1?'':'s'}`:fin?'Gracias por venir':'Buenas vibras, grandes momentos'}</div></div></section>
+    <div class="sts">${stat('cal',Math.max(1,dias.length-1),'días','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
     ${instalarCard()}
-    ${esencialChips()}
-    <div class="card" style="margin-top:14px"><button class="saldo item" style="padding:0;border:0" onclick="SUBG='bal';irA('gastos')">
-      <div class="grow"><div class="eyebrow">Mi saldo</div><div class="muted tiny">${b.saldo>0.009?'Te deben':b.saldo<-0.009?'Debes':'Estás a paz y salvo'}</div></div>
-      <span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span></button></div>
-
+    ${prox?`<div class="card lp"><div class="lp-r"><div class="grow"><div class="lp-t">Lo próximo</div><div class="muted tiny">${esc(cuando)}</div>
+        <div class="lp-e"><b class="num">${esc(String(prox.hora||'').slice(0,5))}</b><span>${esc(prox.titulo)}</span></div>${prox.lugar?`<span class="pill sun">${ic('pin')} ${esc(prox.lugar.charAt(0).toUpperCase()+prox.lugar.slice(1))}</span>`:''}</div>
+        <button class="lp-img" onclick="abrirEvento('${prox.id}')">${imgTag(imgEvento(prox))}</button></div>
+      <button class="btn navy block" onclick="DIA_PLAN='${prox.dia}';SUBE='programa';irA('planes')">Ver itinerario completo ${ic('chev')}</button></div>`:''}
+    <div class="sec-h"><h2>Accesos rápidos</h2></div>
+    <div class="qa">${[['menu','Menú',"irA('menu')"],['gastos','Gastos',"irA('gastos')"],['tareas','Tareas',"irA('tareas')"],['cam','Álbum',"SUBN='album';irA('nosotros')"]].map(([i,l,c])=>`<button onclick="${c}"><span>${ic(i)}</span>${l}</button>`).join('')}</div>
     ${nocheCard(hoy)}
-    <div class="sec-h"><h2>${eventosHoy.length?'Itinerario de hoy':'Lo próximo'}</h2><button class="link" onclick="SUBE='programa';irA('planes')">Itinerario completo</button></div>
-    ${eventosHoy.length?`<div class="stack">${eventosHoy.filter(e=>!noche||e.id!==noche.id).map(evCard).join('')||'<div class="muted tiny">Lo de hoy es la noche de arriba.</div>'}</div>`
-      :prox.length?`<div class="stack">${prox.map(e=>`<div class="tiny muted" style="margin-bottom:-6px">${diaSem(e.dia)} ${fechaCorta(e.dia)}</div>${evCard(e)}`).join('')}</div>`
-      :noche?'':`<div class="card flat empty">Todavía no hay planes oficiales. Vota las propuestas en Planes.</div>`}
-
-    ${comidaHoyCard()}
-    ${fotosHoyCard()}
-    <div class="sec-h"><h2>Mis tareas</h2><button class="link" onclick="FILTT.solo=true;irA('tareas')">Ver todas</button></div>
-    ${mias.length?`<div class="card"><div class="list">${mias.slice(0,5).map(t=>`<button class="item" onclick="abrirTarea('${t.id}')"><span class="pill mar">${esc(t.grupo||'Tarea')}</span><div class="grow"><div class="t">${esc(t.titulo)}</div><div class="s">${esc(t.grupo||'')}${t.fecha?' · '+fechaCorta(t.fecha):''}</div></div></button>`).join('')}</div></div>`
-      :`<div class="card flat empty">No tienes tareas pendientes.${sinDueno?` Hay ${sinDueno} sin responsable: <button class="btn ghost sm" onclick="irA('tareas')">tomar una</button>`:''}</div>`}
-
-    ${sinVoto?`<div class="card" style="margin-top:14px"><div class="row"><span class="cat-dot" style="background:var(--sun-soft);color:var(--sun)">${ic('planes')}</span><div class="grow"><b>Te faltan ${sinVoto} propuestas por votar</b><div class="muted tiny">Las noches más votadas pasan al programa.</div></div><button class="btn sun sm" onclick="SUBE='propuestas';irA('planes')">Votar</button></div></div>`:''}
-
-    <div class="sec-h"><h2>Lo último</h2><button class="link" onclick="SUBG='mov';irA('gastos')">Gastos</button></div>
-    ${ult.length?`<div class="card"><div class="list">${ult.map(gastoItem).join('')}</div></div>`:`<div class="card flat empty">Aún no hay gastos. Toca ＋ para registrar el primero.</div>`}`;
+    <button class="card saldo-c" onclick="SUBG='mov';irA('gastos')"><div class="grow"><div class="eyebrow">Mis cuentas</div><div class="muted tiny">${b.saldo>0.009?'En total te deben':b.saldo<-0.009?'En total debes':'Estás a paz y salvo'}</div></div><span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span></button>
+    <div class="script quote">Un gran viaje comienza con personas increíbles ${ic('heart')}</div>`;
 }
 /* la temática de esta noche (o la próxima) en grande: lo primero que la gente quiere saber */
 function nocheDestacada(hoy){return EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&esNoche(e)&&e.estilo&&e.dia&&e.dia>=hoy).sort((a,b)=>a.dia.localeCompare(b.dia))[0]}
@@ -1088,16 +1166,15 @@ function vGastos(){
 }
 function misCuentas(){
   const bs=balances(), yo=bs.find(b=>b.id===ME.id)||{saldo:0}, tx=simplificar(bs).filter(t=>t.de===ME.id||t.a===ME.id);
-  const tit=yo.saldo>0.009?`<span class="pos">En total te deben ${money(yo.saldo)}</span>`:yo.saldo<-0.009?`<span class="neg">En total debes ${money(-yo.saldo)}</span>`:'Estás a paz y salvo';
-  return `<div class="card" style="margin-top:14px"><div class="eyebrow">Tus cuentas</div><div style="font-family:var(--f-disp);font-weight:800;font-size:24px;margin:2px 0 8px">${tit}</div>
-    ${tx.map(t=>t.a===ME.id?`<div class="row" style="padding:6px 0;border-top:1px solid var(--line)">${av(t.de,'xs')}<span class="grow"><b>${esc(nom(t.de))}</b> te debe</span><span class="amt pos">${money(t.monto)}</span></div>`
-      :`<div class="row" style="padding:6px 0;border-top:1px solid var(--line)">${av(t.a,'xs')}<span class="grow">Le debes a <b>${esc(nom(t.a))}</b></span><span class="amt neg">${money(t.monto)}</span><button class="btn sm primary" onclick="registrarPago('${t.de}','${t.a}',${t.monto})">Pagar</button></div>`).join('')}
-    ${tx.length?'<p class="muted tiny" style="margin:8px 0 0">Ya está simplificado: es el menor número de pagos para que todos queden en cero.</p>':''}</div>`;
+  const lbl=yo.saldo>0.009?'En total te deben':yo.saldo<-0.009?'En total debes':'Estás a paz y salvo';
+  return `<div class="card mc"><div class="mc-l">${lbl}</div><div class="mc-r"><span class="mc-m ${yo.saldo<-0.009?'neg':'pos'}">${money(Math.abs(yo.saldo))}</span><button class="pill-b" onclick="SUBG='bal';render()">Ver cómo se calculó ${ic('chev')}</button></div>
+    ${tx.length?`<div class="list" style="margin-top:8px">${tx.map(t=>t.a===ME.id?`<div class="mc-i">${av(t.de,'xs')}<span class="grow"><b>${esc(nom(t.de))}</b> te debe</span><span class="amt pos">${money(t.monto)}</span></div>`
+      :`<div class="mc-i">${av(t.a,'xs')}<span class="grow">Le debes a <b>${esc(nom(t.a))}</b></span><span class="amt neg">${money(t.monto)}</span><button class="btn sm primary" onclick="registrarPago('${t.de}','${t.a}',${t.monto})">Pagar</button></div>`).join('')}</div>`:''}</div>`;
 }
 function pintarListaGastos(){
   const el=$('#glist'); if(!el) return;
   const L=gastosFiltrados(), tot=L.reduce((s,g)=>s+(g.tipo==='gasto'?+g.monto:0),0);
-  el.innerHTML=L.length?`<div class="row" style="justify-content:space-between;margin-bottom:6px"><span class="muted tiny">${L.length} movimiento${L.length===1?'':'s'}</span><span class="muted tiny num">${money(tot)}</span></div><div class="card"><div class="list">${L.map(gastoItem).join('')}</div></div>`
+  el.innerHTML=L.length?`<div class="sec-h" style="margin-top:4px"><h2>Últimos movimientos</h2><span class="muted tiny num">${L.length} · ${money(tot)}</span></div><div class="card"><div class="list">${L.map(gastoItem).join('')}</div></div>`
     :`<div class="card flat empty">${ic('receipt')}<div>${GASTOS.length?'Nada coincide con ese filtro.':'Aún no hay gastos. Toca ＋ para subir la primera factura.'}</div></div>`;
 }
 function vBalances(){
@@ -1407,7 +1484,7 @@ function vTareas(){
   const L=TAREAS.filter(t=>!FILTT.grupo||t.grupo===FILTT.grupo).sort((a,b)=>ordPrio(a)-ordPrio(b)||String(a.fecha||'9').localeCompare(String(b.fecha||'9')));
   const mias=L.filter(t=>t.responsable===ME.id&&estadoAuto(t)!=='listo'), libres=L.filter(t=>estadoAuto(t)==='por_hacer'), otras=L.filter(t=>t.responsable&&t.responsable!==ME.id&&estadoAuto(t)==='en_curso'), listas=L.filter(t=>estadoAuto(t)==='listo');
   const tot=L.length, pct=tot?Math.round(listas.length/tot*100):0;
-  return vTabsTareas()+`<div class="card" style="margin-top:14px"><div class="row"><div class="grow"><div class="eyebrow">Preparativos</div><div class="ah-t">${pct}% listo</div><div class="muted tiny">${listas.length} de ${tot} hechas · ${libres.length} sin responsable</div></div>${libres.length?`<button class="btn sm sun" onclick="repartir(this)">${ic('spark')} Repartir con IA</button>`:''}</div>
+  return vTabsTareas()+`<div class="card prep" style="margin-top:14px">${imgTag('img/casa/condominio.jpg','prep-img')}<div class="row" style="position:relative"><div class="grow"><div class="eyebrow">Preparativos del viaje</div><div class="ah-t">${pct}% listo</div><div class="muted tiny">${listas.length} de ${tot} hechas · ${libres.length} sin responsable</div></div>${libres.length?`<button class="btn sm sun" onclick="repartir(this)">${ic('spark')} Repartir con IA</button>`:''}</div>
       <div class="bar" style="height:8px;margin-top:10px"><i class="p" style="left:0;width:${pct}%"></i></div></div>
     <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FILTT.grupo}" onclick="FILTT.grupo='';render()">Todo</button>${GRUPOS.map(g=>`<button class="chip" aria-pressed="${FILTT.grupo===g}" onclick="FILTT.grupo='${g}';render()">${g}</button>`).join('')}</div>
     ${mias.length?`<div class="sec-h"><h2>Te toca</h2></div><div class="card tlist">${mias.map(t=>tRow(t)).join('')}</div>`:''}
@@ -1485,13 +1562,16 @@ function evCard(e){const vs=votosDe(e.id).length;
     ${(e.anfitriones||[]).length?`<div class="row" style="margin-top:8px"><div class="avs">${e.anfitriones.map(a=>av(a,'xs')).join('')}</div><span class="tiny muted">anfitriones</span></div>`:''}</div></button>`}
 function vPlanes(){
   const props=EVENTOS.filter(e=>e.estado==='propuesta').sort((a,b)=>votosDe(b.id).length-votosDe(a.id).length);
-  return `<div class="seg"><button aria-pressed="${SUBE==='programa'}" onclick="SUBE='programa';render()">Itinerario</button><button aria-pressed="${SUBE==='dress'}" onclick="SUBE='dress';render()">Dress code</button><button aria-pressed="${SUBE==='propuestas'}" onclick="SUBE='propuestas';render()">Propuestas · ${props.length}</button></div>
-  ${SUBE==='programa'?vPrograma():SUBE==='dress'?vDress():`<p class="muted tiny" style="margin-top:12px">Vota las que te gustan. ${esAdmin()?'Tú decides cuáles pasan al programa.':'Daniel pasa las más votadas al programa.'}</p>
-    <div class="stack">${props.map(e=>{const vs=votosDe(e.id),yo=vs.some(v=>v.persona_id===ME.id);return `<div class="card prop"><button style="border:0;background:none;text-align:left;cursor:pointer;padding:0;min-width:0" onclick="abrirEvento('${e.id}')"><div class="eyebrow">${esc(e.tematica||'Plan')} · ${BLOQN[e.bloque]||''}</div><div style="font-family:var(--f-disp);font-weight:700;font-size:18px">${esc(e.titulo)}</div>
-      <div class="muted tiny" style="margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(e.descripcion||'')}</div>${vs.length?`<div class="avs" style="margin-top:8px">${vs.slice(0,8).map(v=>av(v.persona_id,'xs')).join('')}</div>`:''}</button>
-      <button class="vote" aria-pressed="${yo}" onclick="votar('${e.id}',${!yo})" aria-label="${yo?'Quitar voto':'Votar'}">${ic('thumb')}<span class="num">${vs.length}</span></button></div>`}).join('')||`<div class="card flat empty">No hay propuestas. Toca ＋ para proponer un plan.</div>`}</div>`}`;
+  const sinVoto=props.filter(e=>!VOTOS.some(v=>v.evento_id===e.id&&v.persona_id===ME.id)).length;
+  const seg=`<div class="seg seg4"><button aria-pressed="${SUBE==='programa'}" onclick="SUBE='programa';render()">Itinerario</button><button aria-pressed="${SUBE==='propuestas'}" onclick="SUBE='propuestas';render()">Propuestas</button><button aria-pressed="${SUBE==='dress'}" onclick="SUBE='dress';render()">Looks</button><button aria-pressed="${SUBE==='info'}" onclick="SUBE='info';render()">Info</button></div>`;
+  if(SUBE==='dress')return seg+vDress();
+  if(SUBE==='info')return seg+vInfo();
+  if(SUBE==='propuestas')return seg+`<div class="row" style="margin-top:16px;align-items:flex-start"><div class="grow"><h2 class="pg-t" style="margin:0">Elige las actividades</h2><div class="muted tiny">Las más votadas se suman al plan.</div></div>${sinVoto?`<span class="pill sun">${sinVoto} por votar</span>`:''}</div>
+    <div class="pg2">${props.map(e=>{const vs=votosDe(e.id),yo=vs.some(v=>v.persona_id===ME.id);return `<div class="pc"><button class="pc-img" onclick="abrirEvento('${e.id}')">${imgTag(imgEvento(e))}</button><div class="pc-b"><div class="grow" style="min-width:0"><b>${esc(e.titulo)}</b><span>${vs.length} voto${vs.length===1?'':'s'}</span></div>
+      <button class="heart ${yo?'on':''}" onclick="votar('${e.id}',${!yo})" aria-label="${yo?'Quitar voto':'Votar'}">${ic('heart')}</button></div></div>`}).join('')||`<div class="card flat empty" style="grid-column:1/-1">No hay propuestas. Toca ＋ para proponer un plan.</div>`}</div>`;
+  return seg+vPrograma();
 }
-let MIAG=false;
+let MIAG=false, DIA_PLAN=null;
 const voyA=e=>votosDe(e.id).some(v=>v.persona_id===ME.id)||(e.anfitriones||[]).includes(ME.id);
 /* "Ahora y lo siguiente", como la app del crucero el día de navegación */
 function ahoraCard(){
@@ -1508,17 +1588,24 @@ function ahoraCard(){
 }
 function vPrograma(){
   const dias=diasViaje(), of=EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&(!MIAG||voyA(e)));
-  const sinDia=of.filter(e=>!e.dia||!dias.includes(e.dia));
   if(!dias.length&&!of.length) return `<div class="card flat empty" style="margin-top:14px">${ic('planes')}<div>Todavía no hay fechas ni planes oficiales.${esAdmin()?' Pon las fechas en Admin y pasa propuestas al programa.':''}</div></div>`;
-  return ahoraCard()+`<div class="row wrap-ok" style="margin-top:12px"><button class="chip" aria-pressed="${!MIAG}" onclick="MIAG=false;render()">Todo el viaje</button><button class="chip sunny" aria-pressed="${MIAG}" onclick="MIAG=true;render()">Mi agenda</button></div>`
-  +dias.map((d,i)=>{const E=of.filter(e=>e.dia===d), C=comidasDia(d).filter(c=>!EVENTOS.some(e=>e.id===c.evento_id&&e.dia===d&&E.includes(e))&&(!MIAG||miAsis(c.id).va!==false));
-    const noche=EVENTOS.filter(e=>e.dia===d&&esNoche(e)&&(e.estado==='oficial'||e.estado==='hecho')&&e.estilo).sort((a,b)=>minEv(b)-minEv(a))[0];
-    const L=[...E.map(e=>({m:minEv(e),h:evCard(e)})),...C.map(c=>({m:minDe(c.hora)??({desayuno:510,almuerzo:810,cena:1200}[c.turno]),h:mealRow(c)}))].sort((a,b)=>a.m-b.m);
-    return `<div class="day"><div class="day-h"><b>${nomDia(i,dias.length)}</b><span class="muted">${diaSem(d)} ${fechaCorta(d)}</span>${d===hoyISO()?'<span class="pill sun">Hoy</span>':''}</div>
-      ${noche?`<div class="day-tema">${(noche.estilo.paleta||[]).filter(hexOk).slice(0,4).map(c=>`<i style="background:${c}"></i>`).join('')}<span>${esc(noche.estilo.nombre)}</span></div>`:''}
-      ${L.length?`<div class="stack tl">${L.map(x=>x.h).join('')}</div>`:`<div class="muted tiny" style="padding:4px 2px">Libre. Playa y siesta.</div>`}</div>`}).join('')
-    +(sinDia.length?`<div class="day"><div class="day-h"><b>Por programar</b></div><div class="stack">${sinDia.map(evCard).join('')}</div></div>`:'');
+  if(!DIA_PLAN||!dias.includes(DIA_PLAN))DIA_PLAN=dias.includes(hoyISO())?hoyISO():dias[0];
+  const d=DIA_PLAN, i=dias.indexOf(d);
+  const E=of.filter(e=>e.dia===d), C=comidasDia(d).filter(c=>!EVENTOS.some(e=>e.id===c.evento_id&&e.dia===d&&E.includes(e))&&(!MIAG||miAsis(c.id).va!==false));
+  const L=[...E.map(e=>({m:minEv(e),h:tlEv(e)})),...C.map(c=>({m:minDe(c.hora)??({desayuno:510,almuerzo:810,cena:1200}[c.turno]),h:tlComida(c)}))].sort((a,b)=>a.m-b.m);
+  const sinDia=of.filter(e=>!e.dia||!dias.includes(e.dia));
+  const noche=E.filter(e=>esNoche(e)&&e.estilo).sort((a,b)=>minEv(b)-minEv(a))[0];
+  const DS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  return `<div class="dch">${dias.map(x=>`<button aria-pressed="${x===d}" onclick="DIA_PLAN='${x}';render()">${DS[new Date(x+'T12:00').getDay()]} ${+x.slice(8)}</button>`).join('')}</div>
+    <div class="dh"><div class="grow"><h2>${esc(diaSem(d).charAt(0).toUpperCase()+diaSem(d).slice(1))} ${fechaCorta(d)}</h2><div class="dh-s">${esc(nomDia(i,dias.length))}${i===0&&dias.length>1?' · Día 1 del viaje':''}${noche?' · '+esc((noche.estilo.nombre||'').replace(/ · Día \d+$/,'')):''}</div></div><span class="dh-i">${ic('sun')}</span></div>
+    <div class="row" style="margin:6px 0 4px;gap:6px"><button class="chip" aria-pressed="${!MIAG}" onclick="MIAG=false;render()">Todo</button><button class="chip sunny" aria-pressed="${MIAG}" onclick="MIAG=true;render()">Mi agenda</button></div>
+    ${L.length?`<div class="tl2">${L.map(x=>x.h).join('')}</div>`:`<div class="card flat empty" style="margin-top:10px">Día libre: playa y siesta.</div>`}
+    ${sinDia.length&&i===dias.length-1?`<div class="sec-h"><h2>Por programar</h2></div><div class="stack">${sinDia.map(evCard).join('')}</div>`:''}
+    <div class="script quote card">Un gran viaje comienza con personas increíbles ${ic('heart')}</div>`;
 }
+function tlEv(e){const vs=votosDe(e.id).length;return `<div class="tl2-i"><span class="tl2-h">${esc(String(e.hora||BLOQN[e.bloque]||'').slice(0,5))}</span><button class="tl2-c" onclick="abrirEvento('${e.id}')"><b>${esc(e.titulo)}</b>${e.tematica?`<span class="tl2-s">${esc(e.tematica)}</span>`:''}
+  <span class="tl2-p">${ic('pin')} ${esc(e.lugar?e.lugar.charAt(0).toUpperCase()+e.lugar.slice(1):'Por definir')}${e.dress_code?' · '+esc(e.dress_code):''}${vs?' · '+vs+' van':''}</span>${imgTag(imgEvento(e),'tl2-img')}</button></div>`}
+function tlComida(c){const ps=platosDe(c.id),P=ps[0],img=P&&(fotoUrl(P.foto)||imgPlato(P));return `<div class="tl2-i"><span class="tl2-h">${esc(String(c.hora||'').slice(0,5))}</span><button class="tl2-c" onclick="DIA_MENU='${c.dia}';SUBM='carta';irA('menu')"><b>${esc(c.titulo)}</b><span class="tl2-s">${esc(TURNON[c.turno]||'')} · ${esc(ps.map(p=>p.nombre).slice(0,2).join(' o '))}</span>${img?imgTag(img,'tl2-img'):''}</button></div>`}
 async function votar(id,si){try{await API.votar(id,si);await cargar();render()}catch(e){toast(e.message)}}
 function puedeEditarEv(e){return esAdmin()||e.creado_por===ME.id||(e.anfitriones||[]).includes(ME.id)}
 function abrirEvento(id){
@@ -1598,7 +1685,7 @@ function insignias(){
   return out;
 }
 function vNosotros(){
-  const seg=`<div class="seg"><button aria-pressed="${SUBN==='album'}" onclick="SUBN='album';render()">Álbum de fotos</button><button aria-pressed="${SUBN==='gente'}" onclick="SUBN='gente';render()">Invitados · ${activos().length}</button></div>`;
+  const seg=`<div class="seg"><button aria-pressed="${SUBN==='album'}" onclick="SUBN='album';render()">Álbum de fotos</button><button aria-pressed="${SUBN==='gente'}" onclick="SUBN='gente';render()">Viajeros · ${activos().length}</button></div>`;
   if(SUBN==='album') return seg+vAlbum();
   const ins=insignias(), conAlergias=activos().filter(p=>p.perfil&&(p.perfil.alergias||(p.perfil.restricciones||[]).length));
   return seg+`<div class="row" style="margin:14px 0"><div class="grow"><h2 style="font-size:24px">${activos().length} en el viaje</h2><div class="muted tiny">Toca a alguien para ver su ficha.</div></div><button class="btn sm primary" onclick="abrirMiPerfil()">Mi ficha</button></div>
@@ -1784,51 +1871,57 @@ function platoVisual(p,cls=''){
   const ilu=!url&&imgPlato(p);
   return `<span class="pv ${cls}" style="background:${bg};color:${fg}">${url?`<img src="${esc(url)}" alt="">`:ic(beb?'bebidas':'menu')+(ilu?imgTag(ilu,'pv-ilu'):'')}</span>`;
 }
-let DIA_MENU=null, SUBM='semana', RANGO_C='2';
+let DIA_MENU=null, SUBM='carta', RANGO_C='2';
 function vMenu(){
   const dias=diasViaje();
   if(!dias.length) return `<div class="card flat empty">${ic('menu')}<div>Primero hay que poner las fechas del viaje${esAdmin()?' en Admin':''}.</div></div>`;
   if(!DIA_MENU||!dias.includes(DIA_MENU)) DIA_MENU=dias.includes(hoyISO())?hoyISO():dias[0];
-  const seg=`<div class="seg"><button aria-pressed="${SUBM==='semana'}" onclick="SUBM='semana';render()">Los ${Math.max(1,dias.length-1)} días</button><button aria-pressed="${SUBM==='carta'}" onclick="SUBM='carta';render()">Carta del día</button><button aria-pressed="${SUBM==='compras'}" onclick="SUBM='compras';render()">Lista de compras</button></div>`;
+  const seg=`<div class="seg"><button aria-pressed="${SUBM==='carta'}" onclick="SUBM='carta';render()">Carta del día</button><button aria-pressed="${SUBM==='semana'}" onclick="SUBM='semana';render()">Los ${Math.max(1,dias.length-1)} días</button><button aria-pressed="${SUBM==='compras'}" onclick="SUBM='compras';render()">Lista de compras</button></div>`;
   if(!COMIDAS.length) return seg+`<div class="card flat empty" style="margin-top:14px">${ic('menu')}<div>Todavía no hay menú.</div>${esAdmin()?`<button class="btn primary" style="margin-top:12px" onclick="armarMenuBase(this)">Armar el menú base del viaje</button><p class="muted tiny">Desayuno dual, almuerzos costeños de la cocinera, ceviche bar y cenas temáticas. Después se edita plato por plato.</p>`:'<p class="muted tiny">Daniel lo arma desde aquí.</p>'}</div>`;
   return seg+(SUBM==='semana'?vSemana(dias):SUBM==='carta'?vCarta(dias):vCompras(dias));
 }
-function chipsDias(dias){return `<div class="chips scroll" style="margin-top:14px">${dias.map((d,i)=>`<button class="chip" aria-pressed="${DIA_MENU===d}" onclick="DIA_MENU='${d}';render()">${nomDia(i,dias.length)} · ${diaSem(d).slice(0,3)} ${fechaCorta(d)}</button>`).join('')}</div>`}
+function chipsDias(dias){const DS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];return `<div class="dch">${dias.map(d=>`<button aria-pressed="${DIA_MENU===d}" onclick="DIA_MENU='${d}';render()">${DS[new Date(d+'T12:00').getDay()]} ${+d.slice(8)}</button>`).join('')}</div>`}
 /* el menú completo de un vistazo, como el que armó Kevin: por día, desayuno healthy / normal, almuerzo y cena */
 /* el menú completo de un vistazo, cada comida como un evento: qué incluye, qué opciones hay y si vas o no */
 const SEM_COL={A:['Healthy','#5E8B5A'],B:['Normal','#B8902F'],alm:['Almuerzo','#C8643F'],cena:['Cena','#1F4466']};
 const INCLUYE_DES=['Jugo de naranja','Agua de coco','Café ilimitado','Fruta fresca'];
+const visPlato=p=>p&&(fotoUrl(p.foto)||imgPlato(p));
+function rsvpRow(c){const yo=miAsis(c.id),van=vanA(c.id);return `<div class="rsvp"><button class="${yo.va!==false?'si':''}" onclick="setAsis('${c.id}',{va:true})">${ic('tareas')} Voy</button><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:false})">No voy</button><span class="rsvp-n">${van.length} de ${activos().length} van</span></div>`}
+function cartaDesayuno(c){const ps=platosDe(c.id),A=ps.find(p=>p.opcion==='A'),B=ps.find(p=>p.opcion==='B'),yo=miAsis(c.id),as=ASIST.filter(a=>a.comida_id===c.id&&a.va!==false),van=vanA(c.id);
+  const opt=(k,p)=>!p?'':`<div class="opt ${yo.va!==false&&yo.opcion===k?'sel':''}"><button class="opt-img" onclick="abrirPlato('${p.id}')">${imgTag(visPlato(p))}<span class="opt-ok">${ic('tareas')}</span></button><span class="sem-l" style="background:${SEM_COL[k][1]}">${SEM_COL[k][0]}</span><span class="opt-n">${esc(p.nombre)}</span><span class="opt-c">${as.filter(a=>a.opcion===k).length} la eligen</span>
+    <button class="opt-go" onclick="setAsis('${c.id}',{opcion:'${k}'})">${yo.va!==false&&yo.opcion===k?ic('tareas')+' Elegido':'Elegir'}</button></div>`;
+  return `<article class="cev carta" id="c-${c.id}"><div class="cev-h"><div class="grow"><div class="eyebrow">Desayuno · ${esc(String(c.hora||'08:30').slice(0,5))}</div><h3 class="carta-t">Desayuno internacional</h3></div><span class="pill ok">${van.length} van</span></div>
+    <div class="incl">${INCLUYE_DES.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
+    <div class="opts" style="margin-top:12px">${opt('A',A)}${opt('B',B)}</div>
+    <div class="rsvp"><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:${yo.va===false?'true':'false'}})">${yo.va===false?'No desayuno · cambiar':'Hoy no desayuno'}</button>${cartaAcc(c)}</div></article>`}
+function cartaAcc(c){const yo=miAsis(c.id);return `<span class="cev-acc"><button class="link-x" onclick="pedirVariante('${c.id}')">${yo.variante?'Mi pedido':'Pedir variante'}</button>${esAdmin()?` · <button class="link-x" onclick="abrirFormComida('${c.id}')">Editar</button>`:''}</span>`}
+function cartaComida(c){const ps=platosDe(c.id),van=vanA(c.id),ev=EVENTOS.find(e=>e.id===c.evento_id),cena=c.turno==='cena';
+  const sub=[cena?(MODAL[c.modalidad]||''):'Lo cocina la cocinera',(c.responsables||[]).length?'cocinan '+c.responsables.map(nom).join(', '):'',cena&&ev&&ev.lugar?ev.lugar.charAt(0).toUpperCase()+ev.lugar.slice(1):''].filter(Boolean).join(' · ');
+  const cevi=c.turno==='almuerzo'?estaciones('almuerzo'):[];
+  return `<article class="cev carta" id="c-${c.id}"><div class="cev-h"><div class="grow"><div class="eyebrow">${TURNON[c.turno]||''} · ${esc(String(c.hora||'').slice(0,5))}</div><h3 class="carta-t">${esc(cena&&ev?ev.titulo:c.titulo)}</h3><div class="muted tiny">${esc(sub)}</div></div><span class="pill ok">${van.length} van</span></div>
+    ${ev&&cena?`<button class="cev-ev" onclick="abrirEvento('${ev.id}')">${ic('planes')} ${esc(ev.dress_code?'Look: '+ev.dress_code:'Ver el plan de la noche')}</button>`:''}
+    ${rsvpRow(c)}
+    <div class="dishes">${ps.map(p=>{const na=noAptos(p);return `<button class="dish" onclick="abrirPlato('${p.id}')">${imgTag(visPlato(p),'dish-img')}<b>${esc(p.nombre)}</b>${p.descripcion?`<span class="dish-d">${esc(p.descripcion)}</span>`:''}<span class="dish-t">${(p.tags||[]).map(t=>`<i>${esc(t)}</i>`).join('')}${na.length?`<i class="bad">No apto: ${na.map(x=>esc(nom(x.id))).join(', ')}</i>`:''}</span></button>`}).join('')||`<div class="muted tiny" style="padding:8px 0">${c.modalidad==='libre'?'Cena fuera de casa: sin cocinar ni limpiar.':'Sin platos todavía.'}</div>`}
+      ${cevi.map(p=>`<button class="dish dish-s" onclick="abrirPlato('${p.id}')"><b>De entrada: ${esc(p.nombre)}</b></button>`).join('')}</div>
+    <div class="rsvp" style="padding-top:4px">${cartaAcc(c)}${c.modalidad!=='libre'?` <button class="link-x" style="margin-left:8px" onclick="abrirFormPlato(null,'${c.id}')">Agregar plato</button>`:''}</div></article>`}
+/* los 4 días de un vistazo, como «Nuestro menú» */
 function vSemana(dias){
-  const vis=p=>p&&(fotoUrl(p.foto)||imgPlato(p));
-  const rsvp=(c,yo,van)=>`<div class="rsvp"><button class="${yo.va!==false?'si':''}" onclick="setAsis('${c.id}',{va:true})">${ic('tareas')} Voy</button><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:false})">No voy</button><span class="rsvp-n">${van.length} de ${activos().length} van</span></div>`;
-  const desayuno=(c)=>{const ps=platosDe(c.id),A=ps.find(p=>p.opcion==='A'),B=ps.find(p=>p.opcion==='B'),yo=miAsis(c.id),as=ASIST.filter(a=>a.comida_id===c.id&&a.va!==false),van=vanA(c.id);
-    const opt=(k,p)=>!p?'':`<button class="opt" aria-pressed="${yo.va!==false&&yo.opcion===k}" onclick="setAsis('${c.id}',{opcion:'${k}'})"><span class="opt-img">${vis(p)?imgTag(vis(p)):''}<span class="opt-ok">${ic('tareas')}</span></span><span class="sem-l" style="background:${SEM_COL[k][1]}">${SEM_COL[k][0]}</span><span class="opt-n">${esc(p.nombre)}</span><span class="opt-c">${as.filter(a=>a.opcion===k).length} la eligen</span></button>`;
-    return `<article class="cev"><div class="cev-h"><div><div class="eyebrow">Desayuno · ${esc(String(c.hora||'08:30').slice(0,5))}</div><h3>Desayuno internacional</h3></div></div>
-      <div class="incl">${INCLUYE_DES.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
-      <div class="muted tiny" style="margin:10px 0 8px">Elige tu plato:</div>
-      <div class="opts">${opt('A',A)}${opt('B',B)}</div>
-      <div class="rsvp"><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:false})">${yo.va===false?'No desayuno':'Hoy no desayuno'}</button><span class="rsvp-n">${van.length} de ${activos().length} desayunan</span></div></article>`};
-  const comida=(c,ev)=>{const ps=platosDe(c.id),P=ps[0],yo=miAsis(c.id),van=vanA(c.id),cena=c.turno==='cena';
-    const img=vis(P)||(ev?imgEvento(ev):''), titulo=cena&&ev?ev.titulo:(P?P.nombre:c.titulo);
-    const sub=cena?(c.modalidad==='libre'?'Cena fuera de casa · sin cocinar ni limpiar':MODAL[c.modalidad]||''):'Lo cocina la cocinera · ceviche bar de entrada';
-    return `<article class="cev"><button class="cev-ban" onclick="${ev&&cena?`abrirEvento('${ev.id}')`:P?`abrirPlato('${P.id}')`:''}">${img?imgTag(img):''}<span class="cev-ov"><span class="sem-l" style="background:${SEM_COL[cena?'cena':'alm'][1]};margin:0">${cena?'Cena':'Almuerzo'} · ${esc(String(c.hora||'').slice(0,5))}</span><b>${esc(titulo)}</b><span>${esc(sub)}</span></span></button>
-      <div class="cev-b">${cena&&ps.length?`<div class="cev-menu">${ps.map(p=>`<button onclick="abrirPlato('${p.id}')">${esc(p.nombre)}</button>`).join('')}</div>`:!cena&&P&&P.descripcion?`<p class="muted tiny" style="margin:0 0 8px">${esc(P.descripcion)}</p>`:''}
-      ${cena&&ev&&ev.dress_code?`<div class="tiny" style="margin-bottom:8px">Look: <b>${esc((ev.estilo&&ev.estilo.nombre||ev.dress_code).replace(/ · Día \d+$/,''))}</b></div>`:''}
-      ${rsvp(c,yo,van)}</div></article>`};
-  const dia=(d,i)=>{const cs=comidasDia(d),des=cs.find(c=>c.turno==='desayuno'),alm=cs.find(c=>c.turno==='almuerzo'),cen=cs.find(c=>c.turno==='cena'),ev=cen&&EVENTOS.find(e=>e.id===cen.evento_id);
-    if(!des&&!alm&&!cen)return'';
-    return `<section class="sem-d"><div class="sem-h"><span class="sem-n">${nomDia(i,dias.length)}</span><span class="muted tiny">${diaSem(d)} ${fechaCorta(d)}</span></div>
-      <div class="stack">${des?desayuno(des):''}${alm?comida(alm,null):''}${cen?comida(cen,ev):''}</div></section>`};
-  return `<button class="card sem-poster" onclick="verMenuKevin()"><img src="img/menu/menu-same-fotos.jpg" alt="" loading="lazy" onerror="this.remove()"><div><div class="eyebrow" style="color:var(--sun)">Menú Same</div><b>${Math.max(1,dias.length-1)} días de buena comida, playa y amigos</b><div class="muted tiny">Lo armó Kevin · toca para verlo completo</div></div></button>
-    <p class="muted" style="margin:12px 0 0">Marca si vas a cada comida y qué desayuno quieres. Así se compra y se cocina lo justo.</p>
-    <div class="stack" style="margin-top:6px">${dias.map(dia).join('')||'<div class="card flat empty">Todavía no hay comidas cargadas.</div>'}</div>`;
+  const fila=(d,i)=>{const cs=comidasDia(d),cen=cs.find(c=>c.turno==='cena'),ev=cen&&EVENTOS.find(e=>e.id===cen.evento_id);
+    const items=[...cs.filter(c=>c.turno!=='desayuno').flatMap(c=>platosDe(c.id).map(p=>p.nombre)),...(cs.some(c=>c.turno==='desayuno')?['Desayuno internacional']:[])].slice(0,3);
+    const P=(cen&&platosDe(cen.id)[0])||(cs[0]&&platosDe(cs[0].id)[0]);
+    if(!cs.length)return'';
+    return `<button class="mrow" onclick="DIA_MENU='${d}';SUBM='carta';render()">${imgTag([visPlato(P),ev?imgEvento(ev):''].flat().filter(Boolean),'mrow-img')}<span class="grow"><span class="mrow-d">${nomDia(i,dias.length)} · ${diaSem(d).slice(0,3)} ${fechaCorta(d)}</span><b>${esc(ev?ev.titulo:(cen?cen.titulo:'Comidas del día'))}</b>
+      <ul>${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></span>${ic('chev')}</button>`};
+  return `<div class="row" style="margin-top:16px;align-items:center"><div class="grow"><h2 class="pg-t" style="margin:0">Nuestro menú</h2><div class="muted tiny">Una experiencia gastronómica en la playa</div></div><span class="hat">${ic('menu')}</span></div>
+    <div class="stack" style="margin-top:12px">${dias.map(fila).join('')}</div>
+    <button class="card sem-poster" onclick="verMenuKevin()"><img src="img/menu/menu-same-fotos.jpg" alt="" loading="lazy" onerror="this.remove()"><div><div class="eyebrow" style="color:var(--sun)">Menú Same</div><b>El menú original de Kevin</b><div class="muted tiny">Toca para verlo completo</div></div></button>`;
 }
 function verMenuKevin(){openSheet(sheetH('El menú de Kevin')+`<div class="stack"><img src="img/menu/menu-same-fotos.jpg" alt="Menú Same con fotos" style="width:100%;border-radius:16px"><img src="img/menu/menu-same.jpg" alt="Menú Same" style="width:100%;border-radius:16px"><p class="muted tiny">Cada plato ya está en la carta del día, con sus ingredientes y alertas de alergias.</p></div>`)}
 function vCarta(dias){
-  const est=estaciones();
-  return chipsDias(dias)+`<div class="stack" style="margin-top:14px">${comidasDia(DIA_MENU).map(comidaCard).join('')||'<div class="card flat empty">Este día no tiene comidas cargadas.</div>'}</div>
+  const est=estaciones().filter(p=>p.turno!=='desayuno');
+  return chipsDias(dias)+`<div class="stack" style="margin-top:14px">${comidasDia(DIA_MENU).map(c=>c.modalidad==='dual'?cartaDesayuno(c):cartaComida(c)).join('')||'<div class="card flat empty">Este día no tiene comidas cargadas.</div>'}</div>
    ${est.length?`<div class="sec-h"><h2>Todos los días</h2></div><div class="card"><div class="list">${est.map(p=>`<button class="item" onclick="abrirPlato('${p.id}')">${platoVisual(p,'sm')}<div class="grow"><div class="t">${esc(p.nombre)}</div><div class="s">${TURNON[p.turno]||''} · ${esc(p.descripcion||'')}</div></div></button>`).join('')}</div></div>`:''}
-   <div class="row wrap-ok" style="margin-top:12px">${esAdmin()?`<button class="btn sm" onclick="abrirFormComida(null)">${ic('plus')} Agregar comida a este día</button>`:''}<button class="btn sm" onclick="abrirFormPlato(null,null)">${ic('plus')} Plato de todos los días</button></div>`;
+   <div class="row wrap-ok" style="margin-top:12px">${esAdmin()?`<button class="btn sm" onclick="abrirFormComida(null)">${ic('plus')} Agregar comida a este día</button>`:''}</div>`;
 }
 function platoRow(p){const na=noAptos(p);
   return `<button class="plato" onclick="abrirPlato('${p.id}')">${platoVisual(p)}<div style="min-width:0"><div class="plato-n">${esc(p.nombre)}</div>${p.descripcion?`<div class="plato-d">${esc(p.descripcion)}</div>`:''}
@@ -2073,8 +2166,9 @@ let SUBN='album', FALB='', SUBIR=null;
 function fotosFiltradas(){return MURO.filter(f=>!FALB||(FALB==='antes'?!f.dia||!diasViaje().includes(f.dia):FALB.startsWith('ev:')?f.evento_id===FALB.slice(3):f.dia===FALB)).sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||'')))}
 function vAlbum(){
   const dias=diasViaje(), L=fotosFiltradas(), noches=EVENTOS.filter(e=>MURO.some(f=>f.evento_id===e.id));
-  return `<div class="row" style="margin-top:14px"><div class="grow"><h2 style="font-size:22px">${MURO.length} foto${MURO.length===1?'':'s'} del viaje</h2><div class="muted tiny">Las sube cualquiera; las ven todos.</div></div>
-      <label class="btn sun sm">${ic('cam')} Subir<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div>
+  return `<section class="ah">${imgTag([IMG+'portada.jpg','img/casa/piscina.jpg'],'ah-img')}<div class="ah-in"><div class="script">Los mejores recuerdos se viven juntos ${ic('heart')}</div>
+      <label class="btn navy block">${ic('cam')} Subir fotos<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div></section>
+    <div class="muted tiny" style="margin-top:10px">${MURO.length} foto${MURO.length===1?'':'s'} del viaje · las sube cualquiera, las ven todos.</div>
     <div class="chips scroll" style="margin-top:12px"><button class="chip" aria-pressed="${!FALB}" onclick="FALB='';render()">Todas</button>${dias.map((d,i)=>`<button class="chip" aria-pressed="${FALB===d}" onclick="FALB='${d}';render()">${nomDia(i,dias.length)}</button>`).join('')}${noches.map(e=>`<button class="chip sunny" aria-pressed="${FALB==='ev:'+e.id}" onclick="FALB='ev:${e.id}';render()">${esc(e.titulo)}</button>`).join('')}<button class="chip" aria-pressed="${FALB==='antes'}" onclick="FALB='antes';render()">Antes del viaje</button></div>
     ${L.length?`<div class="alb" style="margin-top:12px">${L.map(f=>{const u=fotoUrl(f.foto_path);return `<button onclick="verFoto('${f.id}')" aria-label="Foto de ${esc(nom(f.persona_id))}">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}</button>`}).join('')}</div>`
       :`<div class="card flat empty" style="margin-top:12px">${ic('cam')}<div>${MURO.length?'No hay fotos con ese filtro.':'Todavía no hay fotos. Sube la primera: la del grupo saliendo de viaje.'}</div></div>`}`;
@@ -2126,6 +2220,19 @@ function esencialChips(){const I=infoV();const hay=k=>({casa:true,donde:I.direcc
   const L=ESENCIAL.filter(([k])=>hay(k));
   if(!L.length) return esAdmin()?`<button class="card flat empty" style="display:block;width:100%;margin-top:14px;cursor:pointer" onclick="abrirInfoAdmin()">Agrega lo esencial: dirección, WiFi, qué llevar… <b style="color:var(--tide)">Llenar ahora</b></button>`:'';
   return `<div class="esen">${L.map(([k,l,i])=>`<button onclick="verEsencial('${k}')"><span class="ic">${ic(i)}</span><span>${l}</span></button>`).join('')}</div>`}
+function vInfo(){const I=infoV();
+  const row=(i,t,s,click,extra='')=>`<button class="item" onclick="${click}"><span class="cat-dot">${ic(i)}</span><div class="grow"><div class="t">${t}</div>${s?`<div class="s">${s}</div>`:''}</div>${extra||ic('chev')}</button>`;
+  return `<div class="card" style="margin-top:14px"><div class="list">
+    ${row('hospedaje','La casa',esc(I.casa_titulo||'Fotos y comodidades'),"verEsencial('casa')")}
+    ${row('pin','Dirección de la casa',esc(I.direccion||CFG.lugar||''),"verEsencial('donde')",I.mapa_url?`<a class="x" href="${esc(I.mapa_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ic('nav')}</a>`:'')}
+    ${row('sun','Clima','28° – 32° · sol y brisa de mar (lo normal en Same)',"verEsencial('donde')",' ')}
+    ${I.wifi_red?row('spark','WiFi',esc(I.wifi_red),"verEsencial('wifi')"):''}
+    ${row('list','Qué llevar',esc(I.que_llevar.slice(0,3).join(', ')),"verEsencial('llevar')")}
+    ${row('tareas','Reglas de la casa',esc(I.reglas.slice(0,2).join(' · ')),"verEsencial('reglas')")}
+    ${row('wa','Contactos útiles',esc(I.contactos.map(c=>c.nombre).join(', ')),"verEsencial('contactos')")}
+    ${I.faq.length?row('chat','Preguntas',I.faq.length+' respuestas',"verEsencial('faq')"):''}</div></div>
+    ${esAdmin()?`<button class="btn sm" style="margin-top:12px" onclick="abrirInfoAdmin()">${ic('spark')} Editar con IA</button>`:''}
+    <div class="script quote">Viajar juntos hace la vida más grande ${ic('heart')}</div>`}
 function verEsencial(k){
   const I=infoV(), li=a=>a.map(x=>`<div class="sub-item">${esc(x)}</div>`).join('');
   const cuerpo={
@@ -2277,7 +2384,8 @@ function imgEvento(e){const t=norm(e.titulo+' '+(e.tematica||''));let gente=IMG+
   for(const[re,f]of [[/llegada|check/,'llegada'],[/intenciones|fogata/,'circulo'],[/yoga/,'yoga'],[/panzazo|piscina/,'panzazos'],[/grill|taco|parrill|bbq|cocktail/,'sunset-grill'],[/restaurant/,'restaurante'],[/spike|red|paletas|olimpiadas/,'playa-juegos'],[/karaoke|talent/,'karaoke'],[/fotos|gafas|freaky/,'fotos-gafas'],[/pizza|juegos de mesa|board|game night/,'pizza-juegos'],[/tapas|vino|enolog/,'tapas'],[/cine/,'cine'],[/2000|throwback/,'throwback'],[/tesoro/,'tesoro']])if(re.test(t)){gente=IMG+f+'.jpg';break}
   const otra=/intenciones/.test(t)?LOOK_SRC['welcome-white']:/freaky|gafas/.test(t)?LOOK_SRC['tiki-boho']:
     (([[/pizza/,'d1-cena'],[/bbq|cocktail/,'d2-cena'],[/tapas/,'d3-cena'],[/restaurant/,'d4-cena']].find(([re])=>re.test(t))||[])[1]);
-  return [gente,otra&&(CENA_FOTO[otra]||otra)].filter(Boolean)}
+  const casa=CASA_DEF[[...t].reduce((a,ch)=>a+ch.charCodeAt(0),0)%CASA_DEF.length];
+  return [gente,otra&&(CENA_FOTO[otra]||otra),casa].filter(Boolean)}
 function imgPlato(p){const f=FOTO_MENU[norm(p.nombre)];if(f)return f;const t=norm(p.nombre+' '+(p.ingredientes||[]).join(' '));
   for(const[re,f]of [[/ceviche/,'ceviche'],[/cafe/,'cafe'],[/yogur|bowl|avena|avocado|toast|fruta/,'desayuno-healthy'],[/tigrillo|bolon|pancakes de queso/,'desayuno-tradicional'],[/encocado|seco de|marinero|carne asada|menestra|patacon|pescado a la plancha/,'almuerzo-costeno'],[/taco|parrillada/,'sunset-grill'],[/pizza|picada/,'pizza-juegos'],[/tapa|queso|vino|sangria/,'tapas'],[/hamburgues|papas/,'hamburguesas'],[/margarita|jugo|agua de coco|cerveza/,'bebidas']])if(re.test(t))return IMG+'comida-'+f+'.jpg';
   return ''}

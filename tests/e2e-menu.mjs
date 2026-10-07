@@ -1,0 +1,15 @@
+import { chromium } from 'playwright';
+const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
+await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
+await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();
+await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+await pg.evaluate(()=>{SUBM='semana';irA('menu')});await pg.waitForSelector('.mrow');console.log('días en la lista:',await pg.locator('.mrow').count());
+await pg.locator('.mrow').nth(1).click();await pg.waitForSelector('.cev');
+console.log('comidas del día:',await pg.locator('.cev').count(),'| incluye:',(await pg.locator('.incl').first().innerText()).replace(/\n/g,' · '));
+await pg.locator('.opt').nth(1).locator('.opt-go').click();await pg.waitForTimeout(400);
+console.log('elegí:',await pg.locator('.opt.sel .opt-n').innerText());
+await pg.locator('.cev').nth(1).locator('.rsvp button:has-text("No voy")').click();await pg.waitForTimeout(400);
+console.log('almuerzo:',(await pg.locator('.cev').nth(1).locator('.rsvp').first().innerText()).replace(/\n/g,' '));
+console.log('scrollW',await pg.evaluate(()=>document.documentElement.scrollWidth));
+console.log('errores:',errs.length?errs:'ninguno');await b.close();
