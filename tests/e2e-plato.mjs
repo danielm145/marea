@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
+await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
+await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();
+await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hero');
+const abrir=async n=>{await pg.evaluate(n=>abrirPlato(PLATOS.find(p=>p.nombre===n).id),n);await pg.waitForTimeout(500)};
+await abrir('Pizzas caseras armadas entre todos');await pg.locator('#sheetBody').screenshot({path:'plato-pizza.png'});
+console.log('pizza:',(await pg.locator('#sheetBody').innerText()).replace(/\n+/g,' / ').slice(0,260));
+await abrir('Tigrillo de queso con huevo');await pg.click('.ev-go');await pg.waitForTimeout(500);
+console.log('tras elegir:',await pg.locator('.ev-go').innerText());await pg.locator('#sheetBody').screenshot({path:'plato-tigrillo.png'});
+await pg.evaluate(()=>{PLATOS.push({...PLATOS.find(p=>p.nombre==='Arroz marinero'),id:'x1',nombre:'Arroz con conchas',ingredientes:['Arroz','Conchas negras']});});
+await abrir('Arroz con conchas');console.log('alergia:',(await pg.locator('#sheetBody .banner, #sheetBody .pl-al').first().innerText()).replace(/\n/g,' '));
+console.log('errores:',errs.length?errs:'ninguno');await b.close();

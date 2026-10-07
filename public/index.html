@@ -319,6 +319,10 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .rsvp button svg{width:16px;height:16px}.rsvp button.si{background:var(--ok);border-color:var(--ok);color:#fff}.rsvp button.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .rsvp-n{margin-left:auto;font-size:12.5px;color:var(--ink-3);font-weight:600}
 .link-x{border:0;background:none;color:inherit;font:inherit;text-decoration:underline;cursor:pointer;padding:0}
+.pl-al{display:flex;gap:10px;align-items:flex-start;background:var(--sol-soft);border-radius:14px;padding:10px 12px;font-size:14px}.pl-al svg{width:18px;height:18px;flex:none;color:#B07A00;margin-top:1px}
+.ok-go{background:var(--ok);color:#fff;border-color:var(--ok)}
+.pl-al.ok{background:var(--ok-soft)}.pl-al.ok svg{color:var(--ok)}
+.pl-ing{display:flex;flex-wrap:wrap;gap:6px}.pl-ing span{background:var(--surface-2);border-radius:999px;padding:6px 11px;font-size:14px;font-weight:600}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -355,7 +359,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v13';
+const BUILD_TAG='v14';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1864,18 +1868,24 @@ function pedirVariante(cid){const c=COMIDAS.find(x=>x.id===cid),yo=miAsis(cid);
     ${yo.variante?`<button class="btn block" onclick="setAsis('${cid}',{variante:''})">Quitar mi pedido</button>`:''}</div>`)}
 function abrirPlato(id){
   const p=PLATOS.find(x=>x.id===id); if(!p) return; const c=COMIDAS.find(x=>x.id===p.comida_id), al=alergenosDe(p), na=noAptos(p), n=c?vanA(c.id).length:activos().length;
-  openSheet(`${sheetH('')}<div class="stack" style="margin-top:-30px">${platoVisual(p,'lg')}
-    <div><div class="eyebrow">${c?`${TURNON[c.turno]} · ${diaSem(c.dia)} ${fechaCorta(c.dia)}${p.opcion?' · Opción '+p.opcion:''}`:'Todos los días · '+(TURNON[p.turno]||'')}</div>
-      <h2 style="font-size:28px;margin-top:4px">${esc(p.nombre)}</h2>${p.estilo?`<div class="muted" style="font-style:italic">${esc(p.estilo)}</div>`:''}</div>
-    ${p.descripcion?`<p style="margin:0;font-size:17px">${esc(p.descripcion)}</p>`:''}
+  const yo=c?miAsis(c.id):{}, img=[fotoUrl(p.foto),imgPlato(p)].filter(Boolean), dual=c&&c.modalidad==='dual'&&p.opcion;
+  const cuando=c?`${TURNON[c.turno]} · ${diaSem(c.dia)} ${fechaCorta(c.dia)}`:'Todos los días · '+(TURNON[p.turno]||'');
+  const elegido=dual&&yo.va!==false&&yo.opcion===p.opcion, puede=p.creado_por===ME.id||esAdmin();
+  openSheet(`<div class="evh pl-h" style="background:var(--hero)">${imgTag(img,'evh-img')}<button class="x evh-x" onclick="closeSheet()" aria-label="Cerrar">${ic('x')}</button>
+      <div class="evh-in">${dual?`<span class="sem-l" style="background:${SEM_COL[p.opcion][1]};margin:0">${SEM_COL[p.opcion][0]}</span>`:''}<div class="evh-d">${esc(cuando)}</div>
+        <h2 id="sheetTitle">${esc(p.nombre)}</h2>${p.estilo?`<div class="evh-t">${esc(p.estilo)}</div>`:''}</div></div>
+    <div class="stack" style="margin-top:14px">
+    ${p.descripcion?`<p class="ev-desc">${esc(p.descripcion)}</p>`:''}
     ${(p.tags||[]).length?`<div class="chips">${p.tags.map(t=>`<span class="pill tide">${esc(t)}</span>`).join('')}</div>`:''}
-    ${(p.ingredientes||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Ingredientes</div>${p.ingredientes.map(i=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(i)}</div>`).join('')}
-      <div class="muted tiny" style="margin-top:8px">Para ${p.porciones||n} persona${(p.porciones||n)===1?'':'s'}${p.porciones?'':' (los que confirmaron)'}</div></div>`:''}
-    <div class="card"><div class="eyebrow" style="margin-bottom:6px">Alérgenos</div>${al.length?`<div class="chips">${al.map(a=>`<span class="pill warn">${ALERG[a]}</span>`).join('')}</div>`:'<div class="muted tiny">Ninguno de la lista.</div>'}
-      ${na.length?`<div class="banner bad tiny" style="margin-top:10px"><div>No apto para ${na.map(x=>`<b>${esc(nom(x.id))}</b> (${x.por.map(a=>ALERG[a]).join(', ')})`).join(', ')}. Que pida una variante.</div></div>`:''}</div>
-    <div class="row wrap-ok"><button class="btn sun grow" onclick="enriquecerPlato('${p.id}',this)">${ic('spark')} Completar con IA</button><label class="btn">${ic('cam')} Foto<input type="file" accept="image/*" hidden onchange="fotoPlato('${p.id}',this)"></label></div>
-    <div class="row"><button class="btn grow" onclick="abrirFormPlato('${p.id}')">${ic('pen')} Editar</button>${p.creado_por===ME.id||esAdmin()?`<button class="btn danger" onclick="borrarPlato('${p.id}',this)">Borrar</button>`:''}</div>
-    ${c?`<button class="btn block" onclick="pedirVariante('${c.id}')">Pedir una variante para mí</button>`:''}</div>`);
+    ${na.length?`<div class="banner bad"><div><b>No es para ${na.map(x=>esc(nom(x.id))).join(', ')}</b> · tiene ${[...new Set(na.flatMap(x=>x.por))].map(a=>ALERG[a]).join(', ')}. Pide una variante abajo.</div></div>`
+      :al.length?`<div class="pl-al">${ic('spark')}<span>Lleva <b>${al.map(a=>ALERG[a]).join(', ')}</b>. Nadie del grupo tiene problema con eso.</span></div>`:`<div class="pl-al ok">${ic('tareas')}<span>Sin alérgenos de la lista.</span></div>`}
+    ${dual?`<button class="btn block ${elegido?'ok-go':'primary'} ev-go" onclick="setAsis('${c.id}',{opcion:'${p.opcion}'}).then(()=>abrirPlato('${p.id}'))">${elegido?ic('tareas')+' Este es mi desayuno':'Quiero este desayuno'}</button>`
+      :c&&c.modalidad!=='libre'?`<div class="rsvp" style="padding:0"><button class="${yo.va!==false?'si':''}" onclick="setAsis('${c.id}',{va:true}).then(()=>abrirPlato('${p.id}'))">${ic('tareas')} Voy</button><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:false}).then(()=>abrirPlato('${p.id}'))">No voy</button><span class="rsvp-n">${n} de ${activos().length} van</span></div>`:''}
+    ${(p.ingredientes||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:8px">Ingredientes · para ${p.porciones||n} persona${(p.porciones||n)===1?'':'s'}</div><div class="pl-ing">${p.ingredientes.map(i=>`<span>${esc(i)}</span>`).join('')}</div></div>`:''}
+    ${c?`<button class="btn block" onclick="pedirVariante('${c.id}')">${yo.variante?'Cambiar mi pedido especial':'Pedir una variante para mí'}</button>${yo.variante?`<div class="muted tiny" style="margin-top:-6px">Tu pedido: ${esc(yo.variante)}</div>`:''}`:''}
+    <div class="ev-acc"><button class="btn sm" onclick="enriquecerPlato('${p.id}',this)">${ic('spark')} Completar con IA</button><label class="btn sm">${ic('cam')} Foto<input type="file" accept="image/*" hidden onchange="fotoPlato('${p.id}',this)"></label>
+      <details class="ev-mas"><summary class="btn sm">Más</summary><div class="ev-mas-in"><button class="btn sm block" onclick="abrirFormPlato('${p.id}')">${ic('pen')} Editar</button>${puede?`<button class="btn sm danger block" onclick="borrarPlato('${p.id}',this)">Borrar plato</button>`:''}</div></details></div>
+    </div>`);
 }
 function abrirFormPlato(id,comidaId){
   const p=id?PLATOS.find(x=>x.id===id):{id:uid(),comida_id:comidaId||null,nombre:'',descripcion:'',estilo:'',ingredientes:[],porciones:null,tags:[],alergenos:[],opcion:null,foto:null,permanente:!comidaId,turno:comidaId?null:'almuerzo'};
