@@ -53,6 +53,15 @@ const IMAGENES = {
   "comida-tapas": COMIDA + "Spanish tapas: pan con tomate, jamón serrano, tortilla española, olives, aged cheeses, red and white wine glasses, candlelight.",
   "comida-hamburguesas": COMIDA + "Homemade burgers with melted cheese and rustic rosemary potatoes on a picnic table.",
   "comida-bebidas": COMIDA + "Tropical non-alcoholic drinks: virgin margaritas with salt rim, fresh coconut water in a coconut, passion fruit juice, ice.",
+  // portada de Hoy (vertical). Prompt propio: ilustración vintage como los stickers «Our Beach Era», no foto.
+  "portada-hero": { aspecto: "3:4", prompt:
+    "Sun-faded vintage 1970s travel poster illustration, hand-painted gouache with fine paper grain and soft halftone texture, " +
+    "the same style as retro beach stickers: muted teal, cream, sand, coral and navy palette. " +
+    "Scene: the wide golden-hour beach of Same, Esmeraldas, Ecuador — gentle turquoise Pacific waves with white foam, " +
+    "two tall leaning coconut palms framing the left side, a green tropical hill on the right with white Mediterranean-style " +
+    "apartment buildings stepping down it, a big soft coral sun low over the sea, a few pastel beach umbrellas far away. " +
+    "Dreamy, warm, nostalgic, joyful. Portrait composition; keep the upper-middle sky calm and simple (a logo goes there). " +
+    "No text, no letters, no logos, no watermark." },
 };
 
 // Nano Banana = gemini-2.5-flash-image (rápido). Nano Banana Pro: GEMINI_MODELO=gemini-3-pro-image-preview
@@ -64,10 +73,10 @@ function leerKey() {
   }
   return null;
 }
-async function conGemini(key, prompt) {
+async function conGemini(key, prompt, aspecto = "4:3") {
   const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODELO}:generateContent?key=${key}`, {
     method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio: "4:3" } } }),
+    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio: aspecto } } }),
   });
   const j = await r.json();
   if (!r.ok) throw new Error(j.error?.message || r.status);
@@ -75,12 +84,12 @@ async function conGemini(key, prompt) {
   if (!part) throw new Error("no devolvió imagen (" + (j.candidates?.[0]?.finishReason || "?") + ")");
   return Buffer.from(part.inlineData.data, "base64");
 }
-async function conVertex(proyecto, prompt) {
+async function conVertex(proyecto, prompt, aspecto = "4:3") {
   const token = execSync("gcloud auth print-access-token", { encoding: "utf8" }).trim();
   const loc = process.env.VERTEX_LOCATION || "us-central1";
   const r = await fetch(`https://${loc}-aiplatform.googleapis.com/v1/projects/${proyecto}/locations/${loc}/publishers/google/models/imagen-4.0-generate-001:predict`, {
     method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
-    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio: "4:3", personGeneration: "allow_adult" } }),
+    body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio: aspecto, personGeneration: "allow_adult" } }),
   });
   const j = await r.json();
   if (!r.ok) throw new Error(j.error?.message || r.status);
@@ -98,10 +107,10 @@ for (const [nombre, escena] of Object.entries(IMAGENES)) {
   if (solo.length && !solo.includes(nombre)) continue;
   const jpg = path.join(SALIDA, nombre + ".jpg");
   if (fs.existsSync(jpg) && !todo && !solo.length) { console.log("  ya está ", nombre); continue; }
-  const prompt = ESTILO + escena + FIN;
+  const prompt = typeof escena === "string" ? ESTILO + escena + FIN : escena.prompt, aspecto = escena.aspecto || "4:3";
   try {
     process.stdout.write("  generando " + nombre + "… ");
-    const buf = key ? await conGemini(key, prompt) : await conVertex(proyecto, prompt);
+    const buf = key ? await conGemini(key, prompt, aspecto) : await conVertex(proyecto, prompt, aspecto);
     const png = path.join(SALIDA, nombre + ".png");
     fs.writeFileSync(png, buf);
     try { execSync(`sips -s format jpeg -s formatOptions 72 -Z 1400 "${png}" --out "${jpg}"`, { stdio: "ignore" }); fs.unlinkSync(png); }

@@ -1,6 +1,14 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v21**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v22**.
+
+## v22 (7-oct) · portada de Hoy más linda
+- Portada de Hoy: **atardecer rosado de la piscina** (cuadro del video del condominio, sin marca de agua,
+  retocado cálido) en vez de la foto gris de la playa — `img/casa/atardecer.jpg`. Capa oscura más suave.
+- Lista la **ilustración «beach era»** (estilo de los stickers vintage: playa de Same, palmeras, sol coral, cerro con
+  edificios blancos), vertical 3:4. Daniel la genera en su Mac y la app la toma sola como portada:
+  `node scripts/generar-imagenes.mjs portada-hero` → `public/img/playa/portada-hero.jpg` (sube BUILD_TAG y despliega).
+  `generar-imagenes.mjs` ahora acepta prompt y proporción propios por imagen.
 
 ## v21 (7-oct) · chao Beach Trip
 - La tarjeta para instalar la app decía «Ten Beach Trip como app»: ahora «Ten Same como app» (pedido de Daniel).

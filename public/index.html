@@ -334,7 +334,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 /* HOY */
 .hh{position:relative;margin:0 -16px;min-height:430px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;color:#fff;border-radius:0 0 30px 30px;background:var(--hero)}
 .hh-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hh::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,.15) 0%,rgba(6,20,45,.05) 35%,rgba(6,20,45,.62) 100%)}
+.hh::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,.05) 0%,rgba(6,20,45,0) 30%,rgba(6,20,45,.5) 100%)}
 .hh-top{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:16px;z-index:2;background:rgba(255,255,255,.88);border-radius:999px;padding:4px 10px 4px 4px;display:flex;align-items:center}.hh-top .avs{display:flex;align-items:center}
 .hh-n{color:var(--ink);font-weight:800;font-size:13px;margin-left:6px}
 .hh-in{position:relative;z-index:1;text-align:center;padding:24px 20px 26px}.hh-in .logo{filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))}
@@ -472,7 +472,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v21';
+const BUILD_TAG='v22';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1130,7 +1130,9 @@ function vMas(){
 /* ---------- HOY ---------- */
 function vHoy(){
   const hoy=hoyISO(), dias=diasViaje();
-  const portada=fotoUrl(infoV().casa_fotos[0])||'img/casa/playa.jpg';
+  /* portada de Hoy: la ilustración «beach era» de la IA si ya se generó (scripts/generar-imagenes.mjs portada-hero),
+     si no, el atardecer de la piscina del video retocado en tono vintage */
+  const portada=[IMG+'portada-hero.jpg','img/casa/atardecer.jpg'];
   const rango=CFG.desde?`${fechaCorta(CFG.desde)} – ${fechaCorta(CFG.hasta)}${CFG.desde?' '+String(CFG.hasta||CFG.desde).slice(0,4):''}`:'';
   const acts=EVENTOS.filter(e=>e.estado==='oficial'||e.estado==='hecho').length, pend=TAREAS.filter(t=>t.responsable===ME.id&&estadoAuto(t)!=='listo').length;
   const fin=dias.length&&difDias(hoy,CFG.hasta)<0;
@@ -1139,7 +1141,7 @@ function vHoy(){
   const cuando=prox?(prox.dia===hoy?'Hoy':prox.dia===addDias(hoy,1)?'Mañana':diaSem(prox.dia))+' · '+fechaCorta(prox.dia):'';
   const b=balances().find(x=>x.id===ME.id)||{saldo:0};
   const stat=(i,num,l,c,click)=>`<button class="st" onclick="${click}"><span class="st-i" style="background:${c}1f;color:${c}">${ic(i)}</span><b>${num}</b><span>${l}</span></button>`;
-  return `<section class="hh">${imgTag([portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
+  return `<section class="hh">${imgTag([...portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
       <div class="hh-in"><div class="hh-logo">${logo(190)}</div><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
         <div class="script hh-s">Desconecta · Comparte · Vive el momento ${ic('heart')}</div>${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'días','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
