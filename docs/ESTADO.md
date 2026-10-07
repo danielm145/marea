@@ -314,3 +314,8 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - `sql/014_viajeros.sql`: Daniel, Ana Paula, Alegría, Kevin, Domenika, Natalia, Ana Cristina y Jhon Cevallos (nuevo). A quien ya estaba sin celular se le pone; no duplica (probado dos veces en Postgres local). Amelia Camacho no venía en la lista.
 - `caraDe` también prueba los dos primeros nombres (Ana Paula Ribadeneira → img/gente/ana-paula.jpg).
 - Se aplica con `node scripts/conectar.mjs` (o `scripts/conectar.sh`).
+
+## 015 · el guard dejaba por fuera al servidor (bug de Kevin)
+- Al entrar solo con el celular salía «solo el admin puede cambiar ese campo»: la Edge Function (llave de servicio) no podía anotar `auth_id`, porque `es_admin()` mira `auth.uid()`.
+- `sql/015_guard_permite_servidor.sql`: el guard deja pasar a la llave de servicio, a la conexión directa (sin API) y al admin; un invitado sigue bloqueado (probado en Postgres local).
+- Se aplica con `node scripts/conectar.mjs`.
