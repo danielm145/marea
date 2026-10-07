@@ -276,6 +276,26 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
 .look-b{padding:16px 18px 18px}.swatch.lg{width:34px;height:34px}
 .look-img{display:block;width:100%;max-height:560px;object-fit:cover;cursor:zoom-in}
 .gia .thumb{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-bottom:10px}.gia-t{font-family:var(--f-disp);font-weight:800;font-size:22px;line-height:1.15;margin-top:4px}.gia-m{font-family:var(--f-disp);font-weight:800;font-size:36px;color:var(--tide-deep);margin-top:4px}
+.evh{position:relative;margin:-8px -16px 0;min-height:230px;display:flex;align-items:flex-end;overflow:hidden;color:#fff;border-radius:22px 22px 0 0}
+.evh-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.evh::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,.05) 20%,rgba(6,20,45,.72))}
+.evh-in{position:relative;z-index:1;padding:18px 18px 16px;width:100%}.evh-in .pill{background:rgba(255,255,255,.92)}
+.evh-d{font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-top:10px;opacity:.95}
+.evh h2{font-family:var(--f-disp);font-weight:800;font-size:30px;line-height:1.05;margin-top:4px;text-shadow:0 2px 12px rgba(0,0,0,.25)}
+.evh-t{font-weight:600;opacity:.92;margin-top:4px}
+.evh-x{position:absolute;top:12px;right:12px;z-index:2;background:rgba(255,255,255,.9);color:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}
+.fact{display:flex;flex-direction:column;gap:2px;text-align:left;border:0;background:var(--surface);border-radius:16px;padding:12px;box-shadow:var(--shadow);font:inherit;color:inherit}
+button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;height:20px}
+.fact-k{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-top:4px}.fact-v{font-weight:700;line-height:1.2}
+.fact-pal{display:flex;gap:3px;margin:2px 0 4px}.fact-pal i{width:14px;height:14px;border-radius:50%;border:1px solid var(--line)}
+.ev-desc{margin:0;font-size:16.5px;line-height:1.5}.ev-go{min-height:54px;font-size:17px}
+.ev-gente{display:flex;flex-direction:column;gap:14px}.ev-g{display:flex;align-items:center;gap:10px}
+.ev-anf{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border-radius:999px;padding:3px 10px 3px 3px;font-weight:600;font-size:14px}
+.ev-lista summary{cursor:pointer;list-style:none}.ev-lista summary::-webkit-details-marker{display:none}.ev-lista[open] summary{margin-bottom:6px}
+.ev-gasto{display:flex;align-items:baseline;gap:10px;width:100%;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit}.ev-gasto b{font-size:20px;margin-left:auto}
+.ev-acc{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}.ev-mas summary{list-style:none;cursor:pointer}.ev-mas summary::-webkit-details-marker{display:none}
+.ev-mas-in{display:flex;flex-direction:column;gap:6px;margin-top:8px;min-width:200px}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -312,7 +332,7 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v8';
+const BUILD_TAG='v9';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1477,26 +1497,43 @@ function puedeEditarEv(e){return esAdmin()||e.creado_por===ME.id||(e.anfitriones
 function abrirEvento(id){
   const e=EVENTOS.find(x=>x.id===id); if(!e) return;
   const vs=votosDe(e.id), yo=vs.some(v=>v.persona_id===ME.id), soyAnf=(e.anfitriones||[]).includes(ME.id);
-  const gs=GASTOS.filter(g=>g.evento_id===e.id&&g.tipo==='gasto'), tg=gs.reduce((a,g)=>a+ +g.monto,0), ts=TAREAS.filter(t=>t.evento_id===e.id);
-  openSheet(`${sheetH(esc(e.titulo))}<div class="stack">
-    <div class="row wrap-ok" style="gap:6px"><span class="pill ${e.estado==='oficial'?'ok':e.estado==='propuesta'?'warn':e.estado==='hecho'?'tide':'bad'}">${{propuesta:'Propuesta',oficial:'En el programa',hecho:'Hecho',cancelado:'Cancelado'}[e.estado]}</span>${e.tematica?`<span class="pill sun">${esc(e.tematica)}</span>`:''}${e.dia?`<span class="pill">${diaSem(e.dia)} ${fechaCorta(e.dia)}</span>`:''}${e.bloque?`<span class="pill">${BLOQN[e.bloque]}${e.hora?' · '+esc(String(e.hora).slice(0,5)):''}</span>`:''}</div>
-    ${e.descripcion?`<p style="margin:0">${esc(e.descripcion)}</p>`:''}
-    <div class="card"><dl class="kv">${e.dress_code?`<dt>Dress code</dt><dd>${esc(e.dress_code)}</dd>`:''}${e.lugar?`<dt>Dónde</dt><dd>${esc(e.lugar)}</dd>`:''}<dt>Anfitriones</dt><dd>${(e.anfitriones||[]).length?e.anfitriones.map(a=>esc(nom(a))).join(', '):'Nadie todavía'}</dd>${e.playlist_url?`<dt>Playlist</dt><dd><a href="${esc(e.playlist_url)}" target="_blank" rel="noopener">Abrir</a></dd>`:''}${gs.length?`<dt>Gastado</dt><dd class="num">${money(tg)} en ${gs.length} gasto${gs.length===1?'':'s'}</dd>`:''}${ts.length?`<dt>Tareas</dt><dd>${ts.filter(t=>t.estado==='listo').length} de ${ts.length} listas</dd>`:''}</dl></div>
-    ${(()=>{const st=e.estilo;return st&&(st.paleta||[]).filter(hexOk).length?`<div class="card"><div class="eyebrow">Dress code · ${esc(st.nombre||e.dress_code)}</div><div class="row" style="gap:6px;margin-top:8px">${st.paleta.filter(hexOk).map(c=>`<span class="swatch" style="background:${c}"></span>`).join('')}</div>${st.descripcion?`<p class="muted tiny" style="margin:8px 0 0">${esc(st.descripcion)}</p>`:''}<button class="btn ghost sm" style="padding:0" onclick="SUBE='dress';closeSheet();irA('planes')">Ver inspiración</button></div>`:''})()}
+  const gs=GASTOS.filter(g=>g.evento_id===e.id&&g.tipo==='gasto'), tg=gs.reduce((a,g)=>a+ +g.monto,0);
+  const st=e.estilo||{}, pal=(st.paleta||[]).filter(hexOk), di=e.dia?diasViaje().indexOf(e.dia):-1;
+  const fondo=pal.length>1?`linear-gradient(135deg,${pal.slice(0,4).join(',')})`:'var(--hero)';
+  const EST={propuesta:['Propuesta','warn'],oficial:['En el programa','ok'],hecho:['Ya pasó','tide'],cancelado:['Cancelado','bad']}[e.estado]||['',''];
+  const momento=(BLOQUES.find(([k])=>k===e.bloque)||[])[1]||'';
+  const anf=e.anfitriones||[], lista=e.lista||[];
+  const fact=(icon,k,v,click)=>`<${click?'button':'div'} class="fact"${click?` onclick="${click}"`:''}><span class="fact-i">${ic(icon)}</span><span class="fact-k">${k}</span><span class="fact-v">${v}</span></${click?'button':'div'}>`;
+  openSheet(`<div class="evh" style="background:${fondo}">${imgTag(imgEvento(e),'evh-img')}<button class="x evh-x" onclick="closeSheet()" aria-label="Cerrar">${ic('x')}</button>
+      <div class="evh-in"><span class="pill ${EST[1]}">${EST[0]}</span><div class="evh-d">${di>=0?nomDia(di)+' · ':''}${e.dia?diaSem(e.dia)+' '+fechaCorta(e.dia):'Sin día todavía'}${e.hora?' · '+esc(String(e.hora).slice(0,5)):''}</div>
+        <h2 id="sheetTitle">${esc(e.titulo)}</h2>${e.tematica?`<div class="evh-t">${esc(e.tematica)}</div>`:''}</div></div>
+    <div class="stack" style="margin-top:14px">
+    <div class="facts">${fact('hoy','Cuándo',esc([momento,e.hora&&String(e.hora).slice(0,5)].filter(Boolean).join(' · ')||'Por definir'))}${fact('hospedaje','Dónde',esc(e.lugar?e.lugar.charAt(0).toUpperCase()+e.lugar.slice(1):'Por definir'))}${e.dress_code?fact('cam','Look',`${pal.length?`<span class="fact-pal">${pal.slice(0,4).map(c=>`<i style="background:${c}"></i>`).join('')}</span>`:''}${esc((st.nombre||e.dress_code).replace(/ · Día \d+$/,''))}`,"closeSheet();SUBE='dress';irA('planes')"):''}</div>
+    ${e.descripcion?`<p class="ev-desc">${esc(e.descripcion)}</p>`:''}
+    ${e.estado==='oficial'?`<button class="btn block ${yo?'':'primary'} ev-go" onclick="votar('${e.id}',${!yo}).then(()=>abrirEvento('${e.id}'))">${yo?ic('tareas')+' Voy':'Me apunto'}</button>`
+      :e.estado==='propuesta'?`<button class="btn block ${yo?'':'primary'} ev-go" onclick="votar('${e.id}',${!yo}).then(()=>abrirEvento('${e.id}'))">${ic('thumb')} ${yo?'Ya voté':'Votar por este plan'} · ${vs.length}</button>`:''}
+    <div class="card ev-gente">
+      <div class="ev-g"><div class="grow"><div class="eyebrow">${e.estado==='propuesta'?'Votos':'Van'} · ${vs.length}</div><div class="avs" style="margin-top:6px">${vs.length?vs.slice(0,12).map(v=>av(v.persona_id,'xs')).join(''):'<span class="muted tiny">Nadie todavía</span>'}</div></div></div>
+      <div class="ev-g"><div class="grow"><div class="eyebrow">Lo organiza</div><div class="row" style="gap:6px;margin-top:6px;flex-wrap:wrap">${anf.length?anf.map(a=>`<span class="ev-anf">${av(a,'xs')}${esc(nom(a))}</span>`).join(''):'<span class="muted tiny">Nadie todavía</span>'}</div></div>
+        <button class="btn sm ${soyAnf?'':'sun'}" onclick="toggleAnf('${e.id}')">${soyAnf?'Dejar':'Yo lo organizo'}</button></div>
+      ${e.playlist_url?`<a class="btn sm block" href="${esc(e.playlist_url)}" target="_blank" rel="noopener">${ic('spark')} Playlist</a>`:''}
+    </div>
     ${(()=>{const c=COMIDAS.find(x=>x.evento_id===e.id);if(c)return `<div class="card"><div class="eyebrow" style="margin-bottom:4px">Menú de la noche</div>${platosDe(c.id).map(platoRow).join('')}<button class="btn ghost sm" style="padding:0" onclick="DIA_MENU='${c.dia}';SUBM='carta';closeSheet();irA('menu')">Ver en la carta</button></div>`;
-      return (e.menu||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Menú</div>${e.menu.map(m=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(m)}</div>`).join('')}</div>`:puedeEditarEv(e)?`<button class="btn block" onclick="abrirFormEvento('${e.id}')">Agregar el menú</button>`:''})()}
+      return (e.menu||[]).length?`<div class="card"><div class="eyebrow" style="margin-bottom:6px">Menú</div>${e.menu.map(m=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)">${esc(m)}</div>`).join('')}</div>`:''})()}
     ${/talent/i.test(e.titulo+' '+(e.tematica||''))?(()=>{const ts=activos().filter(p=>p.perfil&&p.perfil.talento);return `<div class="card"><div class="eyebrow" style="margin-bottom:6px">Programa del show</div>${ts.length?ts.map(p=>`<div class="row" style="padding:5px 0">${av(p.id,'xs')}<b>${esc(nom(p.id))}</b><span class="muted grow">${esc(p.perfil.talento)}</span></div>`).join(''):'<div class="muted tiny">Nadie ha anotado su talento todavía. Se anota en "Mi ficha".</div>'}</div>`})():''}
-    <div class="row"><button class="btn grow ${soyAnf?'':'sun'}" onclick="toggleAnf('${e.id}')">${soyAnf?'Ya no soy anfitrión':'Me apunto de anfitrión'}</button>${e.estado==='propuesta'?`<button class="vote" aria-pressed="${yo}" onclick="votar('${e.id}',${!yo}).then(()=>abrirEvento('${e.id}'))">${ic('thumb')}<span>${vs.length}</span></button>`:''}</div>
-    ${e.estado==='oficial'?`<button class="btn block ${yo?'':'primary'}" onclick="votar('${e.id}',${!yo}).then(()=>abrirEvento('${e.id}'))">${yo?'Ya no voy':'Me apunto'} · ${vs.length} van</button>${vs.length?`<div class="avs">${vs.slice(0,12).map(v=>av(v.persona_id,'xs')).join('')}</div>`:''}`:''}
-    <div class="card"><div class="eyebrow" style="margin-bottom:4px">Lo que hay que llevar o comprar</div>
-      ${(e.lista||[]).map((it,i)=>`<label class="sub-item"><input type="checkbox" ${it.ok?'checked':''} onchange="checkLista('${e.id}',${i},this.checked)"><span class="grow" style="${it.ok?'text-decoration:line-through;color:var(--ink-3)':''}">${esc(it.txt)}</span>${it.tarea_id?'<span class="pill tide">tarea</span>':''}</label>`).join('')||'<div class="muted tiny">Nada todavía.</div>'}
-      <div class="row" style="margin-top:8px"><input id="nli" class="in" placeholder="Ej. carbón" onkeydown="if(event.key==='Enter')addLista('${e.id}')"><button class="btn sm" onclick="addLista('${e.id}')">${ic('plus')}</button></div>
-      ${(e.lista||[]).some(x=>!x.tarea_id&&!x.ok)?`<button class="btn sm block" style="margin-top:8px" onclick="listaATareas('${e.id}')">Convertir en tareas</button>`:''}</div>
+    <details class="card ev-lista" ${lista.length?'open':''}><summary><span class="eyebrow">Qué hay que llevar o comprar${lista.length?' · '+lista.filter(x=>!x.ok).length+' pendientes':''}</span></summary>
+      ${lista.map((it,i)=>`<label class="sub-item"><input type="checkbox" ${it.ok?'checked':''} onchange="checkLista('${e.id}',${i},this.checked)"><span class="grow" style="${it.ok?'text-decoration:line-through;color:var(--ink-3)':''}">${esc(it.txt)}</span>${it.tarea_id?'<span class="pill tide">tarea</span>':''}</label>`).join('')}
+      <div class="row" style="margin-top:8px"><input id="nli" class="in" placeholder="Agregar algo: carbón, hielo…" onkeydown="if(event.key==='Enter')addLista('${e.id}')"><button class="btn sm" onclick="addLista('${e.id}')" aria-label="Agregar">${ic('plus')}</button></div>
+      ${lista.some(x=>!x.tarea_id&&!x.ok)?`<button class="btn ghost sm" style="padding:8px 0 0" onclick="listaATareas('${e.id}')">Convertir en tareas</button>`:''}</details>
+    ${gs.length?`<button class="card ev-gasto" onclick="closeSheet();FILT.q='';irA('gastos')"><span class="eyebrow">Gastos de este plan</span><b class="num">${money(tg)}</b><span class="muted tiny">${gs.length} gasto${gs.length===1?'':'s'}</span></button>`:''}
     ${esAdmin()&&e.estado==='propuesta'?`<div class="card"><div class="eyebrow" style="margin-bottom:8px">Pasar al programa</div>${selectorDia(e)}<button class="btn primary block" style="margin-top:10px" onclick="hacerOficial('${e.id}')">Hacer oficial</button></div>`:''}
-    ${esAdmin()&&e.estado==='oficial'?`<div class="row"><button class="btn grow" onclick="patchEvento('${e.id}',{estado:'hecho'})">Marcar como hecho</button><button class="btn" onclick="patchEvento('${e.id}',{estado:'propuesta',dia:null})">Sacar del programa</button></div>`:''}
-    ${puedeEditarEv(e)?`<button class="btn block" onclick="abrirFormEvento('${e.id}')">${ic('pen')} Editar</button>`:''}
-    <button class="btn block" onclick="abrirLector(true,false,'${e.id}')">${ic('receipt')} Registrar un gasto de este plan</button>
-    ${esAdmin()?`<button class="btn danger block" onclick="borrarEvento('${e.id}',this)">Eliminar plan</button>`:''}</div>`);
+    <div class="ev-acc">
+      <button class="btn sm" onclick="abrirLector(true,false,'${e.id}')">${ic('receipt')} Gasto</button>
+      ${puedeEditarEv(e)?`<button class="btn sm" onclick="abrirFormEvento('${e.id}')">${ic('pen')} Editar</button>`:''}
+      ${esAdmin()?`<details class="ev-mas"><summary class="btn sm">Más</summary><div class="ev-mas-in">
+        ${e.estado==='oficial'?`<button class="btn sm block" onclick="patchEvento('${e.id}',{estado:'hecho'})">Marcar como hecho</button><button class="btn sm block" onclick="patchEvento('${e.id}',{estado:'propuesta',dia:null})">Sacar del programa</button>`:''}
+        <button class="btn sm danger block" onclick="borrarEvento('${e.id}',this)">Eliminar plan</button></div></details>`:''}
+    </div></div>`);
 }
 function selectorDia(e){const dias=diasViaje();return `<div class="grid2"><div class="field"><label for="odia">Día</label><select id="odia" class="in">${dias.length?dias.map((d,i)=>`<option value="${d}" ${e.dia===d?'selected':''}>${nomDia(i)} · ${diaSem(d)} ${fechaCorta(d)}</option>`).join(''):'<option value="">Sin fechas del viaje</option>'}</select></div>
   <div class="field"><label for="oblq">Momento</label><select id="oblq" class="in">${BLOQUES.map(([k,l])=>`<option value="${k}" ${e.bloque===k?'selected':''}>${l}</option>`).join('')}</select></div></div>`}
