@@ -21,7 +21,9 @@ Habla conmigo en español, corto. Nunca muestres llaves, tokens ni el JSON de la
    y actualiza public/img/generadas.js). Abre y MIRA cada imagen: si alguna tiene texto, manos raras,
    no se parece al evento o se ve falsa, rehazla: node scripts/generar-imagenes.mjs <nombre> --todo.
 
-3. Caras: dejé las capturas de Instagram de los 8 en ~/marea/fotos-ig/ (si no están, pídemelas).
+3. Caras: ya están 5 (daniel-martinez, ana-paula, alegria, domenika-perez, natalia-vasquez). FALTAN kevin-lopez,
+   ana-cristina-grijalva y amelia-camacho: dejé sus capturas de Instagram en ~/marea/fotos-ig/ (si no están, pídemelas).
+   Si encuentras una mejor resolución de las 5 que ya están, reemplázalas.
    De cada captura recorta SOLO la foto de perfil (el círculo), cuadrada, ~400x400, jpg calidad 85,
    y guárdala como public/img/gente/<nombre>.jpg con estos nombres:
      daniel-martinez (@danielmartinez.ecommerce) · ana-paula (@anaribadeneira) · alegria (@alegria_r.g.c)
@@ -31,11 +33,11 @@ Habla conmigo en español, corto. Nunca muestres llaves, tokens ni el JSON de la
    (sin tildes, con guiones) o como el primer nombre. Luego: node scripts/listar-fotos.mjs
    No subas las capturas completas al repo (fotos-ig/ queda fuera: agrégalo a .gitignore).
 
-4. Sube la versión: BUILD_TAG en public/index.html (v25) y CACHE en public/sw.js (marea-v25).
+4. Sube la versión: BUILD_TAG en public/index.html (v26) y CACHE en public/sw.js (marea-v26).
    Prueba: node tests/worker-ia.test.mjs. Commit + push.
 
 5. Publica en el subdominio casablanca: scripts/deploy.sh wrangler.dominio.toml
-   Debe decir para https://casablanca.fieldbuil.ai → publicado: v25 · IA: vertex.
+   Debe decir para https://casablanca.fieldbuil.ai → publicado: v26 · IA: vertex.
    Si el dominio no se amarra por permisos, amárralo en dash.cloudflare.com → Workers & Pages → marea →
    Settings → Domains & Routes → Add → Custom domain → casablanca.fieldbuil.ai, y vuelve a correr deploy.sh.
 

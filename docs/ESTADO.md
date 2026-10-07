@@ -1,6 +1,15 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v24**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v25**.
+
+## v25 (7-oct) · caras del grupo y foto en grande
+- **5 caras puestas** desde la captura de Instagram que mandó Daniel (`public/img/gente/`): Daniel, Ana Paula,
+  Alegría, Domenika y Naty (recortes de la foto de perfil, 400 px). **Faltan Kevin, Ana Cris y Amelia**: en la
+  captura salían tapadas («+2») o cortadas — pedir sus capturas o que suban su foto desde «Mi ficha».
+  Ojo: las fotos de perfil venían chicas en la captura (~80 px), por eso en grande se ven suaves.
+- **Tocar la foto la agranda**: en la ficha de cada persona la foto abre un visor a pantalla completa con su
+  nombre e Instagram (se cierra tocando o con Escape). Las caras del encabezado de Hoy llevan a Viajeros.
+- La vista previa (artefacto) también muestra las caras: van como mapa ruta → data URI (`window.FOTOS_DATA`).
 
 ## v24 (7-oct) · Vertex de la empresa, una imagen por evento, caras y eventos completos
 - **IA con Vertex como en AERO EC**: el Worker usa la cuenta de servicio (secreto `GOOGLE_SA_B64`, JWT RS256

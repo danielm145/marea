@@ -463,6 +463,13 @@ a.item{text-decoration:none;color:inherit}
 @keyframes iaIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes iaPop{0%{transform:scale(.9)}45%{transform:scale(1.08)}100%{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.ia-llena>*,.ia-llena .avp.on .av,.ia-llena .chip[aria-pressed=true],.ia-orb{animation:none}}
+.cara-btn{border:0;background:none;padding:0;cursor:zoom-in;border-radius:50%;flex:none}
+.av.xl{width:84px;height:84px;font-size:32px}
+.visor-cara{position:fixed;inset:0;z-index:90;background:rgba(10,20,35,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:grid;place-items:center;opacity:0;transition:opacity .2s;cursor:zoom-out;padding:24px}
+.visor-cara.on{opacity:1}.visor-cara .x{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:16px;background:rgba(255,255,255,.9)}
+.vc-in{display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;text-align:center;transform:scale(.92);transition:transform .25s}.visor-cara.on .vc-in{transform:none}
+.av.gigante{width:min(78vw,420px);height:min(78vw,420px);font-size:120px;box-shadow:0 20px 60px rgba(0,0,0,.45);border:4px solid #fff;margin-bottom:10px}
+.vc-in b{font-family:var(--f-disp);font-size:28px}.vc-in span{opacity:.8}.vc-in a{color:#FFD58A;font-weight:700;margin-top:4px}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -499,7 +506,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v24';
+const BUILD_TAG='v25';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -614,13 +621,21 @@ function nom(id){
   const dup=PERSONAS.filter(x=>(x.nombre||'').split(/\s+/)[0]===first).length>1;
   return dup&&parts[1]?first+' '+parts[1].slice(0,parts[1].length>3?2:1)+'.':first;
 }
+/* la foto de alguien en grande: se abre encima de todo, se cierra tocando donde sea o con Escape */
+function verCara(id){const p=PMAP[id];if(!p)return;cerrarCara();
+  const m=document.createElement('div');m.id='visorCara';m.className='visor-cara';m.setAttribute('role','dialog');m.setAttribute('aria-label','Foto de '+nom(id));
+  const ig=((p.perfil||{}).instagram||'').trim().replace(/^@/,'');
+  m.innerHTML=`<button class="x" aria-label="Cerrar">${ic('x')}</button><div class="vc-in">${av(id,'gigante')}<b>${esc(nom(id))}</b><span>${esc(p.nombre)}</span>${/^[\w.]{1,30}$/.test(ig)?`<a href="https://instagram.com/${esc(ig)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">@${esc(ig)}</a>`:''}</div>`;
+  m.onclick=cerrarCara;document.body.appendChild(m);requestAnimationFrame(()=>m.classList.add('on'))}
+function cerrarCara(){const m=$('#visorCara');if(m)m.remove()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarCara()});
 /* la cara de alguien: img/gente/<nombre-completo>.jpg o img/gente/<primer-nombre>.jpg, si existe */
 function caraDe(p){const a=slugTxt(p.nombre),b=slugTxt(String(p.nombre||'').split(' ')[0]);return ['img/gente/'+a+'.jpg','img/gente/'+b+'.jpg'].find(u=>FOTOS_GEN.has(u))||''}
 function av(id,cls=''){
   const p=PMAP[id]; const n=p?(p.apodo||p.nombre||'?'):'?';
   let h=0; for(const c of String(id)) h=(h*31+c.charCodeAt(0))>>>0; const [bg,fg]=AVC[h%AVC.length];
   const foto=p&&p.perfil&&p.perfil.foto; let url=foto?(FOTOS[foto]||(foto.startsWith('data:')?foto:'')):'';
-  if(!url&&!foto&&p)url=caraDe(p);
+  if(!url&&!foto&&p){const c=caraDe(p);url=(window.FOTOS_DATA&&window.FOTOS_DATA[c])||c}
   if(foto&&!url) resolverFoto(foto);
   return `<span class="av ${cls}" style="background:${bg};color:${fg}" title="${esc(nom(id))}">${url?`<img src="${esc(url)}" alt="">`:esc(n.trim().charAt(0).toUpperCase())}</span>`;
 }
@@ -1216,7 +1231,7 @@ function vHoy(){
   const cuando=prox?(prox.dia===hoy?'Hoy':prox.dia===addDias(hoy,1)?'Mañana':diaSem(prox.dia))+' · '+fechaCorta(prox.dia):'';
   const b=balances().find(x=>x.id===ME.id)||{saldo:0};
   const stat=(i,num,l,c,click)=>`<button class="st" onclick="${click}"><span class="st-i" style="background:${c}1f;color:${c}">${ic(i)}</span><b>${num}</b><span>${l}</span></button>`;
-  return `<section class="hh">${imgTag([...portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
+  return `<section class="hh">${imgTag([...portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top" role="button" tabindex="0" onclick="SUBN='gente';irA('nosotros')" style="cursor:pointer"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
       <div class="hh-in"><div class="hh-logo">${logo(190)}</div><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
         ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'días','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
@@ -1866,7 +1881,7 @@ function vNosotros(){
 function abrirPersona(id){
   const p=PMAP[id]; if(!p) return; const pf=p.perfil||{}, ins=insignias()[id]||[];
   const filas=[['Restricciones',(pf.restricciones||[]).map(r=>RNOM[r]).join(', ')],['Talento para el show',pf.talento],['Le gusta',(pf.preferencias||[]).join(', ')],['Instagram',pf.instagram],['WhatsApp',pf.whatsapp],['Cumpleaños',pf.cumple?fechaCorta(pf.cumple):''],['Ciudad',pf.ciudad],['Alergias',pf.alergias],['Bebida favorita',pf.bebida],['Su canción de karaoke',pf.cancion],['Juego favorito',pf.juego],['Talla de camiseta',pf.talla],['Superpoder en el viaje',pf.superpoder]].filter(f=>f[1]);
-  openSheet(`${sheetH('')}<div class="stack" style="margin-top:-30px"><div class="row">${av(id,'lg')}<div class="grow"><h2 style="font-size:26px">${esc(nom(id))}</h2><div class="muted">${esc(p.nombre)}${p.rol==='admin'?' · organiza':''}</div></div></div>
+  openSheet(`${sheetH('')}<div class="stack" style="margin-top:-30px"><div class="row"><button class="cara-btn" onclick="verCara('${id}')" aria-label="Ver la foto en grande">${av(id,'xl')}</button><div class="grow"><h2 style="font-size:26px">${esc(nom(id))}</h2><div class="muted">${esc(p.nombre)}${p.rol==='admin'?' · organiza':''}</div></div></div>
     ${ins.length?`<div class="chips">${ins.map(t=>`<span class="badge">${esc(t)}</span>`).join('')}</div>`:''}
     ${pf.bio?`<p style="margin:0">${esc(pf.bio)}</p>`:''}
     ${filas.length?`<div class="card"><dl class="kv">${filas.map(([k,v])=>`<dt>${k}</dt><dd>${k==='Instagram'&&/^@?[\w.]{1,30}$/.test(String(v).trim())?`<a href="https://instagram.com/${esc(String(v).trim().replace(/^@/,''))}" target="_blank" rel="noopener">${esc(v)}</a>`:esc(v)}</dd>`).join('')}</dl></div>`:`<div class="card flat empty">${id===ME.id?'Tu ficha está vacía.':'Todavía no ha llenado su ficha.'}</div>`}
@@ -2571,7 +2586,7 @@ const IMG='img/playa/', CASA_DEF=['img/casa/piscina.jpg','img/casa/playa.jpg','i
 const FOTOS_GEN=new Set(window.FOTOS_GEN||[]);
 const opcional=u=>!/^img\/(playa|eventos|gente)\//.test(u)||FOTOS_GEN.has(u);
 const slugTxt=t=>norm(t).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const imgTag=(src,cls='',alt='')=>{const L=[].concat(src).filter(Boolean).filter(opcional);if(!L.length)return'';return `<img class="${cls}" src="${esc(L[0])}" data-alt="${esc(L.slice(1).join('|'))}" alt="${esc(alt)}" loading="lazy" onerror="imgFalla(this)">`};
+const imgTag=(src,cls='',alt='')=>{const L=[].concat(src).filter(Boolean).filter(opcional).map(u=>(window.FOTOS_DATA&&window.FOTOS_DATA[u])||u);if(!L.length)return'';return `<img class="${cls}" src="${esc(L[0])}" data-alt="${esc(L.slice(1).join('|'))}" alt="${esc(alt)}" loading="lazy" onerror="imgFalla(this)">`};
 function imgFalla(el){const r=(el.dataset.alt||'').split('|').filter(Boolean);if(r.length){el.src=r.shift();el.dataset.alt=r.join('|')}else el.remove()}
 const STK={beachEra:'img/stickers/beach-era.webp',casablanca:'img/stickers/casablanca.webp',goodVibes:'img/stickers/good-vibes.webp',salty:'img/stickers/salty.webp',vitamin:'img/stickers/vitamin.webp',paradise:'img/stickers/paradise.webp',goodFriends:'img/stickers/good-friends.webp',amigas:'img/stickers/amigas.webp',collect:'img/stickers/collect.webp',ocean:'img/stickers/ocean.webp',beachCrew:'img/stickers/beach-crew.webp',newStories:'img/stickers/new-stories.webp',hibiscus:'img/stickers/hibiscus.webp',sunSand:'img/stickers/sun-sand.webp',beachMode:'img/stickers/beach-mode.webp',goodPeople:'img/stickers/good-people.webp',same:'img/stickers/same.webp'};
 const stk=(k,cls='',w)=>`<img class="stk ${cls}" src="${STK[k]}" alt="" loading="lazy"${w?` style="width:${w}px"`:''} onerror="this.remove()">`;
