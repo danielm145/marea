@@ -1,13 +1,27 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v28**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v29**.
+
+## v29 (7-oct) · las fechas de verdad: viernes 9 al lunes 12 de octubre
+- `VIAJE_DESDE/HASTA` = **2026-10-09 → 2026-10-12** (4 días, 3 noches). La demo se calcula desde esas fechas (v16).
+- **Los días se llaman como los collages**: Día 1 · Llegada (vie) · Día 2 (sáb, Golden Hour) · Día 3 (dom, Tiki Boho)
+  · Día 4 · Salida (lun).
+- **Programa acomodado** (cambiable con «Cambiar con IA»):
+  Vie: Llegada 15:00, Círculo de intenciones 21:30 (Welcome White Night) ·
+  Sáb: Yoga 07:00, Panzazos 15:00, BBQ & Cocktail 18:00, Karaoke y Talent 21:30 (Golden Hour) ·
+  Dom: Spike ball 10:30, Fotos Freaky Monkey 17:00, Tapas & Wine 20:00 (Tiki Boho) ·
+  Lun: **Check-out y regreso** 11:00 (nuevo, con su lista).
+  **Pizza & Game Night y Restaurant Night quedan como propuestas** (no caben en 3 noches): que voten.
+- Menú: el día de salida solo desayuno y almuerzo (sin cena en la casa).
+- `sql/012` pone 9–12 oct en Supabase y `sql/013_programa_9_al_12_octubre.sql` programa los planes y crea el
+  check-out (idempotentes; solo planes sin día).
 
 ## v28 (7-oct) · un solo botón para registrar y las fechas reales del viaje
 - **Home: un solo botón «Registrar con IA»** (antes Foto + Escribir).
 - **La pantalla de registrar es una sola caja**: texto (se puede dictar), «Agregar foto» opcional, 4 chips y un botón
   grande «Registrar». Sin pestañas: la IA decide si es gasto, pendiente, plan, foto del álbum, portada o fechas.
   Fuera «Varias fotos al álbum» (sigue en la pestaña Álbum). Desde un plan se abre como «Gasto de «…»» o «Propón un plan».
-- **Fechas reales: miércoles 28 oct → domingo 1 nov 2026** (`VIAJE_DESDE/HASTA`; antes la demo usaba «hoy + 21»).
+- Fechas fijas (luego corregidas en v29) (`VIAJE_DESDE/HASTA`; antes la demo usaba «hoy + 21»).
   La demo se re-siembra (v15) para que los teléfonos con fechas raras (2 oct – 9 nov) queden bien.
   `sql/012_fechas_del_viaje.sql` las pone en Supabase si están vacías.
 - **Las fechas también se cambian con IA**: «el viaje es del 28 de octubre al 1 de noviembre» → hoja «Datos del viaje»
@@ -86,7 +100,7 @@
 ### Para que la IA funcione en la URL (Daniel, en el Mac, una sola vez)
 ```
 cd ~/marea && git pull && scripts/deploy.sh wrangler.dominio.toml   # publica y amarra casablanca.fieldbuil.ai
-# al conectar Supabase: correr también sql/010_eventos_completos.sql y sql/011_foto_de_eventos.sql y sql/012_fechas_del_viaje.sql
+# al conectar Supabase: correr también sql/010_eventos_completos.sql y sql/011_foto_de_eventos.sql y sql/012_fechas_del_viaje.sql y sql/013_programa_9_al_12_octubre.sql
 scripts/ia.sh            # Gemini (llave AIza… que ya está en CREDENCIALES)  ·  o:  scripts/ia.sh vertex
 ```
 `deploy.sh` debe terminar diciendo `IA: gemini` (o `vertex`) en las tres URLs.

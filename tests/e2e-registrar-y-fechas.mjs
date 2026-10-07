@@ -14,7 +14,7 @@ console.log('pantalla:',await pg.locator('#sheetTitle').innerText(),'· botones 
 await pg.screenshot({path:'f-2-registrar.png'});
 // cambiar las fechas diciéndoselo a la IA
 await pg.evaluate(()=>{API.saveConfig({desde:'2026-10-02',hasta:'2026-11-09'});return cargar()});
-await pg.fill('#ltxt','El viaje es del 28 de octubre al 1 de noviembre');await pg.click('#lgo');await pg.waitForSelector('.vj-f');
+await pg.fill('#ltxt','El viaje es del 9 al 12 de octubre');await pg.click('#lgo');await pg.waitForSelector('.vj-f');
 console.log('hoja viaje:',(await pg.locator('#sheetBody .card').innerText()).replace(/\n+/g,' | '));
 await pg.waitForTimeout(1200);await pg.screenshot({path:'f-3-viaje.png'});
 await pg.click('#sheetBody .btn.primary');await pg.waitForTimeout(500);

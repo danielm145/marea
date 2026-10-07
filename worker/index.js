@@ -93,8 +93,8 @@ Foto de portada: si piden poner o cambiar la foto (portada) de un plan ("ponla d
 "cambia la foto del evento de panzazos"), llena portada = { evento_id } con el id de ese plan del contexto y NO armes
 gasto, tarea ni plan. Si no se sabe cuál plan es, evento_id = "".
 
-Datos del viaje: si dicen las fechas del viaje, el lugar o el nombre ("el viaje es del 28 de octubre al 1 de
-noviembre"), llena viaje con SOLO lo que cambia (fechas AAAA-MM-DD; el año, el de "hoy" del contexto) y nada más.
+Datos del viaje: si dicen las fechas del viaje, el lugar o el nombre ("el viaje es del 9 al 12 de octubre"),
+llena viaje con SOLO lo que cambia (fechas AAAA-MM-DD; el año, el de "hoy" del contexto) y nada más.
 
 "resumen": una frase corta y cálida que diga lo que entendiste (ej. "Gasto de $48 en hielo y cervezas, lo pagaste tú y va para todos menos Naty").
 Responde en español, descripciones cortas (máx. 60 caracteres), sin emojis.`;

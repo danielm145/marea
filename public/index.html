@@ -520,7 +520,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v28';
+const BUILD_TAG='v29';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -529,7 +529,7 @@ const SB_URL='';   // ← Project URL de fieldbuilt-lab, ej. https://abcd.supaba
 const SB_ANON='';  // ← anon public key de fieldbuilt-lab
 const MODO=(SB_URL&&SB_ANON&&window.supabase)?'supabase':'demo';
 const APP_URL='https://casablanca.fieldbuil.ai';
-const VIAJE_DESDE='2026-10-28', VIAJE_HASTA='2026-11-01';   /* las fechas reales del viaje (miércoles a domingo) */
+const VIAJE_DESDE='2026-10-09', VIAJE_HASTA='2026-10-12';   /* las fechas reales: viernes 9 a lunes 12 de octubre (Daniel, 7-oct) */
 /* IA: la puerta /api/ia del Worker (worker/index.js, Gemini/Vertex). Sirve igual en demo y con Supabase.
    Sin IA (vista previa, archivo local o llave sin cargar) se usa la lectura rápida y se dice. */
 let IA={ok:false,motor:null,probada:false};
@@ -729,27 +729,30 @@ const SEMILLA_EVENTOS=[
  {titulo:'Torneo de panzazos en la piscina',tematica:'Piscina',bloque:'tarde',hora:'15:00',lugar:'piscina',dress_code:'Traje de baño',dia:1,
   descripcion:'Tres jurados con cartelitos del 1 al 10 califican salpicadura, estilo y valentía. Tres rondas; quien gana elige la playlist de la noche. Ojo: la piscina del condominio tiene horario.',
   lista:['Cartelitos del 1 al 10','Marcadores','Premio para el ganador','Toallas']},
- {titulo:'Pizza & Game Night',tematica:'Pizza y juegos',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',dia:1,
+ {titulo:'Pizza & Game Night',tematica:'Pizza y juegos',bloque:'noche',hora:'20:00',lugar:'casa',dress_code:'Pijama elegante',
   descripcion:'En pijama elegante: armamos pizzas caseras entre todos (margarita, pepperoni, prosciutto con rúcula, cuatro quesos y libre) y competimos por la mejor y la peor. Después UNO, Jenga, Pictionary, charadas y Heads Up!; Monopoly y Risk para los valientes.',
   lista:['Masa y salsa de tomate','Quesos y toppings','UNO','Jenga','Pictionary','Heads Up!']},
- {titulo:'Spike ball, red y paletas de playa',tematica:'Juegos de playa',bloque:'tarde',hora:'16:00',lugar:'playa',dress_code:'Color del equipo',dia:2,
+ {titulo:'Spike ball, red y paletas de playa',tematica:'Juegos de playa',bloque:'manana',hora:'10:30',lugar:'playa',dress_code:'Color del equipo',dia:2,
   descripcion:'Red, pelota, paletas y spike ball en la playa. Parejas sorteadas, partidos de 10 minutos y eliminación directa. Los que pierden traen las bebidas de los que ganan.',
   lista:['Spike ball','Red y pelota','Paletas','Cooler con agua y hielo','Bloqueador']},
- {titulo:'BBQ & Cocktail Night',tematica:'Parrillada y cócteles',bloque:'atardecer',hora:'18:00',lugar:'terraza',dress_code:'Golden Hour',dia:2,
+ {titulo:'BBQ & Cocktail Night',tematica:'Parrillada y cócteles',bloque:'atardecer',hora:'18:00',lugar:'terraza',dress_code:'Golden Hour',dia:1,
   descripcion:'Parrillada en la terraza mientras se esconde el sol: picaña o entraña, pollo, chorizos, mazorcas, maduros y papas, con chimichurri. Barra de cócteles (mojitos, margaritas, cuba libre) y opciones sin alcohol. Foto de grupo cuando el sol toque el mar.',
   lista:['Carbón','Carnes, pollo y chorizos','Mazorcas y maduros','Chimichurri','Ron, tequila y limones','Hielo']},
- {titulo:'Karaoke y Talent Show',tematica:'Karaoke y talentos',bloque:'noche',hora:'21:30',lugar:'sala',dress_code:'Golden Hour',dia:2,
+ {titulo:'Karaoke y Talent Show',tematica:'Karaoke y talentos',bloque:'noche',hora:'21:30',lugar:'sala',dress_code:'Golden Hour',dia:1,
   descripcion:'Después de la parrillada: proyector y dos micrófonos. Primero el karaoke, una canción obligatoria por persona; luego el show, donde cada quien presenta el talento que anotó en su ficha. Hay premio al mejor.',
   lista:['Proyector','Dos micrófonos','Parlante','Lista de canciones','Premio al mejor talento']},
- {titulo:'Sesión de fotos Freaky Monkey',tematica:'Fotos con gafas',bloque:'atardecer',hora:'17:00',lugar:'playa',dress_code:'Tiki Boho Funny',dia:3,
+ {titulo:'Sesión de fotos Freaky Monkey',tematica:'Fotos con gafas',bloque:'atardecer',hora:'17:00',lugar:'playa',dress_code:'Tiki Boho Funny',dia:2,
   descripcion:'Al atardecer, con las gafas de Freaky Monkey y el look Tiki Boho: fotos de grupo, por parejas y de cerca a las gafas. Cuarenta minutos aprovechando la golden hour.',
   lista:['Gafas Freaky Monkey','Trípode','Celulares cargados','Collares de flores']},
- {titulo:'Tapas & Wine Night',tematica:'Tapas, vino e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Tiki Boho Funny',dia:3,
+ {titulo:'Tapas & Wine Night',tematica:'Tapas, vino e hipnosis',bloque:'noche',hora:'20:00',lugar:'terraza',dress_code:'Tiki Boho Funny',dia:2,
   descripcion:'Gambas al ajillo, patatas bravas, tortilla española, pan con tomate y jamón, croquetas; quesos, embutidos y aceitunas. Vino blanco y tinto Tempranillo o Rioja, con una clase corta de enología. Cierra con la sesión de hipnosis.',
   lista:['Vino blanco y tinto','Quesos y embutidos','Pan y tomate','Copas','Velas']},
- {titulo:'Restaurant Night',tematica:'Cena de despedida',bloque:'noche',hora:'20:00',lugar:'restaurante',dress_code:'De gala playera',dia:4,
-  descripcion:'La última noche fuera de casa: mesa para ocho frente al mar, un brindis por el viaje y los mejores momentos. Nadie cocina ni lava.',
+ {titulo:'Restaurant Night',tematica:'Cena fuera',bloque:'noche',hora:'20:00',lugar:'restaurante',dress_code:'De gala playera',
+  descripcion:'Una noche fuera de casa: mesa para ocho frente al mar, un brindis por el viaje y los mejores momentos. Nadie cocina ni lava.',
   lista:['Reservar mesa para 8','Transporte de ida y vuelta','Efectivo para la propina']},
+ {titulo:'Check-out y regreso',tematica:'Despedida',bloque:'manana',hora:'11:00',lugar:'casa',dress_code:'',dia:3,
+  descripcion:'Último desayuno, foto de grupo en la playa, recoger todo y entregar la casa antes del mediodía. Repartimos lo que sobró de la despensa y salimos con calma.',
+  lista:['Revisar cuartos y baños','Sacar la basura','Vaciar la nevera','Llaves de la casa','Cuentas al día en la app']},
  {titulo:'Throwback 2000s',tematica:'Década',bloque:'noche',lugar:'casa',dress_code:'Y2K',
   descripcion:'Ropa de la época, reguetón viejo y trivia de la década. Gana quien llegue más fiel a 2005.',lista:['Playlist de los 2000','Preguntas de trivia']},
  {titulo:'Cine bajo las estrellas',tematica:'Cine',bloque:'noche',lugar:'terraza',dress_code:'Cobija',
@@ -806,7 +809,7 @@ const MENU_BASE={
 const FOTO_MENU={};
 [...MENU_BASE.A,...MENU_BASE.B,...MENU_BASE.alm,...Object.values(MENU_BASE.cenas).flat()].forEach(p=>{if(p.img)FOTO_MENU[norm(p.nombre)]=p.img});
 const CENA_FUERA=new Set(['Restaurant Night']);
-const nomDia=(i,n=diasViaje().length)=>i===0&&n>1?'Llegada':`Día ${n>1?i:i+1}`;
+const nomDia=(i,n=diasViaje().length)=>n<=1?'Día 1':i===0?'Día 1 · Llegada':i===n-1?`Día ${n} · Salida`:`Día ${i+1}`;
 /* arma comidas y platos para los días del viaje. Puro: no toca el estado global */
 function generarMenuBase({dias,eventos,gente,autor,conEstaciones}){
   const comidas=[],platos=[];
@@ -821,6 +824,7 @@ function generarMenuBase({dias,eventos,gente,autor,conEstaciones}){
     const alm=cm({dia:d,turno:'almuerzo',titulo:'Almuerzo costeño',modalidad:'cocinera',hora:'13:30',notas:'Lo prepara la cocinera local. Ceviche bar de entrada.'});
     comidas.push(alm); platos.push(mk(MENU_BASE.alm[j],{comida_id:alm.id}));
     }
+    if(i===dias.length-1&&dias.length>2)return; /* día de salida: desayuno y almuerzo, la cena ya es en el camino */
     const evN=eventos.find(e=>e.dia===d&&(e.bloque==='noche'||e.bloque==='atardecer')&&MENU_BASE.cenas[e.titulo]), evAny=evN||eventos.filter(e=>e.dia===d&&(e.bloque==='noche'||e.bloque==='atardecer')).sort((a,b)=>String(b.hora||'').localeCompare(String(a.hora||'')))[0];
     const libre=evN?CENA_FUERA.has(evN.titulo):i===dias.length-1&&dias.length>2;
     const cenaN={'Círculo de intenciones bajo las estrellas':'Cena ligera costeña de bienvenida'}, plat=evN?evN.titulo:libre?'':'Picadas y hamburguesas caseras', titulo=evN?(cenaN[evN.titulo]||(libre?evN.titulo+' · cena fuera':evN.titulo)):libre?'Cena libre o restaurante del pueblo':'Picadas y hamburguesas caseras';
@@ -834,7 +838,7 @@ function seedDemo(){
   const personas=DEMO_GENTE.map(([n,rol],i)=>({id:'p'+String(i+1).padStart(2,'0'),cedula:null,nombre:n,apodo:DEMO_APODOS[n]||null,telefono:demoTel(i),cumple:demoCumple(i),rol:rol||'invitado',activo:true,perfil:DEMO_IG[n]?{instagram:DEMO_IG[n]}:{},emergencia:null,ultimo_acceso:null}));
   const ids=personas.map(p=>p.id), id=n=>personas.find(p=>p.nombre===n).id;
   personas.find(p=>p.nombre==='Alegría').perfil={instagram:DEMO_IG['Alegría'],restricciones:['sin_conchas','sin_oscuros'],alergias:'No come conchas ni mariscos oscuros'};
-  const desde=VIAJE_DESDE, hasta=VIAJE_HASTA, dias=Array.from({length:5},(_,i)=>addDias(desde,i));
+  const desde=VIAJE_DESDE, hasta=VIAJE_HASTA, dias=Array.from({length:difDias(desde,hasta)+1},(_,i)=>addDias(desde,i));
   const autor=id('Daniel Martínez');
   const ev=SEMILLA_EVENTOS.map(s=>({id:uid(),titulo:s.titulo,tematica:s.tematica,descripcion:s.descripcion,bloque:s.bloque,lugar:s.lugar,dress_code:s.dress_code,estilo:ESTILOS[s.dress_code]||null,
     dia:s.dia!=null?dias[s.dia]:null,hora:s.hora||null,playlist_url:'',estado:s.dia!=null?'oficial':'propuesta',anfitriones:[],etiquetas:[],lista:(s.lista||[]).map(txt=>({txt,ok:false})),menu:[],creado_por:autor,created_at:new Date().toISOString()}));
@@ -886,7 +890,7 @@ function seedDemo(){
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
     faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
     comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],
-    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:15};
+    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:16};
 }
 /* se entra con el CELULAR + clave = día y mes del cumpleaños (DDMM). Mismas reglas que marea-admin-personas */
 function normTel(t){let d=String(t??'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d.startsWith('0'))d='593'+d.slice(1);else if(d.length===9&&d.startsWith('9'))d='593'+d;else if(d.length===10&&d.startsWith('3'))d='57'+d;return /^[0-9]{11,15}$/.test(d)?d:null}
@@ -903,7 +907,7 @@ function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`http
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==15){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==16){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
   async login(tel,pin){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p||!p.cumple||pinDe(p.cumple)!==pin)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
@@ -1052,7 +1056,7 @@ function planDePortada(texto,conFoto){const n=norm(texto);if(!/portada|foto (del
   const pal=n.split(/[^a-z0-9]+/).filter(w=>w.length>3&&!/portada|evento|foto|plan|noche|poner|cambiar|esta|este/.test(w));
   const best=EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>({e,p:pal.filter(w=>norm(e.titulo+' '+(e.tematica||'')).includes(w)).length})).sort((a,b)=>b.p-a.p)[0];
   return best&&best.p>0?best.e:(conFoto?{id:'',titulo:''}:null)}
-/* «del 28 de octubre al 1 de noviembre» → {desde, hasta} */
+/* «del 9 al 12 de octubre» → {desde, hasta} */
 function fechasDe(texto){const n=norm(texto),re=/(\d{1,2})\s*(?:de\s+)?(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre)?/g;let m,L=[];
   while((m=re.exec(n)))L.push({d:+m[1],mes:m[2]==='setiembre'?'septiembre':m[2]});
   L=L.filter(x=>x.d>=1&&x.d<=31);if(L.length<2||!L.some(x=>x.mes))return null;
@@ -1637,7 +1641,7 @@ function hojaViaje(v){const n={nombre:v.nombre||CFG.nombre,lugar:v.lugar||CFG.lu
     <div class="ia-sello">${ic('spark')} La IA entendió esto:</div>
     <div class="card">${fila('Llegada',fx(CFG.desde),fx(n.desde))}${fila('Salida',fx(CFG.hasta),fx(n.hasta))}${fila('Lugar',CFG.lugar,n.lugar)}${fila('Nombre',CFG.nombre,n.nombre)}
       ${dn?`<div class="vj-dias">${dn} día${dn===1?'':'s'} · ${dn-1} noche${dn===2?'':'s'}</div>`:''}</div>
-    ${mal?`<div class="banner warn">Esas fechas no cuadran (${dn} días). Dilo otra vez, por ejemplo: «el viaje es del 28 de octubre al 1 de noviembre».</div>`:''}
+    ${mal?`<div class="banner warn">Esas fechas no cuadran (${dn} días). Dilo otra vez, por ejemplo: «el viaje es del 9 al 12 de octubre».</div>`:''}
     ${esAdmin()?`<button class="btn primary block" onclick="guardarViajeIA()" ${mal?'disabled':''}>Guardar</button>`:'<div class="banner tide">Solo el admin cambia los datos del viaje: pásale este mensaje.</div>'}</div>`)}
 async function guardarViajeIA(){try{await API.saveConfig(VJ);await cargar();closeSheet();toast('Viaje actualizado');render()}catch(e){toast(e.message)}}
 /* poner la foto como portada de un plan: se confirma el plan con un toque (o se escoge otro) */

@@ -1,0 +1,15 @@
+import { chromium } from 'playwright';
+const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
+await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
+await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();await pg.waitForTimeout(500);
+await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+console.log('portada:',await pg.locator('.hh-f').innerText(),'·',await pg.locator('.hh-c').innerText(),'· noches:',await pg.locator('.st b').first().innerText());
+const prog=await pg.evaluate(()=>diasViaje().map((d,i)=>nomDia(i)+' ('+diaSem(d)+' '+fechaCorta(d)+'): '+EVENTOS.filter(e=>e.dia===d).sort((a,b)=>minEv(a)-minEv(b)).map(e=>String(e.hora||'').slice(0,5)+' '+e.titulo).join(' · ')).join('\n'));
+console.log(prog);
+console.log('propuestas:',await pg.evaluate(()=>EVENTOS.filter(e=>!e.dia).map(e=>e.titulo).join(', ')));
+console.log('comidas:',await pg.evaluate(()=>diasViaje().map((d,i)=>nomDia(i)+': '+COMIDAS.filter(c=>c.dia===d).map(c=>c.titulo).join(' + ')).join(' | ')));
+await pg.screenshot({path:'g-1-hoy.png'});
+await pg.evaluate(()=>{SUBE='programa';DIA_PLAN=diasViaje()[1];irA('planes')});await pg.waitForTimeout(600);await pg.screenshot({path:'g-2-itin.png'});
+await pg.evaluate(()=>{SUBM='semana';irA('menu')});await pg.waitForTimeout(600);await pg.screenshot({path:'g-3-menu.png'});
+console.log('errores:',errs.length?errs:'ninguno');await b.close();
