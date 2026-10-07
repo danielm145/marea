@@ -13,13 +13,23 @@ import fs from "node:fs";
 import path from "node:path";
 
 const RAIZ = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
-const env = { ...leerEnv(path.join(RAIZ, ".env")), ...process.env };
+// el .env manda (lo vacío no pisa); el entorno solo completa lo que falte
+const env = { ...process.env };
+for (const [k, v] of Object.entries(leerEnv(path.join(RAIZ, ".env")))) if (v !== "") env[k] = v;
 /* las llaves se toman LIMPIAS aunque al pegarlas haya quedado algo al lado (un espacio, la cédula, un salto) */
 const jwtDe = (v) => (String(v || "").match(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/) || [""])[0];
 for (const k of ["SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_ANON_KEY"]) if (env[k]) env[k] = jwtDe(env[k]);
 if (env.SUPABASE_ACCESS_TOKEN) env.SUPABASE_ACCESS_TOKEN = (String(env.SUPABASE_ACCESS_TOKEN).match(/sbp_[A-Za-z0-9_]+/) || [""])[0];
 if (env.SUPABASE_PROJECT_REF) env.SUPABASE_PROJECT_REF = (String(env.SUPABASE_PROJECT_REF).match(/[a-z0-9]{20}/) || [env.SUPABASE_PROJECT_REF])[0];
-if (!env.SUPABASE_URL && env.SUPABASE_PROJECT_REF) env.SUPABASE_URL = `https://${env.SUPABASE_PROJECT_REF}.supabase.co`;   // la URL sale sola del Project ID
+if (env.SUPABASE_PROJECT_REF && !/^https:\/\/[a-z0-9]{10,}\.supabase\.co\/?$/.test(env.SUPABASE_URL || "")) env.SUPABASE_URL = `https://${env.SUPABASE_PROJECT_REF}.supabase.co`;   // la URL sale sola del Project ID
+
+// scripts/conectar.sh pide aquí los valores ya limpios (así bash no interpreta el .env)
+if (process.argv.includes("--env")) {
+  const q = (v) => "'" + String(v ?? "").replace(/'/g, "'\\''") + "'";
+  for (const k of ["SUPABASE_PROJECT_REF", "SUPABASE_URL", "SUPABASE_ANON_KEY", "SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_ACCESS_TOKEN", "VERTEX_SA_JSON", "ANTHROPIC_API_KEY"])
+    console.log(`export ${k}=${q(env[k])}`);
+  process.exit(0);
+}
 function leerEnv(f) {
   const o = {}; let t = ""; try { t = fs.readFileSync(f, "utf8"); } catch { return o; }
   for (const l of t.split("\n")) { const m = l.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*(#.*)?$/); if (m) o[m[1]] = m[2].replace(/^["'`]|["'`]$/g, ""); }

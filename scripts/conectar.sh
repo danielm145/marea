@@ -16,17 +16,10 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 [ -f .env ] || { echo "Falta .env: cp .env.example .env y llénalo."; exit 1; }
-# lee el .env sin ejecutarlo: tolera espacios después del "=", comillas y comentarios
-while IFS= read -r l || [ -n "$l" ]; do
-  [[ "$l" =~ ^[[:space:]]*([A-Z0-9_]+)[[:space:]]*=(.*)$ ]] || continue
-  k=${BASH_REMATCH[1]}; v=$(printf '%s' "${BASH_REMATCH[2]}" | sed -e 's/[[:space:]]#.*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e "s/^[\"'\`]//" -e "s/[\"'\`]$//")
-  export "$k=$v"
-done < .env
-# las llaves, limpias aunque al pegarlas haya quedado algo al lado
-SUPABASE_ANON_KEY=$(printf '%s' "${SUPABASE_ANON_KEY:-}" | grep -oE 'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+' | head -1); export SUPABASE_ANON_KEY
-SUPABASE_SERVICE_ROLE_KEY=$(printf '%s' "${SUPABASE_SERVICE_ROLE_KEY:-}" | grep -oE 'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+' | head -1); export SUPABASE_SERVICE_ROLE_KEY
-SUPABASE_ACCESS_TOKEN=$(printf '%s' "${SUPABASE_ACCESS_TOKEN:-}" | grep -oE 'sbp_[A-Za-z0-9_]+' | head -1); export SUPABASE_ACCESS_TOKEN
-: "${SUPABASE_URL:=https://${SUPABASE_PROJECT_REF:-}.supabase.co}"   # la URL sale sola del Project ID
+# el .env lo lee Node (scripts/conectar.mjs --env) y devuelve los valores limpios: así bash nunca lo interpreta
+eval "$(node scripts/conectar.mjs --env)"
+[ -n "$SUPABASE_PROJECT_REF" ] || { echo "Falta SUPABASE_PROJECT_REF en .env (corre scripts/llenar-env.sh)"; exit 1; }
+echo "Proyecto: $SUPABASE_PROJECT_REF · $SUPABASE_URL"
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then unset CLOUDFLARE_API_TOKEN; fi
 
 echo "════ 1 · Base de datos ════"
