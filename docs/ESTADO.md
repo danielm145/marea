@@ -1,6 +1,18 @@
 # Estado · Casablanca (antes Beach Trip y Marea Alta)
 
-> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v27**.
+> Lo primero que lee quien retome. Última actualización: **7-oct-2026 · v28**.
+
+## v28 (7-oct) · un solo botón para registrar y las fechas reales del viaje
+- **Home: un solo botón «Registrar con IA»** (antes Foto + Escribir).
+- **La pantalla de registrar es una sola caja**: texto (se puede dictar), «Agregar foto» opcional, 4 chips y un botón
+  grande «Registrar». Sin pestañas: la IA decide si es gasto, pendiente, plan, foto del álbum, portada o fechas.
+  Fuera «Varias fotos al álbum» (sigue en la pestaña Álbum). Desde un plan se abre como «Gasto de «…»» o «Propón un plan».
+- **Fechas reales: miércoles 28 oct → domingo 1 nov 2026** (`VIAJE_DESDE/HASTA`; antes la demo usaba «hoy + 21»).
+  La demo se re-siembra (v15) para que los teléfonos con fechas raras (2 oct – 9 nov) queden bien.
+  `sql/012_fechas_del_viaje.sql` las pone en Supabase si están vacías.
+- **Las fechas también se cambian con IA**: «el viaje es del 28 de octubre al 1 de noviembre» → hoja «Datos del viaje»
+  con antes → después y Guardar (solo admin). El formulario de Admin pregunta si el viaje pasa de 30 días.
+- Arriba en Hoy dice «4 noches» (antes «4 días», que chocaba con los 5 días del itinerario).
 
 ## v27 (7-oct) · cambiar la foto de cualquier plan (con un toque o diciéndoselo a la IA)
 - Cada plan puede tener **su propia foto** (`eventos.foto`, `sql/011_foto_de_eventos.sql`): manda sobre la generada.
@@ -74,7 +86,7 @@
 ### Para que la IA funcione en la URL (Daniel, en el Mac, una sola vez)
 ```
 cd ~/marea && git pull && scripts/deploy.sh wrangler.dominio.toml   # publica y amarra casablanca.fieldbuil.ai
-# al conectar Supabase: correr también sql/010_eventos_completos.sql y sql/011_foto_de_eventos.sql
+# al conectar Supabase: correr también sql/010_eventos_completos.sql y sql/011_foto_de_eventos.sql y sql/012_fechas_del_viaje.sql
 scripts/ia.sh            # Gemini (llave AIza… que ya está en CREDENCIALES)  ·  o:  scripts/ia.sh vertex
 ```
 `deploy.sh` debe terminar diciendo `IA: gemini` (o `vertex`) en las tres URLs.

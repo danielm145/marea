@@ -109,3 +109,9 @@ await caso("portada: «ponla de portada del círculo» → evento real, nada de 
   assert.deepEqual(j.propuesta.portada, { evento_id: "" });
 });
 console.log(`${ok} casos OK (con portada)`);
+await caso("viaje: «el viaje es del 28 de octubre al 1 de noviembre» → fechas válidas", async () => {
+  respuesta = gem({ resumen: "Fechas", gastos: [], tareas: [], eventos: [], viaje: { desde: "2026-10-28", hasta: "2026-11-01", lugar: null, nombre: "" } });
+  const j = await (await pedir({ texto: "el viaje es del 28 de octubre al 1 de noviembre", contexto: ctx }, { ip: "10.0.0.4" })).json();
+  assert.deepEqual(j.propuesta.viaje, { desde: "2026-10-28", hasta: "2026-11-01", lugar: null, nombre: null });
+});
+console.log(`${ok} casos OK (con viaje)`);

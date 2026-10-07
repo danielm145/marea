@@ -476,6 +476,14 @@ a.item{text-decoration:none;color:inherit}
 .pl-x svg{width:13px;height:13px;vertical-align:-2px;opacity:.6}.pl-menu{padding:7px 0;border-bottom:1px solid var(--line)}
 .evh-foto{position:absolute;top:12px;left:12px;z-index:2;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,.9);color:var(--ink);font-weight:700;font-size:13px;padding:8px 12px;border-radius:999px;cursor:pointer}.evh-foto svg{width:16px;height:16px}
 .pl-foto{display:block;position:relative;cursor:pointer}.pl-foto>span{position:absolute;left:10px;bottom:10px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,.92);font-weight:700;font-size:13px;padding:6px 10px;border-radius:999px}.pl-foto svg{width:15px;height:15px}
+.iac{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:1px solid rgba(245,166,35,.35);background:linear-gradient(135deg,#FFF1DB,#FFFFFF 70%);font:inherit;color:inherit;cursor:pointer;padding:18px}
+.iac .grow{display:flex;flex-direction:column;gap:3px}.iac b{font-family:var(--f-disp);font-size:20px}.iac>svg{width:22px;height:22px;color:var(--sun);flex:none}
+.iac-ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--sun),#FF8A5B);color:#fff;flex:none}.iac-ic svg{width:26px;height:26px}
+.ia-foto-b{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;border:1.5px dashed rgba(245,166,35,.55);background:#FFF9EF;cursor:pointer;font-weight:700}
+.ia-foto-b>svg{width:22px;height:22px;color:var(--sun)}.ia-foto-b small{margin-left:auto;color:var(--ink-3,#8a94a6);font-weight:600}
+.ia-foto-b img{width:46px;height:46px;object-fit:cover;border-radius:10px}.ia-foto-b.con{border-style:solid}.ia-foto-b.con>svg{display:none}
+.ia-go{font-size:18px;min-height:56px}
+.vj-f{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.vj-f>div{text-align:right}.vj-dias{margin-top:10px;font-weight:800;color:var(--sun)}
 .pv{position:relative}.pv .pv-ilu{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ev{position:relative;overflow:hidden}.ev .ev-img{grid-column:1/-1;width:calc(100% + 24px);margin:-12px -12px 4px;height:130px;object-fit:cover}
 .noche-img{display:block;width:calc(100% + 32px);margin:0 -16px;height:170px;object-fit:cover}
@@ -512,7 +520,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v27';
+const BUILD_TAG='v28';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -521,6 +529,7 @@ const SB_URL='';   // ← Project URL de fieldbuilt-lab, ej. https://abcd.supaba
 const SB_ANON='';  // ← anon public key de fieldbuilt-lab
 const MODO=(SB_URL&&SB_ANON&&window.supabase)?'supabase':'demo';
 const APP_URL='https://casablanca.fieldbuil.ai';
+const VIAJE_DESDE='2026-10-28', VIAJE_HASTA='2026-11-01';   /* las fechas reales del viaje (miércoles a domingo) */
 /* IA: la puerta /api/ia del Worker (worker/index.js, Gemini/Vertex). Sirve igual en demo y con Supabase.
    Sin IA (vista previa, archivo local o llave sin cargar) se usa la lectura rápida y se dice. */
 let IA={ok:false,motor:null,probada:false};
@@ -825,7 +834,7 @@ function seedDemo(){
   const personas=DEMO_GENTE.map(([n,rol],i)=>({id:'p'+String(i+1).padStart(2,'0'),cedula:null,nombre:n,apodo:DEMO_APODOS[n]||null,telefono:demoTel(i),cumple:demoCumple(i),rol:rol||'invitado',activo:true,perfil:DEMO_IG[n]?{instagram:DEMO_IG[n]}:{},emergencia:null,ultimo_acceso:null}));
   const ids=personas.map(p=>p.id), id=n=>personas.find(p=>p.nombre===n).id;
   personas.find(p=>p.nombre==='Alegría').perfil={instagram:DEMO_IG['Alegría'],restricciones:['sin_conchas','sin_oscuros'],alergias:'No come conchas ni mariscos oscuros'};
-  const desde=addDias(hoyISO(),21), hasta=addDias(desde,4), dias=Array.from({length:5},(_,i)=>addDias(desde,i));
+  const desde=VIAJE_DESDE, hasta=VIAJE_HASTA, dias=Array.from({length:5},(_,i)=>addDias(desde,i));
   const autor=id('Daniel Martínez');
   const ev=SEMILLA_EVENTOS.map(s=>({id:uid(),titulo:s.titulo,tematica:s.tematica,descripcion:s.descripcion,bloque:s.bloque,lugar:s.lugar,dress_code:s.dress_code,estilo:ESTILOS[s.dress_code]||null,
     dia:s.dia!=null?dias[s.dia]:null,hora:s.hora||null,playlist_url:'',estado:s.dia!=null?'oficial':'propuesta',anfitriones:[],etiquetas:[],lista:(s.lista||[]).map(txt=>({txt,ok:false})),menu:[],creado_por:autor,created_at:new Date().toISOString()}));
@@ -877,7 +886,7 @@ function seedDemo(){
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
     faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
     comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],
-    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:14};
+    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:15};
 }
 /* se entra con el CELULAR + clave = día y mes del cumpleaños (DDMM). Mismas reglas que marea-admin-personas */
 function normTel(t){let d=String(t??'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d.startsWith('0'))d='593'+d.slice(1);else if(d.length===9&&d.startsWith('9'))d='593'+d;else if(d.length===10&&d.startsWith('3'))d='57'+d;return /^[0-9]{11,15}$/.test(d)?d:null}
@@ -894,7 +903,7 @@ function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`http
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==14){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==15){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
   async login(tel,pin){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p||!p.cumple||pinDe(p.cumple)!==pin)throw new Error('Celular o clave incorrecta. La clave es el día y el mes de tu cumpleaños.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
@@ -1043,9 +1052,18 @@ function planDePortada(texto,conFoto){const n=norm(texto);if(!/portada|foto (del
   const pal=n.split(/[^a-z0-9]+/).filter(w=>w.length>3&&!/portada|evento|foto|plan|noche|poner|cambiar|esta|este/.test(w));
   const best=EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>({e,p:pal.filter(w=>norm(e.titulo+' '+(e.tematica||'')).includes(w)).length})).sort((a,b)=>b.p-a.p)[0];
   return best&&best.p>0?best.e:(conFoto?{id:'',titulo:''}:null)}
+/* «del 28 de octubre al 1 de noviembre» → {desde, hasta} */
+function fechasDe(texto){const n=norm(texto),re=/(\d{1,2})\s*(?:de\s+)?(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|setiembre|octubre|noviembre|diciembre)?/g;let m,L=[];
+  while((m=re.exec(n)))L.push({d:+m[1],mes:m[2]==='setiembre'?'septiembre':m[2]});
+  L=L.filter(x=>x.d>=1&&x.d<=31);if(L.length<2||!L.some(x=>x.mes))return null;
+  const a=L[0],b=L[1],mb=b.mes||a.mes,ma=a.mes||mb,anio=+(CFG.desde||hoyISO()).slice(0,4);
+  const f=(d,mes)=>anio+'-'+String(MESES_L.indexOf(mes)+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+  const desde=f(a.d,ma);let hasta=f(b.d,mb);if(hasta<desde)hasta=(anio+1)+hasta.slice(4);return{desde,hasta}}
 function leerLocal(texto,conFoto,modo){
   const t=String(texto||'').trim(), prop={gastos:[],tareas:[],eventos:[],resumen:'',local:true};
   const portada=planDePortada(t,conFoto);if(portada){prop.portada={evento_id:portada.id};prop.resumen='Foto de portada para «'+portada.titulo+'».';return prop}
+  const fechas=fechasDe(t);if(fechas&&/viaje|fecha|salimos|llegamos|del \d|vamos/.test(norm(t))){prop.viaje=fechas;prop.resumen='Fechas del viaje.';return prop}
+  if(modo==='auto'&&!/\d/.test(t)&&/propong|hagamos|plan |noche de|tarde de|actividad/.test(norm(t)))modo='plan';
   if(modo==='plan'){const n=norm(t);
     prop.eventos.push({titulo:(t.split(/[,.;\n]/)[0]||'Plan nuevo').slice(0,60).replace(/^./,c=>c.toUpperCase()),tematica:null,descripcion:t,
       bloque:/manana|desayuno|amanecer|temprano/.test(n)?'manana':/atardecer|sunset/.test(n)?'atardecer':/tarde/.test(n)?'tarde':'noche',
@@ -1252,7 +1270,7 @@ function vHoy(){
   return `<section class="hh">${imgTag([...portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top" role="button" tabindex="0" onclick="SUBN='gente';irA('nosotros')" style="cursor:pointer"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
       <div class="hh-in"><div class="hh-logo">${logo(190)}</div><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
         ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
-    <div class="sts">${stat('cal',Math.max(1,dias.length-1),'días','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
+    <div class="sts">${stat('cal',Math.max(1,dias.length-1),'noches','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
     ${iaCard()}
     ${instalarCard()}
     ${prox?`<div class="card lp"><div class="lp-r"><div class="grow"><div class="lp-t">Lo próximo</div><div class="muted tiny">${esc(cuando)}</div>
@@ -1264,8 +1282,7 @@ function vHoy(){
     <div style="text-align:center;margin-top:18px">${stk('beachEra','',230)}</div>`;
 }
 /* el lugar donde se registra todo: una foto y unas palabras, la IA llena el resto */
-function iaCard(){return `<div class="card iac"><div class="iac-t">${ic('spark')}<div class="grow"><b>Cuéntale a la IA</b><div class="muted tiny">Un gasto, una factura, pendientes o fotos del viaje. Ella llena todo; tú solo escoges y guardas.</div></div></div>
-  <div class="iac-b"><label class="btn sun">${ic('cam')} Foto<input type="file" accept="image/*" hidden onchange="iaFotoDirecta(this)"></label><button class="btn primary" onclick="abrirLector()">${ic('spark')} Escribir</button></div></div>`}
+function iaCard(){return `<button class="card iac" onclick="abrirLector()"><span class="iac-ic">${ic('spark')}</span><span class="grow"><b>Registrar con IA</b><span class="muted tiny">Un gasto, una factura, una foto, un pendiente o un plan: cuéntalo y la IA lo llena.</span></span>${ic('chev')}</button>`}
 /* la temática de esta noche (o la próxima) en grande: lo primero que la gente quiere saber */
 function nocheDestacada(hoy){return EVENTOS.filter(e=>(e.estado==='oficial'||e.estado==='hecho')&&esNoche(e)&&e.estilo&&e.dia&&e.dia>=hoy).sort((a,b)=>a.dia.localeCompare(b.dia))[0]}
 function nocheCard(hoy){
@@ -1566,35 +1583,31 @@ function abrirResumen(){
 /* ---------- AGREGAR (botón ＋) ---------- */
 function abrirAgregar(){abrirLector()}
 let LECT={dataUrl:null,blob:null,modo:'auto'};
-const SUG={plan:['Noche de ','En la terraza','En la playa','Todos de blanco','Con parrillada','Con juegos'],auto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Es de la BBQ','Ponla de portada del plan '],gasto:['Pagué yo','Para todos','Para todos menos ','Lo pagó ','Mitad y mitad con '],tareas:['Comprar ','Llevar ','Reservar ','Es urgente','Para el ']};
-const PH={plan:'Ej. Noche de tacos el viernes en la terraza, todos de blanco, con micheladas y música en vivo',auto:'Ej. Pagué 48 de hielo y cervezas para la BBQ, para todos menos Naty',gasto:'Ej. Pagué 48 de hielo y cervezas, para todos menos Naty',tareas:'Ej. Comprar hielo y carbón, llevar el parlante y reservar la lancha'};
+const SUG={gasto:['Pagué yo','Para todos','Para todos menos ','Lo pagó '],plan:['Noche de ','En la terraza','En la playa','Todos de blanco','Con parrillada','Con juegos'],auto:['Pagué yo','Para todos menos ','Hay que comprar ','Ponla de portada del plan '],tareas:['Comprar ','Llevar ','Reservar ','Es urgente','Para el ']};
+const PH={gasto:'Ej. Pagué 48 de hielo y cervezas, para todos menos Naty',plan:'Ej. Noche de tacos el viernes en la terraza, todos de blanco, con micheladas y música en vivo',auto:'Ej. Pagué 48 de hielo y cervezas para la BBQ, para todos menos Naty',tareas:'Ej. Comprar hielo y carbón, llevar el parlante y reservar la lancha'};
 function iaAviso(){if(IA_URL&&(!IA.probada||IA.ok))return '';return `<div class="banner tide tiny">${IA_URL?'La IA todavía no está conectada: por ahora hago una lectura rápida (sin leer fotos).':'En esta vista previa no hay IA: hago una lectura rápida (sin leer fotos).'}</div>`}
 /* foto?:true abre en gasto · lista:true en pendientes · ev: el gasto va ligado a ese plan */
 function abrirLector(foto,lista,ev,modo){
   LECT={dataUrl:null,blob:null,ev:ev||null,modo:modo||(lista?'tareas':ev?'gasto':'auto')};
   const evN=ev&&EVENTOS.find(e=>e.id===ev);
-  openSheet(`${sheetH('Cuéntale a la IA')}<div class="stack ia-comp">
-    <p class="muted" style="margin:0">Una foto y unas palabras. La IA lo entiende y llena todo; tú solo escoges y guardas.</p>
-    <div class="seg seg4" id="lmodo">${[['auto','Lo que sea'],['gasto','Un gasto'],['tareas','Pendientes'],['plan','Un plan']].map(([k,l])=>`<button data-m="${k}" aria-pressed="${LECT.modo===k}" onclick="lModo('${k}')">${l}</button>`).join('')}</div>
-    <textarea id="ltxt" class="in ia-txt" rows="3" placeholder="${esc(PH[LECT.modo])}"></textarea>
+  const tit=evN?'Gasto de «'+evN.titulo+'»':LECT.modo==='plan'?'Propón un plan':LECT.modo==='tareas'?'Pendientes':'Registrar con IA';
+  const sub=LECT.modo==='plan'?'Cuéntalo como se te ocurra: la IA arma el plan completo y tú solo escoges.':LECT.modo==='tareas'?'Escribe o dicta lo que hay que hacer: la IA lo vuelve tareas.':'Escribe o dicta lo que pasó. Si hay foto (factura, ticket o del viaje), agrégala. La IA entiende qué es y lo llena.';
+  openSheet(`${sheetH(esc(tit))}<div class="stack ia-comp">
+    <p class="muted" style="margin:0">${sub}</p>
+    <textarea id="ltxt" class="in ia-txt" rows="4" placeholder="${esc(PH[LECT.modo])}"></textarea>
+    <label class="ia-foto-b" id="lfotob"><input id="lfoto" type="file" accept="image/*" hidden onchange="leerFoto(this)"><img id="lthumb" alt="" hidden>${ic('cam')}<span>Agregar foto</span><small>opcional</small></label>
     <div class="chips scroll" id="lsug">${lSugs()}</div>
-    <label class="ia-foto" id="lfotob"><input id="lfoto" type="file" accept="image/*" hidden onchange="leerFoto(this)"><img id="lthumb" alt="" hidden><span class="ia-foto-in">${ic('cam')}<span><b>Agregar foto</b><span class="muted tiny">Factura, ticket, transferencia o una foto del viaje</span></span></span></label>
-    ${evN?`<div class="banner tide tiny"><div>Va ligado a <b>${esc(evN.titulo)}</b>.</div></div>`:''}
     <div id="laviso">${iaAviso()}</div>
     <div id="lerr2" class="banner bad" hidden></div>
     <div id="lpensando" class="ia-piensa" hidden></div>
-    <button class="btn primary block ia-go" id="lgo" onclick="procesarLector()">${ic('spark')} Que la IA lo llene</button>
-    ${!ev&&!lista?`<div class="ia-mas"><label>${ic('cam')} Varias fotos al álbum<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div>`:''}
+    <button class="btn primary block ia-go" id="lgo" onclick="procesarLector()">${ic('spark')} Registrar</button>
   </div>`);
   if(IA_URL&&!IA.probada)probarIA().then(()=>{const a=$('#laviso');if(a)a.innerHTML=iaAviso()});
 }
 function lSugs(){return SUG[LECT.modo].map(t=>`<button class="chip" onclick="lSug(this)">${esc(t.trim())}${/ $/.test(t)?'…':''}</button>`).join('')}
-function lModo(m){LECT.modo=m;document.querySelectorAll('#lmodo button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===m));const t=$('#ltxt');if(t)t.placeholder=PH[m];const g=$('#lsug');if(g)g.innerHTML=lSugs()}
 /* escoger en vez de escribir: cada chip suma su frase y deja el cursor listo */
 function lSug(b){const t=$('#ltxt');if(!t)return;const f=b.textContent.replace(/…$/,' ');const v=t.value.trim();t.value=(v?v+(/[,.]$/.test(v)?' ':', '):'')+(v?f.charAt(0).toLowerCase()+f.slice(1):f);t.focus();try{t.setSelectionRange(t.value.length,t.value.length)}catch(e){}b.classList.add('usado')}
-async function leerFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');if(im){im.src=LECT.dataUrl;im.hidden=false}const fb=$('#lfotob');if(fb)fb.classList.add('con')}catch(e){toast(e.message)}}
-/* desde el home: la foto primero, y se abre la pantalla con la foto puesta */
-async function iaFotoDirecta(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);abrirLector();LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');im.src=x.dataUrl;im.hidden=false;$('#lfotob').classList.add('con');$('#ltxt').focus()}catch(e){toast(e.message)}finally{inp.value=''}}
+async function leerFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const x=await achicar(f,1600,.82);LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob};const im=$('#lthumb');if(im){im.src=LECT.dataUrl;im.hidden=false}const fb=$('#lfotob');if(fb){fb.classList.add('con');const t=fb.querySelector('span');if(t)t.textContent='Foto lista · cambiar'}}catch(e){toast(e.message)}}
 const PASOS_IA=['Mirando la foto…','Buscando el total…','Viendo quién pagó y para quién…','Llenando todo…'],PASOS_PLAN=['Mirando la foto…','Pensando el plan…','Escogiendo lugar, hora y look…','Armando qué llevar…'];
 let PIENSA_T=null;
 function pensando(si){const el=$('#lpensando'),b=$('#lgo');clearInterval(PIENSA_T);if(!el)return;
@@ -1615,6 +1628,18 @@ async function procesarLector(){
   }catch(e){pensando(false);er.hidden=false;er.textContent=e.message}
 }
 let PROP=null;
+/* cambiar los datos del viaje diciéndoselo a la IA: se muestra antes → después y se confirma (solo admin) */
+function hojaViaje(v){const n={nombre:v.nombre||CFG.nombre,lugar:v.lugar||CFG.lugar,desde:v.desde||CFG.desde,hasta:v.hasta||CFG.hasta};
+  const dn=n.desde&&n.hasta?difDias(n.desde,n.hasta)+1:0,mal=!n.desde||!n.hasta||dn<1||dn>30;window.VJ=n;
+  const fila=(l,a,b)=>`<div class="vj-f"><span class="muted tiny">${l}</span><div>${a!==b?`<s class="muted">${esc(a||'—')}</s> → `:''}<b>${esc(b||'—')}</b></div></div>`;
+  const fx=d=>d?diaSem(d)+' '+fechaCorta(d):'';
+  openSheet(`${sheetH('Datos del viaje')}<div class="stack ia-llena">
+    <div class="ia-sello">${ic('spark')} La IA entendió esto:</div>
+    <div class="card">${fila('Llegada',fx(CFG.desde),fx(n.desde))}${fila('Salida',fx(CFG.hasta),fx(n.hasta))}${fila('Lugar',CFG.lugar,n.lugar)}${fila('Nombre',CFG.nombre,n.nombre)}
+      ${dn?`<div class="vj-dias">${dn} día${dn===1?'':'s'} · ${dn-1} noche${dn===2?'':'s'}</div>`:''}</div>
+    ${mal?`<div class="banner warn">Esas fechas no cuadran (${dn} días). Dilo otra vez, por ejemplo: «el viaje es del 28 de octubre al 1 de noviembre».</div>`:''}
+    ${esAdmin()?`<button class="btn primary block" onclick="guardarViajeIA()" ${mal?'disabled':''}>Guardar</button>`:'<div class="banner tide">Solo el admin cambia los datos del viaje: pásale este mensaje.</div>'}</div>`)}
+async function guardarViajeIA(){try{await API.saveConfig(VJ);await cargar();closeSheet();toast('Viaje actualizado');render()}catch(e){toast(e.message)}}
 /* poner la foto como portada de un plan: se confirma el plan con un toque (o se escoge otro) */
 function hojaPortada(evId){const evs=EVENTOS.filter(e=>e.estado!=='cancelado').sort((a,b)=>String(a.dia||'9').localeCompare(String(b.dia||'9'))||minEv(a)-minEv(b));
   window.PORT={ev:EVENTOS.some(e=>e.id===evId)?evId:''};
@@ -1632,6 +1657,7 @@ function mostrarPropuesta(p,ref,origen){
   PROP={...p,ref,origen};
   const conAlbum=!!(p.album&&LECT.dataUrl);
   if(p.portada){hojaPortada(p.portada.evento_id||LECT.ev||'');return}
+  if(p.viaje&&(p.viaje.desde||p.viaje.hasta||p.viaje.lugar||p.viaje.nombre)&&!(p.gastos||[]).length){hojaViaje(p.viaje);return}
   if(conAlbum&&!(p.gastos||[]).length&&!(p.tareas||[]).length&&!(p.eventos||[]).length){albumDesdeIA();return}
   if((p.eventos||[]).length===1&&!(p.gastos||[]).length&&!(p.tareas||[]).length){planDesdeIA(p.eventos[0]);if(p.local)PL._anim=false;pintarPlan();return}
   if(p.gastos&&p.gastos.length===1&&!(p.tareas||[]).length&&!(p.eventos||[]).length){F=formDesdePropuesta(p.gastos[0],ref,p,origen);F._anim=!p.local;if(LECT.ev&&!F.evento_id)F.evento_id=LECT.ev;F.texto_ia=LECT.txt||'';F.resumen_ia=p.resumen||'';if(p.resumen&&!F.dudas.includes(p.resumen)&&p.local)F.dudas=[...F.dudas];pintarFormGasto();return}
@@ -2087,6 +2113,7 @@ async function cargaMasiva(){
     <button class="btn primary block" style="margin-top:10px" onclick="copiar(CM.filter(o=>o.ok).map(o=>o.r.mensaje).join('\\n\\n———\\n\\n'),'Todos los mensajes copiados')">Copiar todos los mensajes</button>`;
 }
 async function guardarViaje(){const c={nombre:$('#cv_n').value.trim()||'Casablanca',lugar:$('#cv_l').value.trim(),desde:$('#cv_d').value||null,hasta:$('#cv_h').value||null,moneda:$('#cv_m').value};
+  if(c.desde&&c.hasta){const n=difDias(c.desde,c.hasta)+1;if(n<1){toast('La salida es antes de la llegada');return}if(n>30&&!confirm(`Eso es un viaje de ${n} días. ¿Seguro?`))return}
   if(c.desde&&c.hasta&&c.hasta<c.desde){toast('La fecha final va después de la inicial');return}
   try{await API.saveConfig(c);await cargar();toast('Viaje guardado');render()}catch(e){toast(e.message)}}
 function respaldoJSON(){const j=JSON.stringify({exportado:new Date().toISOString(),config:CFG,personas:PERSONAS,gastos:GASTOS,tareas:TAREAS,eventos:EVENTOS,votos:VOTOS,etiquetas:ETIQUETAS,comidas:COMIDAS,platos:PLATOS,asistencia:ASIST,presupuesto:PRESU},null,1);

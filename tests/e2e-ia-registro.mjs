@@ -18,7 +18,7 @@ await pg.goto('http://casablanca.test/');await pg.evaluate(()=>{try{localStorage
 await pg.fill('#lced','0990000001');await pg.fill('#lpin','1001');await pg.click('#lbtn');await pg.waitForSelector('.hh');await pg.waitForTimeout(500);
 console.log('home · frase:',await pg.locator('.hh-s').count(),'· tarjeta IA:',await pg.locator('.iac').count(),'· accesos rápidos:',await pg.locator('.qa').count(),'· stickers fila:',await pg.locator('.stk-row').count(),'· IA:',await pg.evaluate(()=>JSON.stringify(IA)));
 await pg.screenshot({path:'x-1-hoy.png'});
-await pg.click('.iac .btn.primary');await pg.waitForSelector('#ltxt');
+await pg.click('.iac');await pg.waitForSelector('#ltxt');
 console.log('aviso sin IA visible:',await pg.locator('#laviso .banner').count());
 await pg.click('#lsug .chip:has-text("Pagué yo")');await pg.click('#lsug .chip:has-text("Para todos menos")');await pg.type('#ltxt','Naty, 48 de hielo para la BBQ');
 console.log('texto armado:',await pg.inputValue('#ltxt'));
@@ -35,7 +35,7 @@ const g=await pg.evaluate(()=>{const g=GASTOS.find(x=>x.descripcion==='Hielo y c
 console.log('guardado:',await pg.evaluate(()=>GASTOS.length)-antes,JSON.stringify(g));
 // foto directa desde el home → álbum con pie de la IA
 modoMock='album';await pg.evaluate(()=>{closeSheet();irA('hoy')});await pg.waitForTimeout(400);
-await pg.setInputFiles('.iac input[type=file]','/home/user/marea/public/img/casa/playa.jpg');await pg.waitForSelector('#lfotob.con');await pg.screenshot({path:'x-5-foto.png'});
+await pg.click('.iac');await pg.waitForSelector('#lfoto',{state:'attached'});await pg.setInputFiles('#lfoto','/home/user/marea/public/img/casa/playa.jpg');await pg.waitForSelector('#lfotob.con');await pg.screenshot({path:'x-5-foto.png'});
 await pg.click('#lgo');await pg.waitForSelector('#ft_t',{timeout:8000});console.log('álbum · pie:',await pg.inputValue('#ft_t'));
 await pg.screenshot({path:'x-6-album.png'});
 await pg.click('#ft_go');await pg.waitForTimeout(600);console.log('fotos en álbum:',await pg.evaluate(()=>MURO.filter(f=>f.texto==='El primer atardecer en Same').length));

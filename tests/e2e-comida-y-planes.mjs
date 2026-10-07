@@ -49,7 +49,7 @@ await shot('08-itinerario');
 await pg.click('text=Looks'); await pg.waitForSelector('.swatch'); await shot('09-dress');
 log('dress codes:', (await pg.$$eval('#main .card h3',x=>x.map(e=>e.textContent))).join(' | '));
 // TAREAS desde texto dictado
-await pg.click('.fab'); await pg.click('#lmodo button:has-text("Pendientes")');
+await pg.evaluate(()=>abrirLector(null,true));
 await pg.fill('#ltxt','Comprar 3 fundas de hielo, carbón para el asado del sábado y llevar los dos micrófonos para el karaoke');
 await pg.click('#lgo'); await pg.waitForSelector('#sheetBody input[data-i]');
 log('tareas propuestas:\n  '+(await pg.$$eval('#sheetBody .sub-item',x=>x.map(e=>e.innerText.replace(/\n/g,' — ')))).join('\n  '));
