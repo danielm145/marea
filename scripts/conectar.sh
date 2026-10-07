@@ -39,7 +39,9 @@ printf '%s' "$SUPABASE_URL" | npx -y wrangler@4 secret put SB_URL --config wrang
 printf '%s' "$SUPABASE_ANON_KEY" | npx -y wrangler@4 secret put SB_ANON --config wrangler.dominio.toml
 
 echo; echo "════ 4 · IA de Vertex ════"
-scripts/ia.sh ${VERTEX_SA_JSON:-}
+IA_OK=1
+scripts/ia.sh ${VERTEX_SA_JSON:-} || IA_OK=0
+[ "$IA_OK" = 1 ] || echo "  → Sigo igual: la app sale publicada y lee los registros sin IA hasta que conectes Vertex (scripts/ia.sh /ruta/al.json)."
 
 echo; echo "════ 5 · Publicar ════"
 scripts/deploy.sh wrangler.dominio.toml
@@ -48,3 +50,4 @@ echo
 echo "LISTO. Entra a https://casablanca.fieldbuil.ai con tu celular y la clave = día y mes de tu cumpleaños."
 echo "Luego: Más → Admin → Invitados → agrega a cada uno (nombre, celular y cumpleaños) y toca WhatsApp:"
 echo "les llega el link y cómo entrar. Cada quien entra con SU celular y SU cumpleaños."
+[ "$IA_OK" = 1 ] || echo "PENDIENTE: la IA de Vertex. Cuando tengas el JSON:  scripts/ia.sh ~/Downloads/<archivo>.json"
