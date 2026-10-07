@@ -532,7 +532,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v33';
+const BUILD_TAG='v34';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -660,7 +660,7 @@ function verCara(id){const p=PMAP[id];if(!p)return;cerrarCara();
 function cerrarCara(){const m=$('#visorCara');if(m)m.remove()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarCara()});
 /* la cara de alguien: img/gente/<nombre-completo>.jpg o img/gente/<primer-nombre>.jpg, si existe */
-function caraDe(p){const a=slugTxt(p.nombre),b=slugTxt(String(p.nombre||'').split(' ')[0]);return ['img/gente/'+a+'.jpg','img/gente/'+b+'.jpg'].find(u=>FOTOS_GEN.has(u))||''}
+function caraDe(p){const w=String(p.nombre||'').trim().split(/\s+/),a=slugTxt(p.nombre),c=slugTxt(w.slice(0,2).join(' ')),b=slugTxt(w[0]||'');return ['img/gente/'+a+'.jpg','img/gente/'+c+'.jpg','img/gente/'+b+'.jpg'].find(u=>FOTOS_GEN.has(u))||''}
 function av(id,cls=''){
   const p=PMAP[id]; const n=p?(p.apodo||p.nombre||'?'):'?';
   let h=0; for(const c of String(id)) h=(h*31+c.charCodeAt(0))>>>0; const [bg,fg]=AVC[h%AVC.length];

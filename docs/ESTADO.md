@@ -309,3 +309,8 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - El cumpleaños queda opcional al crear o editar invitados; el WhatsApp dice «entras solo con tu celular, sin clave».
 - Cualquiera que sepa el celular de un invitado puede entrar como él: aceptado por Daniel (app de un viaje entre amigos).
 - Para que funcione hay que volver a desplegar la función: `scripts/conectar.sh`.
+
+## v34 · los 8 viajeros con su celular
+- `sql/014_viajeros.sql`: Daniel, Ana Paula, Alegría, Kevin, Domenika, Natalia, Ana Cristina y Jhon Cevallos (nuevo). A quien ya estaba sin celular se le pone; no duplica (probado dos veces en Postgres local). Amelia Camacho no venía en la lista.
+- `caraDe` también prueba los dos primeros nombres (Ana Paula Ribadeneira → img/gente/ana-paula.jpg).
+- Se aplica con `node scripts/conectar.mjs` (o `scripts/conectar.sh`).
