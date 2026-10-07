@@ -14,6 +14,11 @@ import path from "node:path";
 
 const RAIZ = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const env = { ...leerEnv(path.join(RAIZ, ".env")), ...process.env };
+/* las llaves se toman LIMPIAS aunque al pegarlas haya quedado algo al lado (un espacio, la cédula, un salto) */
+const jwtDe = (v) => (String(v || "").match(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/) || [""])[0];
+for (const k of ["SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_ANON_KEY"]) if (env[k]) env[k] = jwtDe(env[k]);
+if (env.SUPABASE_ACCESS_TOKEN) env.SUPABASE_ACCESS_TOKEN = (String(env.SUPABASE_ACCESS_TOKEN).match(/sbp_[A-Za-z0-9_]+/) || [""])[0];
+if (env.SUPABASE_PROJECT_REF) env.SUPABASE_PROJECT_REF = (String(env.SUPABASE_PROJECT_REF).match(/[a-z0-9]{20}/) || [env.SUPABASE_PROJECT_REF])[0];
 if (!env.SUPABASE_URL && env.SUPABASE_PROJECT_REF) env.SUPABASE_URL = `https://${env.SUPABASE_PROJECT_REF}.supabase.co`;   // la URL sale sola del Project ID
 function leerEnv(f) {
   const o = {}; let t = ""; try { t = fs.readFileSync(f, "utf8"); } catch { return o; }

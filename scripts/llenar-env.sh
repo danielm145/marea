@@ -27,27 +27,30 @@ echo
 echo "✓ Proyecto fieldbuilt-lab y llave pública (ya los tenía)"
 
 # 1 · service_role
-okSR() { local v; v=$(val SUPABASE_SERVICE_ROLE_KEY); [[ "$v" == eyJ* ]] && jwt "$v" | grep -q '"service_role"'; }
-okSR && put SUPABASE_SERVICE_ROLE_KEY "$(val SUPABASE_SERVICE_ROLE_KEY)"   # deja la línea limpia
+soloJWT() { printf '%s' "$1" | grep -oE 'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+' | head -1; }
+okSR() { local v; v=$(val SUPABASE_SERVICE_ROLE_KEY); [ -n "$v" ] && [ "$v" = "$(soloJWT "$v")" ] && jwt "$v" | grep -q '"service_role"'; }
+put SUPABASE_SERVICE_ROLE_KEY "$(soloJWT "$(val SUPABASE_SERVICE_ROLE_KEY)")"   # deja solo la llave (sin nada pegado al lado)
 okSR || put SUPABASE_SERVICE_ROLE_KEY ""
 while ! okSR; do
   echo
   echo "1) La llave service_role (Supabase → Project Settings → API Keys → pestaña «Legacy» → service_role → Reveal → copiar)."
   printf "   Pégala aquí (no se ve al pegar) y Enter: "; read -rs v; echo
-  if [[ "$v" == eyJ* ]] && jwt "$v" | grep -q '"service_role"'; then put SUPABASE_SERVICE_ROLE_KEY "$v"; echo "   ✓ guardada"
+  v=$(soloJWT "$v")
+  if [ -n "$v" ] && jwt "$v" | grep -q '"service_role"'; then put SUPABASE_SERVICE_ROLE_KEY "$v"; echo "   ✓ guardada"
   else echo "   ✗ Esa no parece la service_role (debe empezar con eyJ y ser la de «service_role», no la anon). Prueba otra vez."; fi
 done
 echo "✓ service_role"
 
 # 2 · token sbp_
-okTK() { [[ "$(val SUPABASE_ACCESS_TOKEN)" == sbp_* ]]; }
-okTK && put SUPABASE_ACCESS_TOKEN "$(val SUPABASE_ACCESS_TOKEN)"
+soloSBP() { printf '%s' "$1" | grep -oE 'sbp_[A-Za-z0-9_]+' | head -1; }
+okTK() { local v; v=$(val SUPABASE_ACCESS_TOKEN); [ -n "$v" ] && [ "$v" = "$(soloSBP "$v")" ]; }
+put SUPABASE_ACCESS_TOKEN "$(soloSBP "$(val SUPABASE_ACCESS_TOKEN)")"
 okTK || put SUPABASE_ACCESS_TOKEN ""
 while ! okTK; do
   echo
   echo "2) El token que creaste (empieza con sbp_)."
   printf "   Pégalo aquí (no se ve al pegar) y Enter: "; read -rs v; echo
-  if [[ "$v" == sbp_* ]]; then put SUPABASE_ACCESS_TOKEN "$v"; echo "   ✓ guardado"; else echo "   ✗ Debe empezar con sbp_. Prueba otra vez."; fi
+  v=$(soloSBP "$v"); if [ -n "$v" ]; then put SUPABASE_ACCESS_TOKEN "$v"; echo "   ✓ guardado"; else echo "   ✗ Debe empezar con sbp_. Prueba otra vez."; fi
 done
 echo "✓ token"
 

@@ -22,6 +22,10 @@ while IFS= read -r l || [ -n "$l" ]; do
   k=${BASH_REMATCH[1]}; v=$(printf '%s' "${BASH_REMATCH[2]}" | sed -e 's/[[:space:]]#.*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e "s/^[\"'\`]//" -e "s/[\"'\`]$//")
   export "$k=$v"
 done < .env
+# las llaves, limpias aunque al pegarlas haya quedado algo al lado
+SUPABASE_ANON_KEY=$(printf '%s' "${SUPABASE_ANON_KEY:-}" | grep -oE 'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+' | head -1); export SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY=$(printf '%s' "${SUPABASE_SERVICE_ROLE_KEY:-}" | grep -oE 'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+' | head -1); export SUPABASE_SERVICE_ROLE_KEY
+SUPABASE_ACCESS_TOKEN=$(printf '%s' "${SUPABASE_ACCESS_TOKEN:-}" | grep -oE 'sbp_[A-Za-z0-9_]+' | head -1); export SUPABASE_ACCESS_TOKEN
 : "${SUPABASE_URL:=https://${SUPABASE_PROJECT_REF:-}.supabase.co}"   # la URL sale sola del Project ID
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then unset CLOUDFLARE_API_TOKEN; fi
 
