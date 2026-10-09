@@ -382,3 +382,6 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - **Saldos**: explicación de una línea («como en Splitwise»), luego **Quién le debe a quién**: por deudor, cada persona a la que le debe y cuánto (`deudasGrupo`: deudas directas de todo el grupo, cuadran con los saldos), tocar → `verDeuda(a, desde)` gasto por gasto entre dos personas cualesquiera, botón «Pagado». Saldo de cada uno con leyenda. El plan simplificado queda plegado abajo como «Atajo para el final» con su explicación.
 - **Fotos**: visor a pantalla completa `verImagen(src, título)` (fondo oscuro, ✕, «Abrir en grande»): foto de la factura en la confirmación y en el detalle del gasto, foto del evento (toque sobre la cabecera, `zoomEvento`), chat (`verLook`). Si el gasto no tiene foto: «Agregar foto de la factura» ahí mismo.
 - Worker: con comprobante leído, UNA factura = UN gasto (si el intérprete la parte en dos, queda el primero) y nunca va al álbum. Front: dedupe por descripción+monto por si acaso.
+
+## v45 · el botón de abajo es solo para el álbum
+- «Fotos al álbum» en la barra (entre Hoy e Itinerario): abre cámara o carrete, varias fotos, directo a la hoja de subir al álbum (`elegirFotos`). Sin IA. Las facturas van por «Foto de la factura» en el inicio.

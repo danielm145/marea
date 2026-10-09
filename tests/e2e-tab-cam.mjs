@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
+await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')?r.continue():r.abort()});
+await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>localStorage.clear());await pg.reload();await pg.waitForTimeout(400);
+await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+console.log('barra:',await pg.locator('.tabs .tab span:last-child').allInnerTexts(),'· varias:',await pg.getAttribute('.tab-cam input','multiple')!==null,'· sin IA:',(await pg.getAttribute('.tab-cam input','onchange')));
+await pg.setInputFiles('.tab-cam input',['/home/user/marea/public/img/gente/kevin-lopez.jpg','/home/user/marea/public/img/gente/alegria.jpg']);await pg.waitForTimeout(800);
+console.log('hoja de subir al álbum:',await pg.locator('#sheet:not([hidden])').count(),'· título:',await pg.locator('#sheetBody h2').first().innerText().catch(()=>'?'),'· lector IA abierto:',await pg.locator('#ltxt').count());
+await pg.screenshot({path:'/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/subir-album.png'});
+console.log('errores JS:',errs.length?errs:'ninguno');await b.close();
