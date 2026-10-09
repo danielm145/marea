@@ -141,7 +141,17 @@ export async function vertexToken(env) {
   return t.access_token;
 }
 
-function motorDe(env, cual) {
+let LLAVE_VIVA = null;   // la última llave de Gemini que respondió bien (por instancia)
+function llavesGemini(env) {
+  const L = []; const ok = (v) => typeof v === "string" && /^AIza[0-9A-Za-z_-]{30,}$/.test(v.trim());
+  if (typeof env.GEMINI_API_KEY === "string" && env.GEMINI_API_KEY.trim()) L.push(env.GEMINI_API_KEY.trim());   // la de siempre, tal cual
+  for (const v of Object.values(env)) if (ok(v) && !L.includes(v.trim())) L.push(v.trim());   // se guardó con otro nombre: igual sirve
+  // la que respondió bien la última vez va primero (solo si sigue existiendo)
+  if (LLAVE_VIVA && L.includes(LLAVE_VIVA)) { L.splice(L.indexOf(LLAVE_VIVA), 1); L.unshift(LLAVE_VIVA); }
+  return L;
+}
+const sinSaldo = (status) => status === 402 || status === 401 || status === 403;   // esa llave no sirve: la siguiente
+function motorDe(env, cual, llave) {
   const modelo = cual || env.IA_MODELO || MODELO_VIVO || MODELO_DEF;
   if (env.GOOGLE_SA_B64) {
     let proyecto = null; try { proyecto = JSON.parse(atob(env.GOOGLE_SA_B64)).project_id; } catch { /* secreto mal pegado */ }
@@ -151,7 +161,8 @@ function motorDe(env, cual) {
   }
   if (env.VERTEX_API_KEY) return { nombre: "vertex", modelo, key: env.VERTEX_API_KEY,
     url: `https://aiplatform.googleapis.com/v1/publishers/google/models/${modelo}:generateContent` };
-  if (env.GEMINI_API_KEY) return { nombre: "gemini", modelo, key: env.GEMINI_API_KEY,
+  const gem = llave || llavesGemini(env)[0];
+  if (gem) return { nombre: "gemini", modelo, key: gem,
     url: `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent` };
   return null;
 }
@@ -251,10 +262,10 @@ async function pensar(env, motorIni, cuerpo) {
   if (img) partes.push({ inlineData: img });
   partes.push({ text: `CONTEXTO:\n${JSON.stringify(contexto)}${pista}\n\nMENSAJE DE ${contexto.autor || "alguien"}:\n${txt(cuerpo.texto, 4000) || "(solo la foto)"}` });
 
-  const auth = motor.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": motor.key };
-  const llamar = (conEsquema, url = motor.url) => fetch(url, {
+  const authDe = async (m) => m.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": m.key };
+  const llamar = async (conEsquema, m = motor) => fetch(m.url, {
     method: "POST",
-    headers: { "content-type": "application/json", ...auth },
+    headers: { "content-type": "application/json", ...(await authDe(m)) },
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: SISTEMA + (conEsquema ? "" : "\nDevuelve SOLO un JSON con: resumen, gastos[], tareas[], eventos[], album (o null).") }] },
       contents: [{ role: "user", parts: partes }],
@@ -262,20 +273,26 @@ async function pensar(env, motorIni, cuerpo) {
     }),
   });
   let r = await llamar(true), j = await r.json().catch(() => ({}));
-  // ese modelo ya no existe para esta llave → el siguiente de la lista
-  if (!r.ok && sinModelo(r.status, j?.error?.message)) {
-    for (const m of candidatos(env)) {
-      if (m === motor.modelo) continue;
-      const alt = motorDe(env, m); r = await llamar(true, alt.url); j = await r.json().catch(() => ({}));
-      if (r.ok || !sinModelo(r.status, j?.error?.message)) { motor = alt; if (r.ok) MODELO_VIVO = m; break; }
+  // ese modelo ya no existe, o esa llave no tiene saldo → se prueba lo siguiente (otras llaves × otros modelos)
+  if (!r.ok && (sinModelo(r.status, j?.error?.message) || (!motor.sa && sinSaldo(r.status)))) {
+    const llaves = motor.sa ? [null] : (llavesGemini(env).length ? llavesGemini(env) : [motor.key]);
+    buscar: for (const k of llaves) {
+      for (const m of candidatos(env)) {
+        if (m === motor.modelo && (k === motor.key || k === null)) continue;
+        const alt = motorDe(env, m, k); r = await llamar(true, alt); j = await r.json().catch(() => ({}));
+        if (r.ok) { motor = alt; break buscar; }
+        if (!motor.sa && sinSaldo(r.status)) continue buscar;           // esta llave no sirve: la siguiente llave
+        if (!sinModelo(r.status, j?.error?.message)) { motor = alt; break buscar; }   // otro error: se informa tal cual
+      }
     }
   }
   // si el modelo no acepta el esquema (400), se repite pidiendo solo JSON: limpiar() revisa igual lo que vuelva
-  if (r.status === 400 && /schema|response_schema|responseSchema/i.test(j?.error?.message || "")) { r = await llamar(false, motor.url); j = await r.json().catch(() => ({})); }
-  if (r.ok) MODELO_VIVO = motor.modelo;
+  if (r.status === 400 && /schema|response_schema|responseSchema/i.test(j?.error?.message || "")) { r = await llamar(false, motor); j = await r.json().catch(() => ({})); }
+  if (r.ok) { MODELO_VIVO = motor.modelo; if (motor.key) LLAVE_VIVA = motor.key; }
   if (!r.ok) {
     const st = r.status === 429 ? 429 : 502;
-    return { status: st, cuerpo: { error: st === 429 ? "La IA está ocupada, prueba en un momento." : "La IA no respondió.", detalle: txt(j?.error?.message, 300) } };
+    const msg = r.status === 402 ? "La llave de la IA no tiene saldo: hay que recargar en Google AI Studio." : st === 429 ? "La IA está ocupada, prueba en un momento." : "La IA no respondió.";
+    return { status: st, cuerpo: { error: msg, detalle: txt(j?.error?.message, 300) } };
   }
   const cand = j?.candidates?.[0];
   const texto = (cand?.content?.parts || []).map((p) => p.text || "").join("");
@@ -304,24 +321,29 @@ export default {
     }
     if (url.pathname === "/api/ia/salud") {
       const m = motorDe(env);
-      const base = { ok: !!m, motor: m ? m.nombre : null, modelo: m ? m.modelo : null, llaves: { GOOGLE_SA_B64: !!env.GOOGLE_SA_B64, VERTEX_API_KEY: !!env.VERTEX_API_KEY, GEMINI_API_KEY: !!env.GEMINI_API_KEY } };
+      const base = { ok: !!m, motor: m ? m.nombre : null, modelo: m ? m.modelo : null, llaves: { GOOGLE_SA_B64: !!env.GOOGLE_SA_B64, VERTEX_API_KEY: !!env.VERTEX_API_KEY, GEMINI_API_KEY: !!env.GEMINI_API_KEY, llaves_gemini: llavesGemini(env).length } };
       // ?probar=1 → prueba DE VERDAD (pide token y le hace una pregunta mínima al modelo) y dice por qué falla
       if (!m || !url.searchParams.has("probar")) return json(200, base);
       if (frenado(req.headers.get("cf-connecting-ip") || "?")) return json(429, { ...base, prueba: "espera unos minutos" });
       try {
         if (m.sa) base.proyecto = JSON.parse(atob(env.GOOGLE_SA_B64)).project_id;
-        const auth = m.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": m.key };
         const fallas = [];
-        for (const nombre of candidatos(env)) {
-          const mm = motorDe(env, nombre);
-          const r = await fetch(mm.url, { method: "POST", headers: { "content-type": "application/json", ...auth },
-            body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: "Responde solo: ok" }] }], generationConfig: { maxOutputTokens: 5 } }) });
-          const t = await r.text(); let msg = t; try { msg = JSON.parse(t).error.message; } catch { /* texto plano */ }
-          if (r.ok) { MODELO_VIVO = nombre; return json(200, { ...base, modelo: nombre, prueba: "ok", descartados: fallas }); }
-          fallas.push(`${nombre}: ${r.status} ${String(msg).slice(0, 120)}`);
-          if (!sinModelo(r.status, msg)) break;   // no es «ese modelo no existe»: es la llave, la cuota u otra cosa
+        const llaves = m.sa ? [null] : llavesGemini(env);
+        for (let i = 0; i < llaves.length; i++) {
+          const k = llaves[i], tag = m.sa ? "" : `llave ${i + 1}/${llaves.length} (…${k.slice(-4)}) · `;
+          for (const nombre of candidatos(env)) {
+            const mm = motorDe(env, nombre, k);
+            const auth = mm.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": mm.key };
+            const r = await fetch(mm.url, { method: "POST", headers: { "content-type": "application/json", ...auth },
+              body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: "Responde solo: ok" }] }], generationConfig: { maxOutputTokens: 5 } }) });
+            const t = await r.text(); let msg = t; try { msg = JSON.parse(t).error.message; } catch { /* texto plano */ }
+            if (r.ok) { MODELO_VIVO = nombre; if (k) LLAVE_VIVA = k; return json(200, { ...base, modelo: nombre, llave: k ? "…" + k.slice(-4) : "vertex", prueba: "ok", descartados: fallas }); }
+            fallas.push(`${tag}${nombre}: ${r.status} ${String(msg).slice(0, 110)}`);
+            if (!m.sa && sinSaldo(r.status)) break;          // esta llave no sirve: probar la siguiente llave
+            if (!sinModelo(r.status, msg)) return json(200, { ...base, ok: false, prueba: "falló: " + fallas.join(" · ").slice(0, 700) });
+          }
         }
-        return json(200, { ...base, ok: false, prueba: "ningún modelo respondió: " + fallas.join(" · ").slice(0, 600) });
+        return json(200, { ...base, ok: false, prueba: "ninguna llave sirvió: " + fallas.join(" · ").slice(0, 700) });
       } catch (e) { return json(200, { ...base, ok: false, prueba: String(e.message || e).slice(0, 300) }); }
     }
     if (url.pathname === "/api/ia") {

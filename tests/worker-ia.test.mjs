@@ -130,3 +130,20 @@ await caso("con Supabase conectado, la IA pide sesión", async () => {
   globalThis.fetch = orig;
 });
 console.log(`${ok} casos OK (con sesión)`);
+
+await caso("llave sin saldo (402) → prueba la otra llave aunque se llame distinto, y el modelo retirado → el siguiente", async () => {
+  const orig = globalThis.fetch; const vistas = [];
+  const BUENA = "AIza" + "b".repeat(35), MALA = "AIza" + "a".repeat(35);
+  globalThis.fetch = async (url, init) => { url = String(url); const k = init.headers["x-goog-api-key"]; vistas.push({ url, k });
+    if (k === MALA) return new Response(JSON.stringify({ error: { message: "Your prepayment credits are depleted" } }), { status: 402 });
+    if (url.includes("gemini-3.8-flash")) return new Response(JSON.stringify({ error: { message: "This model models/gemini-3.8-flash is no longer available" } }), { status: 404 });
+    return gem({ resumen: "ok", gastos: [], tareas: [], eventos: [] })(); };
+  const env = { GEMINI_API_KEY: MALA, final: BUENA, ASSETS };
+  const r = await w.fetch(new Request("https://casablanca.fieldbuil.ai/api/ia", { method: "POST", headers: { "content-type": "application/json", origin: "https://casablanca.fieldbuil.ai", "cf-connecting-ip": "9.9.9.9" }, body: JSON.stringify({ texto: "hola", contexto: ctx }) }), env);
+  const j = await r.json(); assert.equal(r.status, 200, JSON.stringify(j)); assert.equal(j.propuesta.resumen, "ok");
+  assert.ok(vistas.some((v) => v.k === BUENA && v.url.includes("gemini-2.5-flash")), "debió llegar a la llave buena con el 2.º modelo: " + JSON.stringify(vistas.map((v) => v.url.split("/models/")[1] + " " + v.k.slice(-1))));
+  const s = await (await w.fetch(new Request("https://x/api/ia/salud?probar=1", { headers: { "cf-connecting-ip": "9.9.9.8" } }), env)).json();
+  assert.equal(s.prueba, "ok"); assert.equal(s.llave, "…" + BUENA.slice(-4)); assert.equal(s.llaves.llaves_gemini, 2);
+  globalThis.fetch = orig;
+});
+console.log(`${ok} casos OK (con llaves de respaldo)`);
