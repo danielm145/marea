@@ -458,6 +458,7 @@ a.item{text-decoration:none;color:inherit}
 .pl-seg{display:inline-flex;gap:0;border:1px solid var(--line);border-radius:999px;overflow:hidden}.pl-seg button{border:0;background:#fff;font:inherit;font-size:12px;font-weight:700;padding:6px 10px;cursor:pointer;color:var(--ink-2)}.pl-seg button[aria-pressed=true]{background:var(--sun);color:#fff}
 .pl-card{padding:4px 12px}.pl-row{padding:10px 0;border-bottom:1px solid var(--line)}.pl-row:last-of-type{border-bottom:0}.pl-h{display:flex;align-items:baseline;gap:10px}.pl-n{flex:1;font-weight:700;min-width:0}.pl-n small{color:var(--ink-3);font-weight:600}.pl-p{border:0;background:var(--bg);border-radius:8px;padding:4px 8px;font:inherit;font-weight:800;cursor:pointer;color:var(--tide-deep)}
 .pl-avs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}.pl-av{border:0;background:none;padding:0;cursor:pointer;opacity:.35;transition:opacity .15s,transform .15s}.pl-av .av{width:34px;height:34px;font-size:13px}.pl-av.on{opacity:1}.pl-av.on .av{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--sun)}.pl-av:active{transform:scale(.92)}.pl-de{font-size:12px;color:var(--ink-3);font-weight:700;margin-left:auto}
+.pl-ia{display:flex;flex-direction:column;gap:8px;padding:4px 0 10px}.pl-ia .btn{align-self:flex-start}
 .pl-pie{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0 6px;flex-wrap:wrap}
 .chat-ic{background:#EEF3FF;color:#2F80ED}
 .hm-alb{margin-top:12px;padding:14px 16px 16px}.hm-alb-h{gap:12px;align-items:center}.hm-alb-h b{font-family:var(--f-disp);font-size:18px}.hm-alb-g{margin:12px 0 0}.hm-alb-g button{border-radius:12px}.hm-alb-b{margin-top:12px;justify-content:center;cursor:pointer;gap:8px}.hm-alb-b svg{width:20px;height:20px}.bell-ic{background:#FFF1DB;color:#E8761B}
@@ -543,7 +544,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v37';
+const BUILD_TAG='v38';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -561,10 +562,10 @@ let IA={ok:false,motor:null,probada:false};
 const IA_URL=/^https?:$/.test(location.protocol)&&!/claude\.ai|claudeusercontent/.test(location.hostname)?'/api/ia':null;
 async function probarIA(){if(!IA_URL){IA.probada=true;return IA}try{const r=await fetch(IA_URL+'/salud',{cache:'no-store'});const j=await r.json();IA={ok:!!j.ok,motor:j.motor||null,probada:true}}catch(e){IA={ok:false,motor:null,probada:true}}return IA}
 function contextoIA(){return{looks:Object.keys(ESTILOS),autor_id:ME.id,autor:nom(ME.id),hoy:hoyISO(),moneda:CFG.moneda||'USD',personas:activos().map(p=>({id:p.id,nombre:p.nombre,apodo:p.apodo||''})),eventos:EVENTOS.filter(e=>e.estado!=='cancelado').map(e=>({id:e.id,titulo:e.titulo,dia:e.dia||null}))}}
-async function leerIA({texto,dataUrl,modo,plan}){
+async function leerIA({texto,dataUrl,modo,plan,items}){
   const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),70000);
   let auth={};if(MODO==='supabase'){try{const{data}=await Sb.c.auth.getSession();if(data&&data.session)auth={authorization:'Bearer '+data.session.access_token}}catch(e){}}
-  try{const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json',...auth},body:JSON.stringify({texto:texto||'',imagen:dataUrl||null,modo:modo||'auto',contexto:{...contextoIA(),plan_actual:plan||null}}),signal:ctl.signal});
+  try{const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json',...auth},body:JSON.stringify({texto:texto||'',imagen:dataUrl||null,modo:modo||'auto',contexto:{...contextoIA(),plan_actual:plan||null,items_actuales:items&&items.length?items.map(i=>({descripcion:i.descripcion,total:i.total})):undefined}}),signal:ctl.signal});
     const j=await r.json().catch(()=>({}));if(!r.ok||!j.propuesta)throw new Error(j.error||'La IA no respondió');return j.propuesta}
   catch(e){throw new Error(e.name==='AbortError'?'se demoró demasiado':e.message)}finally{clearTimeout(t)}}
 /* primero la IA; si no está o falla, el plan B (lectura rápida o la función de Supabase), diciendo por qué */
@@ -1315,6 +1316,7 @@ function vHoy(){
       <button class="btn navy block" onclick="DIA_PLAN='${prox.dia}';SUBE='programa';irA('planes')">Ver itinerario completo ${ic('chev')}</button></div>`:''}
     ${nocheCard(hoy)}
     <button class="card saldo-c" onclick="SUBG='mov';irA('gastos')"><div class="grow"><div class="eyebrow">Mis cuentas</div><div class="muted tiny">${b.saldo>0.009?'En total te deben':b.saldo<-0.009?'En total debes':'Estás a paz y salvo'}</div></div><span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span></button>
+    <label class="card subir-f"><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"><span class="subir-ic">${ic('cam')}</span><span class="grow"><b>Sube tus fotos al álbum</b><span class="muted tiny">Las del día, las del grupo, las de la playa · varias a la vez</span></span>${ic('chev')}</label>
     <div style="text-align:center;margin-top:18px">${stk('beachEra','',230)}</div>`;
 }
 /* el lugar donde se registra todo: una foto y unas palabras, la IA llena el resto */
@@ -1456,7 +1458,7 @@ function formDesdePropuesta(pg,respaldo,lectura,origen){
   const pe=pg.pago_entre; if(pe&&PMAP[pe.de_id]&&PMAP[pe.a_id]) return nuevoForm({tipo:'pago',descripcion:`Pago de ${nom(pe.de_id)} a ${nom(pe.a_id)}`,monto:pg.monto||'',fecha:pg.fecha||hoyISO(),pagador:pe.de_id,part:[pe.a_id],modo:'porcentaje',valores:{[pe.a_id]:100},respaldo:respaldo||null,origen,lectura_ia:lectura,factura:pg.factura||null,dudas:pg.dudas||[],baja});
   const cat=pg.categoria==='mercado'?'despensa':pg.categoria==='comida'?'restaurantes':pg.categoria;
   const its=(pg.factura&&pg.factura.items)||[], conPrecio=its.filter(i=>i.total!=null&&+i.total>0);
-  const porPlatos=conPrecio.length>=2&&(its.some(i=>(i.para_ids||[]).length)||['restaurantes','bebidas'].includes(cat));
+  const porPlatos=conPrecio.length>=2||its.some(i=>(i.para_ids||[]).length);
   return aplicarHistorial(nuevoForm({por_platos:porPlatos,etq_ia:pg.etiquetas||[],factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja}));
 }
 /* lo que armó la IA, en limpio. Todo se cambia TOCANDO (quién pagó, entre quiénes, de qué es, con qué plan);
@@ -1483,7 +1485,9 @@ function pintarConfirmGasto(){
     </div>
     ${platosSec(m)}
     <div class="ia-sec"><div class="eyebrow">Pagó</div><div class="av-pick">${activos().map(p=>`<button class="avp ${F.pagador===p.id?'on':'off'}" onclick="fPag('${p.id}')">${av(p.id)}<span>${esc(nom(p.id))}</span></button>`).join('')}</div></div>
-    <div class="ia-sec"><div class="row"><div class="eyebrow grow">Entre quiénes · ${todos?'todos':F.part.length+' de '+activos().length}${F.por_platos?' · por platos':F.modo!=='igual'?' · '+(F.modo==='porcentaje'?'por porcentaje':'por montos'):''}</div><button class="btn ghost sm" onclick="fTodos()">${todos?'Quitar a todos':'Todos'}</button></div>
+    <div class="ia-sec"><div class="eyebrow">Entre quiénes · ${F.por_platos?'por platos':todos?'todos':F.part.length?'todos excepto '+activos().filter(p=>!F.part.includes(p.id)).map(p=>nom(p.id)).join(', '):'nadie todavía'}${!F.por_platos&&F.modo!=='igual'?' · '+(F.modo==='porcentaje'?'por porcentaje':'por montos'):''}</div>
+      <div class="chips" style="margin-bottom:8px"><button class="chip" aria-pressed="${!F.por_platos&&todos}" onclick="fRapido('todos')">Para todos</button><button class="chip" aria-pressed="${!F.por_platos&&!todos&&F.part.length>0}" onclick="fRapido('excepto')">Todos excepto…</button>${(F.factura&&(F.factura.items||[]).length)?`<button class="chip" aria-pressed="${!!F.por_platos}" onclick="fPlatos(true)">Por platos</button>`:''}</div>
+      ${F._excepto&&todos&&!F.por_platos?`<div class="banner tide tiny" style="margin-bottom:8px">Toca la cara de quien NO va.</div>`:''}
       <div class="av-pick">${activos().map(p=>{const on=F.part.includes(p.id);return `<button class="avp ${on?'on':'off'}" onclick="fPart('${p.id}')">${av(p.id)}<span>${esc(nom(p.id))}</span><b class="num">${on?money(r2(parte(p.id))):'no va'}</b></button>`}).join('')}</div></div>
     <div class="ia-sec"><div class="eyebrow">Es de</div><div class="chips scroll">${CATS.map(([k,l])=>`<button class="chip" aria-pressed="${F.categoria===k}" onclick="fSet('categoria','${k}')">${l}</button>`).join('')}</div></div>
     <div class="ia-sec"><div class="eyebrow">Va con</div><div class="chips scroll"><button class="chip" aria-pressed="${!F.evento_id}" onclick="fSet('evento_id','')">General del viaje</button>${evs.map(e=>`<button class="chip" aria-pressed="${F.evento_id===e.id}" onclick="fSet('evento_id','${e.id}')">${esc(e.titulo)}</button>`).join('')}</div></div>
@@ -1502,17 +1506,37 @@ function pintarConfirmGasto(){
 /* repinta sin perder dónde iba la persona en la hoja */
 function repintarF(){const c=$('#sheet .sheet-card'),y=c?c.scrollTop:0;pintarConfirmGasto();const c2=$('#sheet .sheet-card');if(c2)c2.scrollTop=y}
 function fPag(id){F.pagador=id;repintarF()}
-function fPart(id){if(!F.por_platos&&F.modo!=='igual'){F.modo='igual';F.valores={}}const fuera=F.part.includes(id);F.part=fuera?F.part.filter(x=>x!==id):[...F.part,id];if(fuera&&F.por_platos)(F.factura.items||[]).forEach(it=>{it.para_ids=(it.para_ids||[]).filter(x=>x!==id)});F.alcance=F.part.length===activos().length?'fijo':'consumo';repintarF()}
+function fPart(id){if(!F.por_platos&&F.modo!=='igual'){F.modo='igual';F.valores={}}F._excepto=false;const fuera=F.part.includes(id);F.part=fuera?F.part.filter(x=>x!==id):[...F.part,id];if(fuera&&F.por_platos)(F.factura.items||[]).forEach(it=>{it.para_ids=(it.para_ids||[]).filter(x=>x!==id)});F.alcance=F.part.length===activos().length?'fijo':'consumo';repintarF()}
 function fTodos(){if(!F.por_platos){F.modo='igual';F.valores={}}F.part=F.part.length===activos().length?[]:activos().map(p=>p.id);if(F.por_platos)(F.factura.items||[]).forEach(it=>{it.para_ids=(it.para_ids||[]).filter(x=>F.part.includes(x))});F.alcance=F.part.length?'fijo':'consumo';repintarF()}
+/* atajos: «para todos» y «todos excepto…» (se tocan las caras de quien no va) */
+function fRapido(q){F.por_platos=false;F.modo='igual';F.valores={};F.part=activos().map(p=>p.id);F._excepto=q==='excepto';F.alcance='fijo';repintarF()}
 function fMontoOk(){const v=leerMonto(($('#fmonto2')||{}).value||'');if(!(v>0)){toast('Escribe el total, ej. 52,30');return}F.monto=String(v);repintarF()}
 /* ── reparto por platos: cada ítem de la factura se toca para decir de quién fue; IVA, servicio y propina van en proporción ── */
-function platosSec(m){const its=F.factura&&F.factura.items||[];if(!its.length||F.tipo!=='gasto'||F.fondo)return '';
+function platosSec(m){const its=F.factura&&F.factura.items||[];if(F.tipo!=='gasto'||F.fondo)return '';
+  if(!its.length)return (LECT&&LECT.dataUrl)||F.respaldo?`<div class="ia-sec pl-sec"><div class="eyebrow">¿Quién pidió qué?</div><button class="btn block" id="pl-desg" onclick="desglosarConIA(this)">${ic('spark')} Desglosar los productos con IA</button><p class="tiny muted" style="margin:6px 0 0">La IA lee cada producto de la factura y tú tocas las caras de quién lo consumió.</p></div>`:'';
   const pool=F.part.length?F.part:activos().map(p=>p.id), suma=r2(its.reduce((a,i)=>a+(+i.total||0),0)), resto=r2(m-suma);
   return `<div class="ia-sec pl-sec"><div class="row"><div class="eyebrow grow">¿Quién pidió qué?</div><div class="seg pl-seg"><button aria-pressed="${!!F.por_platos}" onclick="fPlatos(true)">Por platos</button><button aria-pressed="${!F.por_platos}" onclick="fPlatos(false)">Iguales</button></div></div>
     ${F.por_platos?`<div class="card pl-card">${its.map((it,i)=>{const q=(it.para_ids||[]).filter(id=>pool.includes(id));return `<div class="pl-row"><div class="pl-h"><span class="pl-n">${esc(it.descripcion||'Ítem')}${it.cantidad>1?` <small>×${it.cantidad}</small>`:''}</span><button class="pl-p num" onclick="fPlatoPrecio(${i})">${it.total!=null?money(it.total):'¿precio?'}</button></div>
       <div class="pl-avs">${pool.map(id=>`<button class="pl-av ${q.includes(id)?'on':''}" aria-label="${esc(nom(id))}" onclick="fPlatoTog(${i},'${id}')">${av(id,'xs')}</button>`).join('')}<span class="pl-de">${q.length?q.length===1?esc(nom(q[0])):q.length+' personas':'de todos'}</span></div></div>`}).join('')}
       <div class="pl-pie"><button class="btn ghost sm" onclick="fPlatoAgregar()">+ Agregar plato</button><span class="tiny muted num">Platos ${money(suma)}${m>0?` · IVA, servicio y propina ${money(Math.max(0,resto))} en proporción`:''}</span></div></div>
-      <p class="tiny muted" style="margin:6px 0 0">Toca las caras de quien pidió cada plato. Lo que no se marca se reparte entre todos.</p>`:''}</div>`}
+      <p class="tiny muted" style="margin:6px 0 0">Toca las caras de quien pidió cada plato. Lo que no se marca se reparte entre todos.</p>
+      <div class="pl-ia"><textarea id="plx" class="in" rows="2" placeholder="O explícaselo a la IA: «las pizzas fueron de Kevin y mías, Naty solo tomó agua»"></textarea><button class="btn sm" id="plxb" onclick="repartirConIA()">${ic('spark')} Repartir con IA</button></div>`:''}</div>`}
+/* la persona explica con palabras de quién es cada producto; la IA devuelve los mismos ítems con las caras puestas */
+async function repartirConIA(){const t=($('#plx')||{}).value||'';if(!t.trim()){$('#plx').focus();return}const b=$('#plxb');b.disabled=true;b.textContent='Repartiendo…';
+  try{const its=F.factura.items;const p=await API.leer({texto:`Productos en pantalla (de la factura ${F.descripcion||''}): ${its.map((i,n)=>`${n+1}. ${i.descripcion} ${i.total!=null?money(i.total):''}`).join(' · ')}.\nQuién consumió qué: ${t.trim()}`,dataUrl:null,modo:'gasto',items:its});
+    const g=(p.gastos||[])[0], nu=(g&&g.factura&&g.factura.items)||[]; if(!nu.length)throw new Error('No entendí quién pidió qué. Dilo con los nombres, ej. «la pizza fue de Kevin».');
+    const key=x=>norm(String(x||'')).replace(/[^a-z0-9]/g,'');let tocados=0;
+    its.forEach((it,i)=>{const m=nu.find(x=>key(x.descripcion)===key(it.descripcion))||((nu[i]&&key(nu[i].descripcion).slice(0,6)===key(it.descripcion).slice(0,6))?nu[i]:null);if(m&&Array.isArray(m.para_ids)){const q=m.para_ids.filter(id=>PMAP[id]);if(q.length||(it.para_ids||[]).length){it.para_ids=q;tocados++}}});
+    if(!tocados)throw new Error('No reconocí los nombres. Prueba con el nombre como está en la app.');
+    F.por_platos=true;toast(`Listo: ${tocados} producto${tocados===1?'':'s'} repartido${tocados===1?'':'s'}`);repintarF()}
+  catch(e){b.disabled=false;b.innerHTML=ic('spark')+' Repartir con IA';toast(e.message)}}
+/* la IA no desglosó la factura: se le vuelve a mandar la foto pidiendo SOLO los productos */
+async function desglosarConIA(b){b.disabled=true;b.textContent='Leyendo la factura…';
+  try{const du=(LECT&&LECT.dataUrl)||(String(F.respaldo||'').startsWith('data:')?F.respaldo:null);if(!du)throw new Error('No tengo la foto a la mano: vuelve a tomarla.');
+    const p=await API.leer({texto:'Desglosa TODOS los productos de esta factura en factura.items (descripcion, cantidad, total de línea). El total ya lo sé: '+(F.monto||'')+'.',dataUrl:du,modo:'gasto'});
+    const g=(p.gastos||[])[0], its=(g&&g.factura&&g.factura.items||[]).filter(i=>i.descripcion); if(!its.length)throw new Error('No pude leer los productos. Toca «+ Agregar plato» y escríbelos.');
+    F.factura={...(F.factura||{tipo_documento:'ticket'}),...(g.factura||{}),items:its.map(i=>({...i,para_ids:(i.para_ids||[]).filter(id=>PMAP[id])}))};F.por_platos=its.filter(i=>i.total>0).length>=2;repintarF()}
+  catch(e){b.disabled=false;b.innerHTML=ic('spark')+' Desglosar los productos con IA';toast(e.message)}}
 function recalcPlatos(){const f=F.factura, its=(f&&f.items)||[]; const m=r2(parseFloat(String(F.monto).replace(',','.'))||0);
   const pool=F.part.length?F.part:activos().map(p=>p.id); const acc={}; let suma=0;
   its.forEach(it=>{const t=+it.total||0;if(!(t>0))return;const q=(it.para_ids||[]).filter(id=>pool.includes(id));const a=q.length?q:pool;a.forEach(id=>acc[id]=(acc[id]||0)+t/a.length);suma+=t});

@@ -347,3 +347,10 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 ## v37 · álbum en el inicio
 - `albumCard()`: debajo de la factura, «Álbum del viaje» con las últimas 6 fotos (tocar → `verFoto` en grande, con autor, anterior/siguiente), «Ver todo» y botón grande «Subir fotos» (varias). Reemplaza al botón suelto de v35.
 - IA: Google ya entrega llaves `AQ.…` además de `AIza…`; el worker lee cualquier llave guardada en Cloudflare (se llame como se llame) y si una da 402 (sin saldo) prueba la siguiente. El saldo prepago de AI Studio de Daniel (COP 60.000 del 8-oct) sigue sin aplicarse a la API: la llave buena es la del proyecto nuevo (`casablanca`).
+
+## v38 · reparto como lo pidió Daniel: la IA desglosa, uno toca o explica
+- La IA desglosa **toda** factura (regla 11, no solo restaurantes); «por platos» se activa con ≥2 productos con precio.
+- En la sección «¿Quién pidió qué?»: tocar caras **o** escribirle a la IA («el bloqueador es de Ana Paula y las cervezas mías y de Alegría») → `repartirConIA` manda `items_actuales` al worker (regla 11b) y la IA devuelve los mismos ítems con `para_ids`; se cruzan por nombre.
+- Si la IA no desglosó: botón «Desglosar los productos con IA» (`desglosarConIA`, reenvía la foto).
+- Atajos arriba de las caras: **Para todos** · **Todos excepto…** (se tocan las caras de quien no va; el encabezado dice «todos excepto Kevin») · **Por platos**.
+- Inicio: al final, «Sube tus fotos al álbum» (varias a la vez).

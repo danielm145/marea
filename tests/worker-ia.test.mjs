@@ -147,3 +147,11 @@ await caso("llave sin saldo (402) → prueba la otra llave aunque se llame disti
   globalThis.fetch = orig;
 });
 console.log(`${ok} casos OK (con llaves de respaldo)`);
+
+await caso("items_actuales viaja al modelo con la pista de «de quién es cada producto»", async () => {
+  let visto = null; globalThis.fetch = async (url, init) => { visto = JSON.parse(init.body); return gem({ resumen: "", gastos: [], tareas: [], eventos: [] })(); };
+  const rr = await pedir({ texto: "el bloqueador es de Kevin", contexto: { ...ctx, items_actuales: [{ descripcion: "Bloqueador", total: 15 }, { descripcion: "Hielo", total: 6 }] } }, { ip: "7.7.7.7" }); assert.equal(rr.status, 200, await rr.text());
+  const t = visto.contents[0].parts.map((p) => p.text || "").join("");
+  assert.ok(t.includes('"items_actuales"') && t.includes("Bloqueador") && t.includes("DE QUIÉN es cada producto"), t.slice(0, 300));
+});
+console.log(`${ok} casos OK (con items_actuales)`);
