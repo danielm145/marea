@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 const errs=[], log=(...a)=>console.log(...a);
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
 const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();
-pg.on('pageerror',e=>errs.push(e.message)); pg.on('console',m=>{if(m.type()==='error'&&!/ERR_FAILED/.test(m.text()))errs.push(m.text())});
+pg.on('pageerror',e=>errs.push(e.message)); pg.on('console',m=>{if(m.type()==='error'&&!/ERR_FAILED|ERR_FILE_NOT_FOUND/.test(m.text()))errs.push(m.text())});
 await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.abort());
 await pg.goto('file:///home/user/marea/public/index.html');
 await pg.fill('#lced','0990000002');  await pg.click('#lbtn'); await pg.waitForSelector('.hh');
@@ -23,7 +23,7 @@ await pg.evaluate(()=>irA('nosotros')); await pg.click('text=Viajeros'); await p
 // la persona que no subió no puede borrar
 await pg.evaluate(()=>salir()); await pg.fill('#lced','0990000005');  await pg.click('#lbtn'); await pg.waitForSelector('.hh');
 await pg.evaluate(()=>irA('nosotros')); await pg.click('text=Álbum de fotos'); await pg.click('.chips.scroll .chip >> text=Todas'); await pg.click('#main .alb button >> nth=0'); log('otro invitado ve "Borrar":', await pg.locator('#sheetBody >> text=Borrar foto').count()); await pg.keyboard.press('Escape');
-await pg.evaluate(()=>irA('planes')); await pg.waitForSelector('.tl2'); await pg.screenshot({path:'v3-04-itinerario.png'});
-await pg.click('text=Mi agenda'); log('mi agenda (eventos):', await pg.locator('.ev').count());
+await pg.evaluate(()=>irA('planes')); await pg.waitForSelector('.tl3'); await pg.screenshot({path:'v3-04-itinerario.png'});
+await pg.click('text=Mi agenda'); log('mi agenda (eventos):', await pg.locator('.tl3-i').count());
 log('scrollWidth:', await pg.evaluate(()=>document.documentElement.scrollWidth)); log('ERRORES:', errs.length?errs.join('\n'):'ninguno');
 await b.close();

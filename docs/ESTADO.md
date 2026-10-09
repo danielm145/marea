@@ -485,3 +485,5 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   chat, asistencia, platos, tareas, carros, votos, gasto leído por la IA, álbum, Insta y el modo sin señal.
   Si cambia la base: regenerar `esquema-marea.json`.
 - Pruebas viejas puestas al día (selectores nuevos): comida-y-planes, gasto-ia, logistica, planes-ia, programa-4-dias.
+- v54: «Tu carro de regreso» en Mi día el último día; ícono de respaldo en las actividades de playa si la imagen
+  no está; «Terminar la partida» para quien conduce la trivia o ¿quién es más probable?; prueba del álbum al día.
