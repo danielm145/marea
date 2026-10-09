@@ -143,7 +143,7 @@ export async function vertexToken(env) {
 
 let LLAVE_VIVA = null;   // la última llave de Gemini que respondió bien (por instancia)
 function llavesGemini(env) {
-  const L = []; const ok = (v) => typeof v === "string" && /^AIza[0-9A-Za-z_-]{30,}$/.test(v.trim());
+  const L = []; const ok = (v) => typeof v === "string" && /^(AIza[0-9A-Za-z_-]{30,}|AQ\.[0-9A-Za-z_.-]{20,})$/.test(v.trim());   // llaves viejas (AIza…) y nuevas (AQ.…)
   if (typeof env.GEMINI_API_KEY === "string" && env.GEMINI_API_KEY.trim()) L.push(env.GEMINI_API_KEY.trim());   // la de siempre, tal cual
   for (const v of Object.values(env)) if (ok(v) && !L.includes(v.trim())) L.push(v.trim());   // se guardó con otro nombre: igual sirve
   // la que respondió bien la última vez va primero (solo si sigue existiendo)

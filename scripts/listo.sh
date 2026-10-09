@@ -34,7 +34,7 @@ else
            "$HOME/aero-ec/.dev.vars" "$HOME/aero-plm/.env" "$HOME/Documents/AERO_GHOST/.env" "$HOME"/Documents/AERO_GHOST/*.py \
            "$HOME"/aero-*/scripts/*.py "$HOME"/aero-*/scripts/*.mjs .env; do
     [ -n "$KEY" ] && break
-    [ -f "$F" ] && KEY=$(grep -Eo 'AIza[0-9A-Za-z_-]{30,}' "$F" 2>/dev/null | head -1 || true)
+    [ -f "$F" ] && KEY=$(grep -Eo 'AIza[0-9A-Za-z_-]{30,}|AQ\.[0-9A-Za-z_.-]{20,}' "$F" 2>/dev/null | head -1 || true)
   done
   [ -n "$KEY" ] && echo "  (la encontré en $F)"
   if [ -n "$KEY" ]; then
@@ -45,9 +45,9 @@ else
     echo "  2. Vuelve aquí, pégala y presiona Enter (no se ve al pegar, es normal)."
     open "https://aistudio.google.com/apikey" 2>/dev/null || true
     while [ -z "$KEY" ]; do
-      printf "\nPega la llave aquí (empieza con AIza) y Enter: "; read -rs V; echo
-      KEY=$(printf '%s' "$V" | grep -Eo 'AIza[0-9A-Za-z_-]{30,}' | head -1 || true)
-      [ -n "$KEY" ] || echo "  ✗ Esa no parece la llave (empieza con AIza…). Prueba otra vez."
+      printf "\nPega la llave aquí (empieza con AIza o AQ.) y Enter: "; read -rs V; echo
+      KEY=$(printf '%s' "$V" | grep -Eo 'AIza[0-9A-Za-z_-]{30,}|AQ\.[0-9A-Za-z_.-]{20,}' | head -1 || true)
+      [ -n "$KEY" ] || echo "  ✗ Esa no parece la llave (empieza con AIza o AQ.). Prueba otra vez."
     done
   fi
   if printf '%s' "$KEY" | npx -y wrangler@4 secret put GEMINI_API_KEY --config "$CFG" >/dev/null 2>&1; then

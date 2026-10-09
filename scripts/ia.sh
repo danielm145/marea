@@ -17,7 +17,7 @@ CFG=wrangler.dominio.toml
 if [ "${1:-}" = "gemini" ]; then
   KEY="${GEMINI_API_KEY:-}"
   for F in .env "$HOME/aero-wms/CREDENCIALES.local.md" "$HOME/aero-ec/CREDENCIALES.local.md"; do
-    [ -n "$KEY" ] && break; [ -f "$F" ] && KEY=$(grep -Eo 'AIza[0-9A-Za-z_-]{30,}' "$F" | head -1 || true)
+    [ -n "$KEY" ] && break; [ -f "$F" ] && KEY=$(grep -Eo 'AIza[0-9A-Za-z_-]{30,}|AQ\.[0-9A-Za-z_.-]{20,}' "$F" | head -1 || true)
   done
   if [ -n "$KEY" ]; then printf '%s' "$KEY" | npx -y wrangler@4 secret put GEMINI_API_KEY --config "$CFG"
   else npx -y wrangler@4 secret put GEMINI_API_KEY --config "$CFG"; fi
