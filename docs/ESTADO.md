@@ -362,3 +362,6 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 ## v40 · cabecera y Más
 - Logo de la cabecera interior más grande y nítido (118 → ~73 px de alto). En «Más»: fuera el sticker que se salía; entra el álbum con «Subir fotos» debajo del título.
 - El botón flotante «+» ya no sale en el inicio (tapaba «Del carrete»).
+
+## v41 · «Tomar foto» en la barra de abajo
+- Botón de cámara (círculo con los colores de Gemini) entre Hoy e Itinerario: abre la cámara y manda la foto a la IA en modo `auto` (factura → gasto; foto del grupo → álbum; `camaraIA(inp,'auto')`).

@@ -64,6 +64,7 @@ a{color:var(--tide)}
 .tab{flex:1;border:0;background:none;padding:8px 2px 9px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--ink-3);font-size:11px;font-weight:600;cursor:pointer;min-height:56px}
 .tab svg{width:22px;height:22px}
 .tab[aria-current="page"]{color:var(--tide)}
+.tab-cam{cursor:pointer;color:var(--ink-2)}.tab-cam-b{width:40px;height:40px;margin-top:-14px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#4285F4,#9B72CB 60%,#D96570);color:#fff;box-shadow:0 4px 12px rgba(66,133,244,.35)}.tab-cam-b svg{width:22px;height:22px}
 .fab{position:fixed;right:max(16px,calc(50% - 324px));bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:31;width:58px;height:58px;border-radius:50%;border:0;background:var(--sun);color:var(--sun-ink);box-shadow:var(--shadow);cursor:pointer;display:grid;place-items:center}
 .fab svg{width:28px;height:28px}
 
@@ -545,7 +546,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v40';
+const BUILD_TAG='v41';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1233,7 +1234,7 @@ function render(){
     <main id="main">${(views[TAB]||vHoy)()}</main>
     <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Casablanca ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     ${TAB==='chat'||TAB==='hoy'?'':`<button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>`}
-    <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===activa?'aria-current="page"':''} onclick="irA('${k}')">${ic(TAB_IC[k]||k)}<span>${l}</span></button>`).join('')}</div></nav>`;
+    <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l],i)=>`<button class="tab" ${k===activa?'aria-current="page"':''} onclick="irA('${k}')">${ic(TAB_IC[k]||k)}<span>${l}</span></button>${i===0?`<label class="tab tab-cam"><input type="file" accept="image/*" capture="environment" hidden onchange="camaraIA(this,'auto')"><span class="tab-cam-b">${ic('cam')}</span><span>Tomar foto</span></label>`:''}`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
   if(TAB==='chat'){const c=$('#chatL');if(c)c.scrollTop=c.scrollHeight;window.scrollTo(0,document.body.scrollHeight)}
 }
@@ -1370,8 +1371,8 @@ function iaCard(){return `<div class="card iac2">
   <button class="iac-mas" onclick="abrirLector()">${GEM_SVG}<span class="grow">O cuéntaselo a la IA: un gasto, un pendiente o un plan</span>${ic('chev')}</button>
 </div>`}
 /* cámara del inicio: foto → hoja de registrar con la foto puesta → la IA la lee sin tocar nada más */
-async function camaraIA(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;
-  abrirLector(null,null,null,'gasto');
+async function camaraIA(inp,modo){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;
+  abrirLector(null,null,null,modo||'gasto');   // 'auto': la IA decide si es una factura (gasto) o una foto del viaje (álbum)
   try{const x=await achicar(f,1600,.82);LECT={...LECT,dataUrl:x.dataUrl,blob:x.blob}}catch(e){toast(e.message);return}
   const im=$('#lthumb');if(im){im.src=LECT.dataUrl;im.hidden=false}const fb=$('#lfotob');if(fb){fb.classList.add('con');const t=fb.querySelector('span');if(t)t.textContent='Foto lista · cambiar'}
   if(IA_URL&&!IA.probada)await probarIA();
