@@ -372,3 +372,8 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - **El recibo manda**: si el intérprete pierde ítems, cambia el total o no arma gasto, se corrige con lo leído; si el intérprete falla del todo, `gastoDesdeRecibo` arma el gasto igual (categoría por palabras clave, pagó quien escribe, para todos). Dudas automáticas: total ilegible, quién pidió qué, y «los productos suman X y la factura dice Y».
 - `consultar()` concentra los respaldos (otra llave si 402, otro modelo si 404, sin esquema si 400) y el JSON de forma explícita cuando va sin esquema (`FORMA_RECIBO`, `FORMA_PROPUESTA`).
 - `modo:'items'` = solo el desglose (botón «Desglosar los productos con IA»). La respuesta trae `diag` (modelo, ítems leídos, confianza) para depurar sin exponer nada.
+
+## v43 · cuentas claras (Daniel: «lo de Naty está raro, calcula fácil como Splitwise»)
+- «Mis cuentas» ya no muestra el plan simplificado (que ruteaba deudas de terceros y confundía: Naty «debía» más a Alegría de lo que compartieron). Ahora `deudasDirectas(me)`: con cada persona, lo que de verdad se deben por los gastos compartidos (yo pagué → me debe su parte; ella pagó → le debo la mía; los pagos entre los dos restan). La suma cuadra con el saldo total (probado).
+- Tocar a alguien → `verDeuda`: gasto por gasto (quién pagó, qué parte, verde/rojo), total, y «Pagarle… y registrarlo» / «Ya me pagó: registrar».
+- El plan de mínimas transferencias sigue en «Ver cómo se calculó» (vBalances).

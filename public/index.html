@@ -398,7 +398,8 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 /* GASTOS */
 .mc{margin-top:14px}.mc-l{color:var(--ink-2);font-weight:600}.mc-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.mc-m{font-family:var(--f-disp);font-weight:800;font-size:38px}
 .pill-b{margin-left:auto;border:0;background:var(--surface-2);border-radius:999px;padding:7px 12px;font:inherit;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;display:inline-flex;gap:4px;align-items:center}.pill-b svg{width:14px;height:14px}
-.mc-i{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.mc-i{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.mc-b{width:100%;border:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer}.mc-b>svg{width:16px;height:16px;color:var(--ink-3)}
+.dd-row{display:flex;align-items:center;gap:10px;width:100%;padding:10px 0;border-bottom:1px solid var(--line);border-left:0;border-right:0;border-top:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer}.dd-row .grow{display:flex;flex-direction:column;gap:2px;min-width:0}.dd-tot{border-bottom:0;cursor:default}
 /* ÁLBUM */
 .ah{position:relative;margin-top:14px;min-height:300px;border-radius:24px;overflow:hidden;background:var(--hero);display:flex;align-items:flex-end}
 .ah-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.ah::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,45,.1),rgba(6,20,45,.55))}
@@ -546,7 +547,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v42';
+const BUILD_TAG='v43';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1427,13 +1428,35 @@ function vGastos(){
     <div class="row wrap-ok" style="margin-top:14px"><button class="btn sm" onclick="exportarCSV()">${ic('copy')} Exportar CSV</button><button class="btn sm" onclick="abrirResumen()">${ic('receipt')} Resumen final</button></div>`
   :SUBG==='pres'?vPresupuesto():SUBG==='fotos'?vFacturas():vBalances()}`;
 }
-function misCuentas(){
-  const bs=balances(), yo=bs.find(b=>b.id===ME.id)||{saldo:0}, tx=simplificar(bs).filter(t=>t.de===ME.id||t.a===ME.id);
-  const lbl=yo.saldo>0.009?'En total te deben':yo.saldo<-0.009?'En total debes':'Estás a paz y salvo';
-  return `<div class="card mc">${stk('beachMode','mc-stk',120)}<div class="mc-l">${lbl}</div><div class="mc-r"><span class="mc-m ${yo.saldo<-0.009?'neg':'pos'}">${money(Math.abs(yo.saldo))}</span><button class="pill-b" onclick="SUBG='bal';render()">Ver cómo se calculó ${ic('chev')}</button></div>
-    ${tx.length?`<div class="list" style="margin-top:8px">${tx.map(t=>t.a===ME.id?`<div class="mc-i">${av(t.de,'xs')}<span class="grow"><b>${esc(nom(t.de))}</b> te debe</span><span class="amt pos">${money(t.monto)}</span></div>`
-      :`<div class="mc-i">${av(t.a,'xs')}<span class="grow">Le debes a <b>${esc(nom(t.a))}</b></span><span class="amt neg">${money(t.monto)}</span><button class="btn sm primary" onclick="registrarPago('${t.de}','${t.a}',${t.monto})">Pagar</button></div>`).join('')}</div>`:''}</div>`;
+/* ── cuentas CLARAS, como Splitwise sin «simplificar»: con cada persona, lo que de verdad se deben por los gastos
+   que compartieron (yo pagué y ella va → me debe su parte · ella pagó y yo voy → le debo la mía · pagos entre los dos).
+   El plan de «menos transferencias» (simplificar) queda aparte, en «Ver cómo se calculó». ── */
+function deudasDirectas(me){
+  const M={};const de=id=>M[id]||(M[id]={id,neto:0,lineas:[]});
+  for(const g of GASTOS){ if(g.eliminado||g.fondo) continue; const pag=(g.pagadores||[])[0]; if(!pag) continue; const ps=partesDe(g);
+    if(pag.persona_id===me){ for(const p of ps){ if(p.id===me||!(p.v>0.004)) continue; const d=de(p.id); d.neto+=p.v; d.lineas.push({g,v:p.v}) } }
+    else { const mia=ps.find(p=>p.id===me); if(mia&&mia.v>0.004){ const d=de(pag.persona_id); d.neto-=mia.v; d.lineas.push({g,v:-mia.v}) } } }
+  return Object.values(M).map(d=>({...d,neto:r2(d.neto)})).filter(d=>PMAP[d.id]).sort((a,b)=>b.neto-a.neto);
 }
+function misCuentas(){
+  const bs=balances(), yo=bs.find(b=>b.id===ME.id)||{saldo:0}, D=deudasDirectas(ME.id);
+  const deben=D.filter(d=>d.neto>0.009), debo=D.filter(d=>d.neto<-0.009), paz=D.filter(d=>Math.abs(d.neto)<=0.009&&d.lineas.length);
+  const lbl=yo.saldo>0.009?'En total te deben':yo.saldo<-0.009?'En total debes':'Estás a paz y salvo';
+  const fila=d=>`<button class="mc-i mc-b" onclick="verDeuda('${d.id}')">${av(d.id,'xs')}<span class="grow">${d.neto>0?`<b>${esc(nom(d.id))}</b> te debe`:`Le debes a <b>${esc(nom(d.id))}</b>`}<span class="tiny muted"> · ${d.lineas.length} gasto${d.lineas.length===1?'':'s'}</span></span><span class="amt ${d.neto>0?'pos':'neg'}">${money(Math.abs(d.neto))}</span>${ic('chev')}</button>`;
+  return `<div class="card mc">${stk('beachMode','mc-stk',120)}<div class="mc-l">${lbl}</div><div class="mc-r"><span class="mc-m ${yo.saldo<-0.009?'neg':'pos'}">${money(Math.abs(yo.saldo))}</span><button class="pill-b" onclick="SUBG='bal';render()">Ver cómo se calculó ${ic('chev')}</button></div>
+    ${deben.length||debo.length?`<div class="list" style="margin-top:8px">${deben.map(fila).join('')}${debo.map(fila).join('')}</div>`:''}
+    ${paz.length?`<div class="tiny muted" style="margin-top:8px">A paz y salvo con ${paz.map(d=>esc(nom(d.id))).join(', ')}.</div>`:''}
+    <p class="tiny muted" style="margin:10px 0 0">Toca a alguien para ver gasto por gasto de dónde sale.</p></div>`;
+}
+/* el detalle con UNA persona: cada gasto compartido, quién lo pagó y qué parte le toca a cada uno */
+function verDeuda(id){const d=deudasDirectas(ME.id).find(x=>x.id===id);if(!d)return;
+  const L=d.lineas.slice().sort((a,b)=>String(b.g.fecha||'').localeCompare(String(a.g.fecha||'')));
+  openSheet(`${sheetH('')}<div class="stack" style="margin-top:-30px">
+    <div class="row" style="gap:12px">${av(id)}<div class="grow"><div class="eyebrow">${d.neto>0.009?'Te debe':d.neto<-0.009?'Le debes':'A paz y salvo'}</div><b style="font-size:20px;font-family:var(--f-disp)">${esc(nom(id))}</b></div><span class="amt ${d.neto>0.009?'pos':d.neto<-0.009?'neg':''}" style="font-size:24px">${money(Math.abs(d.neto))}</span></div>
+    <div class="card" style="padding:4px 14px">${L.map(({g,v})=>{const tipoPago=g.tipo==='pago';const mio=v>0;return `<button class="dd-row" onclick="abrirGasto('${g.id}')"><span class="grow"><b>${esc(g.descripcion)}</b><span class="tiny muted">${fechaCorta(g.fecha)} · ${tipoPago?(mio?esc(nom(id))+' te pagó':'le pagaste'):mio?'pagaste tú · su parte':'pagó '+esc(nom(id))+' · tu parte'}${!tipoPago&&g.reparto&&g.reparto.partes&&g.reparto.partes.length>1?' de '+money(g.monto):''}</span></span><span class="amt ${mio?'pos':'neg'}">${mio?'+':'−'}${money(Math.abs(v))}</span></button>`}).join('')}
+      <div class="dd-row dd-tot"><span class="grow"><b>${d.neto>0.009?'En total te debe':d.neto<-0.009?'En total le debes':'Quedan en cero'}</b></span><span class="amt ${d.neto>0.009?'pos':d.neto<-0.009?'neg':''}">${money(Math.abs(d.neto))}</span></div></div>
+    ${d.neto<-0.009?`<button class="btn primary block" onclick="registrarPago('${ME.id}','${id}',${Math.abs(d.neto)})">Pagarle ${money(Math.abs(d.neto))} y registrarlo</button>`:d.neto>0.009?`<button class="btn block" onclick="registrarPago('${id}','${ME.id}',${d.neto})">Ya me pagó: registrar ${money(d.neto)}</button>`:''}
+    <p class="tiny muted" style="margin:0">Verde: te debe su parte de algo que pagaste tú. Rojo: le debes tu parte de algo que pagó ella. Se restan entre sí.</p></div>`)}
 function pintarListaGastos(){
   const el=$('#glist'); if(!el) return;
   const L=gastosFiltrados(), tot=L.reduce((s,g)=>s+(g.tipo==='gasto'?+g.monto:0),0);

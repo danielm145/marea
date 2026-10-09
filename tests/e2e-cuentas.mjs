@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
+await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')?r.continue():r.abort()});
+await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>localStorage.clear());await pg.reload();await pg.waitForTimeout(400);
+await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+await pg.evaluate(()=>irA('gastos'));await pg.waitForTimeout(300);
+const r=await pg.evaluate(()=>{const D=deudasDirectas(ME.id);const yo=balances().find(b=>b.id===ME.id);return {saldo:yo.saldo,sumaDirectas:+D.reduce((a,d)=>a+d.neto,0).toFixed(2),filas:document.querySelectorAll('.mc-b').length,lista:D.map(d=>nom(d.id)+' '+d.neto)}});
+console.log(JSON.stringify(r),'· cuadra con el saldo:',Math.abs(r.saldo-r.sumaDirectas)<0.011);
+await pg.screenshot({path:'/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/cuentas.png'});
+await pg.locator('.mc-b').first().click();await pg.waitForTimeout(300);
+console.log('detalle: filas',await pg.locator('.dd-row').count(),'· total:',await pg.locator('.dd-tot .amt').innerText(),'· botón:',await pg.locator('#sheetBody .btn').first().innerText());
+await pg.screenshot({path:'/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/deuda.png'});
+console.log('errores JS:',errs.length?errs:'ninguno');await b.close();
