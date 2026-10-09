@@ -546,7 +546,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v41';
+const BUILD_TAG='v42';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1548,7 +1548,7 @@ async function repartirConIA(){const t=($('#plx')||{}).value||'';if(!t.trim()){$
 /* la IA no desglosó la factura: se le vuelve a mandar la foto pidiendo SOLO los productos */
 async function desglosarConIA(b){b.disabled=true;b.textContent='Leyendo la factura…';
   try{const du=(LECT&&LECT.dataUrl)||(String(F.respaldo||'').startsWith('data:')?F.respaldo:null);if(!du)throw new Error('No tengo la foto a la mano: vuelve a tomarla.');
-    const p=await API.leer({texto:'Desglosa TODOS los productos de esta factura en factura.items (descripcion, cantidad, total de línea). El total ya lo sé: '+(F.monto||'')+'.',dataUrl:du,modo:'gasto'});
+    const p=await API.leer({texto:'Desglosa los productos de esta factura.',dataUrl:du,modo:'items'});
     const g=(p.gastos||[])[0], its=(g&&g.factura&&g.factura.items||[]).filter(i=>i.descripcion); if(!its.length)throw new Error('No pude leer los productos. Toca «+ Agregar plato» y escríbelos.');
     F.factura={...(F.factura||{tipo_documento:'ticket'}),...(g.factura||{}),items:its.map(i=>({...i,para_ids:(i.para_ids||[]).filter(id=>PMAP[id])}))};F.por_platos=its.filter(i=>i.total>0).length>=2;repintarF()}
   catch(e){b.disabled=false;b.innerHTML=ic('spark')+' Desglosar los productos con IA';toast(e.message)}}

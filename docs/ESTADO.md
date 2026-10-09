@@ -365,3 +365,10 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 
 ## v41 · «Tomar foto» en la barra de abajo
 - Botón de cámara (círculo con los colores de Gemini) entre Hoy e Itinerario: abre la cámara y manda la foto a la IA en modo `auto` (factura → gasto; foto del grupo → álbum; `camaraIA(inp,'auto')`).
+
+## v42 · lectura de facturas rehecha desde cero (Daniel: «no pude leer los productos… hazlo bien desde 0»)
+- **Paso A · lector dedicado** (`leerRecibo`, `SISTEMA_RECIBO`, `ESQUEMA_RECIBO` chico y plano, temperatura 0): solo lee lo impreso: ítems con total de línea, subtotal, IVA, servicio, propina, total, comercio, RUC, fecha; `es_comprobante=false` si la foto no es un comprobante. Servicio y propina se suman en `propina` (se reparten en proporción).
+- **Paso B · intérprete** (el prompt de siempre) recibe el recibo YA LEÍDO como dato fijo (sin la foto) y decide quién pagó, para quién, categoría, plan.
+- **El recibo manda**: si el intérprete pierde ítems, cambia el total o no arma gasto, se corrige con lo leído; si el intérprete falla del todo, `gastoDesdeRecibo` arma el gasto igual (categoría por palabras clave, pagó quien escribe, para todos). Dudas automáticas: total ilegible, quién pidió qué, y «los productos suman X y la factura dice Y».
+- `consultar()` concentra los respaldos (otra llave si 402, otro modelo si 404, sin esquema si 400) y el JSON de forma explícita cuando va sin esquema (`FORMA_RECIBO`, `FORMA_PROPUESTA`).
+- `modo:'items'` = solo el desglose (botón «Desglosar los productos con IA»). La respuesta trae `diag` (modelo, ítems leídos, confianza) para depurar sin exponer nada.

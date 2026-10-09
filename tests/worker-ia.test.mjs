@@ -5,7 +5,11 @@ import w from "../worker/index.js";
 
 const ASSETS = { fetch: async () => new Response("asset") };
 let ultima = null, respuesta = null;
-globalThis.fetch = async (url, init) => { ultima = { url: String(url), init, body: JSON.parse(init.body) }; return respuesta(); };
+// desde la v42 una foto pasa primero por el LECTOR de comprobantes (otro prompt): el simulador contesta según cuál prompt llega
+let recibo = { es_comprobante: false };
+const esLector = (init) => /lector de comprobantes/.test(JSON.parse(init.body).systemInstruction.parts[0].text);
+const respRecibo = () => new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify(recibo) }] } }] }), { status: 200 });
+globalThis.fetch = async (url, init) => { if (esLector(init)) return respRecibo(); ultima = { url: String(url), init, body: JSON.parse(init.body) }; return respuesta(); };
 const gem = (obj, status = 200) => () => new Response(JSON.stringify(status === 200 ? { candidates: [{ content: { parts: [{ text: JSON.stringify(obj) }] } }] } : { error: { message: "cuota" } }), { status });
 const pedir = (body, extra = {}) => w.fetch(new Request("https://casablanca.fieldbuil.ai/api/ia", { method: "POST", headers: { "content-type": "application/json", origin: "https://casablanca.fieldbuil.ai", "cf-connecting-ip": extra.ip || "1.1.1.1" }, body: JSON.stringify(body) }), extra.env || { GEMINI_API_KEY: "k", ASSETS });
 const ctx = { autor_id: "p1", autor: "Daniel", hoy: "2026-10-28", personas: [{ id: "p1", nombre: "Daniel" }, { id: "p2", nombre: "Kevin López" }, { id: "p3", nombre: "Natalia" }], eventos: [{ id: "e1", titulo: "BBQ & Cocktail Night", dia: "2026-10-29" }] };
@@ -25,11 +29,15 @@ await caso("lo demás va a los assets", async () => {
 });
 await caso("gasto: limpia ids inventados, eventos falsos y RUC malo", async () => {
   respuesta = gem({ resumen: "Hielo para la BBQ", gastos: [{ descripcion: "Hielo y cervezas", monto: 48.004, categoria: "bebidas", alcance: "consumo", pagador_ids: ["p1"], participante_ids: ["p1", "p2", "zz"], modo: "igual", evento_id: "e1", factura: { tipo_documento: "ticket", ruc: "123", items: [{ descripcion: "Hielo", total: 8, para_ids: ["p1", "zz"] }] }, etiquetas: ["Hielo"], confianza: 0.9, dudas: [] }], tareas: [], eventos: [], album: null });
+  recibo = { es_comprobante: true, tipo_documento: "ticket", comercio: "Tía", items: [{ descripcion: "Hielo", cantidad: 1, total: 8 }, { descripcion: "Cervezas", cantidad: 2, total: 40 }], subtotal: 48, total: 48, confianza: 0.9 };
   const r = await pedir({ texto: "pagué 48 de hielo para la bbq menos naty", imagen: "data:image/jpeg;base64,QUJD", modo: "auto", contexto: ctx });
+  recibo = { es_comprobante: false };
   const j = await r.json(); assert.equal(r.status, 200, JSON.stringify(j));
   const g = j.propuesta.gastos[0];
   assert.deepEqual(g.participante_ids, ["p1", "p2"]); assert.equal(g.monto, 48); assert.equal(g.evento_id, "e1"); assert.equal(g.factura.ruc, null); assert.deepEqual(g.etiquetas, ["hielo"]); assert.deepEqual(g.factura.items[0].para_ids, ["p1"]);
   assert.equal(j.propuesta.ia, true);
+  assert.equal(g.factura.items.length, 2, "el recibo manda: los 2 productos leídos"); assert.equal(g.factura.comercio, "Tía"); assert.equal(g.factura.items[1].para_ids.length, 0);
+  assert.ok(!g.dudas.some((d) => /qui[eé]n pidi/i.test(d)), "ya se sabe de quién es el hielo: no pregunta");
   // lo que viajó a Google: llave en header (no en la URL), foto inline y esquema JSON
   assert.ok(!ultima.url.includes("key=")); assert.equal(ultima.init.headers["x-goog-api-key"], "k");
   assert.equal(ultima.body.contents[0].parts[0].inlineData.mimeType, "image/jpeg");
@@ -161,3 +169,25 @@ await caso("/api/version lee la versión publicada del sw.js", async () => {
   const j = await (await w.fetch(new Request("https://x/api/version"), { ASSETS: A })).json(); assert.equal(j.v, "v39");
 });
 console.log(`${ok} casos OK (con versión)`);
+
+await caso("v42 · el intérprete falla pero el recibo se leyó → igual sale el gasto armado con la factura", async () => {
+  recibo = { es_comprobante: true, tipo_documento: "factura", comercio: "El Muelle", items: [{ descripcion: "Ceviche", cantidad: 1, total: 15 }, { descripcion: "Pizza", cantidad: 1, total: 20 }], subtotal: 35, impuestos: 5.25, servicio: 3.5, total: 43.75, confianza: 0.8 };
+  const antes = respuesta; respuesta = () => new Response(JSON.stringify({ error: { message: "boom" } }), { status: 500 });
+  const j = await (await pedir({ imagen: "data:image/jpeg;base64,QUJD", modo: "gasto", contexto: ctx }, { ip: "12.0.0.1" })).json();
+  respuesta = antes; recibo = { es_comprobante: false };
+  const g = j.propuesta.gastos[0]; assert.ok(g, JSON.stringify(j)); assert.equal(g.monto, 43.75); assert.equal(g.categoria, "restaurantes"); assert.equal(g.descripcion, "Cuenta en El Muelle");
+  assert.equal(g.factura.items.length, 2); assert.equal(g.factura.propina, 3.5); assert.deepEqual(g.pagador_ids, ["p1"]); assert.equal(g.participante_ids.length, 3);
+});
+await caso("v42 · modo items: solo el desglose", async () => {
+  recibo = { es_comprobante: true, tipo_documento: "ticket", items: [{ descripcion: "Bloqueador", total: 15 }], total: 15, confianza: 0.9 };
+  const j = await (await pedir({ imagen: "data:image/jpeg;base64,QUJD", modo: "items", contexto: ctx }, { ip: "12.0.0.2" })).json();
+  recibo = { es_comprobante: false };
+  assert.equal(j.propuesta.gastos[0].factura.items[0].descripcion, "Bloqueador"); assert.equal(j.diag.recibo.items, 1);
+});
+await caso("v42 · la foto no es comprobante → el intérprete la ve y arma el álbum", async () => {
+  recibo = { es_comprobante: false, tipo_documento: "otro", items: [], confianza: 0.9 };
+  let vioFoto = false; const antes = respuesta; respuesta = () => { vioFoto = !!(ultima.body.contents[0].parts.find((p) => p.inlineData)); return gem({ resumen: "Qué foto", gastos: [], tareas: [], eventos: [], album: { pie: "Atardecer en Same", evento_id: null } })(); };
+  const j = await (await pedir({ imagen: "data:image/jpeg;base64,QUJD", contexto: ctx }, { ip: "12.0.0.3" })).json();
+  respuesta = antes; assert.equal(j.propuesta.album.pie, "Atardecer en Same"); assert.ok(vioFoto, "el intérprete debe recibir la foto cuando no es comprobante");
+});
+console.log(`${ok} casos OK (v42 lector de comprobantes)`);

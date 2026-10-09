@@ -244,38 +244,40 @@ export function limpiar(p, ctx) {
   return out;
 }
 
-async function pensar(env, motorIni, cuerpo) {
-  let motor = motorIni;
-  const ctx = cuerpo.contexto || {};
-  const contexto = {
-    autor_id: txt(ctx.autor_id, 64), autor: txt(ctx.autor, 60), hoy: fechaOk(ctx.hoy), moneda: txt(ctx.moneda, 5) || "USD",
-    modo: ["gasto", "tareas", "plan", "auto"].includes(cuerpo.modo) ? cuerpo.modo : "auto",
-    looks: (Array.isArray(ctx.looks) ? ctx.looks : []).slice(0, 20).map((x) => txt(x, 60)).filter(Boolean),
-    plan_actual: ctx.plan_actual && typeof ctx.plan_actual === "object" ? planDe(ctx.plan_actual) : undefined,
-    personas: (Array.isArray(ctx.personas) ? ctx.personas : []).slice(0, 40).map((x) => ({ id: txt(x?.id, 64), nombre: txt(x?.nombre, 60), apodo: txt(x?.apodo, 40) || undefined })),
-    eventos: (Array.isArray(ctx.eventos) ? ctx.eventos : []).slice(0, 60).map((x) => ({ id: txt(x?.id, 64), titulo: txt(x?.titulo, 80), dia: fechaOk(x?.dia) })),
-    comercios_conocidos: (Array.isArray(ctx.comercios) ? ctx.comercios : []).slice(0, 40),
-    items_actuales: Array.isArray(ctx.items_actuales) && ctx.items_actuales.length ? ctx.items_actuales.slice(0, 40).map((i, n) => ({ n: n + 1, descripcion: txt(i?.descripcion, 80), total: typeof i?.total === "number" ? num(i.total) : null })) : undefined,
-  };
-  const pista = contexto.items_actuales ? "\nLa persona explica DE QUIÉN es cada producto de items_actuales: devuelve esos mismos ítems con para_ids." : contexto.plan_actual ? "\nLa persona quiere CAMBIAR el plan_actual." : contexto.modo === "plan" ? "\nLa persona propone un PLAN o actividad." : contexto.modo === "tareas" ? "\nLa persona dijo que es una LISTA DE TAREAS." : contexto.modo === "gasto" ? "\nLa persona dijo que es un GASTO o comprobante." : "";
-  const partes = [];
-  const img = cuerpo.imagen ? partirDataUrl(cuerpo.imagen) : null;
-  if (cuerpo.imagen && !img) return { status: 400, cuerpo: { error: "La foto no se pudo leer (formato no válido)." } };
-  if (img) partes.push({ inlineData: img });
-  partes.push({ text: `CONTEXTO:\n${JSON.stringify(contexto)}${pista}\n\nMENSAJE DE ${contexto.autor || "alguien"}:\n${txt(cuerpo.texto, 4000) || "(solo la foto)"}` });
+/* ── esquema chico y plano para LEER un comprobante: cuanto más simple el esquema, más fiel la lectura ── */
+const ESQUEMA_RECIBO = O({
+  es_comprobante: { type: "BOOLEAN" },
+  tipo_documento: S({ enum: ["factura", "ticket", "transferencia", "otro"] }),
+  comercio: S({ nullable: true }), ruc: S({ nullable: true }), numero: S({ nullable: true }), fecha: S({ nullable: true }),
+  items: A(O({ descripcion: S(), cantidad: N({ nullable: true }), total: N({ nullable: true }) }, ["descripcion"])),
+  subtotal: N({ nullable: true }), impuestos: N({ nullable: true }), servicio: N({ nullable: true }), propina: N({ nullable: true }), total: N({ nullable: true }),
+  confianza: N(), notas: S({ nullable: true }),
+}, ["es_comprobante", "tipo_documento", "items", "confianza"]);
+const SISTEMA_RECIBO = `Eres un lector de comprobantes (facturas, tickets de supermercado, cuentas de restaurante, vouchers, capturas de transferencia) de Ecuador y Colombia.
+Devuelve SOLO JSON con lo que se LEE en la imagen. Reglas:
+- es_comprobante=false si la foto no es un comprobante (gente, playa, comida servida, paisaje): entonces items=[] y lo demás null.
+- items: UNA fila por cada producto, plato o bebida impresa, en el orden del papel. descripcion corta tal como está (máx. 60 caracteres). cantidad si aparece (si no, 1). total = el valor de ESA línea (cantidad × precio). Si una línea dice "2 x 3.50 = 7.00", total es 7.00.
+- NO son ítems: subtotal, IVA, servicio (10 %), propina, descuentos, "total", "cambio", "efectivo". Van en sus campos. Descuento: réstalo del subtotal.
+- total = lo que se pagó (el TOTAL A PAGAR). Si no se lee, null. NUNCA inventes un número: lo que no se lee es null y bajas confianza.
+- Números con coma o punto decimal como estén; dólares en Ecuador, pesos en Colombia.
+- comercio: el nombre del negocio; ruc: 13 dígitos en Ecuador (si no, null); fecha AAAA-MM-DD.
+- Captura de transferencia bancaria: tipo_documento "transferencia", items=[], total = el monto.
+- confianza 0-1 según qué tan legible estuvo. notas: una frase si algo quedó dudoso (borroso, cortado, dos totales).`;
 
+/* la llamada al modelo con TODOS los respaldos: otra llave si una no tiene saldo, otro modelo si lo retiraron,
+   y sin esquema si el modelo no lo acepta. Devuelve { ok, j, motor, status, msg }. */
+async function consultar(env, motorIni, { sistema, partes, esquema, forma, temperatura = 0.2, maxTokens = 8192 }) {
+  let motor = motorIni;
   const authDe = async (m) => m.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": m.key };
-  const llamar = async (conEsquema, m = motor) => fetch(m.url, {
-    method: "POST",
-    headers: { "content-type": "application/json", ...(await authDe(m)) },
+  const llamar = async (conEsquema, m) => fetch(m.url, {
+    method: "POST", headers: { "content-type": "application/json", ...(await authDe(m)) },
     body: JSON.stringify({
-      systemInstruction: { parts: [{ text: SISTEMA + (conEsquema ? "" : "\nDevuelve SOLO un JSON con: resumen, gastos[], tareas[], eventos[], album (o null).") }] },
+      systemInstruction: { parts: [{ text: sistema + (conEsquema ? "" : "\nDevuelve SOLO un JSON con esta forma exacta (sin texto alrededor):\n" + forma) }] },
       contents: [{ role: "user", parts: partes }],
-      generationConfig: { responseMimeType: "application/json", ...(conEsquema ? { responseSchema: ESQUEMA } : {}), temperature: 0.2, maxOutputTokens: 8192 },
+      generationConfig: { responseMimeType: "application/json", ...(conEsquema ? { responseSchema: esquema } : {}), temperature: temperatura, maxOutputTokens: maxTokens },
     }),
   });
-  let r = await llamar(true), j = await r.json().catch(() => ({}));
-  // ese modelo ya no existe, o esa llave no tiene saldo → se prueba lo siguiente (otras llaves × otros modelos)
+  let r = await llamar(true, motor), j = await r.json().catch(() => ({}));
   if (!r.ok && (sinModelo(r.status, j?.error?.message) || (!motor.sa && sinSaldo(r.status)))) {
     const llaves = motor.sa ? [null] : (llavesGemini(env).length ? llavesGemini(env) : [motor.key]);
     buscar: for (const k of llaves) {
@@ -283,23 +285,132 @@ async function pensar(env, motorIni, cuerpo) {
         if (m === motor.modelo && (k === motor.key || k === null)) continue;
         const alt = motorDe(env, m, k); r = await llamar(true, alt); j = await r.json().catch(() => ({}));
         if (r.ok) { motor = alt; break buscar; }
-        if (!motor.sa && sinSaldo(r.status)) continue buscar;           // esta llave no sirve: la siguiente llave
-        if (!sinModelo(r.status, j?.error?.message)) { motor = alt; break buscar; }   // otro error: se informa tal cual
+        if (!motor.sa && sinSaldo(r.status)) continue buscar;
+        if (!sinModelo(r.status, j?.error?.message)) { motor = alt; break buscar; }
       }
     }
   }
-  // si el modelo no acepta el esquema (400), se repite pidiendo solo JSON: limpiar() revisa igual lo que vuelva
-  if (r.status === 400 && /schema|response_schema|responseSchema/i.test(j?.error?.message || "")) { r = await llamar(false, motor); j = await r.json().catch(() => ({})); }
+  if (r.status === 400 && /schema|response_schema|responseSchema|properties|nullable/i.test(j?.error?.message || "")) { r = await llamar(false, motor); j = await r.json().catch(() => ({})); }
   if (r.ok) { MODELO_VIVO = motor.modelo; if (motor.key) LLAVE_VIVA = motor.key; }
-  if (!r.ok) {
-    const st = r.status === 429 ? 429 : 502;
-    const msg = r.status === 402 ? "La llave de la IA no tiene saldo: hay que recargar en Google AI Studio." : st === 429 ? "La IA está ocupada, prueba en un momento." : "La IA no respondió.";
-    return { status: st, cuerpo: { error: msg, detalle: txt(j?.error?.message, 300) } };
-  }
   const cand = j?.candidates?.[0];
-  const texto = (cand?.content?.parts || []).map((p) => p.text || "").join("");
-  let crudo; try { crudo = JSON.parse(texto); } catch { return { status: 502, cuerpo: { error: "La IA respondió algo que no se pudo leer.", detalle: txt(cand?.finishReason, 40) } }; }
-  return { status: 200, cuerpo: { propuesta: { ...limpiar(crudo, contexto), ia: true }, motor: motor.nombre, modelo: motor.modelo } };
+  const texto = r.ok ? (cand?.content?.parts || []).map((p) => p.text || "").join("") : "";
+  let dato = null; if (r.ok) { try { dato = JSON.parse(texto.replace(/^```(?:json)?\s*|\s*```$/g, "")); } catch { dato = null; } }
+  return { ok: r.ok && dato !== null, status: r.status, msg: txt(j?.error?.message, 300) || (r.ok && dato === null ? "respuesta ilegible (" + txt(cand?.finishReason, 40) + ")" : ""), j: dato, motor };
+}
+
+const FORMA_RECIBO = `{"es_comprobante":true,"tipo_documento":"factura|ticket|transferencia|otro","comercio":"","ruc":null,"numero":null,"fecha":"AAAA-MM-DD",
+"items":[{"descripcion":"","cantidad":1,"total":0}],"subtotal":0,"impuestos":0,"servicio":0,"propina":0,"total":0,"confianza":0.9,"notas":null}`;
+const FORMA_PROPUESTA = `{"resumen":"","gastos":[{"descripcion":"","monto":0,"fecha":null,"categoria":"otros","alcance":"consumo","pagador_ids":[],"participante_ids":[],"modo":"igual","partes":null,"pago_entre":null,"evento_id":null,
+"factura":{"tipo_documento":"ticket","comercio":null,"ruc":null,"numero":null,"clave_acceso":null,"fecha":null,"items":[{"descripcion":"","cantidad":1,"total":0,"para_ids":[]}],"subtotal":null,"impuestos":null,"propina":null,"total":null},
+"etiquetas":[],"confianza":0.9,"dudas":[]}],"tareas":[],"eventos":[],"album":null,"portada":null,"viaje":null}`;
+
+/* PASO A · leer el comprobante de la foto (esquema chico, temperatura 0) → recibo limpio o null si no es comprobante */
+async function leerRecibo(env, motor, img) {
+  const res = await consultar(env, motor, { sistema: SISTEMA_RECIBO, esquema: ESQUEMA_RECIBO, forma: FORMA_RECIBO, temperatura: 0, maxTokens: 4096,
+    partes: [{ inlineData: img }, { text: "Lee este comprobante." }] });
+  if (!res.ok) return { error: res, recibo: null, motor: res.motor };
+  const r = res.j || {};
+  if (r.es_comprobante === false) return { recibo: null, motor: res.motor, no_es: true };
+  const sinNada = !(Array.isArray(r.items) && r.items.length) && typeof r.total !== "number" && typeof r.subtotal !== "number";
+  if (sinNada && r.tipo_documento !== "transferencia") return { recibo: null, motor: res.motor, no_es: true };   // no leyó nada útil: que el intérprete vea la foto
+  const items = (Array.isArray(r.items) ? r.items : []).slice(0, 60)
+    .map((i) => ({ descripcion: txt(i?.descripcion, 80), cantidad: typeof i?.cantidad === "number" && i.cantidad > 0 ? i.cantidad : 1, total: typeof i?.total === "number" && i.total > 0 ? num(i.total) : null, para_ids: [] }))
+    .filter((i) => i.descripcion);
+  const n = (v) => (typeof v === "number" && isFinite(v) && v >= 0 ? num(v) : null);
+  const propina = n(r.propina), servicio = n(r.servicio);
+  const recibo = {
+    tipo_documento: ["factura", "ticket", "transferencia", "otro"].includes(r.tipo_documento) ? r.tipo_documento : "ticket",
+    comercio: txt(r.comercio, 80) || null, ruc: /^\d{13}$/.test(r.ruc || "") ? r.ruc : null, numero: txt(r.numero, 30) || null, clave_acceso: null, fecha: fechaOk(r.fecha),
+    items, subtotal: n(r.subtotal), impuestos: n(r.impuestos),
+    propina: propina != null || servicio != null ? num((propina || 0) + (servicio || 0)) : null,   // servicio y propina se reparten igual: en proporción
+    total: n(r.total), confianza: Math.min(1, Math.max(0, typeof r.confianza === "number" ? r.confianza : 0.5)), notas: txt(r.notas, 200) || null,
+  };
+  // si no vino el total pero sí las partes, se arma; si no vino nada, queda null (la app pregunta)
+  if (recibo.total == null && recibo.subtotal != null) recibo.total = num(recibo.subtotal + (recibo.impuestos || 0) + (recibo.propina || 0));
+  if (recibo.total == null && items.length && items.every((i) => i.total != null)) recibo.total = num(items.reduce((a, i) => a + i.total, 0));
+  return { recibo, motor: res.motor };
+}
+
+/* un gasto armado SOLO con el recibo (cuando el modelo no interpretó nada): nunca se deja a la persona sin propuesta */
+function gastoDesdeRecibo(rec, contexto) {
+  const t = ((rec.comercio || "") + " " + rec.items.map((i) => i.descripcion).join(" ")).toLowerCase();
+  const cat = /restaurant|cevich|pizz|parrill|marisc|almuerzo|cena|desayuno|cafe|café|burger|sushi|taco/.test(t) ? "restaurantes"
+    : /cervez|licor|ron|vodka|whisky|vino|hielo|bar\b|club/.test(t) ? "bebidas" : /gasolin|combustible|peaje|taxi|uber|bus|parqueo/.test(t) ? "transporte"
+    : /supermerc|tía|tia\b|mi comisariato|megamaxi|supermaxi|akí|aki\b|coral|despensa|víver|viver|mercado|farmac/.test(t) ? "despensa" : /carbón|carbon|parlante|bateria|pila|cargador/.test(t) ? "logistica" : "otros";
+  const todos = (contexto.personas || []).map((p) => p.id);
+  return {
+    descripcion: rec.comercio ? (cat === "restaurantes" ? "Cuenta en " + rec.comercio : cat === "despensa" ? "Compra en " + rec.comercio : rec.comercio) : (rec.items[0]?.descripcion || "Gasto"),
+    monto: rec.total || 0, fecha: rec.fecha, categoria: cat, alcance: "fijo",
+    pagador_ids: contexto.autor_id ? [contexto.autor_id] : [], participante_ids: todos, modo: "igual", partes: null, pago_entre: null, evento_id: null,
+    factura: rec, etiquetas: [], confianza: rec.confianza,
+    dudas: [...(rec.total ? [] : ["¿Cuánto fue el total? No se alcanzó a leer."]), ...(rec.items.length > 1 ? ["¿Quién pidió qué? Toca las caras en cada producto."] : []), ...(rec.notas ? [rec.notas] : [])],
+  };
+}
+
+async function pensar(env, motorIni, cuerpo) {
+  let motor = motorIni;
+  const ctx = cuerpo.contexto || {};
+  const contexto = {
+    autor_id: txt(ctx.autor_id, 64), autor: txt(ctx.autor, 60), hoy: fechaOk(ctx.hoy), moneda: txt(ctx.moneda, 5) || "USD",
+    modo: ["gasto", "tareas", "plan", "auto", "items"].includes(cuerpo.modo) ? cuerpo.modo : "auto",
+    looks: (Array.isArray(ctx.looks) ? ctx.looks : []).slice(0, 20).map((x) => txt(x, 60)).filter(Boolean),
+    plan_actual: ctx.plan_actual && typeof ctx.plan_actual === "object" ? planDe(ctx.plan_actual) : undefined,
+    personas: (Array.isArray(ctx.personas) ? ctx.personas : []).slice(0, 40).map((x) => ({ id: txt(x?.id, 64), nombre: txt(x?.nombre, 60), apodo: txt(x?.apodo, 40) || undefined })),
+    eventos: (Array.isArray(ctx.eventos) ? ctx.eventos : []).slice(0, 60).map((x) => ({ id: txt(x?.id, 64), titulo: txt(x?.titulo, 80), dia: fechaOk(x?.dia) })),
+    comercios_conocidos: (Array.isArray(ctx.comercios) ? ctx.comercios : []).slice(0, 40),
+    items_actuales: Array.isArray(ctx.items_actuales) && ctx.items_actuales.length ? ctx.items_actuales.slice(0, 40).map((i, n) => ({ n: n + 1, descripcion: txt(i?.descripcion, 80), total: typeof i?.total === "number" ? num(i.total) : null })) : undefined,
+  };
+  const img = cuerpo.imagen ? partirDataUrl(cuerpo.imagen) : null;
+  if (cuerpo.imagen && !img) return { status: 400, cuerpo: { error: "La foto no se pudo leer (formato no válido)." } };
+  const diag = { modelo: motor.modelo, recibo: null };
+
+  // ── PASO A · si hay foto y puede ser un comprobante, primero se LEE con el lector dedicado ──
+  let recibo = null, noEsRecibo = false;
+  if (img && ["auto", "gasto", "items"].includes(contexto.modo)) {
+    const L = await leerRecibo(env, motor, img); motor = L.motor || motor;
+    if (L.error && contexto.modo === "items") return { status: L.error.status === 429 ? 429 : 502, cuerpo: { error: L.error.status === 402 ? "La llave de la IA no tiene saldo." : "No pude leer la factura (" + (L.error.msg || L.error.status) + ")." } };
+    recibo = L.recibo; noEsRecibo = !!L.no_es; diag.recibo = recibo ? { items: recibo.items.length, total: recibo.total, confianza: recibo.confianza } : (L.no_es ? "no es comprobante" : "falló: " + (L.error?.msg || ""));
+  }
+  if (contexto.modo === "items") {   // solo querían el desglose
+    if (!recibo) return { status: 200, cuerpo: { propuesta: { resumen: noEsRecibo ? "Esa foto no parece una factura." : "No pude leer los productos.", gastos: [], tareas: [], eventos: [], album: null, portada: null, viaje: null, ia: true }, motor: motor.nombre, modelo: motor.modelo, diag } };
+    return { status: 200, cuerpo: { propuesta: { ...limpiar({ resumen: "Leí " + recibo.items.length + " productos.", gastos: [gastoDesdeRecibo(recibo, contexto)], tareas: [], eventos: [] }, contexto), ia: true }, motor: motor.nombre, modelo: motor.modelo, diag } };
+  }
+
+  // ── PASO B · interpretar: qué es, de quién, para quién (con el recibo ya leído como dato fijo) ──
+  const pista = contexto.items_actuales ? "\nLa persona explica DE QUIÉN es cada producto de items_actuales: devuelve esos mismos ítems con para_ids." : contexto.plan_actual ? "\nLa persona quiere CAMBIAR el plan_actual." : contexto.modo === "plan" ? "\nLa persona propone un PLAN o actividad." : contexto.modo === "tareas" ? "\nLa persona dijo que es una LISTA DE TAREAS." : contexto.modo === "gasto" ? "\nLa persona dijo que es un GASTO o comprobante." : "";
+  const partes = [];
+  if (img && !recibo) partes.push({ inlineData: img });   // no era comprobante (o no se pudo leer): que el modelo vea la foto
+  const reciboTxt = recibo ? `\n\nCOMPROBANTE YA LEÍDO (úsalo tal cual: estos ítems, con estas descripciones y totales, en factura.items; monto = total; no inventes ni quites ítems; solo agrega para_ids si el mensaje dice de quién es cada uno):\n${JSON.stringify({ ...recibo, items: recibo.items.map(({ descripcion, cantidad, total }) => ({ descripcion, cantidad, total })) })}` : "";
+  partes.push({ text: `CONTEXTO:\n${JSON.stringify(contexto)}${pista}${reciboTxt}\n\nMENSAJE DE ${contexto.autor || "alguien"}:\n${txt(cuerpo.texto, 4000) || "(solo la foto)"}` });
+  const res = await consultar(env, motor, { sistema: SISTEMA, esquema: ESQUEMA, forma: FORMA_PROPUESTA, partes });
+  motor = res.motor || motor;
+
+  let out;
+  if (res.ok) out = limpiar(res.j, contexto);
+  else if (recibo) out = limpiar({ resumen: "Leí la factura; revisa quién pagó y entre quiénes va.", gastos: [gastoDesdeRecibo(recibo, contexto)], tareas: [], eventos: [] }, contexto);
+  else {
+    const st = res.status === 429 ? 429 : 502;
+    const msg = res.status === 402 ? "La llave de la IA no tiene saldo: hay que recargar en Google AI Studio." : st === 429 ? "La IA está ocupada, prueba en un momento." : "La IA no respondió.";
+    return { status: st, cuerpo: { error: msg, detalle: res.msg } };
+  }
+  // ── el recibo manda: si el modelo perdió ítems, cambió el total o no armó gasto, se corrige con lo leído ──
+  if (recibo) {
+    if (!out.gastos.length && !out.album && !out.portada && !out.viaje && !out.eventos.length) out.gastos.push(limpiar({ gastos: [gastoDesdeRecibo(recibo, contexto)] }, contexto).gastos[0]);
+    const g = out.gastos[0];
+    if (g) {
+      const suyos = g.factura && g.factura.items ? g.factura.items : [];
+      const porNombre = new Map(suyos.map((i) => [i.descripcion.toLowerCase().replace(/[^a-z0-9]/g, ""), i]));
+      const items = recibo.items.map((i) => { const m = porNombre.get(i.descripcion.toLowerCase().replace(/[^a-z0-9]/g, "")); return { ...i, para_ids: m && m.para_ids && m.para_ids.length ? m.para_ids : (suyos.length === recibo.items.length ? (suyos[recibo.items.indexOf(i)]?.para_ids || []) : []) }; });
+      g.factura = { ...recibo, items };
+      if (recibo.total && Math.abs((g.monto || 0) - recibo.total) > 0.011) g.monto = recibo.total;
+      if (!g.monto && !g.dudas.some((d) => /total/i.test(d))) g.dudas.unshift("¿Cuánto fue el total? No se alcanzó a leer.");
+      if (items.length > 1 && !items.some((i) => i.para_ids.length) && !g.dudas.some((d) => /qui[eé]n pidi/i.test(d))) g.dudas.push("¿Quién pidió qué? Toca las caras en cada producto.");
+      const suma = items.reduce((a, i) => a + (i.total || 0), 0), base = recibo.subtotal || (recibo.total ? recibo.total - (recibo.impuestos || 0) - (recibo.propina || 0) : 0);
+      if (base && suma && Math.abs(suma - base) > Math.max(0.5, base * 0.05)) g.dudas.push(`Los productos suman ${suma.toFixed(2)} y la factura dice ${base.toFixed(2)}: revisa si falta alguno.`);
+      g.dudas = g.dudas.slice(0, 4);
+    }
+  }
+  return { status: 200, cuerpo: { propuesta: { ...out, ia: true }, motor: motor.nombre, modelo: motor.modelo, diag } };
 }
 
 // ¿el token es de alguien con sesión en la app? (se pregunta a Supabase y se recuerda 5 min)
