@@ -480,13 +480,16 @@ a.item{text-decoration:none;color:inherit}
 .iac{display:flex;align-items:center;gap:14px;width:100%;text-align:left;border:1px solid rgba(245,166,35,.35);background:linear-gradient(135deg,#FFF1DB,#FFFFFF 70%);font:inherit;color:inherit;cursor:pointer;padding:18px}
 .iac .grow{display:flex;flex-direction:column;gap:3px}.iac b{font-family:var(--f-disp);font-size:20px}.iac>svg{width:22px;height:22px;color:var(--sun);flex:none}
 .iac2{margin-top:14px;padding:0;overflow:hidden;border:1px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(120deg,#4285F4,#9B72CB,#D96570,#F5A623) border-box}
-.cam-ia{display:flex;align-items:center;gap:14px;padding:18px;cursor:pointer;background:linear-gradient(135deg,#EEF3FF,#FFF4F6 55%,#FFFFFF)}
+.cam-ia{display:flex;align-items:center;gap:14px;padding:18px 18px 12px;background:linear-gradient(135deg,#EEF3FF,#FFF4F6 55%,#FFFFFF)}
 .cam-ia .grow{display:flex;flex-direction:column;gap:4px}.cam-ia b{font-family:var(--f-disp);font-size:21px}.cam-ia .tiny{color:var(--ink-2,#5b6475)}
 .cam-ic{position:relative;width:62px;height:62px;border-radius:20px;display:grid;place-items:center;flex:none;color:#fff;background:linear-gradient(135deg,#4285F4,#9B72CB 60%,#D96570)}
 .cam-ic>svg{width:30px;height:30px}.cam-gem{position:absolute;right:-6px;top:-6px;width:26px;height:26px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 2px 6px rgba(66,133,244,.35)}
 .cam-gem svg{width:17px;height:17px;animation:gemgira 3.2s ease-in-out infinite}
 @keyframes gemgira{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.18) rotate(45deg)}}
 @media (prefers-reduced-motion:reduce){.cam-gem svg{animation:none}}
+.cam-bs{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 16px;background:linear-gradient(135deg,#EEF3FF,#FFF4F6 55%,#FFFFFF)}.cam-b{justify-content:center;cursor:pointer;gap:8px}.cam-b svg{width:20px;height:20px}
+.subir-f{display:flex;align-items:center;gap:14px;margin-top:12px;padding:16px 18px;cursor:pointer}.subir-f .grow{display:flex;flex-direction:column;gap:3px}.subir-f b{font-family:var(--f-disp);font-size:18px}.subir-f>svg{width:20px;height:20px;color:var(--ink-3,#8a94a6)}
+.subir-ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#E8F7F2;color:#14A37F;flex:none}.subir-ic svg{width:24px;height:24px}
 .cam-go{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#1f2a44;color:#fff;flex:none}.cam-go svg{width:18px;height:18px}
 .iac-mas{display:flex;align-items:center;gap:10px;width:100%;padding:13px 18px;border:0;border-top:1px solid #EEF0F5;background:#fff;font:inherit;font-weight:600;font-size:14px;color:var(--ink,#1f2a44);text-align:left;cursor:pointer}
 .iac-mas>svg:first-child{width:18px;height:18px;flex:none}.iac-mas>svg:last-child{width:16px;height:16px;color:var(--ink-3,#8a94a6)}
@@ -532,7 +535,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v34';
+const BUILD_TAG='v35';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -594,6 +597,7 @@ const P={
   admin:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/>',
   plus:'<path d="M12 5v14M5 12h14"/>', x:'<path d="M6 6l12 12M18 6 6 18"/>',
   cal:'<rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>', dots:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>', mas:'<rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><circle cx="16.75" cy="16.75" r="3.25"/>', pin:'<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>', heart:'<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z"/>', chev:'<path d="M9 5l7 7-7 7"/>', nav:'<path d="M4 11 20 4l-7 16-2-7-7-2Z"/>', gente:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><circle cx="17" cy="9.5" r="2.5"/><path d="M16 14.2c2.6.2 4.4 1.8 5 4.8"/>', info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v6M12 7.6v.1"/>',
+  galeria:'<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/>',
   cam:'<path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H7l1.5-2h7L17 6h1.5A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5Z"/><circle cx="12" cy="13" r="3.5"/>',
   pen:'<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/>',
   chat:'<path d="M4 5h16v11H9l-5 4Z"/><path d="M8 9.5h8M8 12.5h5"/>',
@@ -1290,6 +1294,7 @@ function vHoy(){
         ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'noches','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
     ${iaCard()}
+    <label class="card subir-f"><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"><span class="subir-ic">${ic('galeria')}</span><span class="grow"><b>Subir fotos del viaje</b><span class="muted tiny">Al álbum de todos · puedes escoger varias</span></span>${ic('chev')}</label>
     ${instalarCard()}
     ${prox?`<div class="card lp"><div class="lp-r"><div class="grow"><div class="lp-t">Lo próximo</div><div class="muted tiny">${esc(cuando)}</div>
         <div class="lp-e"><b class="num">${esc(String(prox.hora||'').slice(0,5))}</b><span>${esc(prox.titulo)}</span></div>${prox.lugar?`<span class="pill sun">${ic('pin')} ${esc(prox.lugar.charAt(0).toUpperCase()+prox.lugar.slice(1))}</span>`:''}</div>
@@ -1303,11 +1308,14 @@ function vHoy(){
 /* la estrella de Gemini (4 puntas, azul → morado → rosa): dice sin palabras «aquí lee la IA» */
 const GEM_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gemg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"/><stop offset=".55" stop-color="#9B72CB"/><stop offset="1" stop-color="#D96570"/></linearGradient></defs><path fill="url(#gemg)" d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z"/></svg>';
 function iaCard(){return `<div class="card iac2">
-  <label class="cam-ia"><input type="file" accept="image/*" capture="environment" hidden onchange="camaraIA(this)">
+  <div class="cam-ia">
     <span class="cam-ic">${ic('cam')}<span class="cam-gem">${GEM_SVG}</span></span>
-    <span class="grow"><b>Foto de la factura</b><span class="tiny">Tómale una foto y Gemini llena el gasto solo: el total, quién pagó y para quién.</span></span>
-    <span class="cam-go">${ic('chev')}</span>
-  </label>
+    <span class="grow"><b>Foto de la factura</b><span class="tiny">Tómale una foto o escógela del carrete: Gemini llena el gasto solo, el total, quién pagó y para quién.</span></span>
+  </div>
+  <div class="cam-bs">
+    <label class="btn primary cam-b"><input type="file" accept="image/*" capture="environment" hidden onchange="camaraIA(this)">${ic('cam')} Tomar foto</label>
+    <label class="btn cam-b"><input type="file" accept="image/*" hidden onchange="camaraIA(this)">${ic('galeria')} Del carrete</label>
+  </div>
   <button class="iac-mas" onclick="abrirLector()">${GEM_SVG}<span class="grow">O cuéntaselo a la IA: un gasto, un pendiente o un plan</span>${ic('chev')}</button>
 </div>`}
 /* cámara del inicio: foto → hoja de registrar con la foto puesta → la IA la lee sin tocar nada más */

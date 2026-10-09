@@ -20,7 +20,6 @@ insert into _viajeros values
   ('Kevin López',            '593988441247', array['kevin']),
   ('Domenika Pérez',         '593992417742', array['domenika']),
   ('Natalia Vásquez',        '593983026751', array['natalia','naty']),
-  ('Ana Cristina Grijalva',  '593992834833', array['ana cristina','ana cris','anita cristina','anita cristina grijalva']),
   ('Jhon Cevallos',          '593996326823', array['jhon','john cevallos']);
 
 -- nombre comparable: minúsculas, sin tildes, un solo espacio

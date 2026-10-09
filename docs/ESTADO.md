@@ -329,3 +329,9 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - El robot (paso 0) mostró: publicada la **v33** y `/api/ia/salud` → `motor:null`: **el Worker no tiene NINGUNA llave de IA** (nunca se corrió `scripts/ia.sh`). Por eso la cámara no leía la factura.
 - Ahora la llave se puede poner desde GitHub (secreto `GOOGLE_SA_JSON` o `GEMINI_API_KEY`): el robot la pasa al Worker en cada publicación (paso 3a). Necesita también `CLOUDFLARE_API_TOKEN`.
 - `/api/ia/salud?probar=1` hace una pregunta real al modelo y devuelve el error exacto si falla (pasos 0 y 5 del robot).
+
+## v35 · factura desde el carrete + subir fotos en el inicio · sin Ana Cristina
+- «Foto de la factura» con dos botones: **Tomar foto** (cámara) y **Del carrete** (galería).
+- Debajo: «Subir fotos del viaje» (varias al álbum, `elegirFotos`).
+- La IA quedó conectada el 9-oct con `GEMINI_API_KEY` puesta por Daniel en Cloudflare (motor gemini, gemini-2.5-flash).
+- `sql/016_sin_ana_cristina.sql`: Ana Cristina Grijalva (0992834833) inactiva, no se borra. 014 ya no la crea en una base nueva.
