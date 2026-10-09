@@ -71,11 +71,16 @@ else echo "(sin .env: me salto este paso)"; fi
 linea "3/4 · Publicar la página"
 scripts/deploy.sh "$CFG" 2>&1 | grep -E "publicado|✘|ERROR|error" || true
 
-# la ilustración de la salida: se dibuja una vez con la IA y queda guardada (así nadie espera al abrir la app)
-for ARTE in salida lexus amarok; do
-  A=$(curl -s -m 90 -o /dev/null -w "%{http_code} %{content_type}" "$URL/api/arte/$ARTE")
-  case "$A" in 200\ image/*) echo "✓ Ilustración «$ARTE» lista (dibujada con IA)";; *) echo "  (la ilustración «$ARTE» no se pudo dibujar todavía: $A · sale igual con colores)";; esac
-done
+# las imágenes del viaje (carros, itinerario, juegos, looks, comida): se dibujan con la IA UNA vez y quedan guardadas.
+# Así nadie espera ni ve un botón: la app las muestra solas.
+echo "Dibujando con IA las imágenes que falten (la primera vez tarda unos minutos)…"
+CLAVES=$(curl -s -m 20 "$URL/api/arte" | grep -o '"claves":\[[^]]*\]' | grep -o '"[a-z0-9-]*"' | tr -d '"' | grep -v '^claves$')
+OK=0; MAL=0; MALAS=""
+pedir() { A=$(curl -s -m 120 -o /dev/null -w "%{http_code} %{content_type}" "$URL/api/arte/$1"); case "$A" in 200\ image/*) echo ok;; *) echo "mal $1 ($A)";; esac; }
+export -f pedir; export URL
+RES=$(printf '%s\n' $CLAVES | xargs -P 4 -I{} bash -c 'pedir {}')
+OK=$(printf '%s\n' "$RES" | grep -c '^ok' || true); MAL=$(printf '%s\n' "$RES" | grep -c '^mal' || true)
+echo "✓ $OK imágenes listas$( [ "$MAL" != 0 ] && echo " · $MAL no se pudieron todavía (salen con foto de respaldo; vuelve a correr este comando más tarde)")"
 
 linea "4/4 · Prueba real de la IA"
 sleep 3

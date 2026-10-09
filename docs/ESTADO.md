@@ -416,3 +416,36 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - Toda cara (`av()` lleva `data-p`) abre la foto en grande con un clic (escucha global en captura),
   salvo en los selectores (.avp, .pl-av), donde tocar la cara sigue eligiendo a la persona.
 - Pruebas: tests/e2e-plata-v50.mjs, e2e-saldos, e2e-cuentas.
+
+## v51 · el viernes perfecto, juegos, karaoke y Dashboard (9-oct-2026, madrugada)
+- **sql/020_dia1_juegos_karaoke.sql** (correr con `scripts/listo.sh`):
+  - viernes 9: 08:00 Salida desde la casa de la Ale · ≈12:30 almuerzo de camino (votación) · 15:00 Llegada con ceviche ·
+    15:45 Check-in y cuartos · 16:30 Micheladas en la playa · 17:50 Atardecer y foto de grupo · 20:00 Cena noche de estrellas y fogata
+    («Llegada y check-in» y «Círculo de intenciones» se renombran: conservan id, votos y foto).
+  - fuera las 4 opciones de almuerzo que traía la app; los carros se llaman «Lexus» y «Amarok» (sin dueño).
+  - tablas nuevas con RLS: `juegos`, `juego_respuestas`, `karaoke`, `votos_juego`.
+- **Mi día** (inicio): el plan de hoy (o de mañana) con hora, foto y «Ahora / En 23 min», tu carro y quién maneja,
+  y la fila del almuerzo que lleva a la votación.
+- **Votación del almuerzo**: sin opciones de fábrica; un ejemplo gris y cada quien escribe la suya (no duplica, un voto por persona).
+- **Carros**: foto (IA) de la Lexus blanca y la Amarok blanca, «Maneja», «Copiloto», «Atrás», y «Tu carro».
+  Arreglado: los conductores ya no salen como «sin puesto».
+- **Itinerario**: tarjetas con la foto grande, la hora encima y la descripción (antes la columna de la hora lo aplastaba).
+- **Gastos → Dashboard** en lugar de Presupuesto: total, por persona, hoy, en qué se va, por día, quién ha pagado,
+  lo que le toca a cada uno y los gastos más grandes. Ya no avisa «pasa el presupuesto».
+- **Sin botones de IA para imágenes**: `worker/arte.js` es un catálogo fijo (carros, salida, cada plan, juegos,
+  12 actividades, looks él/ella, platos sin foto). `GET /api/arte` da la lista; `/api/arte/<clave>` dibuja una vez y
+  queda en el caché de Cloudflare (y en el teléfono, vía sw.js). `listo.sh` las pide todas al publicar. Modelos de imagen:
+  primero los baratos (flash), el «pro» al final.
+- **Juegos** (Más → Juegos y tarjeta en el inicio), en vivo en todos los teléfonos (sondeo cada 2 s):
+  trivia tipo Kahoot (5 temas + «Nosotros» con datos del viaje, 4 colores, puntos por rapidez, podio),
+  «¿Quién es más probable que…?», karaoke (`/api/canciones` → iTunes: portada y 30 s de muestra; fila, subir/quitar,
+  «Ahora canta», letra en YouTube, aviso «te toca cantar») con **premios** después de cantar, y 12 actividades de playa
+  con «¡Juguemos!».
+- Sin zoom con doble toque (`touch-action: manipulation` + viewport).
+- **Publicar sin la Mac**: la página se puede publicar sola conectando el repo en Cloudflare
+  (Workers & Pages → marea → Settings → Builds → Connect → GitHub `danielm145/marea`, rama `main`,
+  comando de deploy `npx wrangler deploy --config wrangler.dominio.toml`). Los cambios de base (sql/) siguen
+  necesitando `scripts/listo.sh`. Se intentó una función que aplicara el SQL desde la app y se descartó por seguridad.
+- Pruebas: tests/e2e-juegos.mjs (dos teléfonos a la vez), e2e-voto, e2e-carros, e2e-outfit, e2e-portadas,
+  worker-ia (31). Siguen rotas desde antes (igual en v50): album, comida-y-planes, gasto-ia, invitados, logistica,
+  planes-ia, programa-4-dias.

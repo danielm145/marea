@@ -5,7 +5,7 @@ const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleF
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')?r.continue():r.abort()});
 await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>localStorage.clear());await pg.reload();await pg.waitForTimeout(400);
 await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
-console.log('abajo del inicio «Sube tus fotos»:',await pg.locator('.subir-f input[multiple]').count()>=1);
+console.log('subir fotos desde el inicio (álbum):',await pg.locator('.hm-alb input[multiple]').count()>=1);
 // una compra de supermercado: 3 productos, nadie dijo de quién → por platos activo, todo «de todos»
 await pg.evaluate(()=>{const ids=activos().map(p=>p.id);LECT={dataUrl:'data:image/jpeg;base64,/9j/',ev:null,txt:''};
   mostrarPropuesta({resumen:'Compra en Tía, $31',gastos:[{descripcion:'Compra en Tía',monto:31,categoria:'despensa',alcance:'fijo',pagador_ids:[ids[0]],participante_ids:ids,modo:'igual',partes:null,pago_entre:null,evento_id:null,

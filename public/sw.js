@@ -3,7 +3,7 @@
    llega a todos los celulares apenas se despliega. El caché solo entra sin red.
    Supabase NUNCA se cachea (datos vivos y URLs firmadas).
    ⚠️ Subir CACHE cada vez que se toque este archivo. */
-const CACHE = 'marea-v50';
+const CACHE = 'marea-v51';
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
@@ -13,6 +13,15 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.hostname.endsWith('supabase.co') || url.hostname === '127.0.0.1' || url.hostname === 'localhost') return;
+  // las imágenes hechas con IA no cambian nunca: se guardan en el teléfono y salen al instante (también sin señal)
+  if (url.pathname.startsWith('/api/arte/')) {
+    e.respondWith(caches.open('marea-arte').then(async (c) => {
+      const hit = await c.match(req); if (hit) return hit;
+      const r = await fetch(req); if (r && r.ok && (r.headers.get('content-type') || '').startsWith('image/')) c.put(req, r.clone());
+      return r;
+    }));
+    return;
+  }
   if (url.pathname.startsWith('/api/')) return;   // la IA siempre en vivo, nunca del caché
 
   const cacheFirst = url.hostname.includes('cdn') || url.hostname.includes('cloudflare')

@@ -17,6 +17,7 @@
 //
 // La IA NUNCA guarda nada: devuelve una propuesta que la persona revisa y confirma en la app.
 // ============================================================================
+import { ARTE, ARTE_VER } from "./arte.js";
 
 // Google retira modelos sin avisar (9-oct-2026: «gemini-2.5-flash is no longer available to new users»).
 // Se prueba en orden hasta que uno responda; el que sirve se recuerda para no volver a chocar.
@@ -115,6 +116,14 @@ const json = (status, obj, extra = {}) => new Response(JSON.stringify(obj), {
 });
 
 const visitas = new Map();
+// las imágenes del catálogo tienen su propio freno (al publicar se piden todas de una)
+const visitasArte = new Map();
+function frenadoArte(ip) {
+  const ahora = Date.now(), v = (visitasArte.get(ip) || []).filter((t) => ahora - t < 10 * 60 * 1000);
+  v.push(ahora); visitasArte.set(ip, v);
+  if (visitasArte.size > 5000) visitasArte.clear();
+  return v.length > 120;
+}
 function frenado(ip) {
   const ahora = Date.now(), v = (visitas.get(ip) || []).filter((t) => ahora - t < TOPE.ventanaMs);
   v.push(ahora); visitas.set(ip, v);
@@ -462,12 +471,8 @@ export default {
       return new Response("window.MAREA_SB=" + JSON.stringify(sb) + ";\n", { headers: { "content-type": "text/javascript; charset=utf-8", "cache-control": "no-store" } });
     }
     // ── ARTE con la IA de imágenes (Gemini / Vertex): ilustraciones fijas del viaje, generadas UNA vez y guardadas en el caché de Cloudflare ──
-const ARTE = {
-  lexus: "Ilustración estilo póster retro de viaje: una SUV Lexus blanca elegante con tablas de surf y maletas en la parrilla, rodando por una carretera costera de Ecuador con palmeras, el mar Pacífico al lado y un atardecer naranja y rosado. Sin texto, sin letras, sin logos, sin personas visibles. Formato horizontal 16:9, colores cálidos y saturados, ilustración plana moderna.",
-  amarok: "Ilustración estilo póster retro de viaje: una camioneta pickup Volkswagen Amarok gris oscura, con hieleras, parlante y tablas de surf en el balde, por una carretera de montaña verde de los Andes que baja hacia la costa, palmeras y el mar al fondo, cielo turquesa con sol. Sin texto, sin letras, sin logos, sin personas visibles. Formato horizontal 16:9, colores cálidos y saturados, ilustración plana moderna.",
-  salida: "Ilustración vibrante estilo póster retro de viaje por carretera: un carro blanco con tablas de surf y maletas en la parrilla saliendo al amanecer de un barrio con montañas verdes de los Andes de Ecuador, la carretera baja hacia la costa con palmeras y el mar Pacífico al fondo, sol naranja grande, cielo rosado y turquesa, sensación de aventura y amigos. Sin texto, sin letras, sin logos. Formato horizontal 16:9, colores cálidos y saturados, estilo ilustración plana moderna.",
-};
-const MODELOS_IMG = ["gemini-3-pro-image", "gemini-3.1-flash-image", "gemini-2.5-flash-image", "gemini-2.5-flash-image-preview"];
+// primero los que dibujan barato (≈ 4 centavos por imagen); el «pro» solo si los demás fallan
+const MODELOS_IMG = ["gemini-3.1-flash-image", "gemini-2.5-flash-image", "gemini-2.5-flash-image-preview", "gemini-3-pro-image"];
 async function generarArte(env, prompt) {
   const fallas = [];
   // 1) con la cuenta de servicio de Vertex: Imagen
@@ -516,13 +521,35 @@ async function generarArte(env, prompt) {
       try { const img = await generarArte(env, prompt); return new Response(img.bytes, { headers: { "content-type": img.tipo, "cache-control": "no-store" } }); }
       catch (e) { return json(502, { error: "No pude dibujarla", detalle: txt(String(e.message || e), 300) }); }
     }
-    const mArte = url.pathname.match(/^\/api\/arte\/([a-z]+)$/);
-    if (mArte) {
-      const prompt = ARTE[mArte[1]]; if (!prompt) return json(404, { error: "No existe" });
-      const clave = new Request(new URL("/api/arte/" + mArte[1] + "?v=1", req.url).toString());
+    // ── KARAOKE: buscar canciones en iTunes (portada, artista y 30 s de muestra). Se recuerda 1 día ──
+    if (url.pathname === "/api/canciones") {
+      const q = txt(url.searchParams.get("q"), 80);
+      if (q.length < 2) return json(200, { canciones: [] });
+      const clave = new Request(new URL("/api/canciones?q=" + encodeURIComponent(q.toLowerCase()), req.url).toString());
       const cache = typeof caches !== "undefined" ? caches.default : null;
       if (cache) { const hit = await cache.match(clave); if (hit) return hit; }
-      if (frenado(req.headers.get("cf-connecting-ip") || "?")) return json(429, { error: "Espera un momento" });
+      if (frenadoArte(req.headers.get("cf-connecting-ip") || "?")) return json(429, { error: "Espera un momento" });
+      let lista = [];
+      for (const pais of ["EC", "US"]) {
+        const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=15&country=${pais}`, { headers: { "user-agent": "Casablanca/1.0" } }).catch(() => null);
+        const j = r && r.ok ? await r.json().catch(() => null) : null;
+        lista = (j?.results || []).filter((x) => x.trackName).map((x) => ({
+          id: x.trackId, titulo: x.trackName, artista: x.artistName || "", album: x.collectionName || "",
+          portada: String(x.artworkUrl100 || "").replace("100x100bb", "300x300bb"), preview: x.previewUrl || "", anio: String(x.releaseDate || "").slice(0, 4) }));
+        if (lista.length) break;
+      }
+      const resp = new Response(JSON.stringify({ canciones: lista }), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=86400" } });
+      if (cache && lista.length) await cache.put(clave, resp.clone());
+      return resp;
+    }
+    if (url.pathname === "/api/arte") return json(200, { claves: Object.keys(ARTE), ver: ARTE_VER });
+    const mArte = url.pathname.match(/^\/api\/arte\/([a-z0-9-]{2,60})$/);
+    if (mArte) {
+      const prompt = ARTE[mArte[1]]; if (!prompt) return json(404, { error: "No existe" });
+      const clave = new Request(new URL("/api/arte/" + mArte[1] + "?v=" + ARTE_VER, req.url).toString());
+      const cache = typeof caches !== "undefined" ? caches.default : null;
+      if (cache) { const hit = await cache.match(clave); if (hit) return hit; }
+      if (frenadoArte(req.headers.get("cf-connecting-ip") || "?")) return json(429, { error: "Espera un momento" });
       try {
         const img = await generarArte(env, prompt);
         const resp = new Response(img.bytes, { headers: { "content-type": img.tipo, "cache-control": "public, max-age=2592000, immutable" } });

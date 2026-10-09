@@ -236,3 +236,22 @@ await caso("v48 · /api/arte-gen dibuja un plato estilo restaurante (y rechaza t
   assert.equal((await pedirArte({ tipo: "cualquiera", titulo: "x" }, "16.0.0.2")).status, 400);
 });
 console.log(`${ok} casos OK (v48 arte a pedido)`);
+
+await caso("v51 · /api/arte: catálogo (carros blancos, itinerario, juegos) y nada fuera de él", async () => {
+  let prompt = ""; globalThis.fetch = async (url, init) => { prompt = JSON.parse(init.body).contents[0].parts[0].text; return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ inlineData: { mimeType: "image/png", data: btoa("PNG") } }] } }] }), { status: 200 }); };
+  const env = { GEMINI_API_KEY: "AIza" + "f".repeat(35), ASSETS };
+  const l = await (await w.fetch(new Request("https://x/api/arte"), env)).json();
+  for (const k of ["carro-lexus", "carro-amarok", "ev-salida", "ev-ceviche", "ev-micheladas", "ev-fogata", "juego-trivia", "act-voley", "look-welcome-white-ella"]) assert.ok(l.claves.includes(k), k);
+  const r = await w.fetch(new Request("https://x/api/arte/carro-amarok", { headers: { "cf-connecting-ip": "17.0.0.1" } }), env);
+  assert.equal(r.status, 200); assert.ok(/Amarok BLANCA/.test(prompt), "la Amarok es blanca");
+  assert.equal((await w.fetch(new Request("https://x/api/arte/ev-inventado"), env)).status, 404);
+  assert.equal((await w.fetch(new Request("https://x/api/arte/../secreto"), env)).status !== 200, true);
+});
+await caso("v51 · /api/canciones: busca en iTunes y entrega título, artista, portada y muestra", async () => {
+  let pedida = ""; globalThis.fetch = async (url) => { pedida = String(url); return new Response(JSON.stringify({ results: [{ trackId: 1, trackName: "Bailando", artistName: "Enrique Iglesias", artworkUrl100: "https://a/100x100bb.jpg", previewUrl: "https://p.m4a", releaseDate: "2014-01-01" }] }), { status: 200 }); };
+  const r = await w.fetch(new Request("https://x/api/canciones?q=bailando", { headers: { "cf-connecting-ip": "18.0.0.1" } }), { ASSETS });
+  const j = await r.json(); assert.equal(j.canciones[0].titulo, "Bailando"); assert.equal(j.canciones[0].portada, "https://a/300x300bb.jpg");
+  assert.ok(pedida.includes("itunes.apple.com/search") && pedida.includes("entity=song"));
+  assert.equal((await (await w.fetch(new Request("https://x/api/canciones?q=a"), { ASSETS })).json()).canciones.length, 0);
+});
+console.log(`${ok} casos OK (v51 catálogo de imágenes y canciones)`);
