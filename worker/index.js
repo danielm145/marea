@@ -26,7 +26,7 @@ const MODELO_DEF = MODELOS[0];
 let MODELO_VIVO = null;   // el último que respondió bien (por instancia)
 const sinModelo = (status, msg) => status === 404 || (status === 400 && /not found|no longer available|not supported|is not available/i.test(msg || ""));
 const MAX_CUERPO = 6 * 1024 * 1024;           // una foto achicada en el teléfono pesa ~300 KB
-const TOPE = { ventanaMs: 10 * 60 * 1000, max: 40 };  // por IP, por instancia: freno contra abuso
+const TOPE = { ventanaMs: 10 * 60 * 1000, max: 100 };  // por IP, por instancia: freno contra abuso (en la casa todos salen por la misma IP del WiFi)
 
 const CATEGORIAS = ["hospedaje", "despensa", "bebidas", "cocinera", "logistica", "restaurantes", "transporte", "actividades", "otros"];
 const GRUPOS = ["Comida", "Bebidas", "Logística", "Casa", "Actividades", "Compras", "Turnos"];

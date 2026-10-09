@@ -487,3 +487,5 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - Pruebas viejas puestas al día (selectores nuevos): comida-y-planes, gasto-ia, logistica, planes-ia, programa-4-dias.
 - v54: «Tu carro de regreso» en Mi día el último día; ícono de respaldo en las actividades de playa si la imagen
   no está; «Terminar la partida» para quien conduce la trivia o ¿quién es más probable?; prueba del álbum al día.
+- v55: visor de fotos con «toca para acercar» (facturas, álbum, looks), la foto del álbum abre el visor; freno de la IA
+  a 100 por IP cada 10 min (todos salen por el WiFi de la casa); textos viejos de presupuesto fuera.

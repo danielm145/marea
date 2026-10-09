@@ -71,9 +71,9 @@ await caso("foto con formato raro → 400", async () => {
 await caso("otro sitio no puede usarla → 403", async () => {
   const r = await w.fetch(new Request("https://casablanca.fieldbuil.ai/api/ia", { method: "POST", headers: { origin: "https://malo.com" }, body: "{}" }), { GEMINI_API_KEY: "k", ASSETS }); assert.equal(r.status, 403);
 });
-await caso("freno: 41 lecturas seguidas de la misma IP → 429", async () => {
+await caso("freno: 101 lecturas seguidas de la misma IP → 429 (100 alcanzan para todo el grupo en el mismo WiFi)", async () => {
   respuesta = gem({ resumen: "", gastos: [], tareas: [], eventos: [] }); let ult;
-  for (let i = 0; i < 41; i++) ult = await pedir({ texto: "x", contexto: ctx, ip: "9.9.9.9" });
+  for (let i = 0; i < 101; i++) ult = await pedir({ texto: "x", contexto: ctx, ip: "9.9.9.9" });
   assert.equal(ult.status, 429);
 });
 await caso("esquema rechazado → reintenta sin esquema", async () => {
