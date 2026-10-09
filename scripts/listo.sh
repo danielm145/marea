@@ -21,20 +21,24 @@ linea() { echo; echo "════ $1 ════"; }
 
 linea "1/4 · La IA"
 IA_LISTA=0
-if curl -s -m 20 "$URL/api/ia/salud" | grep -q '"ok":true'; then
-  echo "✓ La IA ya está conectada en la página (no hace falta otra llave)"; IA_LISTA=1
+PRUEBA=$(curl -s -m 40 "$URL/api/ia/salud?probar=1")
+if printf '%s' "$PRUEBA" | grep -q '"prueba":"ok"' && [ "${1:-}" != "ia" ]; then
+  echo "✓ La IA ya está conectada y responde (no hace falta otra llave)"; IA_LISTA=1
 elif scripts/ia.sh "${VERTEX_SA_JSON:-}" >/dev/null 2>&1; then
   echo "✓ Conectada con Vertex (la cuenta de servicio de la empresa)"; IA_LISTA=1
 else
   KEY="${GEMINI_API_KEY:-}"
-  for F in .env "$HOME/aero-wms/CREDENCIALES.local.md" "$HOME/aero-ec/CREDENCIALES.local.md" \
-           "$HOME/aero-ec-hub/CREDENCIALES.local.md" "$HOME/aero-plm/CREDENCIALES.local.md" \
-           "$HOME/Documents/AERO_GHOST/.env" "$HOME/aero-wms/.env" "$HOME/aero-ec/.env"; do
+  # la misma llave de Gemini que ya usan los otros proyectos (CREDENCIALES, .env, .dev.vars, scripts de imágenes)
+  for F in "$HOME/aero-wms/CREDENCIALES.local.md" "$HOME/aero-ec/CREDENCIALES.local.md" "$HOME/aero-ec-hub/CREDENCIALES.local.md" \
+           "$HOME/aero-plm/CREDENCIALES.local.md" "$HOME/aero-wms/.env" "$HOME/aero-ec/.env" "$HOME/aero-ec-hub/.dev.vars" \
+           "$HOME/aero-ec/.dev.vars" "$HOME/aero-plm/.env" "$HOME/Documents/AERO_GHOST/.env" "$HOME"/Documents/AERO_GHOST/*.py \
+           "$HOME"/aero-*/scripts/*.py "$HOME"/aero-*/scripts/*.mjs .env; do
     [ -n "$KEY" ] && break
     [ -f "$F" ] && KEY=$(grep -Eo 'AIza[0-9A-Za-z_-]{30,}' "$F" 2>/dev/null | head -1 || true)
   done
+  [ -n "$KEY" ] && echo "  (la encontré en $F)"
   if [ -n "$KEY" ]; then
-    echo "✓ Encontré la llave de Gemini que ya usan los otros proyectos"
+    echo "✓ Usaré la llave de Gemini que ya usan los otros proyectos"
   else
     echo "No encontré ninguna llave de IA en este Mac. Vamos a crear una (1 minuto):"
     echo "  1. Se abre la página de Google: toca «Create API key» y luego «Copy»."
