@@ -155,3 +155,9 @@ await caso("items_actuales viaja al modelo con la pista de «de quién es cada p
   assert.ok(t.includes('"items_actuales"') && t.includes("Bloqueador") && t.includes("DE QUIÉN es cada producto"), t.slice(0, 300));
 });
 console.log(`${ok} casos OK (con items_actuales)`);
+
+await caso("/api/version lee la versión publicada del sw.js", async () => {
+  const A = { fetch: async (req) => new Response(String(req.url).endsWith("/sw.js") ? "const CACHE = 'marea-v39';" : "asset") };
+  const j = await (await w.fetch(new Request("https://x/api/version"), { ASSETS: A })).json(); assert.equal(j.v, "v39");
+});
+console.log(`${ok} casos OK (con versión)`);

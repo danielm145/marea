@@ -461,6 +461,7 @@ a.item{text-decoration:none;color:inherit}
 .pl-ia{display:flex;flex-direction:column;gap:8px;padding:4px 0 10px}.pl-ia .btn{align-self:flex-start}
 .pl-pie{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0 6px;flex-wrap:wrap}
 .chat-ic{background:#EEF3FF;color:#2F80ED}
+.ver-pie{text-align:center;margin:14px 0 4px;font-size:12px;color:var(--ink-3,#8a94a6)}.ver-pie .link{font-size:12px}
 .hm-alb{margin-top:12px;padding:14px 16px 16px}.hm-alb-h{gap:12px;align-items:center}.hm-alb-h b{font-family:var(--f-disp);font-size:18px}.hm-alb-g{margin:12px 0 0}.hm-alb-g button{border-radius:12px}.hm-alb-b{margin-top:12px;justify-content:center;cursor:pointer;gap:8px}.hm-alb-b svg{width:20px;height:20px}.bell-ic{background:#FFF1DB;color:#E8761B}
 .gia-e{display:block;border:0;background:none;padding:0;font:inherit;text-align:left;cursor:pointer;color:inherit;width:100%}
 .av-pick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 4px;padding:4px 0 6px;justify-items:center}
@@ -544,7 +545,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v38';
+const BUILD_TAG='v39';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1190,7 +1191,7 @@ async function boot(){
   try{ME=await API.restore()}catch(e){ME=null}
   if(!ME){pintarLogin();return}
   await cargar();
-  sincronizarPush().catch(()=>{});
+  sincronizarPush().catch(()=>{});revisarVersion();setInterval(revisarVersion,5*60*1000);
   TAB=(location.hash||'#hoy').slice(1).replace(/-m$/,'');if(!tabsVisibles().some(x=>x[0]===TAB))TAB='hoy';
   render();
 }
@@ -1316,9 +1317,21 @@ function vHoy(){
       <button class="btn navy block" onclick="DIA_PLAN='${prox.dia}';SUBE='programa';irA('planes')">Ver itinerario completo ${ic('chev')}</button></div>`:''}
     ${nocheCard(hoy)}
     <button class="card saldo-c" onclick="SUBG='mov';irA('gastos')"><div class="grow"><div class="eyebrow">Mis cuentas</div><div class="muted tiny">${b.saldo>0.009?'En total te deben':b.saldo<-0.009?'En total debes':'Estás a paz y salvo'}</div></div><span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span></button>
+    ${VER_NUEVA?`<div class="banner tide" style="margin-top:12px"><div class="grow"><b>Hay una versión nueva (${esc(VER_NUEVA)})</b><br><span class="tiny">Tú tienes la ${BUILD_TAG}.</span></div><button class="btn sm primary" onclick="actualizarApp()">Actualizar</button></div>`:''}
     <label class="card subir-f"><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"><span class="subir-ic">${ic('cam')}</span><span class="grow"><b>Sube tus fotos al álbum</b><span class="muted tiny">Las del día, las del grupo, las de la playa · varias a la vez</span></span>${ic('chev')}</label>
-    <div style="text-align:center;margin-top:18px">${stk('beachEra','',230)}</div>`;
+    <div style="text-align:center;margin-top:18px">${stk('beachEra','',230)}</div>
+    <div class="ver-pie">Versión ${BUILD_TAG} · <button class="link" onclick="actualizarApp()">Buscar actualización</button></div>`;
 }
+/* ── versión: la app sabe cuál tiene y pregunta cuál está publicada; «Actualizar» limpia el caché y recarga ── */
+let VER_NUEVA='',VER_T=0;
+async function revisarVersion(){if(!/fieldbuil\.ai$|workers\.dev$/.test(location.hostname)||Date.now()-VER_T<60000)return;VER_T=Date.now();
+  try{const r=await fetch('/api/version?x='+Date.now(),{cache:'no-store'});const j=await r.json();const n=j&&j.v;const vNum=v=>+String(v||'').replace(/\D/g,'')||0;
+    const nueva=n&&vNum(n)>vNum(BUILD_TAG)?n:'';if(nueva!==VER_NUEVA){VER_NUEVA=nueva;if(ME&&$('#sheet').hidden)render()}}catch(e){}}
+async function actualizarApp(){toast('Actualizando…');
+  try{if('serviceWorker' in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister()}}catch(e){}
+  try{const ks=await caches.keys();for(const k of ks)await caches.delete(k)}catch(e){}
+  const u=new URL(location.href);u.searchParams.set('v',String(Date.now()));u.hash=location.hash||'#hoy';location.replace(u.toString())}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')revisarVersion()});
 /* el lugar donde se registra todo: una foto y unas palabras, la IA llena el resto */
 /* ── AVISOS (Web Push): gastos nuevos, planes, tareas que te tocan y el chat llegan al teléfono ── */
 const pushOk=()=>MODO==='supabase'&&'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window&&/fieldbuil\.ai$|workers\.dev$/.test(location.hostname);

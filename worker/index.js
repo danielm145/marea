@@ -321,6 +321,11 @@ export default {
       const sb = env.SB_URL && env.SB_ANON ? { url: env.SB_URL, anon: env.SB_ANON } : null;
       return new Response("window.MAREA_SB=" + JSON.stringify(sb) + ";\n", { headers: { "content-type": "text/javascript; charset=utf-8", "cache-control": "no-store" } });
     }
+    // la versión publicada (la lee del sw.js, que lleva CACHE='marea-vNN'): la app la compara con la suya
+    if (url.pathname === "/api/version") {
+      let v = null; try { const t = await (await env.ASSETS.fetch(new Request(new URL("/sw.js", req.url)))).text(); v = (t.match(/marea-(v\d+)/) || [])[1] || null; } catch { /* sin assets */ }
+      return json(200, { v });
+    }
     if (url.pathname === "/api/ia/salud") {
       const m = motorDe(env);
       const base = { ok: !!m, motor: m ? m.nombre : null, modelo: m ? m.modelo : null, llaves: { GOOGLE_SA_B64: !!env.GOOGLE_SA_B64, VERTEX_API_KEY: !!env.VERTEX_API_KEY, GEMINI_API_KEY: !!env.GEMINI_API_KEY, llaves_gemini: llavesGemini(env).length } };

@@ -354,3 +354,7 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - Si la IA no desglosó: botón «Desglosar los productos con IA» (`desglosarConIA`, reenvía la foto).
 - Atajos arriba de las caras: **Para todos** · **Todos excepto…** (se tocan las caras de quien no va; el encabezado dice «todos excepto Kevin») · **Por platos**.
 - Inicio: al final, «Sube tus fotos al álbum» (varias a la vez).
+
+## v39 · versión a la vista y botón Actualizar
+- Pie del inicio: «Versión vNN · Buscar actualización». `/api/version` (worker) lee `marea-vNN` del sw.js publicado; `revisarVersion()` al entrar, al volver a la app y cada 5 min; si hay una más nueva sale el banner «Hay una versión nueva · Actualizar». `actualizarApp()` desregistra el SW, borra cachés y recarga con `?v=`.
+- 9-oct: IA confirmada funcionando con la llave `casablanca` (gemini).
