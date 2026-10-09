@@ -19,7 +19,7 @@ CFG=wrangler.dominio.toml
 URL=https://casablanca.fieldbuil.ai
 linea() { echo; echo "════ $1 ════"; }
 
-linea "1/4 · La IA"
+linea "1/5 · La IA"
 IA_LISTA=0
 PRUEBA=$(curl -s -m 40 "$URL/api/ia/salud?probar=1")
 if printf '%s' "$PRUEBA" | grep -q '"prueba":"ok"' && [ "${1:-}" != "ia" ]; then
@@ -57,7 +57,7 @@ else
   fi
 fi
 
-linea "2/4 · La base de datos y las funciones"
+linea "2/5 · La base de datos y las funciones"
 if [ -f .env ]; then
   node scripts/conectar.mjs 2>&1 | grep -E "✓|✗|Falta|Base lista" || true
   eval "$(node scripts/conectar.mjs --env 2>/dev/null)" || true
@@ -68,7 +68,7 @@ if [ -f .env ]; then
   fi
 else echo "(sin .env: me salto este paso)"; fi
 
-linea "3/4 · Publicar la página"
+linea "3/5 · Publicar la página"
 scripts/deploy.sh "$CFG" 2>&1 | grep -E "publicado|✘|ERROR|error" || true
 
 # las imágenes del viaje (carros, itinerario, juegos, looks, comida): se dibujan con la IA UNA vez y quedan guardadas.
@@ -82,7 +82,7 @@ RES=$(printf '%s\n' $CLAVES | xargs -P 4 -I{} bash -c 'pedir {}')
 OK=$(printf '%s\n' "$RES" | grep -c '^ok' || true); MAL=$(printf '%s\n' "$RES" | grep -c '^mal' || true)
 echo "✓ $OK imágenes listas$( [ "$MAL" != 0 ] && echo " · $MAL no se pudieron todavía (salen con foto de respaldo; vuelve a correr este comando más tarde)")"
 
-linea "4/4 · Prueba real de la IA"
+linea "4/5 · Prueba real de la IA"
 sleep 3
 R=$(curl -s -m 40 "$URL/api/ia/salud?probar=1")
 if printf '%s' "$R" | grep -q '"prueba":"ok"'; then
@@ -93,3 +93,19 @@ else
   echo "  $R"
   echo "Copia ese mensaje y mándaselo a Claude."
 fi
+
+linea "5/5 · Revisión final de la página publicada"
+TAG=$(grep -o "BUILD_TAG='v[0-9]*'" public/index.html | head -1 | grep -o "v[0-9]*")
+PUB=$(curl -s -m 20 "$URL/api/version" | grep -o '"v":"v[0-9]*"' | grep -o 'v[0-9][0-9]*')
+[ "$PUB" = "$TAG" ] && echo "✓ Versión publicada: $PUB" || echo "✗ La página publicada dice ${PUB:-nada} y debería decir $TAG (espera 1 minuto y corre otra vez)"
+N=$(curl -s -m 20 "$URL/api/arte" | grep -o '"[a-z0-9-]*"' | grep -vc '"claves"\|"ver"\|"v2"' || true)
+echo "✓ Catálogo de imágenes: $N (dibujadas arriba: $OK)"
+C=$(curl -s -m 20 "$URL/api/canciones?q=bailando%20enrique" | grep -o '"titulo"' | wc -l | tr -d ' ')
+[ "${C:-0}" -gt 0 ] && echo "✓ Buscador de canciones del karaoke (iTunes): $C resultados" || echo "✗ El buscador de canciones no respondió"
+if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_ANON_KEY:-}" ]; then
+  for T in juegos karaoke votos_juego look_guias; do
+    R=$(curl -s -m 15 -o /dev/null -w "%{http_code}" "$SUPABASE_URL/rest/v1/$T?select=*&limit=1" -H "apikey: $SUPABASE_ANON_KEY" -H "Accept-Profile: marea")
+    case "$R" in 200|401|403) echo "✓ Tabla $T en la base";; *) echo "✗ Falta la tabla $T en la base ($R): vuelve a correr este comando";; esac
+  done
+fi
+echo; echo "Listo. En cada celular: abre la app y toca «Actualizar» hasta ver «Versión $TAG»."
