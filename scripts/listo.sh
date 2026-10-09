@@ -21,7 +21,9 @@ linea() { echo; echo "════ $1 ════"; }
 
 linea "1/4 · La IA"
 IA_LISTA=0
-if scripts/ia.sh "${VERTEX_SA_JSON:-}" >/dev/null 2>&1; then
+if curl -s -m 20 "$URL/api/ia/salud" | grep -q '"ok":true'; then
+  echo "✓ La IA ya está conectada en la página (no hace falta otra llave)"; IA_LISTA=1
+elif scripts/ia.sh "${VERTEX_SA_JSON:-}" >/dev/null 2>&1; then
   echo "✓ Conectada con Vertex (la cuenta de servicio de la empresa)"; IA_LISTA=1
 else
   KEY="${GEMINI_API_KEY:-}"
