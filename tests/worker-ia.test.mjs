@@ -207,3 +207,11 @@ await caso("v44 · una factura = un gasto (si el intérprete la parte en dos, qu
   assert.equal(j.propuesta.gastos.length, 1); assert.equal(j.propuesta.gastos[0].monto, 16); assert.equal(j.propuesta.gastos[0].factura.items.length, 2); assert.equal(j.propuesta.album, null);
 });
 console.log(`${ok} casos OK (v44)`);
+
+await caso("v46 · outfit: la IA arma las piezas del look para ella (sin texto ni foto)", async () => {
+  let visto = null; globalThis.fetch = async (url, init) => { visto = JSON.parse(init.body); return gem({ titulo: "Lino crudo y brisa", piezas: [{ parte: "Vestido", idea: "Vestido de lino blanco hasta el tobillo" }, { parte: "Zapatos", idea: "Sandalias de cuero" }], tip: "Lleva un chal" })(); };
+  const r = await w.fetch(new Request("https://casablanca.fieldbuil.ai/api/ia", { method: "POST", headers: { "content-type": "application/json", origin: "https://casablanca.fieldbuil.ai", "cf-connecting-ip": "14.0.0.1" }, body: JSON.stringify({ modo: "outfit", texto: "", contexto: { look: { nombre: "Welcome White Night", paleta: ["#FFFFFF"], ideas: ["Lino blanco"] }, para: "ella" } }) }), { GEMINI_API_KEY: "k", ASSETS });
+  const j = await r.json(); assert.equal(r.status, 200, JSON.stringify(j)); assert.equal(j.outfit.piezas.length, 2); assert.equal(j.outfit.titulo, "Lino crudo y brisa");
+  assert.ok(visto.systemInstruction.parts[0].text.includes("estilista") && visto.contents[0].parts[0].text.includes("ella (mujer)"));
+});
+console.log(`${ok} casos OK (v46 outfit)`);

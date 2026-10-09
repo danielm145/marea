@@ -385,3 +385,7 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 
 ## v45 · el botón de abajo es solo para el álbum
 - «Fotos al álbum» en la barra (entre Hoy e Itinerario): abre cámara o carrete, varias fotos, directo a la hoja de subir al álbum (`elegirFotos`). Sin IA. Las facturas van por «Foto de la factura» en el inicio.
+
+## v46 · el look de cada noche: «Armar mi outfit con IA» en vez de «Subir inspiración»
+- En cada look (Itinerario → Dress code) se quitó la caja «Subir inspiración» (las fotos que ya hubiera se siguen viendo). Entra el botón «Armar mi outfit con IA» → hoja con la paleta, «Para ella / Para él», cajita opcional «lo que ya tienes en la maleta» y «Armar mi outfit» / «Otra idea».
+- Worker: `modo:'outfit'` (`outfitDe`, `SISTEMA_OUTFIT`, esquema chico) → `{titulo, piezas:[{parte, idea}], tip}`; temperatura 0.8 para que «Otra idea» cambie. Sin IA o si falla, `outfitLocal` arma uno con las ideas del look.

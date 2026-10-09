@@ -347,8 +347,34 @@ function gastoDesdeRecibo(rec, contexto) {
   };
 }
 
+/* ── OUTFIT: la IA arma un look concreto para una noche temática (para él, para ella), con lo que la persona ya tenga ── */
+const ESQUEMA_OUTFIT = O({
+  titulo: S(), piezas: A(O({ parte: S(), idea: S() }, ["parte", "idea"])), tip: S({ nullable: true }),
+}, ["titulo", "piezas"]);
+const SISTEMA_OUTFIT = `Eres el estilista de un viaje de amigos a la playa en Same, Esmeraldas (Ecuador): clima cálido y húmedo, arena, noches frescas con brisa.
+Te dan el LOOK de una noche temática (nombre, descripción, paleta de colores e ideas) y para quién es. Arma UN outfit concreto y fácil de conseguir:
+- piezas: de 4 a 6, en este orden cuando aplique: "Arriba", "Abajo" (o "Vestido" / "Enterizo"), "Zapatos", "Accesorios", "Pelo y maquillaje" (solo para ella) o "Detalle", y "Si refresca".
+- idea: corta y concreta (máx. 70 caracteres), con el color de la paleta y la tela. Nada de marcas ni cosas caras; ropa que se tiene o se consigue fácil.
+- Si la persona cuenta lo que ya tiene, ÚSALO y arma el resto alrededor.
+- titulo: 3 a 6 palabras con gracia ("Lino crudo y brisa de mar"). tip: una frase práctica para la playa (arena, humedad, foto del grupo).
+Responde en español colombiano, cálido, sin emojis.`;
+async function outfitDe(env, motor, cuerpo) {
+  const L = (cuerpo.contexto && cuerpo.contexto.look) || {};
+  const look = { nombre: txt(L.nombre, 80), descripcion: txt(L.descripcion, 400), paleta: (Array.isArray(L.paleta) ? L.paleta : []).slice(0, 6).map((c) => txt(c, 9)), ideas: (Array.isArray(L.ideas) ? L.ideas : []).slice(0, 10).map((i) => txt(i, 60)) };
+  const para = ["el", "ella", "unisex"].includes(cuerpo.contexto?.para) ? cuerpo.contexto.para : "unisex";
+  const res = await consultar(env, motor, { sistema: SISTEMA_OUTFIT, esquema: ESQUEMA_OUTFIT, temperatura: 0.8, maxTokens: 2048,
+    forma: '{"titulo":"","piezas":[{"parte":"Arriba","idea":""}],"tip":""}',
+    partes: [{ text: `LOOK:\n${JSON.stringify(look)}\nPARA: ${para === "el" ? "él (hombre)" : para === "ella" ? "ella (mujer)" : "cualquiera"}\nLO QUE YA TIENE O PIDE: ${txt(cuerpo.texto, 400) || "(nada en especial)"}` }] });
+  if (!res.ok) return { status: res.status === 429 ? 429 : 502, cuerpo: { error: res.status === 402 ? "La llave de la IA no tiene saldo." : "La IA no respondió.", detalle: res.msg } };
+  const o = res.j || {};
+  const piezas = (Array.isArray(o.piezas) ? o.piezas : []).slice(0, 7).map((x) => ({ parte: txt(x?.parte, 30), idea: txt(x?.idea, 90) })).filter((x) => x.parte && x.idea);
+  if (!piezas.length) return { status: 502, cuerpo: { error: "La IA no armó el outfit. Prueba otra vez." } };
+  return { status: 200, cuerpo: { outfit: { titulo: txt(o.titulo, 60) || look.nombre, piezas, tip: txt(o.tip, 160) || null }, motor: res.motor.nombre, modelo: res.motor.modelo } };
+}
+
 async function pensar(env, motorIni, cuerpo) {
   let motor = motorIni;
+  if (cuerpo.modo === "outfit") return outfitDe(env, motor, cuerpo);
   const ctx = cuerpo.contexto || {};
   const contexto = {
     autor_id: txt(ctx.autor_id, 64), autor: txt(ctx.autor, 60), hoy: fechaOk(ctx.hoy), moneda: txt(ctx.moneda, 5) || "USD",
@@ -479,7 +505,7 @@ export default {
       const largo = +(req.headers.get("content-length") || 0);
       if (largo > MAX_CUERPO) return json(413, { error: "La foto es muy pesada." });
       let cuerpo; try { cuerpo = await req.json(); } catch { return json(400, { error: "Mensaje inválido" }); }
-      if (!txt(cuerpo?.texto) && !cuerpo?.imagen) return json(400, { error: "Cuéntale algo o sube una foto." });
+      if (!txt(cuerpo?.texto) && !cuerpo?.imagen && cuerpo?.modo !== "outfit") return json(400, { error: "Cuéntale algo o sube una foto." });
       try { const r = await pensar(env, motor, cuerpo); return json(r.status, r.cuerpo); }
       catch (e) { return json(502, { error: "La IA no respondió.", detalle: txt(String(e?.message || e), 200) }); }
     }

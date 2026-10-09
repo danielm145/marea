@@ -230,6 +230,9 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
 .foto img,.foto .pv{width:100%;height:150px;object-fit:cover;border-radius:0}
 .foto .cap{padding:8px 10px;font-size:13px;color:var(--ink-2)}
 .swatch{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);flex:none}
+.out-b{margin-top:14px;justify-content:center;gap:8px;background:linear-gradient(135deg,#EEF3FF,#FFF4F6);border:1px solid #DCE4FF;color:#4B3FBF;font-weight:800}.out-b svg{width:18px;height:18px}
+.out-card{padding:14px 16px}.out-row{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.out-row:first-of-type{border-top:0}.out-p{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--sun)}.out-i{font-weight:600}
+.ia-sello svg{width:18px;height:18px}
 .insp{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:12px}
 .insp img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px}
 .insp-add{aspect-ratio:3/4;border:1.5px dashed var(--line);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--ink-2);font-size:12px;text-align:center;cursor:pointer;padding:6px}
@@ -550,7 +553,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v45';
+const BUILD_TAG='v46';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -2628,7 +2631,7 @@ function vDress(){
   /* un look por día aunque esa noche tenga dos planes (BBQ + karaoke): una sola tarjeta */
   const G=[];L.forEach(x=>{const k=(x.dia||'')+'|'+((x.estilo||{}).nombre||x.dress_code);const g=G.find(y=>y.k===k);g?g.evs.push(x):G.push({k,evs:[x]})});
   const noche=G.filter(g=>g.evs.some(esNoche)), dia=G.filter(g=>!g.evs.some(esNoche));
-  return `<p class="muted" style="margin:14px 0 0">El look de cada noche. Toca una foto para verla grande y sube tu inspiración.</p>`+noche.map(({evs})=>{const e=evs[0],st=e.estilo||{},fotos=INSPI.filter(x=>evs.some(v=>v.id===x.evento_id));
+  return `<p class="muted" style="margin:14px 0 0">El look de cada noche. Toca la foto para verla en grande y pídele a la IA que te arme el outfit.</p>`+noche.map(({evs})=>{const e=evs[0],st=e.estilo||{},fotos=INSPI.filter(x=>evs.some(v=>v.id===x.evento_id));
     const pal=(st.paleta||[]).filter(hexOk), fondo=pal.length>1?`linear-gradient(135deg,${pal.slice(0,4).join(',')})`:'var(--hero)';
     const claro=pal.length&&pal.slice(0,2).every(c=>{const n=parseInt(c.slice(1),16);return ((n>>16)*299+((n>>8)&255)*587+(n&255)*114)/1000>170});
     const di=e.dia?diasViaje().indexOf(e.dia):-1;
@@ -2640,9 +2643,35 @@ function vDress(){
       ${st.descripcion?`<p style="margin:0">${esc(st.descripcion)}</p>`:''}
       ${pal.length?`<div class="row" style="gap:8px;margin-top:12px">${pal.map(c=>`<span class="swatch lg" style="background:${c}" title="${c}"></span>`).join('')}</div>`:''}
       ${(st.ideas||[]).length?`<div class="chips" style="margin-top:12px">${st.ideas.map(i=>`<span class="pill sun">${esc(i)}</span>`).join('')}</div>`:''}
-      <div class="insp">${fotos.map(f=>{const u=fotoUrl(f.foto);return u?`<img src="${esc(u)}" alt="Inspiración de ${esc(nom(f.persona_id))}" title="${esc(nom(f.persona_id))}" onclick="verLook(this.src)">`:''}).join('')}<label class="insp-add">${ic('cam')}<span>Subir inspiración</span><input type="file" accept="image/*" hidden onchange="subirInspiracion('${e.id}',this)"></label></div></div></article>`}).join('')+(dia.length?`<div class="sec-h"><h2>De día</h2></div><div class="card"><div class="list">${dia.map(({evs})=>{const e=evs[0],st=e.estilo||{};return `<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(st.nombre||e.dress_code)}</div><div class="s">${evs.map(v=>esc(v.titulo)).join(' + ')}${e.dia?' · '+nomDia(diasViaje().indexOf(e.dia)):''}</div></div></div>`}).join('')}</div></div>`:'')
+      ${fotos.length?`<div class="insp">${fotos.map(f=>{const u=fotoUrl(f.foto);return u?`<img src="${esc(u)}" alt="Inspiración de ${esc(nom(f.persona_id))}" title="${esc(nom(f.persona_id))}" onclick="verLook(this.src)">`:''}).join('')}</div>`:''}
+      <button class="btn block out-b" onclick="outfitIA('${e.id}')">${GEM_SVG} Armar mi outfit con IA</button></div></article>`}).join('')+(dia.length?`<div class="sec-h"><h2>De día</h2></div><div class="card"><div class="list">${dia.map(({evs})=>{const e=evs[0],st=e.estilo||{};return `<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(st.nombre||e.dress_code)}</div><div class="s">${evs.map(v=>esc(v.titulo)).join(' + ')}${e.dia?' · '+nomDia(diasViaje().indexOf(e.dia)):''}</div></div></div>`}).join('')}</div></div>`:'')
     ||`<div class="card flat empty" style="margin-top:14px">Cuando haya noches en el itinerario, aquí sale el dress code de cada una.</div>`;
 }
+/* ── OUTFIT CON IA: para él o para ella, con lo que ya tengas; la IA arma las piezas con la paleta de la noche ── */
+let OUT={ev:null,para:'',res:null};
+function outfitIA(evId){const e=EVENTOS.find(x=>x.id===evId);if(!e)return;OUT={ev:evId,para:OUT.ev===evId?OUT.para:'',res:OUT.ev===evId?OUT.res:null};pintarOutfit()}
+function lookDe(e){const st=e.estilo||{};return {nombre:(st.nombre||e.dress_code||'').replace(/ · Día \d+$/,''),descripcion:st.descripcion||'',paleta:(st.paleta||[]).filter(hexOk),ideas:st.ideas||[]}}
+function pintarOutfit(){const e=EVENTOS.find(x=>x.id===OUT.ev);if(!e)return;const L=lookDe(e),R=OUT.res;
+  openSheet(`${sheetH(esc(L.nombre))}<div class="stack">
+    ${L.paleta.length?`<div class="row" style="gap:8px">${L.paleta.map(c=>`<span class="swatch lg" style="background:${c}"></span>`).join('')}</div>`:''}
+    <div class="ia-sec"><div class="eyebrow">¿Para quién?</div><div class="chips"><button class="chip" aria-pressed="${OUT.para==='ella'}" onclick="OUT.para='ella';pintarOutfit()">Para ella</button><button class="chip" aria-pressed="${OUT.para==='el'}" onclick="OUT.para='el';pintarOutfit()">Para él</button></div></div>
+    <textarea id="outx" class="in" rows="2" placeholder="Opcional: lo que ya tienes en la maleta, ej. «tengo un vestido blanco de crochet y sandalias cafés»">${esc(OUT.txt||'')}</textarea>
+    <button class="btn primary block" id="outgo" onclick="pedirOutfit()">${GEM_SVG} ${R?'Otra idea':'Armar mi outfit'}</button>
+    <div id="outres">${R?outfitHTML(R):''}</div></div>`)}
+function outfitHTML(R){return `<div class="card out-card ia-llena"><div class="ia-sello">${GEM_SVG} ${esc(R.titulo)}</div>
+  ${R.piezas.map(p=>`<div class="out-row"><span class="out-p">${esc(p.parte)}</span><span class="out-i">${esc(p.idea)}</span></div>`).join('')}
+  ${R.tip?`<p class="tiny muted" style="margin:10px 0 0">${esc(R.tip)}</p>`:''}</div>`}
+/* sin IA (o si falla): un outfit armado con las ideas del look, para que nunca quede vacío */
+function outfitLocal(L,para){const I=L.ideas.slice();const pick=re=>{const i=I.findIndex(x=>re.test(norm(x)));return i>=0?I.splice(i,1)[0]:''};
+  const piezas=[['Arriba',pick(/camisa|blusa|top|crop|guayabera|polo/)],['Abajo',pick(/pantal|short|falda|bermuda|vestido|enterizo|bikini/)],['Zapatos',pick(/sandal|zapat|alpargat|tenis|mocasin/)],['Accesorios',pick(/sombrer|collar|gafas|arete|pulsera|bolso|panuelo/)],...I.map(x=>['Detalle',x])].filter(([,v])=>v).slice(0,6).map(([parte,idea])=>({parte,idea}));
+  return {titulo:L.nombre,piezas:piezas.length?piezas:[{parte:'Idea',idea:L.descripcion||'Sigue la paleta de la noche'}],tip:'Lleva algo para la brisa de la noche.'}}
+async function pedirOutfit(){const e=EVENTOS.find(x=>x.id===OUT.ev);if(!e)return;const L=lookDe(e);OUT.txt=($('#outx')||{}).value||'';const b=$('#outgo');if(b){b.disabled=true;b.textContent='Armando tu outfit…'}
+  let R=null;
+  if(IA_URL){if(!IA.probada)await probarIA();
+    if(IA.ok){try{let auth={};if(MODO==='supabase'){const{data}=await Sb.c.auth.getSession();if(data&&data.session)auth={authorization:'Bearer '+data.session.access_token}}
+      const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json',...auth},body:JSON.stringify({modo:'outfit',texto:OUT.txt,contexto:{look:L,para:OUT.para||'unisex'}})});
+      const j=await r.json().catch(()=>({}));if(r.ok&&j.outfit)R=j.outfit;else toast(j.error||'La IA no respondió: te dejo una idea con el look.')}catch(err){toast('La IA no respondió: te dejo una idea con el look.')}}}
+  OUT.res=R||outfitLocal(L,OUT.para);pintarOutfit()}
 async function subirInspiracion(evId,inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,900,.8);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);if(MODO!=='demo')FOTOS[ref]=dataUrl;await API.addInspiracion({id:uid(),evento_id:evId,persona_id:ME.id,foto:ref,nota:''});await cargar();toast('Inspiración subida');render()}catch(e){toast(e.message)}}
 /* itinerario: comidas y planes del día en una sola línea de tiempo */
 const minDe=h=>{const m=String(h||'').match(/^(\d{1,2}):(\d{2})/);return m?(+m[1])*60+(+m[2]):null};
