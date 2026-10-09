@@ -459,7 +459,8 @@ a.item{text-decoration:none;color:inherit}
 .pl-card{padding:4px 12px}.pl-row{padding:10px 0;border-bottom:1px solid var(--line)}.pl-row:last-of-type{border-bottom:0}.pl-h{display:flex;align-items:baseline;gap:10px}.pl-n{flex:1;font-weight:700;min-width:0}.pl-n small{color:var(--ink-3);font-weight:600}.pl-p{border:0;background:var(--bg);border-radius:8px;padding:4px 8px;font:inherit;font-weight:800;cursor:pointer;color:var(--tide-deep)}
 .pl-avs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}.pl-av{border:0;background:none;padding:0;cursor:pointer;opacity:.35;transition:opacity .15s,transform .15s}.pl-av .av{width:34px;height:34px;font-size:13px}.pl-av.on{opacity:1}.pl-av.on .av{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--sun)}.pl-av:active{transform:scale(.92)}.pl-de{font-size:12px;color:var(--ink-3);font-weight:700;margin-left:auto}
 .pl-pie{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0 6px;flex-wrap:wrap}
-.chat-ic{background:#EEF3FF;color:#2F80ED}.bell-ic{background:#FFF1DB;color:#E8761B}
+.chat-ic{background:#EEF3FF;color:#2F80ED}
+.hm-alb{margin-top:12px;padding:14px 16px 16px}.hm-alb-h{gap:12px;align-items:center}.hm-alb-h b{font-family:var(--f-disp);font-size:18px}.hm-alb-g{margin:12px 0 0}.hm-alb-g button{border-radius:12px}.hm-alb-b{margin-top:12px;justify-content:center;cursor:pointer;gap:8px}.hm-alb-b svg{width:20px;height:20px}.bell-ic{background:#FFF1DB;color:#E8761B}
 .gia-e{display:block;border:0;background:none;padding:0;font:inherit;text-align:left;cursor:pointer;color:inherit;width:100%}
 .av-pick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 4px;padding:4px 0 6px;justify-items:center}
 .avp{flex:0 0 auto;width:66px;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;font:inherit;cursor:pointer;color:var(--ink);padding:0;transition:opacity .2s}
@@ -542,7 +543,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v36';
+const BUILD_TAG='v37';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1304,7 +1305,7 @@ function vHoy(){
         ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'noches','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
     ${iaCard()}
-    <label class="card subir-f"><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"><span class="subir-ic">${ic('galeria')}</span><span class="grow"><b>Subir fotos del viaje</b><span class="muted tiny">Al álbum de todos · puedes escoger varias</span></span>${ic('chev')}</label>
+    ${albumCard()}
     ${chatCard()}
     ${avisosCard()}
     ${instalarCard()}
@@ -1332,6 +1333,11 @@ async function sincronizarPush(forzar){if(!pushOk()||Notification.permission!=='
   try{sessionStorage.setItem('marea_push_ok','1')}catch(e){}}
 /* avisar a otros (nunca a uno mismo); si falla, lo que se guardó ya quedó guardado */
 function avisar(avisos){if(MODO!=='supabase'||!avisos||!avisos.length)return;const L=avisos.filter(a=>a&&a.para_id&&a.para_id!==ME.id);if(L.length)API.fn('marea-avisar',{action:'enviar',avisos:L}).catch(()=>{})}
+/* el álbum en el inicio: las últimas fotos (se abren en grande al tocarlas) y subir las tuyas con un toque */
+function albumCard(){const L=MURO.slice().sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''))).slice(0,6);
+  return `<div class="card hm-alb"><div class="row hm-alb-h"><span class="subir-ic">${ic('galeria')}</span><div class="grow"><b>Álbum del viaje</b><div class="muted tiny">${MURO.length?MURO.length+' foto'+(MURO.length===1?'':'s')+' · las sube cualquiera, las ven todos':'Todavía no hay fotos: sube la primera'}</div></div>${MURO.length?`<button class="pill-b" onclick="SUBN='album';FALB='';irA('nosotros')">Ver todo ${ic('chev')}</button>`:''}</div>
+    ${L.length?`<div class="alb hm-alb-g">${L.map(f=>{const u=fotoUrl(f.foto_path);return `<button onclick="FALB='';verFoto('${f.id}')" aria-label="Ver foto de ${esc(nom(f.persona_id))}">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}</button>`}).join('')}</div>`:''}
+    <label class="btn primary block hm-alb-b">${ic('cam')} Subir fotos<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div>`}
 /* acceso rápido al chat del grupo, con el último mensaje */
 function chatCard(){const ult=MENSAJES[MENSAJES.length-1];return `<button class="card subir-f" onclick="irA('chat')"><span class="subir-ic chat-ic">${ic('chat')}</span><span class="grow"><b>Chat del grupo</b><span class="muted tiny">${ult?esc(nom(ult.persona_id))+': '+esc(ult.texto||'📷 Foto'):'Escribe el primero'}</span></span>${ic('chev')}</button>`}
 /* la estrella de Gemini (4 puntas, azul → morado → rosa): dice sin palabras «aquí lee la IA» */

@@ -343,3 +343,7 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - **Avisos push** (RFC 8291): `sql/017_avisos_push.sql` (`push_subs`, `push_vapid`, solo service_role), Edge Function `marea-avisar` (vapid/guardar/quitar/enviar; crea la pareja VAPID sola; borra el teléfono a los 3 fallos o 404/410), `sw.js` (push + notificationclick → la pestaña del hash). Front: tarjeta «Recibir avisos» en el inicio (iPhone solo instalada), `sincronizarPush` al entrar, `avisar()` tras: gasto nuevo (a cada participante con lo que le toca), pago (al que cobra), tarea asignada, plan nuevo, mensaje del chat.
 - Inicio: acceso rápido al **Chat del grupo** con el último mensaje.
 - Se quitó el robot de GitHub (`.github/workflows`): Daniel no va a poner llaves ahí. Se publica con `scripts/listo.sh`, que ahora también sube las dos funciones.
+
+## v37 · álbum en el inicio
+- `albumCard()`: debajo de la factura, «Álbum del viaje» con las últimas 6 fotos (tocar → `verFoto` en grande, con autor, anterior/siguiente), «Ver todo» y botón grande «Subir fotos» (varias). Reemplaza al botón suelto de v35.
+- IA: Google ya entrega llaves `AQ.…` además de `AIza…`; el worker lee cualquier llave guardada en Cloudflare (se llame como se llame) y si una da 402 (sin saldo) prueba la siguiente. El saldo prepago de AI Studio de Daniel (COP 60.000 del 8-oct) sigue sin aplicarse a la API: la llave buena es la del proyecto nuevo (`casablanca`).
