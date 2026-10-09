@@ -438,6 +438,8 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .k-sigue{display:flex;gap:12px;padding:12px;margin-top:12px;align-items:flex-start;border:2px solid #F2C14E}.k-sig-img{width:96px;height:96px;border-radius:14px;object-fit:cover;flex:none;cursor:zoom-in;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .k-sig-ph{display:grid;place-items:center;background:linear-gradient(135deg,#2A0E5C,#B0186B);color:#fff}.k-sig-ph svg{width:36px;height:36px}.k-sig-in{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}.k-sig-t{font-size:19px;line-height:1.2}.k-sig-a{color:var(--ink-3);font-size:14px}
 .k-sig-c{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:6px}.k-sig-p{display:inline-flex;align-items:center;gap:6px}.k-sig-p b{font-size:14px}
+.kr-i img{width:64px!important;height:64px!important;border-radius:10px;cursor:zoom-in}.kr-ph{width:64px;height:64px;border-radius:10px;flex:none;display:grid;place-items:center;background:#eee}.kr-a{display:block;font-size:14px;color:var(--ink-2);font-weight:600}.kr-d{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kq-i .heart{flex:none}.kr-ph svg,.kq-ph svg{width:24px;height:24px}.kr-i,.kq-i{min-width:0;max-width:100%}.kr-i>.btn,.kq-i>.btn,.kr-i>.x{flex:none}.kres-l,.kq{min-width:0;overflow:hidden}.kbus{overflow:hidden}
 .tl3{display:grid;gap:14px;margin-top:12px}.tl3-c{display:block;width:100%;padding:0;border:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit}
 .tl3-i.now .tl3-c{box-shadow:0 0 0 2.5px #14A37F,var(--shadow)}.tl3-img{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#ffe3c2,#cfe8f5)}.tl3-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tl3-h{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.95);color:var(--ink);font-weight:800;font-size:14px;padding:5px 11px;border-radius:99px;font-variant-numeric:tabular-nums;box-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -641,7 +643,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v58';
+const BUILD_TAG='v59';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -3401,11 +3403,12 @@ function vJuegos(){
   if(JSUB==='carro')return seg+vCarro();   // sin internet también: no necesita la base
   if(!JUEGOS_OK)return seg+`<div class="card flat empty" style="margin-top:14px">${ic('juegos')}<div>Sin conexión o falta publicar la versión nueva. Mientras tanto, los <button class="link" onclick="JSUB='carro';render()">juegos de carro</button> funcionan sin internet.</div></div>`;
   if(JSUB==='playa')return seg+vPlaya();
+  if(JSUB==='karaoke'){setTimeout(portadasSug,80);setTimeout(completarPortadas,60)}
   if(JSUB==='karaoke')return seg+`<div id="jdin">${karaokeDin()}</div>${karaokeBuscar()}<div id="jsug">${ksugHTML()}</div><div id="jprem">${premiosHTML()}</div>`;
   return seg+`<div id="jdin">${JSUB==='probable'?probableDin():triviaDin()}</div>`;
 }
 /* lo que cambia con los datos se repinta solo (sin tocar el buscador: nunca se repinta un campo desde su propio oninput) */
-function pintarJuegos(){if(TAB!=='juegos')return;if(JSUB==='karaoke')setTimeout(completarPortadas,50);const d=$('#jdin');if(d)d.innerHTML=JSUB==='karaoke'?karaokeDin():JSUB==='probable'?probableDin():JSUB==='trivia'?triviaDin():d.innerHTML;const p=$('#jprem');if(p)p.innerHTML=premiosHTML();const sg=$('#jsug');if(sg)sg.innerHTML=ksugHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
+function pintarJuegos(){if(TAB!=='juegos')return;if(JSUB==='karaoke'){setTimeout(completarPortadas,50);setTimeout(portadasSug,80)}const d=$('#jdin');if(d)d.innerHTML=JSUB==='karaoke'?karaokeDin():JSUB==='probable'?probableDin():JSUB==='trivia'?triviaDin():d.innerHTML;const p=$('#jprem');if(p)p.innerHTML=premiosHTML();const sg=$('#jsug');if(sg)sg.innerHTML=ksugHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
 let JULT=0;
 async function sondearJuegos(){if(!ME||document.hidden||(TAB!=='juegos'&&TAB!=='hoy'))return;if(TAB==='hoy'&&Date.now()-JULT<20000)return;JULT=Date.now();
   await cargarJuegos();const h=JSON.stringify([JUEGOS,JRESP.length,KARAOKE,VOTJ.length]);if(h===JHUELLA){if(TAB==='juegos')tickJuego();return}JHUELLA=h;
@@ -3499,7 +3502,7 @@ function karaokeBuscar(){return `<div class="sec-h"><h2>Pedir una canción</h2><
 function kResHTML(){if(KBUSCANDO)return '<div class="muted tiny" style="margin-top:10px">Buscando…</div>';if(KRES===null)return '<div class="tiny muted" style="margin-top:8px">Las canciones vienen de iTunes, con su portada y 30 segundos para oírla.</div>';
   if(KRES==='error')return `<div class="tiny muted" style="margin-top:10px">No pude buscar ahora. <button class="link" onclick="pedirCancion(null)">Escríbela tú</button></div>`;
   if(!KRES.length)return `<div class="tiny muted" style="margin-top:10px">No la encontré. <button class="link" onclick="pedirCancion(null)">Escríbela tú</button></div>`;
-  return `<div class="kres-l">${KRES.map((c,i)=>`<div class="kr-i">${c.portada?`<img src="${esc(c.portada)}" alt="" loading="lazy">`:''}<div class="grow" style="min-width:0"><b>${esc(c.titulo)}</b><span class="tiny muted">${esc(c.artista)}${c.anio?' · '+c.anio:''}</span></div>${c.preview?`<button class="x sm" aria-label="Oír" onclick="oirMuestra('r${i}')">${ic(AUDIO_ID==='r'+i?'pausa':'play')}</button>`:''}<button class="btn sm primary" onclick="pedirCancion(${i})">Pedir</button></div>`).join('')}</div>`}
+  return `<div class="tiny muted" style="margin-top:8px">${KRES.length} canciones · toca la portada para verla en grande</div><div class="kres-l">${KRES.map((c,i)=>`<div class="kr-i">${c.portada?`<img src="${esc(c.portada)}" alt="" loading="lazy" onclick="verImagen('${esc(String(c.portada).replace('300x300bb','600x600bb'))}',${esc(JSON.stringify(c.titulo+' · '+c.artista))})">`:`<span class="kr-ph">${ic('mic')}</span>`}<div class="grow" style="min-width:0"><b>${esc(c.titulo)}</b><span class="kr-a">${esc(c.artista)}</span><span class="tiny muted kr-d">${[c.album,c.anio,c.genero,c.duracion].filter(Boolean).map(esc).join(' · ')}</span></div>${c.preview?`<button class="x sm" aria-label="Oír" onclick="oirMuestra('r${i}')">${ic(AUDIO_ID==='r'+i?'pausa':'play')}</button>`:''}<button class="btn sm primary" onclick="pedirCancion(${i})">Pedir</button></div>`).join('')}</div>`}
 let KT=null;function buscarCancionLuego(){clearTimeout(KT);KT=setTimeout(()=>{if(KQ.trim().length>=3)buscarCancion()},600)}
 async function buscarCancion(){const q=KQ.trim();if(q.length<2)return;KBUSCANDO=true;$('#kres')&&($('#kres').innerHTML=kResHTML());
   try{const r=await fetch('/api/canciones?q='+encodeURIComponent(q));if(!r.ok)throw 0;const j=await r.json();if(KQ.trim()!==q)return;KRES=j.canciones||[]}catch(e){KRES='error'}KBUSCANDO=false;const el=$('#kres');if(el)el.innerHTML=kResHTML()}
@@ -3588,12 +3591,21 @@ const KSUG=CJ_CANCIONES;
 const ksugClave=i=>'ksug:'+slugTxt(KSUG[i][0]+' '+KSUG[i][1]);
 function ksugHTML(){const L=KSUG.map((c,i)=>({c,i,V:vjDe(ksugClave(i)).filter(v=>v.opcion==='si')})).sort((a,b)=>b.V.length-a.V.length||a.i-b.i);const ver=KSUG_TODO?L:L.slice(0,10);
   return `<div class="sec-h"><h2>Canciones para el karaoke</h2></div><p class="muted tiny" style="margin-top:-4px">Vota las que quieres oír esta noche (las más votadas suben) y pídela para cantarla.</p>
-    <div class="card kq">${ver.map(({c,i,V})=>{const yo=V.some(v=>v.persona_id===ME.id);return `<div class="kq-i"><button class="heart ${yo?'on':''}" aria-label="${yo?'Quitar voto':'Votar'}" onclick="votarSug(${i})">${ic('heart')}</button><div class="grow" style="min-width:0"><b>${esc(c[0])}</b><span class="tiny muted">${esc(c[1])}${V.length?` · ${V.length} voto${V.length===1?'':'s'}`:''}</span></div><button class="btn sm" onclick="pedirSug(${i})">Pedir</button></div>`}).join('')}</div>
+    <div class="card kq">${ver.map(({c,i,V})=>{const yo=V.some(v=>v.persona_id===ME.id);const P=KSUG_PORT[ksugClave(i)];return `<div class="kq-i"><button class="heart ${yo?'on':''}" aria-label="${yo?'Quitar voto':'Votar'}" onclick="votarSug(${i})">${ic('heart')}</button>${P&&P.portada?`<img src="${esc(P.portada)}" alt="" loading="lazy">`:`<span class="kq-ph">${ic('mic')}</span>`}<div class="grow" style="min-width:0"><b>${esc(c[0])}</b><span class="tiny muted">${esc(c[1])}${V.length?` · ${V.length} voto${V.length===1?'':'s'}`:''}</span></div><button class="btn sm" onclick="pedirSug(${i})">Pedir</button></div>`}).join('')}</div>
     ${KSUG_TODO?'':`<button class="btn ghost block sm" style="margin-top:6px" onclick="KSUG_TODO=true;pintarJuegos()">Ver las ${KSUG.length}</button>`}`}
 let KSUG_TODO=false;
+let KSUG_PORT={};try{KSUG_PORT=JSON.parse(localStorage.getItem('marea_ksug_port')||'{}')}catch(e){}
+let KSUG_T=null;
+function portadasSug(){if(KSUG_T||!/^https?:/.test(location.protocol))return;const ver=KSUG_TODO?KSUG.length:10;
+  const orden=KSUG.map((c,i)=>({i,n:vjDe(ksugClave(i)).length})).sort((a,b)=>b.n-a.n||a.i-b.i).slice(0,ver).map(x=>x.i);
+  const i=orden.find(i=>!(ksugClave(i) in KSUG_PORT));if(i==null)return;const[t,a]=KSUG[i];
+  KSUG_T=fetch('/api/canciones?q='+encodeURIComponent(t+' '+a)).then(r=>r.ok?r.json():null).then(j=>{const c=j&&j.canciones&&(j.canciones.find(x=>norm(x.artista).includes(norm(a).split(/ y | & /)[0]))||j.canciones[0]);
+    KSUG_PORT[ksugClave(i)]=c?{portada:c.portada,preview:c.preview,id:c.id,album:c.album}:{};try{localStorage.setItem('marea_ksug_port',JSON.stringify(KSUG_PORT))}catch(e){}
+    const sg=$('#jsug');if(sg&&TAB==='juegos'&&JSUB==='karaoke')sg.innerHTML=ksugHTML()}).catch(()=>{KSUG_PORT[ksugClave(i)]={}}).finally(()=>{KSUG_T=null;setTimeout(portadasSug,150)})}
+
 async function votarSug(i){const clave=ksugClave(i),ya=VOTJ.find(v=>v.clave===clave&&v.persona_id===ME.id);
   try{if(ya){VOTJ=VOTJ.filter(v=>v!==ya);pintarJuegos();await API.quitarVotoJuego(clave)}else{const v={clave,persona_id:ME.id,opcion:'si'};VOTJ.push(v);pintarJuegos();await API.votarJuego(v)}}catch(e){toast(e.message);await cargarJuegos();pintarJuegos()}}
-function pedirSug(i){const[t,a]=KSUG[i];KRES=[{titulo:t,artista:a,portada:'',preview:''}];pedirCancion(0);
+function pedirSug(i){const[t,a]=KSUG[i],P=KSUG_PORT[ksugClave(i)]||{};KRES=[{titulo:t,artista:a,portada:P.portada||'',preview:P.preview||'',id:P.id||null,album:P.album||''}];pedirCancion(0);if(P.portada)return;
   fetch('/api/canciones?q='+encodeURIComponent(t+' '+a)).then(r=>r.ok?r.json():null).then(j=>{const c=j&&j.canciones&&j.canciones[0];if(c&&KRES&&KRES[0]&&KRES[0].titulo===t)KRES[0]={...c,titulo:t,artista:a}}).catch(()=>{})}
 
 /* ── en el inicio: la tarjeta de juegos (con lo que está pasando en vivo) ── */

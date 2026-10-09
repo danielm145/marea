@@ -498,3 +498,7 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   su portada en iTunes solas (al pedirlas y, si faltara, al abrir el karaoke) y la guardan.
 - v58: el carro es una **Lexus GX 460** blanca: imagen nueva (`carro-lexus-gx460`, `salida-gx`; clave nueva = se dibuja
   de nuevo), nombre en la app y `sql/022_lexus_gx460.sql` (renombra el carro en la base).
+- v59: buscador de canciones del karaoke: busca en las tiendas de iTunes de Ecuador y EE. UU. a la vez (hasta 30, sin
+  repetir) y cada resultado trae portada grande (se abre en grande), nombre, artista, álbum, año, género y duración.
+  La lista de canciones sugeridas también muestra su portada (se busca una vez y queda en el teléfono).
+  Arreglado: los botones «Pedir» se salían del ancho de la pantalla.

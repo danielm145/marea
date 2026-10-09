@@ -264,3 +264,12 @@ await caso("v52 · modo guia: la IA mira las fotos de Insta del look y arma la g
   assert.equal(visto.contents[0].parts.filter((p) => p.inlineData).length, 2, "manda las 2 fotos"); assert.ok(visto.contents[0].parts.at(-1).text.includes("todos de blanco"));
 });
 console.log(`${ok} casos OK (v52 guía del look)`);
+
+await caso("v59 · /api/canciones busca en Ecuador y EE. UU. a la vez, junta sin repetir y trae álbum, año, género y duración", async () => {
+  globalThis.fetch = async (url) => { const us = String(url).includes("country=US");
+    return new Response(JSON.stringify({ results: [{ trackId: 1, trackName: "Bailando", artistName: "Enrique Iglesias", collectionName: "Sex and Love", artworkUrl100: "https://a/100x100bb.jpg", previewUrl: "p", releaseDate: "2014-03-01", primaryGenreName: "Pop latino", trackTimeMillis: 243000 },
+      ...(us ? [{ trackId: 2, trackName: "Bailando (English)", artistName: "Enrique Iglesias", artworkUrl100: "https://b/100x100bb.jpg", trackTimeMillis: 245000 }] : [])] }), { status: 200 }); };
+  const j = await (await w.fetch(new Request("https://x/api/canciones?q=bailando%20v59", { headers: { "cf-connecting-ip": "20.0.0.1" } }), { ASSETS })).json();
+  assert.equal(j.canciones.length, 2, "junta EC + US sin repetir"); assert.equal(j.canciones[0].genero, "Pop latino"); assert.equal(j.canciones[0].duracion, "4:03"); assert.equal(j.canciones[0].album, "Sex and Love");
+});
+console.log(`${ok} casos OK (v59 buscador de canciones completo)`);

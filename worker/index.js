@@ -558,14 +558,19 @@ async function generarArte(env, prompt) {
       const cache = typeof caches !== "undefined" ? caches.default : null;
       if (cache) { const hit = await cache.match(clave); if (hit) return hit; }
       if (frenadoArte(req.headers.get("cf-connecting-ip") || "?")) return json(429, { error: "Espera un momento" });
-      let lista = [];
-      for (const pais of ["EC", "US"]) {
-        const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=15&country=${pais}`, { headers: { "user-agent": "Casablanca/1.0" } }).catch(() => null);
-        const j = r && r.ok ? await r.json().catch(() => null) : null;
-        lista = (j?.results || []).filter((x) => x.trackName).map((x) => ({
-          id: x.trackId, titulo: x.trackName, artista: x.artistName || "", album: x.collectionName || "",
-          portada: String(x.artworkUrl100 || "").replace("100x100bb", "300x300bb"), preview: x.previewUrl || "", anio: String(x.releaseDate || "").slice(0, 4) }));
-        if (lista.length) break;
+      // se busca en la tienda de Ecuador y en la de EE. UU. a la vez (así sale casi cualquier canción) y se juntan sin repetir
+      const buscar = (pais) => fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=25&country=${pais}`, { headers: { "user-agent": "Casablanca/1.0" } })
+        .then((r) => (r && r.ok ? r.json() : null)).catch(() => null);
+      const [ec, us] = await Promise.all([buscar("EC"), buscar("US")]);
+      const vistos = new Set(), lista = [];
+      for (const x of [...(ec?.results || []), ...(us?.results || [])]) {
+        if (!x.trackName) continue;
+        const k = (x.trackName + "|" + (x.artistName || "")).toLowerCase(); if (vistos.has(k)) continue; vistos.add(k);
+        const ms = +x.trackTimeMillis || 0;
+        lista.push({ id: x.trackId, titulo: x.trackName, artista: x.artistName || "", album: x.collectionName || "",
+          portada: String(x.artworkUrl100 || "").replace("100x100bb", "300x300bb"), preview: x.previewUrl || "", anio: String(x.releaseDate || "").slice(0, 4),
+          genero: x.primaryGenreName || "", duracion: ms ? `${Math.floor(ms / 60000)}:${String(Math.round(ms / 1000) % 60).padStart(2, "0")}` : "" });
+        if (lista.length >= 30) break;
       }
       const resp = new Response(JSON.stringify({ canciones: lista }), { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=86400" } });
       if (cache && lista.length) await cache.put(clave, resp.clone());

@@ -5,7 +5,7 @@ const srv=spawn('python3',['-m','http.server','8099','--bind','127.0.0.1','-d','
 const S='/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/';
 const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});const ctx=await b.newContext({viewport:{width:390,height:844}});
 await ctx.route('**/*',r=>{const u=r.request().url();
-  if(u.includes('/api/canciones'))return r.fulfill({contentType:'application/json',body:JSON.stringify({canciones:[{id:1,titulo:'Bailando',artista:'Enrique Iglesias',portada:'http://127.0.0.1:8099/img/menu/d1-cena.jpg',preview:'',anio:'2014'},{id:2,titulo:'Vivir mi vida',artista:'Marc Anthony',portada:'',preview:''}]})});
+  if(u.includes('/api/canciones'))return r.fulfill({contentType:'application/json',body:JSON.stringify({canciones:[{id:1,titulo:'Bailando',artista:'Enrique Iglesias',album:'Sex and Love',genero:'Pop latino',duracion:'4:03',portada:'http://127.0.0.1:8099/img/menu/d1-cena.jpg',preview:'',anio:'2014'},{id:2,titulo:'Vivir mi vida',artista:'Marc Anthony',portada:'',preview:''}]})});
   if(u.includes('/api/'))return r.fulfill({status:404,body:'{}'});
   return u.startsWith('http://127.0.0.1:8099')?r.continue():r.abort()});
 const abrir=async(tel)=>{const pg=await ctx.newPage();pg.on('pageerror',e=>errs.push(e.message));await pg.goto('http://127.0.0.1:8099/index.html');await pg.waitForTimeout(400);
@@ -35,7 +35,9 @@ await A.locator('.pgrid-i').nth(2).click();await B.locator('.pgrid-i').nth(2).cl
 await B.click('text=Ver quién ganó');await A.waitForSelector('.jg-gana',{timeout:5000});console.log('ganador visto por A:',await A.locator('.jg-gana h2').innerText());
 // KARAOKE
 await A.evaluate(()=>{JSUB='karaoke';render()});await B.evaluate(()=>{JSUB='karaoke';render()});
-await A.fill('#kq','bailando');await A.click('.kbus >> text=Buscar');await A.waitForSelector('.kr-i');console.log('resultados iTunes:',await A.locator('.kr-i').count());
+await A.fill('#kq','bailando');await A.click('.kbus >> text=Buscar');await A.waitForSelector('.kr-i');console.log('resultados iTunes:',await A.locator('.kr-i').count(),'·',(await A.locator('.kr-i').first().innerText()).replace(/\n+/g,' | '),'· portada:',await A.locator('.kr-i img').count());
+console.log('ancho de la pantalla (390 = no se sale):',await A.evaluate(()=>document.documentElement.scrollWidth));
+await A.waitForTimeout(1500);console.log('sugeridas con portada:',await A.locator('#jsug .kq-i img').count());
 await A.locator('.kr-i').first().locator('text=Pedir').click();await A.waitForTimeout(200);
 await A.locator('#kpick .avp').nth(1).click();await A.click('text=Agregar a la fila');await A.waitForTimeout(300);
 await B.waitForSelector('.k-sigue',{timeout:5000});console.log('B ve quién sigue:',(await B.locator('.k-sigue').innerText()).replace(/\n+/g,' | '),'· con portada:',await B.locator('.k-sigue img.k-sig-img').count());
