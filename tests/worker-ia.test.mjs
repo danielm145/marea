@@ -227,3 +227,12 @@ await caso("v47 · /api/arte/salida: dibuja con la llave de Gemini (salta la lla
   const no = await w.fetch(new Request("https://x/api/arte/otracosa"), { GEMINI_API_KEY: BUENA, ASSETS }); assert.equal(no.status, 404);
 });
 console.log(`${ok} casos OK (v47 arte)`);
+
+await caso("v48 · /api/arte-gen dibuja un plato estilo restaurante (y rechaza tipos raros)", async () => {
+  let prompt = ""; globalThis.fetch = async (url, init) => { prompt = JSON.parse(init.body).contents[0].parts[0].text; return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ inlineData: { mimeType: "image/jpeg", data: btoa("JPG") } }] } }] }), { status: 200 }); };
+  const pedirArte = (b, ip) => w.fetch(new Request("https://casablanca.fieldbuil.ai/api/arte-gen", { method: "POST", headers: { "content-type": "application/json", "cf-connecting-ip": ip }, body: JSON.stringify(b) }), { GEMINI_API_KEY: "AIza" + "e".repeat(35), ASSETS });
+  const r = await pedirArte({ tipo: "plato", titulo: "Ceviche de camarón", detalle: "camarón, limón, cebolla" }, "16.0.0.1");
+  assert.equal(r.status, 200); assert.equal(r.headers.get("content-type"), "image/jpeg"); assert.ok(/restaurante/.test(prompt) && /Ceviche de camar/.test(prompt));
+  assert.equal((await pedirArte({ tipo: "cualquiera", titulo: "x" }, "16.0.0.2")).status, 400);
+});
+console.log(`${ok} casos OK (v48 arte a pedido)`);

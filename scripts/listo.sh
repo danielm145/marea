@@ -72,8 +72,10 @@ linea "3/4 · Publicar la página"
 scripts/deploy.sh "$CFG" 2>&1 | grep -E "publicado|✘|ERROR|error" || true
 
 # la ilustración de la salida: se dibuja una vez con la IA y queda guardada (así nadie espera al abrir la app)
-A=$(curl -s -m 90 -o /dev/null -w "%{http_code} %{content_type}" "$URL/api/arte/salida")
-case "$A" in 200\ image/*) echo "✓ Ilustración de la salida lista (dibujada con IA)";; *) echo "  (la ilustración de la salida no se pudo dibujar todavía: $A · la alerta sale igual con colores)";; esac
+for ARTE in salida lexus amarok; do
+  A=$(curl -s -m 90 -o /dev/null -w "%{http_code} %{content_type}" "$URL/api/arte/$ARTE")
+  case "$A" in 200\ image/*) echo "✓ Ilustración «$ARTE» lista (dibujada con IA)";; *) echo "  (la ilustración «$ARTE» no se pudo dibujar todavía: $A · sale igual con colores)";; esac
+done
 
 linea "4/4 · Prueba real de la IA"
 sleep 3

@@ -463,6 +463,8 @@ export default {
     }
     // ── ARTE con la IA de imágenes (Gemini / Vertex): ilustraciones fijas del viaje, generadas UNA vez y guardadas en el caché de Cloudflare ──
 const ARTE = {
+  lexus: "Ilustración estilo póster retro de viaje: una SUV Lexus blanca elegante con tablas de surf y maletas en la parrilla, rodando por una carretera costera de Ecuador con palmeras, el mar Pacífico al lado y un atardecer naranja y rosado. Sin texto, sin letras, sin logos, sin personas visibles. Formato horizontal 16:9, colores cálidos y saturados, ilustración plana moderna.",
+  amarok: "Ilustración estilo póster retro de viaje: una camioneta pickup Volkswagen Amarok gris oscura, con hieleras, parlante y tablas de surf en el balde, por una carretera de montaña verde de los Andes que baja hacia la costa, palmeras y el mar al fondo, cielo turquesa con sol. Sin texto, sin letras, sin logos, sin personas visibles. Formato horizontal 16:9, colores cálidos y saturados, ilustración plana moderna.",
   salida: "Ilustración vibrante estilo póster retro de viaje por carretera: un carro blanco con tablas de surf y maletas en la parrilla saliendo al amanecer de un barrio con montañas verdes de los Andes de Ecuador, la carretera baja hacia la costa con palmeras y el mar Pacífico al fondo, sol naranja grande, cielo rosado y turquesa, sensación de aventura y amigos. Sin texto, sin letras, sin logos. Formato horizontal 16:9, colores cálidos y saturados, estilo ilustración plana moderna.",
 };
 const MODELOS_IMG = ["gemini-3-pro-image", "gemini-3.1-flash-image", "gemini-2.5-flash-image", "gemini-2.5-flash-image-preview"];
@@ -497,6 +499,23 @@ async function generarArte(env, prompt) {
 }
 
 // la versión publicada (la lee del sw.js, que lleva CACHE='marea-vNN'): la app la compara con la suya
+    if (url.pathname === "/api/arte-gen") {
+      if (req.method !== "POST") return json(405, { error: "Usa POST" });
+      if (!motorDe(env)) return json(503, { error: "La IA todavía no está conectada." });
+      if (env.SB_URL && env.SB_ANON && !(await sesionValida(env, req))) return json(401, { error: "Entra a la app para usar la IA." });
+      if (frenado(req.headers.get("cf-connecting-ip") || "?")) return json(429, { error: "Muchas imágenes seguidas. Espera unos minutos." });
+      let b; try { b = await req.json(); } catch { return json(400, { error: "Mensaje inválido" }); }
+      const tipo = String(b?.tipo || ""), que = txt(b?.titulo, 120), det = txt(b?.detalle, 500);
+      if (!que) return json(400, { error: "Falta qué dibujar" });
+      const base = "Sin texto, sin letras, sin logos, sin marcas de agua.";
+      const prompt = tipo === "plato" ? `Fotografía de comida profesional estilo restaurante gourmet: ${que}${det ? " (" + det + ")" : ""}. Emplatado elegante en plato de cerámica artesanal, mesa de madera clara junto al mar, luz natural cálida de tarde, profundidad de campo, apetitoso y realista. Formato cuadrado. ${base}`
+        : tipo === "outfit" ? `Fotografía de moda flat lay vista desde arriba sobre lino claro y arena: ${que}. Prendas: ${det}. Estilo editorial de revista de verano, luz natural suave, composición ordenada, colores de la paleta. Sin personas. Formato vertical 3:4. ${base}`
+        : tipo === "evento" ? `Ilustración vibrante estilo póster de viaje de playa para la actividad «${que}» de un grupo de amigos en Same, Esmeraldas (Ecuador)${det ? ": " + det : ""}. Palmeras, mar Pacífico, casa blanca frente a la playa, ambiente alegre. Formato horizontal 16:9, colores cálidos y saturados, ilustración plana moderna. ${base}`
+        : null;
+      if (!prompt) return json(400, { error: "Tipo no válido" });
+      try { const img = await generarArte(env, prompt); return new Response(img.bytes, { headers: { "content-type": img.tipo, "cache-control": "no-store" } }); }
+      catch (e) { return json(502, { error: "No pude dibujarla", detalle: txt(String(e.message || e), 300) }); }
+    }
     const mArte = url.pathname.match(/^\/api\/arte\/([a-z]+)$/);
     if (mArte) {
       const prompt = ARTE[mArte[1]]; if (!prompt) return json(404, { error: "No existe" });

@@ -231,7 +231,10 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
 .foto .cap{padding:8px 10px;font-size:13px;color:var(--ink-2)}
 .swatch{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);flex:none}
 .out-b{margin-top:14px;justify-content:center;gap:8px;background:linear-gradient(135deg,#EEF3FF,#FFF4F6);border:1px solid #DCE4FF;color:#4B3FBF;font-weight:800}.out-b svg{width:18px;height:18px}
-.out-card{padding:14px 16px}.out-row{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.out-row:first-of-type{border-top:0}.out-p{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--sun)}.out-i{font-weight:600}
+.out-card{padding:14px 16px}.out-img{width:100%;border-radius:14px;margin:10px 0 4px;cursor:zoom-in}
+.carros{display:grid;gap:12px}.carro{position:relative;overflow:hidden;padding:0;min-height:190px;background:linear-gradient(135deg,#2F80ED,#14A37F);color:#fff;border:0}.carro-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.carro::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,37,71,0) 20%,rgba(11,37,71,.8))}
+.carro-in{position:relative;z-index:1;padding:16px;min-height:190px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;text-shadow:0 1px 5px rgba(0,0,0,.4)}.carro-t{font-family:var(--f-disp);font-size:22px}
+.carro-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.carro-k{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;opacity:.85;min-width:62px}.carro-avs{display:inline-flex}.carro-avs .av{margin-right:-6px;box-shadow:0 0 0 2px rgba(255,255,255,.8)}.carro-avs+.tiny{margin-left:8px}.out-row{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.out-row:first-of-type{border-top:0}.out-p{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--sun)}.out-i{font-weight:600}
 .ia-sello svg{width:18px;height:18px}
 .insp{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:12px}
 .insp img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px}
@@ -561,7 +564,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v47';
+const BUILD_TAG='v48';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1324,6 +1327,7 @@ function vHoy(){
         ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'noches','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
     ${salidaCard()}
+    ${carrosCard()}
     <button class="card todo-c" onclick="hojaTodo()"><span class="todo-ic">${ic('pin')}</span><span class="grow"><b>Todo del viaje</b><span class="muted tiny">Dirección del depa, salida, mapa, WiFi y contactos</span></span>${ic('chev')}</button>
     ${iaCard()}
     ${albumCard()}
@@ -1384,17 +1388,39 @@ function salidaCard(){const S=salidaDe();if(!S)return '';const ms=S.t-new Date()
     <div class="sal-l">📍 Salimos desde ${esc(S.lugar||'el punto de encuentro')}</div>
     ${ms>0?`<div class="sal-c">⏰ ${cuantoFalta(ms)} · no llegues tarde 😉</div>`:''}
     <div class="sal-b"><a class="btn sm" href="${esc(/^https:\/\//.test(S.mapa)?S.mapa:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(S.lugar||'Cumbayá'))}" target="_blank" rel="noopener">${ic('pin')} Cómo llegar</a><button class="btn sm primary" onclick="hojaTodo()">Todo del viaje</button></div></div></div>`}
+/* ── FOTOS CON IA: cada plan del itinerario (ilustración) y cada plato (foto de restaurante), una vez, guardadas para todos ── */
+function iaFotosBtn(q){const L=q==='eventos'?EVENTOS.filter(e=>e.estado!=='cancelado'&&!e.foto):PLATOS.filter(p=>!p.foto);if(!L.length||MODO==='demo')return '';
+  return `<button class="btn block out-b" style="margin-top:12px" onclick="crearFotosIA('${q}',this)">${GEM_SVG} Crear con IA ${q==='eventos'?'la foto de '+L.length+' plan'+(L.length===1?'':'es'):'la foto de '+L.length+' plato'+(L.length===1?'':'s')+' (estilo restaurante)'}</button>`}
+async function dibujarIA(tipo,titulo,detalle){let auth={};if(MODO==='supabase'){const{data}=await Sb.c.auth.getSession();if(data&&data.session)auth={authorization:'Bearer '+data.session.access_token}}
+  const r=await fetch('/api/arte-gen',{method:'POST',headers:{'content-type':'application/json',...auth},body:JSON.stringify({tipo,titulo,detalle})});
+  if(!r.ok){const j=await r.json().catch(()=>({}));throw new Error(j.error||'No pude dibujarla')}return await r.blob()}
+async function crearFotosIA(q,b){const L=q==='eventos'?EVENTOS.filter(e=>e.estado!=='cancelado'&&!e.foto):PLATOS.filter(p=>!p.foto);let ok=0,mal=0;b.disabled=true;
+  for(const [i,x] of L.entries()){b.innerHTML=`${GEM_SVG} Dibujando ${i+1} de ${L.length}: ${esc(q==='eventos'?x.titulo:x.nombre)}…`;
+    try{const blob=await dibujarIA(q==='eventos'?'evento':'plato',q==='eventos'?x.titulo:x.nombre,q==='eventos'?[x.tematica,x.descripcion].filter(Boolean).join('. '):(x.ingredientes||[]).join(', '));
+      const{blob:bl,dataUrl}=await achicar(blob,1400,.84);const ref=await API.subirFoto('marea-muro',bl,dataUrl);FOTOS[ref]=dataUrl;
+      if(q==='eventos')await API.saveEvento({...x,foto:ref},false);else await API.savePlato({...x,foto:ref},false);ok++}catch(e){mal++;if(/saldo|muchas|espera/i.test(e.message)){toast(e.message);break}}}
+  await cargar();toast(`Listo: ${ok} foto${ok===1?'':'s'} nueva${ok===1?'':'s'}${mal?` · ${mal} no se pudo`:''}`);render()}
+/* ── LOS CARROS: cada uno con su ilustración hecha con IA, quién maneja, copiloto y quién va atrás ── */
+function arteCarro(v){const t=norm(v.nombre);return /lexus/.test(t)?'lexus':/amarok|camioneta|pickup/.test(t)?'amarok':''}
+function carrosCard(){const V=VEHICULOS||[];if(!V.length)return '';const P=PASAJEROS.filter(p=>p.trayecto==='ida');
+  return `<div class="sec-h"><h2>🚗 Los carros</h2><button class="link" onclick="SUBT='carros';irA('tareas')">Cambiar</button></div><div class="carros">${V.map(v=>{const a=arteCarro(v),cop=(String(v.nota||'').match(/copiloto:\s*([^·,]+)/i)||[])[1],copId=cop&&activos().find(p=>norm(nom(p.id))===norm(cop.trim())||norm(p.nombre).startsWith(norm(cop.trim())));
+    const atras=P.filter(p=>p.vehiculo_id===v.id&&p.persona_id!==v.conductor&&(!copId||p.persona_id!==copId.id));
+    return `<div class="card carro">${a?`<img class="carro-img" src="/api/arte/${a}" alt="" loading="lazy" onerror="this.remove()">`:''}<div class="carro-in"><b class="carro-t">${esc(v.nombre)}</b>
+      ${v.conductor?`<div class="carro-r"><span class="carro-k">Maneja</span>${av(v.conductor,'xs')}<b>${esc(nom(v.conductor))}</b></div>`:''}
+      ${copId?`<div class="carro-r"><span class="carro-k">Copiloto</span>${av(copId.id,'xs')}<b>${esc(nom(copId.id))}</b></div>`:''}
+      ${atras.length?`<div class="carro-r"><span class="carro-k">${copId?'Atrás':'Van'}</span><span class="carro-avs">${atras.map(p=>av(p.persona_id,'xs')).join('')}</span><span class="tiny">${atras.map(p=>esc(nom(p.persona_id))).join(', ')}</span></div>`:''}</div></div>`}).join('')}</div>`}
 /* ── TODO DEL VIAJE en una hoja: salida, dirección del depa con Maps y Waze, check-in, WiFi, contactos y compartir ── */
 function hojaTodo(){const I=infoV(),S=salidaDe(),dir=I.direccion||CFG.lugar||'';
   const maps=/^https:\/\//.test(I.mapa_url)?I.mapa_url:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(dir), waze='https://waze.com/ul?q='+encodeURIComponent(dir)+'&navigate=yes';
   const salMaps=S&&(/^https:\/\//.test(S.mapa)?S.mapa:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(S.lugar||'Cumbayá'));
-  const texto=[`🏖️ ${CFG.nombre||'Casablanca'} · ${CFG.lugar||''}`,CFG.desde?`📅 ${diaSem(CFG.desde)} ${fechaCorta(CFG.desde)} al ${diaSem(CFG.hasta)} ${fechaCorta(CFG.hasta)}`:'',S?`🚗 Salimos ${diaSem(CFG.desde)} a las ${S.h} desde ${S.lugar}`:'',dir?`📍 ${dir}`:'',`🗺️ ${maps}`,I.checkin?`🔑 Check-in ${I.checkin}${I.checkout?' · check-out '+I.checkout:''}`:'',I.wifi_red?`📶 WiFi ${I.wifi_red}${I.wifi_clave?' · clave '+I.wifi_clave:''}`:''].filter(Boolean).join('\n');
+  const texto=[`🏖️ ${CFG.nombre||'Casablanca'} · ${CFG.lugar||''}`,CFG.desde?`📅 ${diaSem(CFG.desde)} ${fechaCorta(CFG.desde)} al ${diaSem(CFG.hasta)} ${fechaCorta(CFG.hasta)}`:'',S?`🚗 Salimos ${diaSem(CFG.desde)} a las ${S.h} desde ${S.lugar}`:'',dir?`📍 ${dir}`:'',`🗺️ ${maps}`,I.checkin?`🔑 Check-in ${I.checkin}${I.checkout?' · check-out '+I.checkout:''}`:'',I.wifi_red?`📶 WiFi ${I.wifi_red}${I.wifi_clave?' · clave '+I.wifi_clave:''}`:'',...(VEHICULOS||[]).map(v=>{const pv=PASAJEROS.filter(p=>p.trayecto==='ida'&&p.vehiculo_id===v.id&&p.persona_id!==v.conductor);return `🚙 ${v.nombre}: maneja ${v.conductor?nom(v.conductor):'—'}${v.nota&&/copiloto/i.test(v.nota)?' · '+v.nota:''} · van ${pv.map(p=>nom(p.persona_id)).join(', ')}`})].filter(Boolean).join('\n');
   openSheet(`${sheetH('Todo del viaje')}<div class="stack">
     ${S?`<div class="card todo-s"><div class="eyebrow">🚗 La salida</div><b class="todo-g">${diaSem(CFG.desde)} ${fechaCorta(CFG.desde)} · ${S.h}</b><div>${esc(S.lugar)}</div><a class="btn block" style="margin-top:10px" href="${esc(salMaps)}" target="_blank" rel="noopener">${ic('pin')} Cómo llegar al punto de salida</a></div>`:''}
     <div class="card todo-s"><div class="eyebrow">🏖️ El departamento</div><b class="todo-g">${esc(I.casa_titulo||CFG.nombre||'Casablanca')}</b><div style="user-select:all">${esc(dir)}</div>
       ${I.checkin||I.checkout?`<div class="muted tiny" style="margin-top:6px">🔑 Check-in ${esc(I.checkin||'—')} · Check-out ${esc(I.checkout||'—')}</div>`:''}
       <div class="grid2" style="margin-top:10px"><a class="btn primary" href="${esc(maps)}" target="_blank" rel="noopener">Google Maps</a><a class="btn" href="${esc(waze)}" target="_blank" rel="noopener">Waze</a></div>
       <button class="btn ghost block" style="margin-top:6px" onclick="copiar(${esc(JSON.stringify(dir))},'Dirección copiada')">${ic('copy')} Copiar dirección</button></div>
+    ${(VEHICULOS||[]).length?`<div class="todo-s" style="padding:0">${carrosCard()}</div>`:''}
     ${CFG.desde?`<div class="card todo-s"><div class="eyebrow">📅 Fechas</div><b>${diaSem(CFG.desde)} ${fechaCorta(CFG.desde)} → ${diaSem(CFG.hasta)} ${fechaCorta(CFG.hasta)}</b><div class="muted tiny">${Math.max(1,difDias(CFG.desde,CFG.hasta))} noches · ${activos().length} viajeros</div></div>`:''}
     ${I.wifi_red?`<div class="card todo-s"><div class="eyebrow">📶 WiFi</div><b>${esc(I.wifi_red)}</b>${I.wifi_clave?`<div class="row" style="margin-top:6px"><span class="grow num" style="user-select:all;font-size:18px">${esc(I.wifi_clave)}</span><button class="btn sm" onclick="copiar(${esc(JSON.stringify(I.wifi_clave))},'Clave copiada')">${ic('copy')} Copiar</button></div>`:''}</div>`:''}
     ${I.contactos.length?`<div class="card todo-s"><div class="eyebrow">📞 Contactos</div>${I.contactos.map(c=>`<div class="row" style="padding:6px 0"><div class="grow"><b>${esc(c.nombre)}</b>${c.rol?`<span class="muted tiny"> · ${esc(c.rol)}</span>`:''}</div>${c.tel?`<a class="btn sm" href="https://wa.me/${String(c.tel).replace(/\D/g,'')}" target="_blank" rel="noopener">${ic('wa')}</a>`:''}</div>`).join('')}</div>`:''}
@@ -2017,7 +2043,7 @@ function vPlanes(){
     <div class="pg2">${props.filter(e=>!FPROP||catProp(e)===FPROP).map(e=>{const vs=votosDe(e.id),yo=vs.some(v=>v.persona_id===ME.id);return `<div class="pc"><button class="pc-img" onclick="abrirEvento('${e.id}')">${imgTag(imgEvento(e))}</button><div class="pc-b"><div class="grow" style="min-width:0"><b>${esc(e.titulo)}</b><span>${vs.length} voto${vs.length===1?'':'s'}</span></div>
       <button class="heart ${yo?'on':''}" onclick="votar('${e.id}',${!yo})" aria-label="${yo?'Quitar voto':'Votar'}">${ic('heart')}</button></div></div>`}).join('')||`<div class="card flat empty" style="grid-column:1/-1">No hay propuestas aquí.</div>`}</div>
     <button class="btn sun block" style="margin-top:14px" onclick="abrirLector(null,false,null,'plan')">${ic('spark')} Proponer un plan con IA</button>`;
-  return seg+vPrograma();
+  return seg+(esAdmin()?iaFotosBtn('eventos'):'')+vPrograma();
 }
 let MIAG=false, DIA_PLAN=null, FPROP='';
 const CAT_PROP=[['mar','Mar',/yate|surf|snorkel|playa|olimpiad|spike|panzazo|piscina|bote|kayak/],['relax','Relax',/masaje|yoga|cine|spa|siesta|hamaca/],['aventura','Aventura',/cascada|tesoro|tour|excursi|caminata|cuadri/],['noche','Noche',/noche|karaoke|throwback|fogata|fiesta|2000|baile/]];
@@ -2401,7 +2427,7 @@ function vMenu(){
   if(!DIA_MENU||!dias.includes(DIA_MENU)) DIA_MENU=dias.includes(hoyISO())?hoyISO():dias[0];
   const seg=`<div class="seg"><button aria-pressed="${SUBM==='carta'}" onclick="SUBM='carta';render()">Carta del día</button><button aria-pressed="${SUBM==='semana'}" onclick="SUBM='semana';render()">Los ${Math.max(1,dias.length-1)} días</button><button aria-pressed="${SUBM==='compras'}" onclick="SUBM='compras';render()">Lista de compras</button></div>`;
   if(!COMIDAS.length) return seg+`<div class="card flat empty" style="margin-top:14px">${ic('menu')}<div>Todavía no hay menú.</div>${esAdmin()?`<button class="btn primary" style="margin-top:12px" onclick="armarMenuBase(this)">Armar el menú base del viaje</button><p class="muted tiny">Desayuno dual, almuerzos costeños de la cocinera, ceviche bar y cenas temáticas. Después se edita plato por plato.</p>`:'<p class="muted tiny">Daniel lo arma desde aquí.</p>'}</div>`;
-  return seg+(SUBM==='semana'?vSemana(dias):SUBM==='carta'?vCarta(dias):vCompras(dias));
+  return seg+(esAdmin()&&SUBM!=='compras'?iaFotosBtn('platos'):'')+(SUBM==='semana'?vSemana(dias):SUBM==='carta'?vCarta(dias):vCompras(dias));
 }
 function chipsDias(dias){const DS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];return `<div class="dch">${dias.map(d=>`<button aria-pressed="${DIA_MENU===d}" onclick="DIA_MENU='${d}';render()">${DS[new Date(d+'T12:00').getDay()]} ${+d.slice(8)}</button>`).join('')}</div>`}
 /* el menú completo de un vistazo, como el que armó Kevin: por día, desayuno healthy / normal, almuerzo y cena */
@@ -2697,8 +2723,13 @@ function pintarOutfit(){const e=EVENTOS.find(x=>x.id===OUT.ev);if(!e)return;cons
     <button class="btn primary block" id="outgo" onclick="pedirOutfit()">${GEM_SVG} ${R?'Otra idea':'Armar mi outfit'}</button>
     <div id="outres">${R?outfitHTML(R):''}</div></div>`)}
 function outfitHTML(R){return `<div class="card out-card ia-llena"><div class="ia-sello">${GEM_SVG} ${esc(R.titulo)}</div>
+  ${R.img?`<img class="out-img" src="${esc(R.img)}" alt="Cómo se ve el outfit" onclick="verImagen(this.src,${esc(JSON.stringify(R.titulo))})">`:''}
   ${R.piezas.map(p=>`<div class="out-row"><span class="out-p">${esc(p.parte)}</span><span class="out-i">${esc(p.idea)}</span></div>`).join('')}
-  ${R.tip?`<p class="tiny muted" style="margin:10px 0 0">${esc(R.tip)}</p>`:''}</div>`}
+  ${R.tip?`<p class="tiny muted" style="margin:10px 0 0">${esc(R.tip)}</p>`:''}
+  ${!R.img&&MODO!=='demo'?`<button class="btn block out-b" id="outimg" onclick="verOutfitIA()">${GEM_SVG} Ver cómo se ve (foto con IA)</button>`:''}</div>`}
+async function verOutfitIA(){const R=OUT.res,e=EVENTOS.find(x=>x.id===OUT.ev);if(!R||!e)return;const b=$('#outimg');if(b){b.disabled=true;b.textContent='Dibujando tu outfit…'}
+  try{const blob=await dibujarIA('outfit',`${lookDe(e).nombre} · outfit ${OUT.para==='el'?'de hombre':OUT.para==='ella'?'de mujer':''}`,R.piezas.map(p=>p.idea).join('; ')+'. Colores: '+lookDe(e).paleta.join(', '));R.img=URL.createObjectURL(blob);pintarOutfit()}
+  catch(err){toast(err.message);if(b){b.disabled=false;b.textContent='Ver cómo se ve (foto con IA)'}}}
 /* sin IA (o si falla): un outfit armado con las ideas del look, para que nunca quede vacío */
 function outfitLocal(L,para){const I=L.ideas.slice();const pick=re=>{const i=I.findIndex(x=>re.test(norm(x)));return i>=0?I.splice(i,1)[0]:''};
   const piezas=[['Arriba',pick(/camisa|blusa|top|crop|guayabera|polo/)],['Abajo',pick(/pantal|short|falda|bermuda|vestido|enterizo|bikini/)],['Zapatos',pick(/sandal|zapat|alpargat|tenis|mocasin/)],['Accesorios',pick(/sombrer|collar|gafas|arete|pulsera|bolso|panuelo/)],...I.map(x=>['Detalle',x])].filter(([,v])=>v).slice(0,6).map(([parte,idea])=>({parte,idea}));

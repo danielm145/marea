@@ -3,7 +3,7 @@
    llega a todos los celulares apenas se despliega. El caché solo entra sin red.
    Supabase NUNCA se cachea (datos vivos y URLs firmadas).
    ⚠️ Subir CACHE cada vez que se toque este archivo. */
-const CACHE = 'marea-v47';
+const CACHE = 'marea-v48';
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
