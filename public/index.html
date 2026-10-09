@@ -232,6 +232,10 @@ table.t th{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spa
 .swatch{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);flex:none}
 .out-b{margin-top:14px;justify-content:center;gap:8px;background:linear-gradient(135deg,#EEF3FF,#FFF4F6);border:1px solid #DCE4FF;color:#4B3FBF;font-weight:800}.out-b svg{width:18px;height:18px}
 .out-card{padding:14px 16px}.out-img{width:100%;border-radius:14px;margin:10px 0 4px;cursor:zoom-in}
+.bienv{position:relative;margin-top:14px;padding:16px 18px;background:linear-gradient(135deg,#FFF4E2,#E8F7F2);border:1px solid rgba(20,163,127,.25)}.bienv-x{position:absolute;top:10px;right:10px;width:32px;height:32px}.bienv-t{font-family:var(--f-disp);font-weight:800;font-size:20px;margin:0 30px 8px 0}.bienv-r{display:flex;gap:8px;align-items:flex-start;padding:3px 0;font-size:15px}
+.voto{margin-top:14px;padding:14px 16px}.voto-h{display:flex;gap:10px;align-items:center;margin-bottom:8px}.voto-h b{font-family:var(--f-disp);font-size:19px}.voto-ic{font-size:26px}
+.voto-o{position:relative;display:block;width:100%;margin-top:8px;padding:0;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;font:inherit;color:inherit;text-align:left;cursor:pointer}.voto-o.on{border-color:var(--sun)}
+.voto-bar{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(245,166,35,.22),rgba(245,166,35,.08));transition:width .4s}.voto-in{position:relative;display:flex;gap:10px;align-items:center;padding:10px 12px}.voto-in .grow{display:flex;flex-direction:column;gap:2px;min-width:0}.voto-n{display:flex;align-items:center;gap:6px;flex:none}.voto-avs{display:inline-flex}.voto-avs .av{margin-left:-6px;box-shadow:0 0 0 2px var(--surface)}
 .carros{display:grid;gap:12px}.carro{position:relative;overflow:hidden;padding:0;min-height:190px;background:linear-gradient(135deg,#2F80ED,#14A37F);color:#fff;border:0}.carro-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.carro::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,37,71,0) 20%,rgba(11,37,71,.8))}
 .carro-in{position:relative;z-index:1;padding:16px;min-height:190px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;text-shadow:0 1px 5px rgba(0,0,0,.4)}.carro-t{font-family:var(--f-disp);font-size:22px}
 .carro-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.carro-k{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;opacity:.85;min-width:62px}.carro-avs{display:inline-flex}.carro-avs .av{margin-right:-6px;box-shadow:0 0 0 2px rgba(255,255,255,.8)}.carro-avs+.tiny{margin-left:8px}.out-row{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.out-row:first-of-type{border-top:0}.out-p{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--sun)}.out-i{font-weight:600}
@@ -564,7 +568,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v48';
+const BUILD_TAG='v49';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1326,7 +1330,9 @@ function vHoy(){
       <div class="hh-in"><div class="hh-logo">${logo(190)}</div><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
         ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'noches','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
+    ${bienvenidaCard()}
     ${salidaCard()}
+    ${votoAlmuerzoCard()}
     ${carrosCard()}
     <button class="card todo-c" onclick="hojaTodo()"><span class="todo-ic">${ic('pin')}</span><span class="grow"><b>Todo del viaje</b><span class="muted tiny">Dirección del depa, salida, mapa, WiFi y contactos</span></span>${ic('chev')}</button>
     ${iaCard()}
@@ -1388,6 +1394,28 @@ function salidaCard(){const S=salidaDe();if(!S)return '';const ms=S.t-new Date()
     <div class="sal-l">📍 Salimos desde ${esc(S.lugar||'el punto de encuentro')}</div>
     ${ms>0?`<div class="sal-c">⏰ ${cuantoFalta(ms)} · no llegues tarde 😉</div>`:''}
     <div class="sal-b"><a class="btn sm" href="${esc(/^https:\/\//.test(S.mapa)?S.mapa:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(S.lugar||'Cumbayá'))}" target="_blank" rel="noopener">${ic('pin')} Cómo llegar</a><button class="btn sm primary" onclick="hojaTodo()">Todo del viaje</button></div></div></div>`}
+/* ── BIENVENIDA del viaje: el saludo, el ceviche que espera y la regla de oro (todo gasto a la app). Se puede cerrar ── */
+function bienvenidaCard(){if(!CFG.desde||lsGet('marea_bienv_'+CFG.desde))return '';const hoy=hoyISO();if(hoy<addDias(CFG.desde,-1)||hoy>CFG.hasta)return '';
+  return `<div class="card bienv"><button class="x bienv-x" aria-label="Cerrar" onclick="lsSet('marea_bienv_'+CFG.desde,'1');render()">${ic('x')}</button>
+    <div class="bienv-t">🏖️ ¡Bienvenidos al viaje a la playa!</div>
+    <div class="bienv-r">🦐 <span>En la casa nos espera <b>ceviche</b>.</span></div>
+    <div class="bienv-r">💸 <span><b>Todo gasto va a la app:</b> foto a la factura y la IA reparte.</span></div>
+    <div class="bienv-r">🗳️ <span>Vota abajo <b>dónde almorzamos hoy</b>.</span></div>
+    <button class="btn sm primary" style="margin-top:10px" onclick="abrirLector(null,null,null,'gasto')">💸 Registrar un gasto</button></div>`}
+/* ── VOTACIÓN: ¿dónde almorzamos hoy en el camino? (propuestas con tematica «Almuerzo de camino»; un voto por persona) ── */
+const esAlmuerzoCamino=e=>/almuerzo de camino/i.test(e.tematica||'');
+function votoAlmuerzoCard(){const L=EVENTOS.filter(e=>esAlmuerzoCamino(e)&&e.estado!=='cancelado');if(!L.length)return '';
+  const conV=L.map(e=>({e,vs:votosDe(e.id)})).sort((a,b)=>b.vs.length-a.vs.length||String(a.e.hora||'').localeCompare(String(b.e.hora||'')));
+  const total=conV.reduce((a,x)=>a+x.vs.length,0),mio=conV.find(x=>x.vs.some(v=>v.persona_id===ME.id)),gana=conV[0]&&conV[0].vs.length?conV[0]:null,elegido=L.find(e=>e.estado==='oficial');
+  return `<div class="card voto"><div class="voto-h"><span class="voto-ic">🗳️</span><div class="grow"><b>¿Dónde almorzamos hoy?</b><div class="muted tiny">${elegido?'Ya se decidió: '+esc(elegido.titulo):total?`${total} de ${activos().length} ya votaron${gana?' · va ganando '+esc(gana.e.titulo):''}`:'Toca tu opción · un voto por persona'}</div></div></div>
+    ${conV.map(({e,vs})=>{const yo=vs.some(v=>v.persona_id===ME.id),pct=total?Math.round(vs.length/total*100):0;return `<button class="voto-o ${yo?'on':''}" onclick="votarAlmuerzo('${e.id}')"><span class="voto-bar" style="width:${pct}%"></span><span class="voto-in"><span class="grow"><b>${esc(e.titulo)}</b><span class="tiny muted">${e.hora?'≈ '+String(e.hora).slice(0,5)+' · ':''}${esc(e.descripcion||'')}</span></span><span class="voto-n">${vs.length?`<span class="voto-avs">${vs.slice(0,4).map(v=>av(v.persona_id,'xs')).join('')}</span>`:''}<b>${vs.length}</b></span></span></button>`}).join('')}
+    <div class="row" style="margin-top:8px;gap:8px">${mio?`<span class="tiny muted grow">Votaste por «${esc(mio.e.titulo)}». Toca otra para cambiar.</span>`:'<span class="grow"></span>'}<button class="btn ghost sm" onclick="otraOpcionAlmuerzo()">+ Otra opción</button>${esAdmin()&&gana&&!elegido?`<button class="btn sm primary" onclick="cerrarVotoAlmuerzo('${gana.e.id}')">Elegir la ganadora</button>`:''}</div></div>`}
+/* un voto por persona: votar una opción quita el voto de las demás */
+async function votarAlmuerzo(id){const L=EVENTOS.filter(esAlmuerzoCamino);try{for(const e of L){const ya=votosDe(e.id).some(v=>v.persona_id===ME.id);if(e.id===id&&!ya)await API.votar(e.id,true);else if(e.id!==id&&ya)await API.votar(e.id,false)}await cargar();render()}catch(err){toast(err.message)}}
+async function otraOpcionAlmuerzo(){const t=prompt('¿Dónde propones almorzar? (ej. «Pollo asado en Quinindé»)');if(!t||!t.trim())return;
+  try{await API.saveEvento({id:uid(),titulo:t.trim().slice(0,80),tematica:'Almuerzo de camino',descripcion:'Propuesta de '+nom(ME.id),dia:CFG.desde||null,bloque:'tarde',estado:'propuesta',creado_por:ME.id},true);await cargar();await votarAlmuerzo(EVENTOS.find(e=>esAlmuerzoCamino(e)&&e.titulo===t.trim().slice(0,80)).id);toast('Opción agregada con tu voto')}catch(err){toast(err.message)}}
+async function cerrarVotoAlmuerzo(id){if(!confirm('¿Elegir esta opción y avisar a todos?'))return;try{const e=EVENTOS.find(x=>x.id===id);await API.saveEvento({...e,estado:'oficial'},false);
+  avisar(activos().map(p=>({para_id:p.id,titulo:'🍽️ Almorzamos en: '+e.titulo,cuerpo:'Ganó la votación. ¡Nos vemos ahí!',url:'/#hoy'})));await cargar();toast('Listo, ya saben todos');render()}catch(err){toast(err.message)}}
 /* ── FOTOS CON IA: cada plan del itinerario (ilustración) y cada plato (foto de restaurante), una vez, guardadas para todos ── */
 function iaFotosBtn(q){const L=q==='eventos'?EVENTOS.filter(e=>e.estado!=='cancelado'&&!e.foto):PLATOS.filter(p=>!p.foto);if(!L.length||MODO==='demo')return '';
   return `<button class="btn block out-b" style="margin-top:12px" onclick="crearFotosIA('${q}',this)">${GEM_SVG} Crear con IA ${q==='eventos'?'la foto de '+L.length+' plan'+(L.length===1?'':'es'):'la foto de '+L.length+' plato'+(L.length===1?'':'s')+' (estilo restaurante)'}</button>`}
