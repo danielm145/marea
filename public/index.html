@@ -409,8 +409,11 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .mc{margin-top:14px}.mc-l{color:var(--ink-2);font-weight:600}.mc-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.mc-m{font-family:var(--f-disp);font-weight:800;font-size:38px}
 .pill-b{margin-left:auto;border:0;background:var(--surface-2);border-radius:999px;padding:7px 12px;font:inherit;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;display:inline-flex;gap:4px;align-items:center}.pill-b svg{width:14px;height:14px}
 .mc-i{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.mc-b{width:100%;border:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer}.mc-b>svg{width:16px;height:16px;color:var(--ink-3)}
+.dg{display:block;width:100%;padding:12px 0;border:0;border-bottom:1px solid var(--line);background:none;font:inherit;color:inherit;text-align:left;cursor:pointer}.dg:last-child{border-bottom:0}.dg-h{display:flex;gap:10px;align-items:baseline}
+.dg-p{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:8px}.dg-x{display:inline-flex;align-items:center;gap:5px;font-size:13px}.dg-x b{font-weight:700}
 .qq{padding:10px 0;border-bottom:1px solid var(--line)}.qq:last-child{border-bottom:0}.qq-h{display:flex;align-items:center;gap:8px}.qq-h .amt{margin-left:auto}
 .qq-r{display:flex;align-items:center;gap:8px;width:100%;padding:8px 0 4px 10px;border:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer}.qq-fl{color:var(--ink-3);font-weight:800}.qq-r>svg{width:16px;height:16px;color:var(--ink-3)}
+.av[data-p]{cursor:zoom-in}.avp .av,.pl-av .av,.hh-top .av{cursor:pointer}
 .dd-avs{display:inline-flex}.dd-avs .av:last-child{margin-left:-10px;box-shadow:0 0 0 2px var(--surface)}
 .dd-row{display:flex;align-items:center;gap:10px;width:100%;padding:10px 0;border-bottom:1px solid var(--line);border-left:0;border-right:0;border-top:0;background:none;font:inherit;color:inherit;text-align:left;cursor:pointer}.dd-row .grow{display:flex;flex-direction:column;gap:2px;min-width:0}.dd-tot{border-bottom:0;cursor:default}
 /* ÁLBUM */
@@ -568,7 +571,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v49';
+const BUILD_TAG='v50';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -696,6 +699,8 @@ function verCara(id){const p=PMAP[id];if(!p)return;cerrarCara();
   const ig=((p.perfil||{}).instagram||'').trim().replace(/^@/,'');
   m.innerHTML=`<button class="x" aria-label="Cerrar">${ic('x')}</button><div class="vc-in">${av(id,'gigante')}<b>${esc(nom(id))}</b><span>${esc(p.nombre)}</span>${/^[\w.]{1,30}$/.test(ig)?`<a href="https://instagram.com/${esc(ig)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">@${esc(ig)}</a>`:''}</div>`;
   m.onclick=cerrarCara;document.body.appendChild(m);requestAnimationFrame(()=>m.classList.add('on'))}
+document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('.av[data-p]');if(!a||a.closest('.avp,.pl-av,.hh-top,.vc-in,.no-cara'))return;
+  if(!PMAP[a.dataset.p])return;e.preventDefault();e.stopPropagation();verCara(a.dataset.p)},true);
 function cerrarCara(){const m=$('#visorCara');if(m)m.remove()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarCara()});
 /* la cara de alguien: img/gente/<nombre-completo>.jpg o img/gente/<primer-nombre>.jpg, si existe */
@@ -706,7 +711,7 @@ function av(id,cls=''){
   const foto=p&&p.perfil&&p.perfil.foto; let url=foto?(FOTOS[foto]||(foto.startsWith('data:')?foto:'')):'';
   if(!url&&!foto&&p){const c=caraDe(p);url=(window.FOTOS_DATA&&window.FOTOS_DATA[c])||c}
   if(foto&&!url) resolverFoto(foto);
-  return `<span class="av ${cls}" style="background:${bg};color:${fg}" title="${esc(nom(id))}">${url?`<img src="${esc(url)}" alt="">`:esc(n.trim().charAt(0).toUpperCase())}</span>`;
+  return `<span class="av ${cls}" data-p="${esc(id)}" style="background:${bg};color:${fg}" title="${esc(nom(id))}">${url?`<img src="${esc(url)}" alt="">`:esc(n.trim().charAt(0).toUpperCase())}</span>`;
 }
 
 /* ============================================================================
@@ -730,6 +735,14 @@ function balances(){
   }
   return Object.values(B).map(b=>({...b,saldo:r2(b.pagado-b.toca)}));
 }
+const saldoTxt=v=>v>0.009?'+'+money(v):v<-0.009?'−'+money(-v):money(0);
+/* cada gasto, cómo se dividió: quién pagó y cuánto le toca a cada uno (la fuente de todas las cuentas) */
+function desgloseGastos(){const L=GASTOS.filter(g=>!g.eliminado&&!g.fondo&&g.tipo==='gasto').sort((a,b)=>String(b.fecha||'').localeCompare(String(a.fecha||'')));
+  if(!L.length)return '';
+  return `<div class="card" style="padding:4px 14px">${L.map(g=>{const pag=(g.pagadores||[])[0]?.persona_id,ps=partesDe(g),igual=g.reparto&&g.reparto.modo==='igual';
+    return `<button class="dg" onclick="abrirGasto('${g.id}')"><div class="dg-h"><b class="grow">${esc(g.descripcion)}</b><span class="amt">${money(g.monto)}</span></div>
+      <div class="tiny muted">Pagó <b>${esc(nom(pag))}</b> · ${fechaCorta(g.fecha)} · ${igual?`${ps.length} personas · ${money(ps[ps.length-1]?ps[ps.length-1].v:0)} cada uno`:'por platos / montos'}</div>
+      <div class="dg-p">${ps.map(p=>`<span class="dg-x">${av(p.id,'xs')}<span>${esc(nom(p.id))}</span><b class="num">${money(p.v)}</b></span>`).join('')}</div></button>`}).join('')}</div>`}
 function simplificar(bs){
   const deb=bs.filter(b=>b.saldo<-0.009).map(b=>({id:b.id,s:-b.saldo})).sort((a,b)=>b.s-a.s);
   const acr=bs.filter(b=>b.saldo>0.009).map(b=>({id:b.id,s:b.saldo})).sort((a,b)=>b.s-a.s);
@@ -1570,7 +1583,7 @@ function deudasGrupo(){const out=[];const ids=activos().map(p=>p.id);
   return out.sort((x,y)=>y.monto-x.monto)}
 function vBalances(){
   const bs=balances().sort((a,b)=>b.saldo-a.saldo), max=Math.max(1,...bs.map(b=>Math.abs(b.saldo)));
-  const tx=simplificar(bs), f=fondo(), D=deudasGrupo();
+  const f=fondo(), D=deudasGrupo();
   const porDeudor={};D.forEach(x=>(porDeudor[x.de]=porDeudor[x.de]||[]).push(x));
   return `<div class="banner tide"><div><b>Así se calcula, como en Splitwise.</b> Cada gasto se divide entre quienes van. Quien pagó prestó; los demás le deben su parte. Lo que dos personas se deben entre sí se resta.</div></div>
     <div class="sec-h"><h2>Quién le debe a quién</h2></div>
@@ -1580,12 +1593,10 @@ function vBalances(){
     <div class="sec-h"><h2>Saldo de cada uno</h2></div>
     <div class="card">${bs.map(b=>`<div class="bal">${av(b.id)}<div style="min-width:0"><div class="row" style="justify-content:space-between"><b style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(nom(b.id))}</b></div>
       <div class="tiny muted num">pagó ${money(b.pagado)} · le toca ${money(b.toca)}</div><div class="bar"><i class="${b.saldo>=0?'p':'n'}" style="width:${Math.abs(b.saldo)/max*50}%"></i></div></div>
-      <span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${b.saldo>0.009?'+':b.saldo<-0.009?'−':''}${money(Math.abs(b.saldo))}</span></div>`).join('')}</div>
-    <p class="muted tiny">Verde: le deben (pagó más de lo que le toca). Rojo: debe.</p>
-    <details class="card" style="margin-top:14px"><summary style="cursor:pointer;font-weight:700">Atajo para el final: cerrar con menos transferencias (${tx.length})</summary>
-      <p class="muted tiny" style="margin:8px 0">Es el menor número de pagos para que todos queden en cero. Puede que le pagues a alguien con quien no compartiste nada: es porque esa persona le debía a quien tú le debías.</p>
-      ${tx.length?tx.map(t=>`<div class="tx">${av(t.de)}<div class="grow"><b>${esc(nom(t.de))}</b> le paga a <b>${esc(nom(t.a))}</b></div><span class="amt">${money(t.monto)}</span>
-      ${(t.de===ME.id||t.a===ME.id||esAdmin())?`<button class="btn sm" onclick="registrarPago('${t.de}','${t.a}',${t.monto})">Ya se pagó</button>`:''}</div>`).join(''):'<div class="muted tiny">Todos están a paz y salvo.</div>'}</details>
+      <span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${saldoTxt(b.saldo)}</span></div>`).join('')}</div>
+    <p class="muted tiny">Verde: le deben (pagó más de lo que le toca). Rojo: debe. Es la suma de «Quién le debe a quién».</p>
+    <div class="sec-h"><h2>De dónde sale: cada gasto</h2></div>
+    ${desgloseGastos()||'<div class="card flat empty">Todavía no hay gastos.</div>'}
     <div class="sec-h"><h2>Fondo común</h2><button class="link" onclick="nuevoAporte()">Registrar aporte</button></div>
     <div class="card"><div class="grid2"><div><div class="eyebrow">Aportado</div><div class="amt">${money(f.aportado)}</div></div><div><div class="eyebrow">Gastado</div><div class="amt">${money(f.gastado)}</div></div></div>
       <div style="margin-top:10px" class="row"><div class="grow muted tiny">Lo que se paga con el fondo no entra a las cuentas de nadie: ya se repartió al aportar.</div><span class="pill ${f.disponible<0?'bad':'ok'}">Queda ${money(f.disponible)}</span></div></div>`;
@@ -1849,14 +1860,17 @@ function exportarCSV(){
 }
 function descargar(nombre,txt){try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+txt],{type:'text/csv'}));a.download=nombre;document.body.appendChild(a);a.click();a.remove()}catch(e){toast('Usa Copiar')}}
 function abrirResumen(){
-  const bs=balances().sort((a,b)=>b.pagado-a.pagado), tx=simplificar(bs), porCat={};
+  const bs=balances().sort((a,b)=>b.saldo-a.saldo), D=deudasGrupo(), porCat={};
   GASTOS.filter(g=>g.tipo==='gasto').forEach(g=>porCat[g.categoria||'otros']=(porCat[g.categoria||'otros']||0)+ +g.monto);
   const tot=Object.values(porCat).reduce((a,b)=>a+b,0);
   openSheet(`${sheetH('Resumen del viaje')}<div class="stack">
     <div class="card"><div class="eyebrow">Total gastado</div><div class="amt" style="font-size:30px">${money(tot)}</div><div class="muted tiny">${GASTOS.filter(g=>g.tipo==='gasto').length} gastos · ${activos().length} personas</div></div>
     <div class="card"><div class="eyebrow" style="margin-bottom:6px">Por categoría</div>${Object.entries(porCat).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="row" style="padding:5px 0"><span class="grow">${CATN[k]||k}</span><span class="muted tiny num">${tot?Math.round(v/tot*100):0}%</span><span class="amt" style="min-width:90px;text-align:right">${money(v)}</span></div>`).join('')}</div>
-    <div class="card"><div class="eyebrow" style="margin-bottom:6px">Transferencias para cerrar</div>${tx.length?tx.map(t=>`<div class="row" style="padding:5px 0"><span class="grow">${esc(nom(t.de))} → ${esc(nom(t.a))}</span><span class="amt">${money(t.monto)}</span></div>`).join(''):'<div class="muted">Nadie le debe a nadie.</div>'}</div>
-    <div class="table-x"><table class="t num"><thead><tr><th>Persona</th><th>Pagó</th><th>Le toca</th><th>Saldo</th></tr></thead><tbody>${bs.map(b=>`<tr><td>${esc(nom(b.id))}</td><td>${money(b.pagado)}</td><td>${money(b.toca)}</td><td class="${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(b.saldo)}</td></tr>`).join('')}</tbody></table></div></div>`);
+    <div class="card"><div class="eyebrow" style="margin-bottom:6px">Quién le debe a quién</div>${D.length?D.map(t=>`<div class="row" style="padding:6px 0;gap:8px">${av(t.de,'xs')}<span class="grow"><b>${esc(nom(t.de))}</b> le debe a <b>${esc(nom(t.a))}</b></span><span class="amt">${money(t.monto)}</span></div>`).join(''):'<div class="muted">Nadie le debe a nadie.</div>'}
+      <p class="muted tiny" style="margin:8px 0 0">Solo por lo que compartieron. Toca «Saldos» para ver gasto por gasto.</p></div>
+    <div class="eyebrow">Cada gasto</div>${desgloseGastos()}
+    <div class="table-x"><table class="t num"><thead><tr><th>Persona</th><th>Pagó</th><th>Le toca</th><th>Saldo</th></tr></thead><tbody>${bs.map(b=>`<tr><td>${esc(nom(b.id))}</td><td>${money(b.pagado)}</td><td>${money(b.toca)}</td><td class="${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${saldoTxt(b.saldo)}</td></tr>`).join('')}</tbody></table></div>
+    <p class="muted tiny" style="margin:0">Saldo = lo que pagó − lo que le toca. Verde: le deben. Rojo: debe.</p></div>`);
 }
 
 /* ---------- AGREGAR (botón ＋) ---------- */

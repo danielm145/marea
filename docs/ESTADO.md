@@ -404,3 +404,15 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 ## v49 · día de salida: bienvenida, votación del almuerzo, mapa de la casa de la Ale
 - `sql/019_bienvenida_almuerzo.sql` (idempotente, probado): `info.salida_mapa` = https://maps.app.goo.gl/Pop3Z1AsiefPjZfPA (casa de la Ale, 8:00); 4 opciones de almuerzo de camino como propuestas con tematica «Almuerzo de camino» (directo al ceviche de la casa, encocado en Esmeraldas, mariscos en Atacames, típico en La Concordia); mensaje de bienvenida en el chat de parte del admin.
 - Inicio: `bienvenidaCard` (bienvenidos, el ceviche que espera, «todo gasto va a la app» con botón Registrar un gasto; se cierra y vale desde el día antes hasta el final del viaje) y `votoAlmuerzoCard` (un voto por persona, barras y caras, «+ Otra opción», admin «Elegir la ganadora» → la vuelve oficial y avisa a todos por push).
+
+## v50 · la plata sin dudas y las caras que se abren (9-oct-2026)
+- Daniel: «en plata no puede haber dudas». Se quitó el «Atajo: cerrar con menos transferencias»
+  (el plan simplificado ponía a todos a pagarle a Alegría y confundía). Saldos y el Resumen del
+  viaje muestran SOLO deudas directas («X le debe a Y», `deudasGrupo()`), que salen de los gastos
+  compartidos entre esas dos personas.
+- Nuevo «De dónde sale: cada gasto» (`desgloseGastos()`): por gasto, quién pagó, fecha y la parte
+  de cada persona con su cara. Tocarlo abre el gasto.
+- Saldo con signo claro (`saldoTxt`): +$ le deben, −$ debe.
+- Toda cara (`av()` lleva `data-p`) abre la foto en grande con un clic (escucha global en captura),
+  salvo en los selectores (.avp, .pl-av), donde tocar la cara sigue eligiendo a la persona.
+- Pruebas: tests/e2e-plata-v50.mjs, e2e-saldos, e2e-cuentas.
