@@ -16,7 +16,7 @@ await pg.route('**/*',async r=>{const u=new URL(r.request().url());
   const ext=f.split('.').pop();return r.fulfill({body:fs.readFileSync(f),contentType:{html:'text/html',jpg:'image/jpeg',webp:'image/webp',png:'image/png',js:'text/javascript'}[ext]||'application/octet-stream'})});
 await pg.goto('http://casablanca.test/');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();await pg.waitForTimeout(600);
 await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
-await pg.click('.fab');await pg.waitForSelector('#ltxt');await pg.waitForTimeout(400);
+await pg.evaluate(()=>abrirAgregar());await pg.waitForSelector('#ltxt');await pg.waitForTimeout(400);
 const orden=await pg.evaluate(()=>[...document.querySelector('#sheetBody .ia-comp').children].map(x=>x.id||x.className.split(' ')[0]).join(' > '));
 console.log('orden:',orden,'· botones:',await pg.locator('#sheetBody .btn').count());
 await pg.screenshot({path:'w21-1-comp.png'});

@@ -468,3 +468,20 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   de la IA (modo `guia` en `/api/ia`: mira hasta 6 fotos + la descripción y devuelve resumen, colores, piezas para él y
   para ella y tips). Se arma sola al subir fotos y se puede volver a armar. Sin IA, queda una guía con el look.
 - Pruebas: tests/e2e-v52.mjs, worker-ia (32).
+
+## v53 · revisión de la noche antes de salir (9-oct-2026)
+- **Sin señal**: lo último cargado queda en el teléfono (`marea_cache_v1`), también la conexión pública a la base
+  (`marea_sb`) y la lista de imágenes (`marea_arte`). Si no hay señal, la app abre con los datos reales guardados y un
+  aviso amarillo; los juegos de carro funcionan completos. Al volver la señal se recarga sola. Antes: sin señal salía
+  la pantalla de entrada o, peor, los datos de ejemplo.
+- **Errores reales arreglados**: «Agregar plato» fallaba (la ficha usaba `window.PL` y la app leía otra `PL`); la hoja
+  de fechas del viaje leía la variable de votos de los juegos (`VJ` → ahora `VOTJ` en juegos y `VIAJEF` en la hoja);
+  en Carros los conductores salían «sin puesto».
+- Portada: el día del viaje dice «Día 1 de 4 · ¡nos vamos!». Pestañas que no se salen en celulares de 320-360 px.
+- Las fotos de IA de carros y salida solo se piden si existen en el catálogo.
+- **Prueba nueva con la base de verdad simulada**: `tests/e2e-supabase.mjs` corre la app en modo Supabase contra
+  `tests/mock-supabase.js`, que rechaza cualquier columna que no esté en `tests/esquema-marea.json` (sacado de Postgres
+  con todos los sql/). Cubre almuerzo, pagos, trivia, ¿quién es más probable?, karaoke y premios, guía de looks,
+  chat, asistencia, platos, tareas, carros, votos, gasto leído por la IA, álbum, Insta y el modo sin señal.
+  Si cambia la base: regenerar `esquema-marea.json`.
+- Pruebas viejas puestas al día (selectores nuevos): comida-y-planes, gasto-ia, logistica, planes-ia, programa-4-dias.

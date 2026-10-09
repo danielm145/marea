@@ -4,7 +4,7 @@ const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleF
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
 await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();await pg.waitForTimeout(500);
 await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
-console.log('portada:',await pg.locator('.hh-f').innerText(),'·',await pg.locator('.hh-c').innerText(),'· noches:',await pg.locator('.st b').first().innerText());
+console.log('portada:',await pg.locator('.hh-f').innerText(),'·',(await pg.locator('.hh-c').count()?await pg.locator('.hh-c').innerText():'(día del viaje)'),'· noches:',await pg.locator('.st b').first().innerText());
 const prog=await pg.evaluate(()=>diasViaje().map((d,i)=>nomDia(i)+' ('+diaSem(d)+' '+fechaCorta(d)+'): '+EVENTOS.filter(e=>e.dia===d).sort((a,b)=>minEv(a)-minEv(b)).map(e=>String(e.hora||'').slice(0,5)+' '+e.titulo).join(' · ')).join('\n'));
 console.log(prog);
 console.log('propuestas:',await pg.evaluate(()=>EVENTOS.filter(e=>!e.dia).map(e=>e.titulo).join(', ')));

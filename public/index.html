@@ -99,7 +99,7 @@ a{color:var(--tide)}
 .pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:700;background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
 .pill.mar{background:var(--mar-soft);color:var(--mar)}.pill.sol{background:var(--sol-soft);color:var(--warn)}
 .pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.tide{background:var(--tide-soft);color:var(--tide-deep)} .pill.sun{background:var(--sun-soft);color:var(--sun)}
-.seg{display:flex;background:var(--surface-2);border-radius:12px;padding:4px;gap:4px}
+.seg{display:flex;background:var(--surface-2);border-radius:12px;padding:4px;gap:4px;max-width:100%;overflow-x:auto;scrollbar-width:none}.seg::-webkit-scrollbar{display:none}
 .seg button{flex:1;border:0;background:none;border-radius:9px;min-height:38px;font-weight:700;font-size:14px;color:var(--ink-2);cursor:pointer;white-space:nowrap;padding:0 12px}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .field{display:flex;flex-direction:column;gap:6px}
@@ -385,6 +385,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .dch{display:flex;gap:8px;overflow-x:auto;margin-top:14px;padding-bottom:2px;scrollbar-width:none}.dch::-webkit-scrollbar{display:none}
 .dch button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 15px;font:inherit;font-weight:700;font-size:14px;color:var(--ink-2);cursor:pointer}
 .dch button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+@media(max-width:374px){.seg button{padding:0 7px;font-size:12.5px}.dch{gap:6px}.dch button{padding:8px 11px;font-size:13px}.jseg button{font-size:11.5px}}
 .dh{display:flex;align-items:center;gap:10px;margin-top:16px}.dh h2{font-family:var(--f-disp);font-weight:800;font-size:24px}.dh-s{color:var(--sun);font-weight:700;font-size:14px}
 .dh-i{color:var(--sol)}.dh-i svg{width:30px;height:30px}
 .db-top{display:grid;gap:10px;margin-top:14px}.db-big{padding:16px}.db-n{display:block;font-family:var(--f-num,inherit);font-size:38px;font-weight:800;letter-spacing:-.02em;margin:2px 0}
@@ -433,6 +434,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .lk-insta{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:10px}.lk-fotos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.lk-fotos button{position:relative;padding:0;border:0;border-radius:12px;overflow:hidden;aspect-ratio:4/5;background:#eee;cursor:zoom-in}.lk-fotos img{width:100%;height:100%;object-fit:cover}
 .lk-fotos span{position:absolute;left:4px;bottom:4px;background:rgba(255,255,255,.92);font-size:10.5px;font-weight:700;border-radius:99px;padding:2px 7px;color:var(--ink)}.lk-2{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}.lk-2 ul{margin:4px 0 0;padding-left:18px;font-size:14px}.lk-2 li{margin:3px 0}
 @media(min-width:520px){.lk-2{grid-template-columns:1fr 1fr}}
+.sinred{margin:10px 0 0;background:#FFF4D6;border:1px solid #F2C14E;color:#6B4E00;border-radius:12px;padding:10px 12px;font-size:13.5px}
 .tl3{display:grid;gap:14px;margin-top:12px}.tl3-c{display:block;width:100%;padding:0;border:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit}
 .tl3-i.now .tl3-c{box-shadow:0 0 0 2.5px #14A37F,var(--shadow)}.tl3-img{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#ffe3c2,#cfe8f5)}.tl3-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tl3-h{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.95);color:var(--ink);font-weight:800;font-size:14px;padding:5px 11px;border-radius:99px;font-variant-numeric:tabular-nums;box-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -636,13 +638,15 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v52';
+const BUILD_TAG='v53';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
   amenidades:['Acceso a la playa (10 gradas)','Vista a la bahía','Piscina al aire libre (con horario)','Jacuzzi compartido','Terraza y jardín','Wifi','TV','Cocina','Lavandería','Parqueadero gratis','Toallas de baño y de playa','Sábanas','Carpa y sillas de playa','Fácil acceso']};
 /* la conexión a Supabase la entrega el Worker (/api/config.js, variables SB_URL y SB_ANON que pone scripts/conectar.sh):
    así ninguna llave vive en el código. Sin ella (vista previa, archivo local) la app corre en modo demo. */
+/* sin señal, /api/config.js no llega: se usa la conexión que quedó guardada (es la llave PÚBLICA, no un secreto) */
+try{if(window.MAREA_SB&&window.MAREA_SB.url)localStorage.setItem('marea_sb',JSON.stringify(window.MAREA_SB));else{const g=JSON.parse(localStorage.getItem('marea_sb')||'null');if(g&&g.url&&g.anon&&!/^file:/.test(location.protocol))window.MAREA_SB=g}}catch(e){}
 const SB_URL=(window.MAREA_SB&&window.MAREA_SB.url)||'';
 const SB_ANON=(window.MAREA_SB&&window.MAREA_SB.anon)||'';
 const MODO=(SB_URL&&SB_ANON&&window.supabase)?'supabase':'demo';
@@ -1100,7 +1104,7 @@ const Demo={
     if(action==='actualizar'){const p=d.personas.find(x=>x.id===b.id),c={...b.campos};if('telefono' in c){c.telefono=normTel(c.telefono);if(!c.telefono)throw new Error('Celular inválido');if(d.personas.some(x=>x.id!==p.id&&x.telefono===c.telefono))throw new Error('Ese celular ya es de otra persona')}if('cumple' in c){c.cumple=normCumple(c.cumple);if(!c.cumple)throw new Error('Cumpleaños inválido')}Object.assign(p,c);this.save();return{persona:p}}
     throw new Error('Acción desconocida')
   },
-  async loadJuegos(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}}const d=this.d;JUEGOS=(d.juegos||[]).slice().sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at))).slice(0,6);const ids=new Set(JUEGOS.map(j=>j.id));JRESP=(d.juego_respuestas||[]).filter(r=>ids.has(r.juego_id)).map(r=>({...r}));KARAOKE=(d.karaoke||[]).map(k=>({...k}));VJ=(d.votos_juego||[]).map(v=>({...v}))},
+  async loadJuegos(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}}const d=this.d;JUEGOS=(d.juegos||[]).slice().sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at))).slice(0,6);const ids=new Set(JUEGOS.map(j=>j.id));JRESP=(d.juego_respuestas||[]).filter(r=>ids.has(r.juego_id)).map(r=>({...r}));KARAOKE=(d.karaoke||[]).map(k=>({...k}));VOTJ=(d.votos_juego||[]).map(v=>({...v}))},
   async saveJuego(j,n){this.up(this.d.juegos=this.d.juegos||[],j,n)},
   async responder(r){const L=this.d.juego_respuestas=this.d.juego_respuestas||[];if(!L.some(x=>x.juego_id===r.juego_id&&x.persona_id===r.persona_id&&x.idx===r.idx))L.push({...r});this.save()},
   async saveKaraoke(k,n){this.up(this.d.karaoke=this.d.karaoke||[],k,n)},
@@ -1185,7 +1189,7 @@ const Sb={
   async mensajes(){const{data,error}=await this.t('mensajes').select('*').order('created_at',{ascending:false}).limit(200);return error?[]:data.reverse()},
   async addInspiracion(x){this.ok(await this.t('inspiracion').insert(this.pick(x,['id','evento_id','persona_id','foto','nota'])))},
   async loadJuegos(){const[j,k,v]=await Promise.all([this.t('juegos').select('*').order('created_at',{ascending:false}).limit(6),this.t('karaoke').select('*').order('orden'),this.t('votos_juego').select('*')]);
-    JUEGOS=this.ok(j);KARAOKE=this.ok(k).map(x=>({...x,orden:+x.orden}));VJ=this.ok(v);const ids=JUEGOS.map(x=>x.id);JRESP=ids.length?this.ok(await this.t('juego_respuestas').select('*').in('juego_id',ids)):[]},
+    JUEGOS=this.ok(j);KARAOKE=this.ok(k).map(x=>({...x,orden:+x.orden}));VOTJ=this.ok(v);const ids=JUEGOS.map(x=>x.id);JRESP=ids.length?this.ok(await this.t('juego_respuestas').select('*').in('juego_id',ids)):[]},
   async saveJuego(j,n){return this.up('juegos',['id','tipo','titulo','estado','idx','preguntas','segundos','host','creado_por','updated_at'],j,n)},
   async responder(r){this.ok(await this.t('juego_respuestas').upsert(this.pick(r,['juego_id','persona_id','idx','opcion','voto','ms','puntos']),{onConflict:'juego_id,persona_id,idx',ignoreDuplicates:true}))},
   async saveKaraoke(k,n){return this.up('karaoke',['id','persona_id','cantantes','titulo','artista','portada','preview','itunes_id','estado','orden'],k,n)},
@@ -1314,17 +1318,27 @@ const sheetH=(t,extra='')=>`<div class="sheet-h"><h2 id="sheetTitle">${t}</h2>${
 /* ============================================================================
    ARRANQUE
    ============================================================================ */
+/* SIN SEÑAL (en la vía se cae): lo último que se cargó queda en el teléfono y la app abre igual, solo para ver;
+   los juegos de carro funcionan completos. Cuando vuelve la señal, se recarga sola. */
+let SIN_RED=false;
+const CACHE_KEY='marea_cache_v1';
+function guardarCache(){if(MODO!=='supabase'||!ME)return;try{lsSet(CACHE_KEY,JSON.stringify({t:Date.now(),ME,PERSONAS,CFG,GASTOS,TAREAS,EVENTOS,VOTOS,ETIQUETAS,COMIDAS,PLATOS,ASIST,INSPI,EQUIPO,VEHICULOS,PASAJEROS,MENSAJES:MENSAJES.slice(-40),KARAOKE,LOOKG}))}catch(e){}}
+function usarCache(){let c=null;try{c=JSON.parse(lsGet(CACHE_KEY)||'null')}catch(e){}if(!c||!c.ME)return false;
+  ({ME,PERSONAS,CFG,GASTOS,TAREAS,EVENTOS,VOTOS,ETIQUETAS,COMIDAS,PLATOS,ASIST,INSPI,EQUIPO,VEHICULOS,PASAJEROS,MENSAJES}=c);KARAOKE=c.KARAOKE||[];LOOKG=c.LOOKG||[];indexar();SIN_RED=c.t||true;return true}
+const sinRed=e=>!navigator.onLine||/fetch|network|load failed|conexi/i.test(String(e&&e.message||e));
+window.addEventListener('online',async()=>{if(!SIN_RED)return;try{ME=await API.restore()}catch(e){return}if(!ME)return;SIN_RED=false;await cargar();render();toast('Volvió la señal: todo al día')});
 async function boot(){
   if(MODO==='supabase')Sb.init();else Demo.init();
   probarIA();cargarArte();
-  try{ME=await API.restore()}catch(e){ME=null}
+  let fallo=null;try{ME=await API.restore()}catch(e){ME=null;fallo=e}
+  if(!ME&&MODO==='supabase'&&(sinRed(fallo)||!navigator.onLine)&&usarCache()){TAB=(location.hash||'#hoy').slice(1);if(!tabsVisibles().some(x=>x[0]===TAB))TAB='hoy';render();return}
   if(!ME){pintarLogin();return}
   await cargar();
   sincronizarPush().catch(()=>{});revisarVersion();setInterval(revisarVersion,5*60*1000);
   TAB=(location.hash||'#hoy').slice(1).replace(/-m$/,'');if(!tabsVisibles().some(x=>x[0]===TAB))TAB='hoy';
   render();
 }
-async function cargar(){try{await API.loadAll();indexar()}catch(e){toast('No pude cargar los datos: '+e.message)}await Promise.all([cargarJuegos(),cargarGuias()])}
+async function cargar(){let ok=false;try{await API.loadAll();indexar();ok=true}catch(e){if(sinRed(e)&&ME){SIN_RED=SIN_RED||true}else toast('No pude cargar los datos: '+e.message)}await Promise.all([cargarJuegos(),cargarGuias()]);if(ok){SIN_RED=false;guardarCache()}}
 async function refrescar(){if(!ME)return;await cargar();if($('#sheet').hidden)render()}
 if(MODO==='supabase'){setInterval(()=>{if(document.visibilityState==='visible')refrescar()},45000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refrescar()})}
 
@@ -1359,6 +1373,7 @@ function render(){
   $('#app').innerHTML=`<div class="wrap ${enHoy?'en-hoy':''}">
     ${enHoy?'':`<header class="top2"><button class="x" onclick="${EN_MAS.includes(TAB)&&TAB!=='mas'?"irA('mas')":"irA('hoy')"}" aria-label="Atrás">${ic('back')}</button>
       <div class="top2-t">${logo(118)}<small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
+    ${SIN_RED?`<div class="sinred">Sin señal: estás viendo lo último guardado${typeof SIN_RED==='number'?' ('+new Date(SIN_RED).toLocaleTimeString('es-EC',{hour:'numeric',minute:'2-digit'})+')':''}. Los <button class="link" onclick="JSUB='carro';irA('juegos')">juegos de carro</button> funcionan igual.</div>`:''}
     <main id="main">${(views[TAB]||vHoy)()}</main>
     <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Casablanca ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     ${TAB==='chat'||TAB==='hoy'||TAB==='juegos'?'':`<button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>`}
@@ -1435,7 +1450,7 @@ function vHoy(){
   const stat=(i,num,l,c,click)=>`<button class="st" onclick="${click}"><span class="st-i" style="background:${c}1f;color:${c}">${ic(i)}</span><b>${num}</b><span>${l}</span></button>`;
   return `<section class="hh">${imgTag([...portada,'img/casa/piscina.jpg'],'hh-img')}<div class="hh-top" role="button" tabindex="0" onclick="SUBN='gente';irA('nosotros')" style="cursor:pointer"><div class="avs">${activos().slice(0,3).map(p=>av(p.id,'xs')).join('')}<span class="hh-n">${activos().length}</span></div></div>
       <div class="hh-in"><div class="hh-logo">${logo(190)}</div><div class="hh-l">${esc(CFG.lugar||'')}</div>${rango?`<div class="hh-f">${esc(rango)}</div>`:''}
-        ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':''}</div></section>
+        ${n>0?`<span class="hh-c">Faltan ${n} día${n===1?'':'s'}</span>`:fin?'<span class="hh-c">Gracias por venir</span>':dias.includes(hoy)?`<span class="hh-c">Día ${dias.indexOf(hoy)+1} de ${dias.length}${dias.indexOf(hoy)===0?' · ¡nos vamos!':''}</span>`:''}</div></section>
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'noches','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
     ${bienvenidaCard()}
     ${miDiaCard()}
@@ -1496,7 +1511,7 @@ function salidaDe(){const I=infoV();if(!CFG.desde)return null;const h=/^\d{1,2}:
 function cuantoFalta(ms){const m=Math.round(ms/60000);if(m<=0)return '';const h=Math.floor(m/60),mm=m%60;return h>=24?`en ${Math.round(h/24)} día${Math.round(h/24)===1?'':'s'}`:h?`en ${h} h${mm?' '+mm+' min':''}`:`en ${mm} min`}
 function salidaCard(){const S=salidaDe();if(!S)return '';const ms=S.t-new Date();if(ms>48*3600e3||ms<-3*3600e3)return '';
   const hoy=hoyISO(),cuando=CFG.desde===hoy?'Hoy':CFG.desde===addDias(hoy,1)?'Mañana':diaSem(CFG.desde);const hora12=(()=>{const[H,M]=S.h.split(':').map(Number);return `${((H+11)%12)+1}:${String(M).padStart(2,'0')} ${H<12?'a.m.':'p.m.'}`})();
-  return `<div class="card sal"><img class="sal-img" src="/api/arte/salida" alt="" onerror="this.remove()"><div class="sal-in">
+  return `<div class="card sal">${arteUrl('salida')?`<img class="sal-img" src="${arteUrl('salida')}" alt="" onerror="this.remove()">`:''}<div class="sal-in">
     <div class="sal-k">${ms>0?'🚗 ¡Nos vamos a Same!':'🌴 ¡Ya vamos en camino!'}</div>
     <div class="sal-h">${cuando} · ${hora12}</div>
     <div class="sal-l">📍 Salimos desde ${esc(S.lugar||'el punto de encuentro')}</div>
@@ -1515,7 +1530,7 @@ function miDiaCard(){const d=diaDeMiDia();if(!d)return '';const hoy=hoyISO(),dia
   const ahora=new Date().getHours()*60+new Date().getMinutes(),esHoy=d===hoy,act=esHoy?L.filter(x=>x.m<=ahora).pop():null,sig=esHoy?L.find(x=>x.m>ahora):L[0];
   const cuando=esHoy?'Hoy':d===addDias(hoy,1)?'Mañana':diaSem(d);
   const P=PASAJEROS.filter(p=>p.trayecto==='ida'),miV=(VEHICULOS||[]).find(v=>v.conductor===ME.id||P.some(p=>p.vehiculo_id===v.id&&p.persona_id===ME.id));
-  const carro=miV&&i===0?`<div class="md-car">${arteCarro(miV)?`<img src="/api/arte/${arteCarro(miV)}" alt="" loading="lazy" onerror="this.remove()">`:''}<div class="grow"><div class="md-k">Tu carro</div><b>${esc(nomCarro(miV))}</b><div class="tiny">${miV.conductor===ME.id?'Manejas tú':'Maneja '+esc(nom(miV.conductor))}${(()=>{const c=copilotoDe(miV);return c&&c.id===ME.id?' · vas de copiloto':''})()}</div></div></div>`:'';
+  const carro=miV&&i===0?`<div class="md-car">${arteUrl(arteCarro(miV))?`<img src="${arteUrl(arteCarro(miV))}" alt="" loading="lazy" onerror="this.remove()">`:''}<div class="grow"><div class="md-k">Tu carro</div><b>${esc(nomCarro(miV))}</b><div class="tiny">${miV.conductor===ME.id?'Manejas tú':'Maneja '+esc(nom(miV.conductor))}${(()=>{const c=copilotoDe(miV);return c&&c.id===ME.id?' · vas de copiloto':''})()}</div></div></div>`:'';
   return `<div class="card md"><div class="md-h"><div class="grow"><div class="md-k">Mi día · ${cuando}</div><div class="md-t">${esc(diaSem(d).charAt(0).toUpperCase()+diaSem(d).slice(1))} ${fechaCorta(d)}</div><div class="tiny muted">${esc(nomDia(i,dias.length))}</div></div><span class="md-sun">${ic('sun')}</span></div>
     ${carro}
     ${L.length?`<div class="md-l">${L.map(x=>`<button class="md-i${x===act?' now':''}${x===sig?' next':''}${x.voto?' md-vt':''}" onclick="${x.on}"><span class="md-hr">${h12(x.m)}</span><span class="md-th">${imgTag(x.img,'')}</span><span class="grow md-tx"><b>${esc(x.t)}</b>${x.l?`<span class="tiny muted">${esc(x.l.charAt(0).toUpperCase()+x.l.slice(1))}</span>`:''}${x===act?'<span class="md-pill">Ahora</span>':x===sig?`<span class="md-pill sig">${esHoy?cuantoFalta((x.m-ahora)*60000).replace(/^en /,'En '):'Primero'}</span>`:''}</span></button>`).join('')}</div>`:'<div class="muted tiny">Día libre: playa y siesta.</div>'}
@@ -1568,7 +1583,7 @@ function carrosCard(){const V=VEHICULOS||[];if(!V.length)return '';const P=PASAJ
   return `<div class="sec-h"><h2>Los carros</h2><button class="link" onclick="SUBT='carros';irA('tareas')">Cambiar</button></div><div class="carros">${V.map(v=>{const a=arteCarro(v),copId=copilotoDe(v);
     const atras=P.filter(p=>p.vehiculo_id===v.id&&p.persona_id!==v.conductor&&(!copId||p.persona_id!==copId.id));const yo=v.conductor===ME.id||P.some(p=>p.vehiculo_id===v.id&&p.persona_id===ME.id);
     const fila=(k,ids)=>`<div class="carro2-r"><span class="carro2-k">${k}</span><span class="carro2-p">${ids.map(id=>`<span class="carro2-x">${av(id,'xs')}<b>${esc(nom(id))}</b></span>`).join('')}</span></div>`;
-    return `<div class="card carro2${yo?' yo':''}"><div class="carro2-img">${a?`<img src="/api/arte/${a}" alt="${esc(nomCarro(v))}" loading="lazy" onerror="this.remove()">`:''}<span class="carro2-t">${esc(nomCarro(v))}</span>${yo?'<span class="carro2-yo">Tu carro</span>':''}</div>
+    return `<div class="card carro2${yo?' yo':''}"><div class="carro2-img">${arteUrl(a)?`<img src="${arteUrl(a)}" alt="${esc(nomCarro(v))}" loading="lazy" onerror="this.remove()">`:''}<span class="carro2-t">${esc(nomCarro(v))}</span>${yo?'<span class="carro2-yo">Tu carro</span>':''}</div>
       <div class="carro2-b">${v.conductor?fila('Maneja',[v.conductor]):''}${copId?fila('Copiloto',[copId.id]):''}${atras.length?fila(copId?'Atrás':'Van',atras.map(p=>p.persona_id)):''}</div></div>`}).join('')}</div>`}
 /* ── TODO DEL VIAJE en una hoja: salida, dirección del depa con Maps y Waze, check-in, WiFi, contactos y compartir ── */
 function hojaTodo(){const I=infoV(),S=salidaDe(),dir=I.direccion||CFG.lugar||'';
@@ -2062,7 +2077,7 @@ async function procesarLector(){
 let PROP=null;
 /* cambiar los datos del viaje diciéndoselo a la IA: se muestra antes → después y se confirma (solo admin) */
 function hojaViaje(v){const n={nombre:v.nombre||CFG.nombre,lugar:v.lugar||CFG.lugar,desde:v.desde||CFG.desde,hasta:v.hasta||CFG.hasta};
-  const dn=n.desde&&n.hasta?difDias(n.desde,n.hasta)+1:0,mal=!n.desde||!n.hasta||dn<1||dn>30;window.VJ=n;
+  const dn=n.desde&&n.hasta?difDias(n.desde,n.hasta)+1:0,mal=!n.desde||!n.hasta||dn<1||dn>30;window.VIAJEF=n;
   const fila=(l,a,b)=>`<div class="vj-f"><span class="muted tiny">${l}</span><div>${a!==b?`<s class="muted">${esc(a||'—')}</s> → `:''}<b>${esc(b||'—')}</b></div></div>`;
   const fx=d=>d?diaSem(d)+' '+fechaCorta(d):'';
   openSheet(`${sheetH('Datos del viaje')}<div class="stack ia-llena">
@@ -2071,7 +2086,7 @@ function hojaViaje(v){const n={nombre:v.nombre||CFG.nombre,lugar:v.lugar||CFG.lu
       ${dn?`<div class="vj-dias">${dn} día${dn===1?'':'s'} · ${dn-1} noche${dn===2?'':'s'}</div>`:''}</div>
     ${mal?`<div class="banner warn">Esas fechas no cuadran (${dn} días). Dilo otra vez, por ejemplo: «el viaje es del 9 al 12 de octubre».</div>`:''}
     ${esAdmin()?`<button class="btn primary block" onclick="guardarViajeIA()" ${mal?'disabled':''}>Guardar</button>`:'<div class="banner tide">Solo el admin cambia los datos del viaje: pásale este mensaje.</div>'}</div>`)}
-async function guardarViajeIA(){try{await API.saveConfig(VJ);await cargar();closeSheet();toast('Viaje actualizado');render()}catch(e){toast(e.message)}}
+async function guardarViajeIA(){try{await API.saveConfig(VIAJEF);await cargar();closeSheet();toast('Viaje actualizado');render()}catch(e){toast(e.message)}}
 /* poner la foto como portada de un plan: se confirma el plan con un toque (o se escoge otro) */
 function hojaPortada(evId){const evs=EVENTOS.filter(e=>e.estado!=='cancelado').sort((a,b)=>String(a.dia||'9').localeCompare(String(b.dia||'9'))||minEv(a)-minEv(b));
   window.PORT={ev:EVENTOS.some(e=>e.id===evId)?evId:''};
@@ -2717,11 +2732,11 @@ function abrirPlato(id){
 }
 function abrirFormPlato(id,comidaId){
   const p=id?PLATOS.find(x=>x.id===id):{id:uid(),comida_id:comidaId||null,nombre:'',descripcion:'',estilo:'',ingredientes:[],porciones:null,tags:[],alergenos:[],opcion:null,foto:null,permanente:!comidaId,turno:comidaId?null:'almuerzo'};
-  const c=COMIDAS.find(x=>x.id===p.comida_id); window.PL={...p,tags:[...(p.tags||[])],nuevo:!id,_ing:(p.ingredientes||[]).join('|')};
+  const c=COMIDAS.find(x=>x.id===p.comida_id); PL={...p,tags:[...(p.tags||[])],nuevo:!id,_ing:(p.ingredientes||[]).join('|')};
   if(c&&c.modalidad==='dual'&&!PL.opcion)PL.opcion='A';
   openSheet(`${sheetH(id?'Editar plato':'Nuevo plato')}<div class="stack">
     <div class="field"><label for="pl_n">Nombre</label><input id="pl_n" class="in" value="${esc(p.nombre)}" oninput="PL.nombre=this.value" autofocus placeholder="Ej. Encocado de camarón"></div>
-    ${c&&c.modalidad==='dual'?`<div class="field"><span class="lbl">Opción</span><div class="seg">${['A','B'].map(o=>`<button aria-pressed="${PL.opcion===o}" onclick="PL.opcion='${o}';segSel(this)">${o==='A'?'A · Healthy':'B · Tradicional'}</button>`).join('')}</div></div>`:''}
+    ${c&&c.modalidad==='dual'?`<div class="field"><span class="lbl">Opción</span><div class="seg">${['A','B'].map(o=>`<button aria-pressed="${PL.opcion===o}" onclick="PL.opcion='${o}';segSel(this)">${o==='A'?'A · '+SEM_COL.A[0]:'B · '+SEM_COL.B[0]}</button>`).join('')}</div></div>`:''}
     ${!c?`<div class="field"><span class="lbl">Momento</span><div class="seg">${TURNOS.map(([k,l])=>`<button aria-pressed="${PL.turno===k}" onclick="PL.turno='${k}';segSel(this)">${l}</button>`).join('')}</div></div>`:''}
     <div class="field"><label for="pl_i">Ingredientes (uno por línea)</label><textarea id="pl_i" class="in" rows="4" oninput="PL.ingredientes=this.value.split('\\n').map(x=>x.trim()).filter(Boolean)">${esc((p.ingredientes||[]).join('\n'))}</textarea></div>
     <div class="field"><label for="pl_d">Descripción</label><textarea id="pl_d" class="in" rows="3" oninput="PL.descripcion=this.value" placeholder="Si la dejas vacía, la completa la IA">${esc(p.descripcion||'')}</textarea></div>
@@ -3225,7 +3240,8 @@ const FOTOS_GEN=new Set(window.FOTOS_GEN||[]);
 /* ── IMÁGENES HECHAS CON IA (catálogo del servidor, /api/arte): la app pregunta cuáles hay y las pone sola ── */
 let ARTE_OK=new Set();
 const arteUrl=k=>k&&ARTE_OK.has(k)?'/api/arte/'+k:'';
-async function cargarArte(){if(!/^https?:$/.test(location.protocol))return;try{const r=await fetch('/api/arte',{cache:'no-store'});if(!r.ok)return;const j=await r.json();ARTE_OK=new Set(j.claves||[]);if(ME&&$('#sheet').hidden)render()}catch(e){}}
+async function cargarArte(){if(!/^https?:$/.test(location.protocol))return;try{ARTE_OK=new Set(JSON.parse(lsGet('marea_arte')||'[]'))}catch(e){}
+  try{const r=await fetch('/api/arte',{cache:'no-store'});if(!r.ok)return;const j=await r.json();ARTE_OK=new Set(j.claves||[]);lsSet('marea_arte',JSON.stringify(j.claves||[]));if(ME&&$('#sheet').hidden)render()}catch(e){}}
 const ARTE_EV=[[/almuerzo de camino/,'ev-almuerzo'],[/salida desde|salimos de/,'ev-salida'],[/check-?out|regreso|despedida/,'ev-checkout'],[/ceviche|recepcion|llegada/,'ev-ceviche'],[/check-?in|cuartos/,'ev-checkin'],[/michelada/,'ev-micheladas'],[/atardecer/,'ev-atardecer'],[/cine/,'ev-cine'],[/estrellas|fogata|intenciones/,'ev-fogata'],[/yoga/,'ev-yoga'],[/panzazo|piscina/,'ev-panzazos'],[/bbq|grill|parrill|taco|cocktail/,'ev-bbq'],[/karaoke|talent/,'ev-karaoke'],[/spike|paletas|\bred\b/,'ev-spikeball'],[/fotos|gafas|freaky/,'ev-fotos'],[/tapas|vino|wine/,'ev-tapas'],[/pizza|board|game night|juegos de mesa/,'ev-pizza'],[/restaurant/,'ev-restaurante'],[/2000|throwback/,'ev-throwback'],[/tesoro/,'ev-tesoro'],[/olimpiada/,'ev-olimpiadas']];
 const arteEvento=e=>{const t=norm(e.titulo+' '+(e.tematica||''));const x=ARTE_EV.find(([re])=>re.test(t));return x?arteUrl(x[1]):''};
 const ARTE_PLATO=[[/ceviche/,'plato-ceviche'],[/sin alcohol|virgen/,'plato-sin-alcohol'],[/cafe/,'plato-cafe'],[/fruta/,'plato-fruta'],[/jugo de naranja/,'plato-jugos'],[/coco/,'plato-coco'],[/yogur/,'plato-yogurt'],[/cerveza/,'plato-cerveza'],[/chimichurri/,'plato-chimichurri'],[/coctel|mojito|margarita/,'plato-cocteles'],[/quesos|embutidos/,'plato-quesos'],[/sangria/,'plato-sangria'],[/vino/,'plato-vino'],[/hamburgues/,'plato-hamburguesas'],[/papas/,'plato-papas'],[/patacon/,'plato-patacones'],[/pescado a la plancha/,'plato-pescado']];
@@ -3261,7 +3277,7 @@ Object.assign(P,{
   yt:'<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5v5l4.5-2.5z"/>',
   subir:'<path d="M12 19V5M6 11l6-6 6 6"/>'
 });
-let JUEGOS=[],JRESP=[],KARAOKE=[],VJ=[],JUEGOS_OK=true,JSUB='trivia',JPOLL=null,JHUELLA='',KQ='',KRES=null,KBUSCANDO=false,AUDIO=null,AUDIO_ID=null;
+let JUEGOS=[],JRESP=[],KARAOKE=[],VOTJ=[],JUEGOS_OK=true,JSUB='trivia',JPOLL=null,JHUELLA='',KQ='',KRES=null,KBUSCANDO=false,AUDIO=null,AUDIO_ID=null;
 const JVISTO={};   // cuándo vio este teléfono cada pregunta (el reloj es el de cada uno: no importa la hora del otro)
 const KCOL=['#E21B3C','#1368CE','#D89E00','#26890C'];   // los cuatro colores de Kahoot
 const KFORMA=['<path d="M12 3 22 20H2z"/>','<path d="M12 2 22 12 12 22 2 12z"/>','<circle cx="12" cy="12" r="10"/>','<rect x="3" y="3" width="18" height="18" rx="2"/>'];
@@ -3362,7 +3378,7 @@ const PREMIOS=[['voz','Mejor voz','persona'],['show','Más show','persona'],['ac
 async function cargarJuegos(){try{await API.loadJuegos();JUEGOS_OK=true}catch(e){JUEGOS_OK=false}}
 const juegoActivo=()=>JUEGOS.find(j=>j.estado!=='fin');
 const respDe=(jid,idx)=>JRESP.filter(r=>r.juego_id===jid&&(idx==null||r.idx===idx));
-const vjDe=clave=>VJ.filter(v=>v.clave===clave);
+const vjDe=clave=>VOTJ.filter(v=>v.clave===clave);
 function puntaje(j){const M={};respDe(j.id).forEach(r=>{M[r.persona_id]=(M[r.persona_id]||0)+(r.puntos||0)});return Object.entries(M).map(([id,p])=>({id,p})).sort((a,b)=>b.p-a.p)}
 function jugadores(j){return [...new Set(respDe(j.id).map(r=>r.persona_id))]}
 
@@ -3380,7 +3396,7 @@ function vJuegos(){
 function pintarJuegos(){if(TAB!=='juegos')return;const d=$('#jdin');if(d)d.innerHTML=JSUB==='karaoke'?karaokeDin():JSUB==='probable'?probableDin():JSUB==='trivia'?triviaDin():d.innerHTML;const p=$('#jprem');if(p)p.innerHTML=premiosHTML();const sg=$('#jsug');if(sg)sg.innerHTML=ksugHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
 let JULT=0;
 async function sondearJuegos(){if(!ME||document.hidden||(TAB!=='juegos'&&TAB!=='hoy'))return;if(TAB==='hoy'&&Date.now()-JULT<20000)return;JULT=Date.now();
-  await cargarJuegos();const h=JSON.stringify([JUEGOS,JRESP.length,KARAOKE,VJ.length]);if(h===JHUELLA){if(TAB==='juegos')tickJuego();return}JHUELLA=h;
+  await cargarJuegos();const h=JSON.stringify([JUEGOS,JRESP.length,KARAOKE,VOTJ.length]);if(h===JHUELLA){if(TAB==='juegos')tickJuego();return}JHUELLA=h;
   if(!$('#sheet').hidden)return;if(TAB==='juegos')pintarJuegos();else{const c=$('#jcard');if(c)c.outerHTML=juegosCard()}if(TAB==='juegos')tickJuego()}
 setInterval(()=>{sondearJuegos().catch(()=>{})},2000);
 /* ── TRIVIA ── */
@@ -3485,7 +3501,7 @@ function premiosHTML(){const can=KARAOKE.filter(k=>k.estado==='cantada');if(!can
   return `<div class="sec-h"><h2>${ic('trofeo')} Premios del karaoke</h2></div><p class="muted tiny" style="margin-top:-4px">Vota cuando termine la ronda. Un voto por premio; toca otra vez para cambiar.</p>${PREMIOS.map(([k,t,tipo])=>{const clave='karaoke:'+k,V=vjDe(clave),mio=V.find(v=>v.persona_id===ME.id),M={};V.forEach(v=>{M[v.opcion]=(M[v.opcion]||0)+1});const max=Math.max(0,...Object.values(M));
     const opts=tipo==='persona'?quienes.map(id=>({id,h:`${av(id)}<span>${esc(nom(id))}</span>`})):can.filter(c=>k!=='duo'||cantantesDe(c).length>1).map(c=>({id:c.id,h:`${c.portada?`<img src="${esc(c.portada)}" alt="">`:av(cantantesDe(c)[0])}<span>${esc(c.titulo)}</span>`}));if(!opts.length)return '';
     return `<div class="card prem"><b>${t}</b><div class="prem-g">${opts.map(o=>`<button class="prem-i no-cara ${mio&&mio.opcion===o.id?'on':''} ${max&&M[o.id]===max?'gana':''}" onclick="votarPremio('${clave}','${o.id}')">${o.h}<em>${M[o.id]||0}</em>${max&&M[o.id]===max?'<i class="prem-c">👑</i>':''}</button>`).join('')}</div></div>`}).join('')}`}
-async function votarPremio(clave,op){const ya=VJ.find(v=>v.clave===clave&&v.persona_id===ME.id);const nuevo={clave,persona_id:ME.id,opcion:op};VJ=VJ.filter(v=>v!==ya);VJ.push(nuevo);const p=$('#jprem');if(p)p.innerHTML=premiosHTML();
+async function votarPremio(clave,op){const ya=VOTJ.find(v=>v.clave===clave&&v.persona_id===ME.id);const nuevo={clave,persona_id:ME.id,opcion:op};VOTJ=VOTJ.filter(v=>v!==ya);VOTJ.push(nuevo);const p=$('#jprem');if(p)p.innerHTML=premiosHTML();
   try{await API.votarJuego(nuevo)}catch(e){toast(e.message);await cargarJuegos();pintarJuegos()}}
 
 /* ── PLAYA: ideas de juegos y actividades con su foto; «¡Juguemos!» suma tu voto ── */
@@ -3496,8 +3512,8 @@ function vPlaya(){const L=ACTIVIDADES.map(a=>({a,V:vjDe('playa:'+a[0]).filter(v=
 function verActividad(k){const a=ACTIVIDADES.find(x=>x[0]===k);if(!a)return;const[,t,quien,que,como]=a,u=arteUrl('act-'+k);
   openSheet(`${sheetH(t)}<div class="stack">${u?`<img src="${u}" alt="" style="width:100%;border-radius:16px;aspect-ratio:16/9;object-fit:cover" onclick="verImagen('${u}','${esc(t)}')">`:''}<div class="card"><div class="lbl">Cuántos</div><div>${esc(quien)} personas</div><div class="lbl" style="margin-top:10px">Qué se necesita</div><div>${esc(que)}</div><div class="lbl" style="margin-top:10px">Cómo se juega</div><div>${esc(como)}</div></div>
     <button class="btn primary block" onclick="juguemos('${k}');closeSheet()">¡Juguemos!</button></div>`)}
-async function juguemos(k){const clave='playa:'+k,ya=VJ.find(v=>v.clave===clave&&v.persona_id===ME.id);
-  try{if(ya){VJ=VJ.filter(v=>v!==ya);await API.quitarVotoJuego(clave)}else{const v={clave,persona_id:ME.id,opcion:'si'};VJ.push(v);await API.votarJuego(v)}const m=$('#main');if(m&&TAB==='juegos')m.innerHTML=vJuegos()}catch(e){toast(e.message)}}
+async function juguemos(k){const clave='playa:'+k,ya=VOTJ.find(v=>v.clave===clave&&v.persona_id===ME.id);
+  try{if(ya){VOTJ=VOTJ.filter(v=>v!==ya);await API.quitarVotoJuego(clave)}else{const v={clave,persona_id:ME.id,opcion:'si'};VOTJ.push(v);await API.votarJuego(v)}const m=$('#main');if(m&&TAB==='juegos')m.innerHTML=vJuegos()}catch(e){toast(e.message)}}
 
 /* ── JUEGOS DE CARRO: todo vive en el celular, así que funcionan CON y SIN internet (en la vía se cae la señal) ── */
 const CJ_PREFIERES=['¿Playa sin celular o celular sin playa?','¿Ceviche todos los días o pizza todos los días?','¿Cantar sola en el karaoke o bailar sola en la sala?','¿Viajar siempre en carro o siempre en avión?','¿Madrugar para ver el amanecer o trasnochar para ver las estrellas?','¿Un mes sin redes o un mes sin música?','¿Ser el que maneja o el que pone la música?','¿Vivir en la playa o en la montaña?','¿Saber todos los idiomas o tocar todos los instrumentos?','¿Comer solo dulce o solo salado por un año?','¿Tener un yate o una casa en la playa?','¿Que te lean la mente o leerle la mente a los demás?','¿Ir al pasado o al futuro?','¿Perder el celular o la billetera en el viaje?','¿Viaje de un mes con estos amigos o una semana sola en Europa?','¿Bailar reguetón o salsa toda la noche?','¿Dormir en hamaca o en carpa en la playa?','¿Ser famoso o ser millonario sin que nadie sepa?','¿Michelada o mojito?','¿Nunca más café o nunca más chocolate?','¿Un perro o un gato?','¿Siempre llegar 20 minutos tarde o 2 horas antes?','¿Hablar con los animales o volar?','¿Cocinar para todos o lavar los platos de todos?','¿Cantar «Despacito» o «Bohemian Rhapsody» en el karaoke?'];
@@ -3550,8 +3566,8 @@ function ksugHTML(){const L=KSUG.map((c,i)=>({c,i,V:vjDe(ksugClave(i)).filter(v=
     <div class="card kq">${ver.map(({c,i,V})=>{const yo=V.some(v=>v.persona_id===ME.id);return `<div class="kq-i"><button class="heart ${yo?'on':''}" aria-label="${yo?'Quitar voto':'Votar'}" onclick="votarSug(${i})">${ic('heart')}</button><div class="grow" style="min-width:0"><b>${esc(c[0])}</b><span class="tiny muted">${esc(c[1])}${V.length?` · ${V.length} voto${V.length===1?'':'s'}`:''}</span></div><button class="btn sm" onclick="pedirSug(${i})">Pedir</button></div>`}).join('')}</div>
     ${KSUG_TODO?'':`<button class="btn ghost block sm" style="margin-top:6px" onclick="KSUG_TODO=true;pintarJuegos()">Ver las ${KSUG.length}</button>`}`}
 let KSUG_TODO=false;
-async function votarSug(i){const clave=ksugClave(i),ya=VJ.find(v=>v.clave===clave&&v.persona_id===ME.id);
-  try{if(ya){VJ=VJ.filter(v=>v!==ya);pintarJuegos();await API.quitarVotoJuego(clave)}else{const v={clave,persona_id:ME.id,opcion:'si'};VJ.push(v);pintarJuegos();await API.votarJuego(v)}}catch(e){toast(e.message);await cargarJuegos();pintarJuegos()}}
+async function votarSug(i){const clave=ksugClave(i),ya=VOTJ.find(v=>v.clave===clave&&v.persona_id===ME.id);
+  try{if(ya){VOTJ=VOTJ.filter(v=>v!==ya);pintarJuegos();await API.quitarVotoJuego(clave)}else{const v={clave,persona_id:ME.id,opcion:'si'};VOTJ.push(v);pintarJuegos();await API.votarJuego(v)}}catch(e){toast(e.message);await cargarJuegos();pintarJuegos()}}
 function pedirSug(i){const[t,a]=KSUG[i];KRES=[{titulo:t,artista:a,portada:'',preview:''}];pedirCancion(0);
   fetch('/api/canciones?q='+encodeURIComponent(t+' '+a)).then(r=>r.ok?r.json():null).then(j=>{const c=j&&j.canciones&&j.canciones[0];if(c&&KRES&&KRES[0]&&KRES[0].titulo===t)KRES[0]={...c,titulo:t,artista:a}}).catch(()=>{})}
 
