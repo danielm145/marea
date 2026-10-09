@@ -18,7 +18,12 @@
 // La IA NUNCA guarda nada: devuelve una propuesta que la persona revisa y confirma en la app.
 // ============================================================================
 
-const MODELO_DEF = "gemini-2.5-flash";
+// Google retira modelos sin avisar (9-oct-2026: «gemini-2.5-flash is no longer available to new users»).
+// Se prueba en orden hasta que uno responda; el que sirve se recuerda para no volver a chocar.
+const MODELOS = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-flash-latest", "gemini-3-flash", "gemini-2.0-flash"];
+const MODELO_DEF = MODELOS[0];
+let MODELO_VIVO = null;   // el último que respondió bien (por instancia)
+const sinModelo = (status, msg) => status === 404 || (status === 400 && /not found|no longer available|not supported|is not available/i.test(msg || ""));
 const MAX_CUERPO = 6 * 1024 * 1024;           // una foto achicada en el teléfono pesa ~300 KB
 const TOPE = { ventanaMs: 10 * 60 * 1000, max: 40 };  // por IP, por instancia: freno contra abuso
 
@@ -136,8 +141,8 @@ export async function vertexToken(env) {
   return t.access_token;
 }
 
-function motorDe(env) {
-  const modelo = env.IA_MODELO || MODELO_DEF;
+function motorDe(env, cual) {
+  const modelo = cual || env.IA_MODELO || MODELO_VIVO || MODELO_DEF;
   if (env.GOOGLE_SA_B64) {
     let proyecto = null; try { proyecto = JSON.parse(atob(env.GOOGLE_SA_B64)).project_id; } catch { /* secreto mal pegado */ }
     if (proyecto) { const loc = env.VERTEX_LOCATION || "us-central1";
@@ -150,6 +155,8 @@ function motorDe(env) {
     url: `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent` };
   return null;
 }
+/* la lista de modelos a probar, empezando por el que ya sirvió */
+function candidatos(env) { return [...new Set([env.IA_MODELO, MODELO_VIVO, ...MODELOS].filter(Boolean))]; }
 
 // "data:image/jpeg;base64,...." → { mimeType, data }
 function partirDataUrl(u) {
@@ -225,7 +232,8 @@ export function limpiar(p, ctx) {
   return out;
 }
 
-async function pensar(env, motor, cuerpo) {
+async function pensar(env, motorIni, cuerpo) {
+  let motor = motorIni;
   const ctx = cuerpo.contexto || {};
   const contexto = {
     autor_id: txt(ctx.autor_id, 64), autor: txt(ctx.autor, 60), hoy: fechaOk(ctx.hoy), moneda: txt(ctx.moneda, 5) || "USD",
@@ -244,7 +252,7 @@ async function pensar(env, motor, cuerpo) {
   partes.push({ text: `CONTEXTO:\n${JSON.stringify(contexto)}${pista}\n\nMENSAJE DE ${contexto.autor || "alguien"}:\n${txt(cuerpo.texto, 4000) || "(solo la foto)"}` });
 
   const auth = motor.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": motor.key };
-  const llamar = (conEsquema) => fetch(motor.url, {
+  const llamar = (conEsquema, url = motor.url) => fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json", ...auth },
     body: JSON.stringify({
@@ -254,8 +262,17 @@ async function pensar(env, motor, cuerpo) {
     }),
   });
   let r = await llamar(true), j = await r.json().catch(() => ({}));
+  // ese modelo ya no existe para esta llave → el siguiente de la lista
+  if (!r.ok && sinModelo(r.status, j?.error?.message)) {
+    for (const m of candidatos(env)) {
+      if (m === motor.modelo) continue;
+      const alt = motorDe(env, m); r = await llamar(true, alt.url); j = await r.json().catch(() => ({}));
+      if (r.ok || !sinModelo(r.status, j?.error?.message)) { motor = alt; if (r.ok) MODELO_VIVO = m; break; }
+    }
+  }
   // si el modelo no acepta el esquema (400), se repite pidiendo solo JSON: limpiar() revisa igual lo que vuelva
-  if (r.status === 400 && /schema|response_schema|responseSchema/i.test(j?.error?.message || "")) { r = await llamar(false); j = await r.json().catch(() => ({})); }
+  if (r.status === 400 && /schema|response_schema|responseSchema/i.test(j?.error?.message || "")) { r = await llamar(false, motor.url); j = await r.json().catch(() => ({})); }
+  if (r.ok) MODELO_VIVO = motor.modelo;
   if (!r.ok) {
     const st = r.status === 429 ? 429 : 502;
     return { status: st, cuerpo: { error: st === 429 ? "La IA está ocupada, prueba en un momento." : "La IA no respondió.", detalle: txt(j?.error?.message, 300) } };
@@ -294,11 +311,17 @@ export default {
       try {
         if (m.sa) base.proyecto = JSON.parse(atob(env.GOOGLE_SA_B64)).project_id;
         const auth = m.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": m.key };
-        const r = await fetch(m.url, { method: "POST", headers: { "content-type": "application/json", ...auth },
-          body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: "Responde solo: ok" }] }], generationConfig: { maxOutputTokens: 5 } }) });
-        const t = await r.text();
-        if (!r.ok) { let msg = t; try { msg = JSON.parse(t).error.message; } catch { /* texto plano */ } return json(200, { ...base, ok: false, prueba: `el modelo respondió ${r.status}: ${String(msg).slice(0, 300)}` }); }
-        return json(200, { ...base, prueba: "ok" });
+        const fallas = [];
+        for (const nombre of candidatos(env)) {
+          const mm = motorDe(env, nombre);
+          const r = await fetch(mm.url, { method: "POST", headers: { "content-type": "application/json", ...auth },
+            body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: "Responde solo: ok" }] }], generationConfig: { maxOutputTokens: 5 } }) });
+          const t = await r.text(); let msg = t; try { msg = JSON.parse(t).error.message; } catch { /* texto plano */ }
+          if (r.ok) { MODELO_VIVO = nombre; return json(200, { ...base, modelo: nombre, prueba: "ok", descartados: fallas }); }
+          fallas.push(`${nombre}: ${r.status} ${String(msg).slice(0, 120)}`);
+          if (!sinModelo(r.status, msg)) break;   // no es «ese modelo no existe»: es la llave, la cuota u otra cosa
+        }
+        return json(200, { ...base, ok: false, prueba: "ningún modelo respondió: " + fallas.join(" · ").slice(0, 600) });
       } catch (e) { return json(200, { ...base, ok: false, prueba: String(e.message || e).slice(0, 300) }); }
     }
     if (url.pathname === "/api/ia") {

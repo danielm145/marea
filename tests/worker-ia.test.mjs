@@ -84,7 +84,7 @@ await caso("cuenta de servicio (GOOGLE_SA_B64): firma JWT, pide token y usa Vert
   const s = await (await w.fetch(new Request("https://x/api/ia/salud"), env)).json(); assert.equal(s.motor, "vertex");
   const r = await pedir({ texto: "x", contexto: ctx }, { env, ip: "8.8.8.8" }); assert.equal(r.status, 200);
   assert.ok(vistas[0].url.startsWith("https://oauth2.googleapis.com/token")); assert.match(String(vistas[0].body), /assertion=[\w-]+\.[\w-]+\.[\w-]+/);
-  assert.equal(vistas[1].url, "https://us-central1-aiplatform.googleapis.com/v1/projects/aero-ia/locations/us-central1/publishers/google/models/gemini-2.5-flash:generateContent");
+  assert.equal(vistas[1].url, "https://us-central1-aiplatform.googleapis.com/v1/projects/aero-ia/locations/us-central1/publishers/google/models/gemini-3.8-flash:generateContent");
   assert.equal(vistas[1].auth, "Bearer tok-123");
   await pedir({ texto: "y", contexto: ctx }, { env, ip: "8.8.8.8" }); assert.equal(vistas.filter((v) => v.url.includes("oauth2")).length, 1, "el token se reusa");
   globalThis.fetch = orig;
