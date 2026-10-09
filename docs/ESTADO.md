@@ -324,3 +324,8 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - `.github/workflows/publicar.yml`: cada push a `main` aplica los SQL nuevos (`conectar.mjs --ci`), despliega `marea-admin-personas` y publica la página; al final verifica el `BUILD_TAG` en casablanca.fieldbuil.ai.
 - `conectar.mjs` ahora anota cada SQL en `marea._migraciones` y no lo vuelve a correr (la primera vez re-aplica los 15, todos idempotentes). **Regla: un cambio nuevo a la base = un archivo nuevo, nunca editar uno ya aplicado.**
 - Secretos que Daniel pone en GitHub: `SUPABASE_ACCESS_TOKEN` y `CLOUDFLARE_API_TOKEN`. Los secretos del Worker (SB_URL, SB_ANON, GOOGLE_SA_B64) siguen en Cloudflare y el deploy no los toca.
+
+## IA · diagnóstico del 9-oct
+- El robot (paso 0) mostró: publicada la **v33** y `/api/ia/salud` → `motor:null`: **el Worker no tiene NINGUNA llave de IA** (nunca se corrió `scripts/ia.sh`). Por eso la cámara no leía la factura.
+- Ahora la llave se puede poner desde GitHub (secreto `GOOGLE_SA_JSON` o `GEMINI_API_KEY`): el robot la pasa al Worker en cada publicación (paso 3a). Necesita también `CLOUDFLARE_API_TOKEN`.
+- `/api/ia/salud?probar=1` hace una pregunta real al modelo y devuelve el error exacto si falla (pasos 0 y 5 del robot).

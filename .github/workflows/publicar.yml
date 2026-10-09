@@ -5,6 +5,9 @@
 # Necesita dos secretos en GitHub (Settings → Secrets and variables → Actions):
 #   SUPABASE_ACCESS_TOKEN  (el sbp_… del .env)
 #   CLOUDFLARE_API_TOKEN   (Cloudflare → My Profile → API Tokens → plantilla «Edit Cloudflare Workers»)
+# Y la llave de la IA (una de las dos; se pasa sola al Worker en cada publicación):
+#   GOOGLE_SA_JSON         (el contenido completo del .json de la cuenta de servicio de Vertex)
+#   GEMINI_API_KEY         (la llave AIza… de aistudio.google.com/apikey)
 # Si falta uno, ese paso se salta (no rompe los demás). También se puede correr a mano: Actions → Publicar → Run workflow.
 name: Publicar
 on:
@@ -21,6 +24,8 @@ jobs:
       SUPABASE_PROJECT_REF: mycgyvegfrdwbdcjuxse
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      GOOGLE_SA_JSON: ${{ secrets.GOOGLE_SA_JSON }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -41,6 +46,16 @@ jobs:
       - name: 2 · Función de invitados
         if: env.SUPABASE_ACCESS_TOKEN != ''
         run: npx -y supabase@latest functions deploy marea-admin-personas --project-ref "$SUPABASE_PROJECT_REF" --no-verify-jwt
+      - name: 3a · Llave de la IA al Worker (Vertex o Gemini)
+        if: env.CLOUDFLARE_API_TOKEN != '' && (env.GOOGLE_SA_JSON != '' || env.GEMINI_API_KEY != '')
+        run: |
+          if [ -n "$GOOGLE_SA_JSON" ]; then
+            printf '%s' "$GOOGLE_SA_JSON" | node -e 'let t="";process.stdin.on("data",c=>t+=c).on("end",()=>{const j=JSON.parse(t);if(j.type!=="service_account"||!j.private_key)throw new Error("GOOGLE_SA_JSON no es una cuenta de servicio");console.error("Vertex · proyecto "+j.project_id);process.stdout.write(Buffer.from(JSON.stringify(j)).toString("base64"))})' \
+              | npx -y wrangler@4 secret put GOOGLE_SA_B64 --config wrangler.dominio.toml
+          fi
+          if [ -n "$GEMINI_API_KEY" ]; then
+            printf '%s' "$GEMINI_API_KEY" | tr -d ' \n\r' | npx -y wrangler@4 secret put GEMINI_API_KEY --config wrangler.dominio.toml
+          fi
       - name: 3 · Página (casablanca.fieldbuil.ai)
         if: env.CLOUDFLARE_API_TOKEN != ''
         run: npx -y wrangler@4 deploy --config wrangler.dominio.toml
@@ -62,3 +77,4 @@ jobs:
         run: |
           [ -n "$SUPABASE_ACCESS_TOKEN" ] || echo "::warning::Falta el secreto SUPABASE_ACCESS_TOKEN: no se actualizó la base ni la función."
           [ -n "$CLOUDFLARE_API_TOKEN" ] || echo "::warning::Falta el secreto CLOUDFLARE_API_TOKEN: no se publicó la página."
+          [ -n "$GOOGLE_SA_JSON$GEMINI_API_KEY" ] || echo "::notice::Sin GOOGLE_SA_JSON ni GEMINI_API_KEY en GitHub: la IA queda con la llave que ya tenga el Worker (si tiene)."
