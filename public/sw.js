@@ -3,7 +3,7 @@
    llega a todos los celulares apenas se despliega. El caché solo entra sin red.
    Supabase NUNCA se cachea (datos vivos y URLs firmadas).
    ⚠️ Subir CACHE cada vez que se toque este archivo. */
-const CACHE = 'marea-v35';
+const CACHE = 'marea-v36';
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
@@ -31,4 +31,25 @@ self.addEventListener('fetch', (e) => {
       return r;
     }).catch(() => caches.match(req, { ignoreSearch: true }))
   );
+});
+
+/* ── AVISOS: el mensaje llega cifrado (RFC 8291) y aquí se muestra ── */
+self.addEventListener('push', (e) => {
+  e.waitUntil((async () => {
+    let d = {};
+    try { d = e.data ? e.data.json() : {}; } catch { try { d = { cuerpo: e.data.text() }; } catch { d = {}; } }
+    await self.registration.showNotification(d.titulo || 'Casablanca', {
+      body: d.cuerpo || 'Hay algo nuevo del viaje.', icon: '/icon-192.png', badge: '/icon-192.png',
+      tag: d.url || 'casablanca', renotify: true, data: { url: d.url || '/' },
+    });
+  })());
+});
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const destino = (e.notification.data && e.notification.data.url) || '/';
+  e.waitUntil((async () => {
+    const abiertas = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const c of abiertas) { if (c.url.startsWith(self.location.origin)) { await c.focus(); return c.navigate(destino); } }
+    return self.clients.openWindow(destino);
+  })());
 });

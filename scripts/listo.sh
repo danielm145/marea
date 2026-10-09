@@ -51,8 +51,15 @@ else
   fi
 fi
 
-linea "2/4 · La base de datos"
-if [ -f .env ]; then node scripts/conectar.mjs 2>&1 | grep -E "✓|✗|Falta|Base lista" || true
+linea "2/4 · La base de datos y las funciones"
+if [ -f .env ]; then
+  node scripts/conectar.mjs 2>&1 | grep -E "✓|✗|Falta|Base lista" || true
+  eval "$(node scripts/conectar.mjs --env 2>/dev/null)" || true
+  if [ -n "${SUPABASE_ACCESS_TOKEN:-}" ] && [ -n "${SUPABASE_PROJECT_REF:-}" ]; then
+    npx -y supabase@latest secrets set --project-ref "$SUPABASE_PROJECT_REF" MAREA_APP_ORIGIN="$URL" >/dev/null 2>&1 || true
+    if npx -y supabase@latest functions deploy marea-admin-personas marea-avisar --project-ref "$SUPABASE_PROJECT_REF" --no-verify-jwt >/dev/null 2>&1; then echo "✓ Funciones al día (entrar con el celular, avisos)"
+    else echo "✗ No pude subir las funciones (entrar y avisos). Vuelve a correr este comando."; fi
+  fi
 else echo "(sin .env: me salto este paso)"; fi
 
 linea "3/4 · Publicar la página"

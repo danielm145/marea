@@ -453,6 +453,13 @@ a.item{text-decoration:none;color:inherit}
 .ia-mas{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ia-mas>*{display:flex;gap:6px;align-items:center;justify-content:center;padding:10px;border-radius:14px;background:var(--surface-2);border:0;font:inherit;font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;text-align:center}.ia-mas svg{width:16px;height:16px;flex:none}
 .ia-sello{display:flex;gap:8px;align-items:center;font-weight:700;color:var(--sun);font-size:14px}.ia-sello svg{width:18px;height:18px}
 .ia-sec .eyebrow{margin-bottom:6px}
+.ia-preg{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,#EEF3FF,#FFF4F6);border:1px solid #DCE4FF;font-size:14px}.ia-preg>svg{width:20px;height:20px;color:#7B61FF;flex:none;margin-top:2px}.ia-preg b{display:block;margin-bottom:2px;color:#4B3FBF}
+.ia-monto{border:2px solid var(--sun);background:#FFF9EF}.ia-monto label{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}.ia-monto .row{gap:8px;align-items:center}.ia-monto .in{font-family:var(--f-disp);font-weight:800;font-size:28px;text-align:right;flex:1;min-width:0}.ia-cur{font-family:var(--f-disp);font-weight:800;font-size:26px;color:var(--tide-deep)}
+.pl-seg{display:inline-flex;gap:0;border:1px solid var(--line);border-radius:999px;overflow:hidden}.pl-seg button{border:0;background:#fff;font:inherit;font-size:12px;font-weight:700;padding:6px 10px;cursor:pointer;color:var(--ink-2)}.pl-seg button[aria-pressed=true]{background:var(--sun);color:#fff}
+.pl-card{padding:4px 12px}.pl-row{padding:10px 0;border-bottom:1px solid var(--line)}.pl-row:last-of-type{border-bottom:0}.pl-h{display:flex;align-items:baseline;gap:10px}.pl-n{flex:1;font-weight:700;min-width:0}.pl-n small{color:var(--ink-3);font-weight:600}.pl-p{border:0;background:var(--bg);border-radius:8px;padding:4px 8px;font:inherit;font-weight:800;cursor:pointer;color:var(--tide-deep)}
+.pl-avs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}.pl-av{border:0;background:none;padding:0;cursor:pointer;opacity:.35;transition:opacity .15s,transform .15s}.pl-av .av{width:34px;height:34px;font-size:13px}.pl-av.on{opacity:1}.pl-av.on .av{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--sun)}.pl-av:active{transform:scale(.92)}.pl-de{font-size:12px;color:var(--ink-3);font-weight:700;margin-left:auto}
+.pl-pie{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0 6px;flex-wrap:wrap}
+.chat-ic{background:#EEF3FF;color:#2F80ED}.bell-ic{background:#FFF1DB;color:#E8761B}
 .gia-e{display:block;border:0;background:none;padding:0;font:inherit;text-align:left;cursor:pointer;color:inherit;width:100%}
 .av-pick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 4px;padding:4px 0 6px;justify-items:center}
 .avp{flex:0 0 auto;width:66px;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;font:inherit;cursor:pointer;color:var(--ink);padding:0;transition:opacity .2s}
@@ -535,7 +542,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v35';
+const BUILD_TAG='v36';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -600,6 +607,8 @@ const P={
   galeria:'<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/>',
   cam:'<path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H7l1.5-2h7L17 6h1.5A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5Z"/><circle cx="12" cy="13" r="3.5"/>',
   pen:'<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16Z"/><path d="m13.5 6.5 4 4"/>',
+  bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
   chat:'<path d="M4 5h16v11H9l-5 4Z"/><path d="M8 9.5h8M8 12.5h5"/>',
   list:'<path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2"/>',
   spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
@@ -1179,6 +1188,7 @@ async function boot(){
   try{ME=await API.restore()}catch(e){ME=null}
   if(!ME){pintarLogin();return}
   await cargar();
+  sincronizarPush().catch(()=>{});
   TAB=(location.hash||'#hoy').slice(1).replace(/-m$/,'');if(!tabsVisibles().some(x=>x[0]===TAB))TAB='hoy';
   render();
 }
@@ -1239,7 +1249,7 @@ function vChat(){
     return sep+`<div class="msg ${yo?'yo':''}">${yo?'':av(m.persona_id,'xs')}<div class="msg-b">${yo?'':`<div class="msg-n">${esc(nom(m.persona_id))}</div>`}${u?`<img src="${esc(u)}" alt="" onclick="verLook(this.src)">`:''}${m.texto?`<div>${esc(m.texto)}</div>`:''}<span class="msg-t">${new Date(m.created_at).toLocaleTimeString('es-EC',{hour:'2-digit',minute:'2-digit'})}</span></div></div>`}).join('')||`<div class="card flat empty">${stk('goodPeople','',120)}<div>Nadie ha escrito todavía.</div></div>`}</div>
     <div class="chat-in"><label class="x" aria-label="Foto">${ic('cam')}<input type="file" accept="image/*" hidden onchange="chatFoto(this)"></label><input id="chatT" class="in grow" placeholder="Escribe un mensaje…" onkeydown="if(event.key==='Enter')chatEnviar()"><button class="x send" onclick="chatEnviar()" aria-label="Enviar">${ic('up')}</button></div>`;
 }
-async function chatEnviar(foto){const t=($('#chatT')||{}).value||'';if(!t.trim()&&!foto)return;try{await API.enviarMensaje({id:uid(),persona_id:ME.id,texto:t.trim()||null,foto:foto||null});MENSAJES=MODO==='supabase'?await Sb.mensajes():[...MENSAJES,{id:uid(),persona_id:ME.id,texto:t.trim()||null,foto:foto||null,created_at:new Date().toISOString()}];if(MODO==='demo')await cargar();render();const i=$('#chatT');if(i)i.focus()}catch(e){toast(e.message)}}
+async function chatEnviar(foto){const t=($('#chatT')||{}).value||'';if(!t.trim()&&!foto)return;try{await API.enviarMensaje({id:uid(),persona_id:ME.id,texto:t.trim()||null,foto:foto||null});avisar(activos().map(p=>({para_id:p.id,titulo:`${nom(ME.id)} en el chat`,cuerpo:t.trim()||'📷 Foto',url:'/#chat'})));MENSAJES=MODO==='supabase'?await Sb.mensajes():[...MENSAJES,{id:uid(),persona_id:ME.id,texto:t.trim()||null,foto:foto||null,created_at:new Date().toISOString()}];if(MODO==='demo')await cargar();render();const i=$('#chatT');if(i)i.focus()}catch(e){toast(e.message)}}
 async function chatFoto(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,1400,.8);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);await chatEnviar(ref)}catch(e){toast(e.message)}}
 
 /* checklist personal para la maleta: se guarda en la ficha de cada quien */
@@ -1295,6 +1305,8 @@ function vHoy(){
     <div class="sts">${stat('cal',Math.max(1,dias.length-1),'noches','#2F80ED',"SUBE='programa';irA('planes')")}${stat('gente',activos().length,'viajeros','#14A37F',"SUBN='gente';irA('nosotros')")}${stat('planes',acts,'actividades','#7B61FF',"SUBE='programa';irA('planes')")}${stat('tareas',pend,'pendientes','#E5484D',"irA('tareas')")}</div>
     ${iaCard()}
     <label class="card subir-f"><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"><span class="subir-ic">${ic('galeria')}</span><span class="grow"><b>Subir fotos del viaje</b><span class="muted tiny">Al álbum de todos · puedes escoger varias</span></span>${ic('chev')}</label>
+    ${chatCard()}
+    ${avisosCard()}
     ${instalarCard()}
     ${prox?`<div class="card lp"><div class="lp-r"><div class="grow"><div class="lp-t">Lo próximo</div><div class="muted tiny">${esc(cuando)}</div>
         <div class="lp-e"><b class="num">${esc(String(prox.hora||'').slice(0,5))}</b><span>${esc(prox.titulo)}</span></div>${prox.lugar?`<span class="pill sun">${ic('pin')} ${esc(prox.lugar.charAt(0).toUpperCase()+prox.lugar.slice(1))}</span>`:''}</div>
@@ -1305,6 +1317,23 @@ function vHoy(){
     <div style="text-align:center;margin-top:18px">${stk('beachEra','',230)}</div>`;
 }
 /* el lugar donde se registra todo: una foto y unas palabras, la IA llena el resto */
+/* ── AVISOS (Web Push): gastos nuevos, planes, tareas que te tocan y el chat llegan al teléfono ── */
+const pushOk=()=>MODO==='supabase'&&'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window&&/fieldbuil\.ai$|workers\.dev$/.test(location.hostname);
+function avisosCard(){if(!pushOk()||Notification.permission==='granted'||Notification.permission==='denied'||lsGet('marea_no_avisos'))return '';
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!yaInstalada())return '';   // en iPhone solo avisa la app instalada
+  return `<div class="card subir-f" style="cursor:default"><span class="subir-ic bell-ic">${ic('bell')}</span><span class="grow"><b>Recibir avisos</b><span class="muted tiny">Gastos nuevos, planes y el chat, como un mensaje</span></span><button class="btn sm primary" onclick="activarAvisos(this)">Activar</button><button class="x" aria-label="Ahora no" onclick="lsSet('marea_no_avisos','1');render()">${ic('x')}</button></div>`}
+async function activarAvisos(b){if(b){b.disabled=true;b.textContent='Un momento…'}
+  try{const perm=await Notification.requestPermission();if(perm!=='granted'){toast('No se activaron los avisos');render();return}
+    await sincronizarPush(true);toast('Avisos activados');render()}catch(e){toast('No pude activar los avisos: '+e.message);render()}}
+async function sincronizarPush(forzar){if(!pushOk()||Notification.permission!=='granted')return;if(!forzar&&sessionStorage.getItem('marea_push_ok'))return;
+  const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();
+  if(!sub){const{publica}=await API.fn('marea-avisar',{action:'vapid'});const raw=Uint8Array.from(atob(publica.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:raw})}
+  const j=sub.toJSON();await API.fn('marea-avisar',{action:'guardar',endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth,ua:navigator.userAgent.slice(0,200)});
+  try{sessionStorage.setItem('marea_push_ok','1')}catch(e){}}
+/* avisar a otros (nunca a uno mismo); si falla, lo que se guardó ya quedó guardado */
+function avisar(avisos){if(MODO!=='supabase'||!avisos||!avisos.length)return;const L=avisos.filter(a=>a&&a.para_id&&a.para_id!==ME.id);if(L.length)API.fn('marea-avisar',{action:'enviar',avisos:L}).catch(()=>{})}
+/* acceso rápido al chat del grupo, con el último mensaje */
+function chatCard(){const ult=MENSAJES[MENSAJES.length-1];return `<button class="card subir-f" onclick="irA('chat')"><span class="subir-ic chat-ic">${ic('chat')}</span><span class="grow"><b>Chat del grupo</b><span class="muted tiny">${ult?esc(nom(ult.persona_id))+': '+esc(ult.texto||'📷 Foto'):'Escribe el primero'}</span></span>${ic('chev')}</button>`}
 /* la estrella de Gemini (4 puntas, azul → morado → rosa): dice sin palabras «aquí lee la IA» */
 const GEM_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gemg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285F4"/><stop offset=".55" stop-color="#9B72CB"/><stop offset="1" stop-color="#D96570"/></linearGradient></defs><path fill="url(#gemg)" d="M12 1.5c.6 5.6 4.9 9.9 10.5 10.5-5.6.6-9.9 4.9-10.5 10.5C11.4 16.9 7.1 12.6 1.5 12 7.1 11.4 11.4 7.1 12 1.5z"/></svg>';
 function iaCard(){return `<div class="card iac2">
@@ -1420,30 +1449,35 @@ function formDesdePropuesta(pg,respaldo,lectura,origen){
   const baja=[]; if((pg.confianza??1)<0.6){baja.push('monto');if(!pg.descripcion)baja.push('descripcion')}
   const pe=pg.pago_entre; if(pe&&PMAP[pe.de_id]&&PMAP[pe.a_id]) return nuevoForm({tipo:'pago',descripcion:`Pago de ${nom(pe.de_id)} a ${nom(pe.a_id)}`,monto:pg.monto||'',fecha:pg.fecha||hoyISO(),pagador:pe.de_id,part:[pe.a_id],modo:'porcentaje',valores:{[pe.a_id]:100},respaldo:respaldo||null,origen,lectura_ia:lectura,factura:pg.factura||null,dudas:pg.dudas||[],baja});
   const cat=pg.categoria==='mercado'?'despensa':pg.categoria==='comida'?'restaurantes':pg.categoria;
-  return aplicarHistorial(nuevoForm({etq_ia:pg.etiquetas||[],factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja}));
+  const its=(pg.factura&&pg.factura.items)||[], conPrecio=its.filter(i=>i.total!=null&&+i.total>0);
+  const porPlatos=conPrecio.length>=2&&(its.some(i=>(i.para_ids||[]).length)||['restaurantes','bebidas'].includes(cat));
+  return aplicarHistorial(nuevoForm({por_platos:porPlatos,etq_ia:pg.etiquetas||[],factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja}));
 }
 /* lo que armó la IA, en limpio. Todo se cambia TOCANDO (quién pagó, entre quiénes, de qué es, con qué plan);
    lo raro se le dice a la IA con texto. Cuando viene de la IA, los bloques aparecen uno a uno: se ve cómo se llena. */
 function pintarConfirmGasto(){
+  if(F.por_platos)recalcPlatos();
   const m=r2(parseFloat(String(F.monto).replace(',','.'))||0), anim=!!F._anim; F._anim=false;
   const etq=[...new Set([...F.etiquetas.map(id=>(ETIQUETAS.find(t=>t.id===id)||{}).nombre).filter(Boolean),...etiquetasAuto(F)])];
   const parte=id=>F.modo==='igual'?(F.part.length?m/F.part.length:0):F.modo==='porcentaje'?m*(+F.valores[id]||0)/100:(+F.valores[id]||0);
   const todos=F.part.length===activos().length, evs=EVENTOS.filter(e=>e.estado!=='cancelado').sort((a,b)=>String(a.dia||'9').localeCompare(String(b.dia||'9'))||minEv(a)-minEv(b));
   const err=validarF();
   openSheet(`${sheetH(F.nuevo?'Así quedó tu gasto':'Cambiar este gasto')}<div class="stack ${anim?'ia-llena':''}">
-    ${anim?`<div class="ia-sello">${ic('spark')} La IA lo llenó. Toca lo que quieras cambiar.</div>`:F.nuevo?'':`<p class="muted" style="margin:0">Toca para cambiar, o dile a la IA qué cambió.</p>`}
-    ${F.dudas&&F.dudas.length?`<div class="banner warn"><div><b>Revisa esto</b><br>${F.dudas.map(esc).join('<br>')}</div></div>`:''}
+    ${anim?`<div class="ia-sello">${ic('spark')} ${esc(F.resumen_ia||'La IA lo llenó. Toca lo que quieras cambiar.')}</div>`:F.nuevo?'':`<p class="muted" style="margin:0">Toca para cambiar, o dile a la IA qué cambió.</p>`}
+    ${F.dudas&&F.dudas.length?`<div class="ia-preg">${ic('spark')}<div><b>La IA te pregunta</b>${F.dudas.map(d=>`<div>${esc(d)}</div>`).join('')}</div></div>`:''}
+    ${!(m>0)?`<div class="card ia-monto"><label for="fmonto2"><b>¿Cuánto fue en total?</b><span class="muted tiny">No se alcanzó a leer el total. Escríbelo y lo reparto.</span></label><div class="row"><span class="ia-cur">$</span><input id="fmonto2" class="in num" inputmode="decimal" placeholder="0,00" autofocus onkeydown="if(event.key==='Enter')fMontoOk()"><button class="btn primary" onclick="fMontoOk()">Listo</button></div></div>`:''}
     ${F.historial?`<div class="banner tide tiny"><div><b>✦ Lo aprendió de antes.</b> ${esc(F.historial)}</div></div>`:''}
     <div class="card gia">
       ${F.respaldo?`<img class="thumb" id="fthumb" alt="Factura">`:''}
       <div class="eyebrow" style="color:var(--sun)">${esc(CATN[F.categoria]||'Gasto')}${F.factura&&F.factura.comercio?' · '+esc(F.factura.comercio):''}</div>
       <button class="gia-t gia-e" onclick="fEditar('descripcion')">${esc(F.descripcion||'Toca para escribir de qué es')}</button>
-      <button class="gia-m gia-e num" onclick="fEditar('monto')">${m>0?money(m):'Toca para poner el monto'}</button>
+      ${m>0?`<button class="gia-m gia-e num" onclick="fEditar('monto')">${money(m)}</button>`:''}
       <div class="muted tiny">${fechaCorta(F.fecha)}${etq.length?' · '+etq.map(t=>'#'+esc(t)).join(' '):''}</div>
-      ${F.factura&&(F.factura.items||[]).length?`<details style="margin-top:10px"><summary class="tiny muted" style="cursor:pointer">Lo que dice la factura (${F.factura.items.length} ítems)</summary>${facturaTabla(F.factura)}</details>`:''}
+      ${F.factura&&(F.factura.items||[]).length&&!F.por_platos?`<details style="margin-top:10px"><summary class="tiny muted" style="cursor:pointer">Lo que dice la factura (${F.factura.items.length} ítems)</summary>${facturaTabla(F.factura)}</details>`:''}
     </div>
+    ${platosSec(m)}
     <div class="ia-sec"><div class="eyebrow">Pagó</div><div class="av-pick">${activos().map(p=>`<button class="avp ${F.pagador===p.id?'on':'off'}" onclick="fPag('${p.id}')">${av(p.id)}<span>${esc(nom(p.id))}</span></button>`).join('')}</div></div>
-    <div class="ia-sec"><div class="row"><div class="eyebrow grow">Entre quiénes · ${todos?'todos':F.part.length+' de '+activos().length}${F.modo!=='igual'?' · '+(F.modo==='porcentaje'?'por porcentaje':'por montos'):''}</div><button class="btn ghost sm" onclick="fTodos()">${todos?'Quitar a todos':'Todos'}</button></div>
+    <div class="ia-sec"><div class="row"><div class="eyebrow grow">Entre quiénes · ${todos?'todos':F.part.length+' de '+activos().length}${F.por_platos?' · por platos':F.modo!=='igual'?' · '+(F.modo==='porcentaje'?'por porcentaje':'por montos'):''}</div><button class="btn ghost sm" onclick="fTodos()">${todos?'Quitar a todos':'Todos'}</button></div>
       <div class="av-pick">${activos().map(p=>{const on=F.part.includes(p.id);return `<button class="avp ${on?'on':'off'}" onclick="fPart('${p.id}')">${av(p.id)}<span>${esc(nom(p.id))}</span><b class="num">${on?money(r2(parte(p.id))):'no va'}</b></button>`}).join('')}</div></div>
     <div class="ia-sec"><div class="eyebrow">Es de</div><div class="chips scroll">${CATS.map(([k,l])=>`<button class="chip" aria-pressed="${F.categoria===k}" onclick="fSet('categoria','${k}')">${l}</button>`).join('')}</div></div>
     <div class="ia-sec"><div class="eyebrow">Va con</div><div class="chips scroll"><button class="chip" aria-pressed="${!F.evento_id}" onclick="fSet('evento_id','')">General del viaje</button>${evs.map(e=>`<button class="chip" aria-pressed="${F.evento_id===e.id}" onclick="fSet('evento_id','${e.id}')">${esc(e.titulo)}</button>`).join('')}</div></div>
@@ -1462,8 +1496,28 @@ function pintarConfirmGasto(){
 /* repinta sin perder dónde iba la persona en la hoja */
 function repintarF(){const c=$('#sheet .sheet-card'),y=c?c.scrollTop:0;pintarConfirmGasto();const c2=$('#sheet .sheet-card');if(c2)c2.scrollTop=y}
 function fPag(id){F.pagador=id;repintarF()}
-function fPart(id){if(F.modo!=='igual'){F.modo='igual';F.valores={}}F.part=F.part.includes(id)?F.part.filter(x=>x!==id):[...F.part,id];F.alcance=F.part.length===activos().length?'fijo':'consumo';repintarF()}
-function fTodos(){F.modo='igual';F.valores={};F.part=F.part.length===activos().length?[]:activos().map(p=>p.id);F.alcance=F.part.length?'fijo':'consumo';repintarF()}
+function fPart(id){if(!F.por_platos&&F.modo!=='igual'){F.modo='igual';F.valores={}}const fuera=F.part.includes(id);F.part=fuera?F.part.filter(x=>x!==id):[...F.part,id];if(fuera&&F.por_platos)(F.factura.items||[]).forEach(it=>{it.para_ids=(it.para_ids||[]).filter(x=>x!==id)});F.alcance=F.part.length===activos().length?'fijo':'consumo';repintarF()}
+function fTodos(){if(!F.por_platos){F.modo='igual';F.valores={}}F.part=F.part.length===activos().length?[]:activos().map(p=>p.id);if(F.por_platos)(F.factura.items||[]).forEach(it=>{it.para_ids=(it.para_ids||[]).filter(x=>F.part.includes(x))});F.alcance=F.part.length?'fijo':'consumo';repintarF()}
+function fMontoOk(){const v=leerMonto(($('#fmonto2')||{}).value||'');if(!(v>0)){toast('Escribe el total, ej. 52,30');return}F.monto=String(v);repintarF()}
+/* ── reparto por platos: cada ítem de la factura se toca para decir de quién fue; IVA, servicio y propina van en proporción ── */
+function platosSec(m){const its=F.factura&&F.factura.items||[];if(!its.length||F.tipo!=='gasto'||F.fondo)return '';
+  const pool=F.part.length?F.part:activos().map(p=>p.id), suma=r2(its.reduce((a,i)=>a+(+i.total||0),0)), resto=r2(m-suma);
+  return `<div class="ia-sec pl-sec"><div class="row"><div class="eyebrow grow">¿Quién pidió qué?</div><div class="seg pl-seg"><button aria-pressed="${!!F.por_platos}" onclick="fPlatos(true)">Por platos</button><button aria-pressed="${!F.por_platos}" onclick="fPlatos(false)">Iguales</button></div></div>
+    ${F.por_platos?`<div class="card pl-card">${its.map((it,i)=>{const q=(it.para_ids||[]).filter(id=>pool.includes(id));return `<div class="pl-row"><div class="pl-h"><span class="pl-n">${esc(it.descripcion||'Ítem')}${it.cantidad>1?` <small>×${it.cantidad}</small>`:''}</span><button class="pl-p num" onclick="fPlatoPrecio(${i})">${it.total!=null?money(it.total):'¿precio?'}</button></div>
+      <div class="pl-avs">${pool.map(id=>`<button class="pl-av ${q.includes(id)?'on':''}" aria-label="${esc(nom(id))}" onclick="fPlatoTog(${i},'${id}')">${av(id,'xs')}</button>`).join('')}<span class="pl-de">${q.length?q.length===1?esc(nom(q[0])):q.length+' personas':'de todos'}</span></div></div>`}).join('')}
+      <div class="pl-pie"><button class="btn ghost sm" onclick="fPlatoAgregar()">+ Agregar plato</button><span class="tiny muted num">Platos ${money(suma)}${m>0?` · IVA, servicio y propina ${money(Math.max(0,resto))} en proporción`:''}</span></div></div>
+      <p class="tiny muted" style="margin:6px 0 0">Toca las caras de quien pidió cada plato. Lo que no se marca se reparte entre todos.</p>`:''}</div>`}
+function recalcPlatos(){const f=F.factura, its=(f&&f.items)||[]; const m=r2(parseFloat(String(F.monto).replace(',','.'))||0);
+  const pool=F.part.length?F.part:activos().map(p=>p.id); const acc={}; let suma=0;
+  its.forEach(it=>{const t=+it.total||0;if(!(t>0))return;const q=(it.para_ids||[]).filter(id=>pool.includes(id));const a=q.length?q:pool;a.forEach(id=>acc[id]=(acc[id]||0)+t/a.length);suma+=t});
+  const ids=pool.slice(); const vals={};
+  if(suma>0&&m>0){const k=m/suma;ids.forEach(id=>vals[id]=r2((acc[id]||0)*k))}else ids.forEach(id=>vals[id]=r2(ids.length?m/ids.length:0));
+  let s=r2(ids.reduce((a,id)=>a+vals[id],0)), d=r2(m-s); if(Math.abs(d)>0.001&&ids.length){const k=ids.slice().sort((a,b)=>vals[b]-vals[a])[0];vals[k]=r2(vals[k]+d)}
+  F.modo='monto';F.valores=vals;F.part=ids}
+function fPlatos(on){F.por_platos=!!on;if(!on){F.modo='igual';F.valores={}}repintarF()}
+function fPlatoTog(i,id){const it=F.factura.items[i];const q=it.para_ids||[];it.para_ids=q.includes(id)?q.filter(x=>x!==id):[...q,id];repintarF()}
+function fPlatoPrecio(i){const it=F.factura.items[i];const v=prompt('¿Cuánto costó «'+(it.descripcion||'este ítem')+'»?',it.total!=null?String(it.total):'');if(v==null)return;const n=leerMonto(v.trim());it.total=n>0?n:null;repintarF()}
+function fPlatoAgregar(){const d=prompt('¿Qué plato o bebida falta?');if(!d||!d.trim())return;const v=prompt('¿Cuánto costó «'+d.trim()+'»?');const n=leerMonto((v||'').trim());if(!F.factura)F.factura={tipo_documento:'ticket',items:[]};F.factura.items=[...(F.factura.items||[]),{descripcion:d.trim(),cantidad:1,total:n>0?n:null,para_ids:[]}];F.por_platos=true;repintarF()}
 function fSet(k,v){F[k]=v;repintarF()}
 function fEditar(k){const v=prompt(k==='monto'?'¿Cuánto fue? ('+(CFG.moneda||'USD')+')':'¿De qué es el gasto?',String(F[k]||''));if(v==null)return;F[k]=k==='monto'?String(leerMonto(v.trim())||''):v.trim();repintarF()}
 async function corregirConIA(){
@@ -1572,9 +1626,13 @@ async function guardarGasto(){
   const ex=g.tipo==='gasto'&&!g.fondo?excedePresupuesto(F,monto):null;
   if(ex&&!String(F.nota||'').trim()){$('#fdup').innerHTML=`<div class="banner warn"><div><b>Este gasto pasa el presupuesto de ${esc(ex.rubro)}</b> (quedaban ${money(Math.max(0,ex.queda))} de ${money(ex.max)}). Escribe en la nota por qué, y guarda.</div></div>`;b.disabled=false;b.textContent='Guardar';const d=$('#sheetBody details');if(d)d.open=true;const n=$('#fnota');if(n){n.classList.add('flag');n.focus()}return}
   if(g.tipo==='gasto')g.etiquetas=[...new Set([...(g.etiquetas||[]),...await idsEtiquetas(etiquetasAuto(F))])];
-  try{await API.saveGasto(g,F.nuevo);await aprenderComercio(g);await cargar();closeSheet();toast(F.nuevo?'Gasto guardado':'Cambios guardados');render()}
+  try{await API.saveGasto(g,F.nuevo);await aprenderComercio(g);if(F.nuevo)avisarGasto(g);await cargar();closeSheet();toast(F.nuevo?'Gasto guardado':'Cambios guardados');render()}
   catch(e){b.disabled=false;b.textContent='Guardar';const x=$('#ferr');x.hidden=false;x.textContent='No se pudo guardar: '+e.message}
 }
+function avisarGasto(g){try{
+  if(g.tipo==='pago'){const a=(g.reparto.partes[0]||{}).persona_id;avisar([{para_id:a,titulo:`${nom(g.pagadores[0].persona_id)} te pagó ${money(g.monto)}`,cuerpo:'Ya quedó registrado en las cuentas.',url:'/#gastos'}]);return}
+  if(g.tipo!=='gasto'||g.fondo)return;const quien=nom(ME.id);
+  avisar(partesDe(g).map(p=>({para_id:p.id,titulo:`${quien} registró ${g.descripcion}`,cuerpo:`${money(g.monto)} en total · te toca ${money(p.v)}`,url:'/#gastos'})))}catch(e){}}
 async function eliminarGasto(btn){
   if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='Toca otra vez para eliminar';setTimeout(()=>{if(btn.isConnected){btn.dataset.ok='';btn.textContent='Eliminar gasto'}},4000);return}
   try{const g=GASTOS.find(x=>x.id===F.id);await API.saveGasto({...g,eliminado:true},false);await cargar();closeSheet();toast('Gasto eliminado. Queda en el historial.');render()}catch(e){toast(e.message)}
@@ -1779,7 +1837,7 @@ function abrirTarea(id){
       <div class="row" style="margin-top:8px"><input id="nsub" class="in" placeholder="Agregar un paso" onkeydown="if(event.key==='Enter')addSub('${t.id}')"><button class="btn sm" onclick="addSub('${t.id}')">${ic('plus')}</button></div></div>
     <div class="row"><button class="btn grow" onclick="abrirFormTarea('${t.id}')">${ic('pen')} Editar</button>${t.creado_por===ME.id||esAdmin()?`<button class="btn danger" onclick="borrarTarea('${t.id}',this)">Borrar</button>`:''}</div></div>`);
 }
-async function patchTarea(id,cambios,reabrir=true){const t=TAREAS.find(x=>x.id===id);const n={...t,...cambios};n.estado=cambios.estado==='listo'?'listo':estadoAuto({...n,estado:''});try{await API.saveTarea(n,false);await cargar();if(reabrir)abrirTarea(id);render()}catch(e){toast(e.message)}}
+async function patchTarea(id,cambios,reabrir=true){const t=TAREAS.find(x=>x.id===id);const n={...t,...cambios};n.estado=cambios.estado==='listo'?'listo':estadoAuto({...n,estado:''});try{await API.saveTarea(n,false);if(cambios.responsable&&cambios.responsable!==t.responsable)avisar([{para_id:cambios.responsable,titulo:'Te toca una tarea',cuerpo:`${t.titulo} · te la asignó ${nom(ME.id)}`,url:'/#tareas'}]);await cargar();if(reabrir)abrirTarea(id);render()}catch(e){toast(e.message)}}
 function checkSub(id,i,v){const t=TAREAS.find(x=>x.id===id);const st=(t.subtareas||[]).map((s,k)=>k===i?{...s,ok:v}:s);const todas=st.length&&st.every(s=>s.ok);patchTarea(id,{subtareas:st});if(todas)toast('Checklist completo: la tarea pasó a hechas')}
 function addSub(id){const v=$('#nsub').value.trim();if(!v)return;const t=TAREAS.find(x=>x.id===id);patchTarea(id,{subtareas:[...(t.subtareas||[]),{txt:v,ok:false}]})}
 async function borrarTarea(id,btn){if(btn.dataset.ok!=='1'){btn.dataset.ok='1';btn.textContent='¿Seguro?';return}try{await API.borrarTarea(id);await cargar();closeSheet();toast('Tarea borrada');render()}catch(e){toast(e.message)}}
@@ -2006,7 +2064,7 @@ async function guardarPlan(){
   if(!String(PL.titulo||'').trim()){toast('Ponle un nombre: toca el título');return}
   const n=PL.nuevo,e={...PL};delete e.nuevo;delete e._anim;e.estilo=ESTILOS[e.dress_code]||null;if(n)e.creado_por=ME.id;
   const b=$('#psave');if(b)b.disabled=true;
-  try{await API.saveEvento(e,n);await cargar();closeSheet();toast(n?'Plan propuesto: que voten':'Plan actualizado');if(n){SUBE='propuestas';TAB='planes'}render()}
+  try{await API.saveEvento(e,n);if(n)avisar(activos().map(p=>({para_id:p.id,titulo:`Nuevo plan: ${e.titulo}`,cuerpo:`${nom(ME.id)} lo propone · entra y vota`,url:'/#planes'})));await cargar();closeSheet();toast(n?'Plan propuesto: que voten':'Plan actualizado');if(n){SUBE='propuestas';TAB='planes'}render()}
   catch(err){if(b)b.disabled=false;toast(err.message)}
 }
 

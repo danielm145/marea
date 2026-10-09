@@ -24,11 +24,11 @@ await caso("lo demás va a los assets", async () => {
   const r = await w.fetch(new Request("https://x/menu"), { ASSETS }); assert.equal(await r.text(), "asset");
 });
 await caso("gasto: limpia ids inventados, eventos falsos y RUC malo", async () => {
-  respuesta = gem({ resumen: "Hielo para la BBQ", gastos: [{ descripcion: "Hielo y cervezas", monto: 48.004, categoria: "bebidas", alcance: "consumo", pagador_ids: ["p1"], participante_ids: ["p1", "p2", "zz"], modo: "igual", evento_id: "e1", factura: { tipo_documento: "ticket", ruc: "123", items: [{ descripcion: "Hielo", total: 8 }] }, etiquetas: ["Hielo"], confianza: 0.9, dudas: [] }], tareas: [], eventos: [], album: null });
+  respuesta = gem({ resumen: "Hielo para la BBQ", gastos: [{ descripcion: "Hielo y cervezas", monto: 48.004, categoria: "bebidas", alcance: "consumo", pagador_ids: ["p1"], participante_ids: ["p1", "p2", "zz"], modo: "igual", evento_id: "e1", factura: { tipo_documento: "ticket", ruc: "123", items: [{ descripcion: "Hielo", total: 8, para_ids: ["p1", "zz"] }] }, etiquetas: ["Hielo"], confianza: 0.9, dudas: [] }], tareas: [], eventos: [], album: null });
   const r = await pedir({ texto: "pagué 48 de hielo para la bbq menos naty", imagen: "data:image/jpeg;base64,QUJD", modo: "auto", contexto: ctx });
   const j = await r.json(); assert.equal(r.status, 200, JSON.stringify(j));
   const g = j.propuesta.gastos[0];
-  assert.deepEqual(g.participante_ids, ["p1", "p2"]); assert.equal(g.monto, 48); assert.equal(g.evento_id, "e1"); assert.equal(g.factura.ruc, null); assert.deepEqual(g.etiquetas, ["hielo"]);
+  assert.deepEqual(g.participante_ids, ["p1", "p2"]); assert.equal(g.monto, 48); assert.equal(g.evento_id, "e1"); assert.equal(g.factura.ruc, null); assert.deepEqual(g.etiquetas, ["hielo"]); assert.deepEqual(g.factura.items[0].para_ids, ["p1"]);
   assert.equal(j.propuesta.ia, true);
   // lo que viajó a Google: llave en header (no en la URL), foto inline y esquema JSON
   assert.ok(!ultima.url.includes("key=")); assert.equal(ultima.init.headers["x-goog-api-key"], "k");

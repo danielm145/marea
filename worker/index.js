@@ -44,7 +44,7 @@ const ESQUEMA = O({
       tipo_documento: S({ enum: ["factura", "ticket", "transferencia", "otro"] }),
       comercio: S({ nullable: true }), ruc: S({ nullable: true }), numero: S({ nullable: true }),
       clave_acceso: S({ nullable: true }), fecha: S({ nullable: true }),
-      items: A(O({ descripcion: S(), cantidad: N({ nullable: true }), total: N({ nullable: true }) }, ["descripcion"])),
+      items: A(O({ descripcion: S(), cantidad: N({ nullable: true }), total: N({ nullable: true }), para_ids: A(S()) }, ["descripcion", "para_ids"])),
       subtotal: N({ nullable: true }), impuestos: N({ nullable: true }), propina: N({ nullable: true }), total: N({ nullable: true }),
     }, ["tipo_documento", "items"], { nullable: true }),
     etiquetas: A(S()), confianza: N(), dudas: A(S()),
@@ -79,6 +79,8 @@ Gastos y comprobantes:
 8. modo "igual" salvo que pidan porcentajes o montos por persona (que deben sumar 100 o el monto).
 9. etiquetas: 2 o 3 palabras cortas en minúscula (ej. "hielo", "parrillada").
 10. evento_id: si menciona una noche o actividad del contexto (karaoke, BBQ, pizza, tapas, restaurante, yoga…), su id.
+11. Restaurantes, bares y comida afuera: desglosa CADA plato y bebida en factura.items con su total de línea (cantidad × precio), tal como se lee. Si el mensaje dice quién pidió qué ("las pizzas fueron de Kevin y mías", "Naty solo tomó agua"), llena items[].para_ids con esos ids; lo compartido ("la picada entre todos") va con para_ids vacío. Si hay varios platos y NO se dijo quién pidió qué: para_ids vacíos, modo "igual" y en dudas la pregunta "¿Quién pidió qué? Toca cada plato para repartirlo." El IVA, el 10 % de servicio y la propina NO son ítems: van en impuestos y propina (la app los reparte en proporción a lo que consumió cada uno).
+12. "dudas" son PREGUNTAS cortas y concretas para la persona, máximo 3 ("¿Pagaste tú o Kevin?", "¿El total es 52,30? Se lee borroso"). No preguntes lo que ya quedó claro.
 
 Tareas (si es una lista o un pendiente): una por acción; si comparten verbo ("comprar hielo, carbón y…") repite el verbo. Prioridad alta si dice urgente, hoy, ya o antes de algo. responsable_id solo si se nombra a alguien sin duda.
 
@@ -194,7 +196,7 @@ export function limpiar(p, ctx) {
         tipo_documento: ["factura", "ticket", "transferencia", "otro"].includes(f.tipo_documento) ? f.tipo_documento : "otro",
         comercio: txt(f.comercio, 80) || null, ruc: /^\d{13}$/.test(f.ruc || "") ? f.ruc : null, numero: txt(f.numero, 30) || null,
         clave_acceso: /^\d{49}$/.test(f.clave_acceso || "") ? f.clave_acceso : null, fecha: fechaOk(f.fecha),
-        items: (Array.isArray(f.items) ? f.items : []).slice(0, 40).map((i) => ({ descripcion: txt(i?.descripcion, 80), cantidad: typeof i?.cantidad === "number" ? i.cantidad : null, total: typeof i?.total === "number" ? num(i.total) : null })),
+        items: (Array.isArray(f.items) ? f.items : []).slice(0, 40).map((i) => ({ descripcion: txt(i?.descripcion, 80), cantidad: typeof i?.cantidad === "number" ? i.cantidad : null, total: typeof i?.total === "number" ? num(i.total) : null, para_ids: lista(i?.para_ids) })),
         subtotal: typeof f.subtotal === "number" ? num(f.subtotal) : null, impuestos: typeof f.impuestos === "number" ? num(f.impuestos) : null,
         propina: typeof f.propina === "number" ? num(f.propina) : null, total: typeof f.total === "number" ? num(f.total) : null,
       } : null,

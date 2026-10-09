@@ -335,3 +335,11 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - Debajo: «Subir fotos del viaje» (varias al álbum, `elegirFotos`).
 - La IA quedó conectada el 9-oct con `GEMINI_API_KEY` puesta por Daniel en Cloudflare (motor gemini, gemini-2.5-flash).
 - `sql/016_sin_ana_cristina.sql`: Ana Cristina Grijalva (0992834833) inactiva, no se borra. 014 ya no la crea en una base nueva.
+
+## v36 · la IA desglosa los platos, pregunta y reparte; avisos push; chat en el inicio
+- **Reparto por platos** (`platosSec`/`recalcPlatos`): cada ítem de la factura con su precio y las caras de quién lo pidió (toque); lo no marcado es «de todos»; IVA, servicio y propina se reparten en proporción a lo consumido; cuadra al centavo (el redondeo cae en la parte mayor). Se guarda como `reparto.modo='monto'` + `factura.items[].para_ids`. Se activa solo cuando la factura trae ≥2 ítems con precio y es restaurante/bar (o la IA marcó quién pidió qué); «+ Agregar plato» y precio editable.
+- **La IA pregunta** (`.ia-preg`): las `dudas` son preguntas concretas; si no leyó el total, la pregunta grande «¿Cuánto fue en total?» con el monto inline (`fMontoOk`). El sello muestra el `resumen` de la IA.
+- Worker: `factura.items[].para_ids` en el esquema y en `limpiar`; reglas 11 (desglose, quién pidió qué, servicio/propina no son ítems) y 12 (dudas = preguntas, máx. 3).
+- **Avisos push** (RFC 8291): `sql/017_avisos_push.sql` (`push_subs`, `push_vapid`, solo service_role), Edge Function `marea-avisar` (vapid/guardar/quitar/enviar; crea la pareja VAPID sola; borra el teléfono a los 3 fallos o 404/410), `sw.js` (push + notificationclick → la pestaña del hash). Front: tarjeta «Recibir avisos» en el inicio (iPhone solo instalada), `sincronizarPush` al entrar, `avisar()` tras: gasto nuevo (a cada participante con lo que le toca), pago (al que cobra), tarea asignada, plan nuevo, mensaje del chat.
+- Inicio: acceso rápido al **Chat del grupo** con el último mensaje.
+- Se quitó el robot de GitHub (`.github/workflows`): Daniel no va a poner llaves ahí. Se publica con `scripts/listo.sh`, que ahora también sube las dos funciones.
