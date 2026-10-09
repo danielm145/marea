@@ -422,6 +422,17 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .jc{padding:14px}.jc-ic{background:linear-gradient(135deg,#7B61FF,#E5484D)!important;color:#fff!important}.jc-vivo{margin-top:10px}.jc-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .jc-t{position:relative;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:4/3;background:linear-gradient(135deg,#46178F,#1368CE);cursor:pointer;text-align:left;font:inherit}.jc-t img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .jc-t span{position:absolute;inset:auto 0 0 0;padding:28px 10px 8px;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);color:#fff;display:flex;flex-direction:column}.jc-t b{font-size:15px}.jc-t em{font-style:normal;font-size:12px;opacity:.9}
+.liq-c{padding:14px}.liq-s{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}.liq-s:last-child{border-bottom:0}.liq-t{padding:12px 14px}.liq-h{display:flex;align-items:center;gap:6px}.liq-n{width:22px;height:22px;border-radius:50%;background:var(--navy,#0B2547);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center;flex:none}
+.liq-fl{color:var(--ink-3);font-weight:800}.liq-p{margin:8px 0}
+.jseg{display:grid;grid-template-columns:repeat(5,1fr)}.jseg button{font-size:12.5px;padding-left:2px;padding-right:2px}.jc-car{margin-top:8px}
+.cj-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.cj-i{display:flex;flex-direction:column;gap:4px;text-align:left;padding:14px;border:0;font:inherit;color:inherit;cursor:pointer;min-height:104px}.cj-i b{font-size:16px}
+.cj-card{text-align:center;padding:22px 16px;margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:8px}.cj-card.reto{background:linear-gradient(135deg,#FFE9D6,#FFD1DC)}.cj-letra{font-size:96px;font-weight:900;line-height:1;color:#46178F}.cj-txt{font-size:24px;font-weight:800;line-height:1.25;display:flex;flex-direction:column;gap:4px}.cj-sub{font-size:15px;font-weight:600;color:var(--ink-3)}
+.cj-reloj{background:#46178F;color:#fff;border-radius:99px;padding:4px 14px;font-weight:800;font-variant-numeric:tabular-nums}.cj-cats{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.cj-cats span{background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:5px 11px;font-weight:700;font-size:14px}
+.cj-bingo{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}.cj-bingo button{aspect-ratio:1;border:1.5px solid var(--line);background:#fff;border-radius:12px;font:inherit;font-size:12px;font-weight:700;padding:4px;color:inherit;cursor:pointer}.cj-bingo button.on{background:#14A37F;color:#fff;border-color:#14A37F}
+.cj-placas{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.cj-placas button{display:flex;flex-direction:column;align-items:center;gap:2px;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:8px 4px;font:inherit;color:inherit;cursor:pointer}.cj-placas b{font-size:22px}.cj-placas span{font-size:11px}.cj-placas button.on{background:#FFF4D6;border-color:#F2A93B}
+.lk-insta{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:10px}.lk-fotos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.lk-fotos button{position:relative;padding:0;border:0;border-radius:12px;overflow:hidden;aspect-ratio:4/5;background:#eee;cursor:zoom-in}.lk-fotos img{width:100%;height:100%;object-fit:cover}
+.lk-fotos span{position:absolute;left:4px;bottom:4px;background:rgba(255,255,255,.92);font-size:10.5px;font-weight:700;border-radius:99px;padding:2px 7px;color:var(--ink)}.lk-2{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}.lk-2 ul{margin:4px 0 0;padding-left:18px;font-size:14px}.lk-2 li{margin:3px 0}
+@media(min-width:520px){.lk-2{grid-template-columns:1fr 1fr}}
 .tl3{display:grid;gap:14px;margin-top:12px}.tl3-c{display:block;width:100%;padding:0;border:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit}
 .tl3-i.now .tl3-c{box-shadow:0 0 0 2.5px #14A37F,var(--shadow)}.tl3-img{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#ffe3c2,#cfe8f5)}.tl3-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tl3-h{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.95);color:var(--ink);font-weight:800;font-size:14px;padding:5px 11px;border-radius:99px;font-variant-numeric:tabular-nums;box-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -625,7 +636,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v51';
+const BUILD_TAG='v52';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -839,7 +850,7 @@ const ESTILOS={
 /* noches temáticas y actividades de día. dia = índice del día del viaje (sin dia = propuesta) */
 const SEMILLA_EVENTOS=[
  {titulo:'Salida desde la casa de la Ale',tematica:'Salida',bloque:'manana',hora:'08:00',lugar:'Cumbayá · casa de la Ale',dress_code:'',dia:0,
-  descripcion:'Nos vemos 7:45 a.m. en la casa de la Ale en Cumbayá para salir puntuales a las 8:00. Dos carros: el Lexus (maneja Kevin) y la Amarok (maneja Lenin). Son unas 6 a 7 horas con la parada del almuerzo.',
+  descripcion:'Nos vemos 7:45 a.m. en la casa de la Ale en Cumbayá para salir puntuales a las 8:00. Dos carros: el Lexus (maneja Daniel, van las chicas) y la Amarok (maneja Lenin, van los chicos). Son unas 6 a 7 horas con la parada del almuerzo.',
   lista:['Cédula','Traje de baño a la mano','Bloqueador y gafas','Cargador del celular','Snacks y agua para el camino']},
  {titulo:'Llegada con ceviche',tematica:'Recepción',bloque:'tarde',hora:'15:00',lugar:'casa',dress_code:'',dia:0,
   descripcion:'Hora estimada de llegada: 3:00 p.m. En la casa nos recibe un ceviche de bienvenida bien frío. Primero comemos, después se desempaca.',
@@ -897,22 +908,20 @@ const SEMILLA_EVENTOS=[
    estaciones de todos los días (café pasado, fruta, ceviche bar) y cenas colaborativas temáticas */
 const MENU_BASE={
  /* desayunos y almuerzos: uno por día del viaje (día 1 = el primer día completo, después de la llegada). img = foto del menú de Kevin */
- A:[{nombre:'Bowl de yogurt griego con granola, mango, banano y miel',img:'img/menu/d1-healthy.jpg',ingredientes:['Yogurt griego','Granola','Mango','Banano','Fruta fresca','Miel','Huevos al gusto'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Bowl de yogurt griego con granola, mango, banano, fruta fresca y miel, más huevos al gusto.'},
-    {nombre:'Yogurt griego con fruta y tostadas de aguacate',img:'img/menu/d2-healthy.jpg',ingredientes:['Yogurt griego','Fruta fresca','Pan','Aguacate','Huevo'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Yogurt griego con fruta y tostadas de aguacate con huevo.'},
-    {nombre:'Yogurt griego con granola, miel y frutas + huevos revueltos',img:'img/menu/d3-healthy.jpg',ingredientes:['Yogurt griego','Granola','Miel','Fruta fresca','Huevos'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Yogurt griego con granola, miel y frutas, con huevos revueltos al lado.'},
-    {nombre:'Yogurt griego tropical',img:'img/menu/d4-healthy.jpg',ingredientes:['Yogurt griego','Mango','Piña','Banano','Granola','Miel','Pan','Aguacate','Huevo'],tags:['#Healthy'],estilo:'Fresco, armado al momento',descripcion:'Yogurt griego con mango, piña, banano, granola y miel, más tostada de aguacate y huevo.'}],
- B:[{nombre:'Tigrillo de queso con huevo',img:'img/menu/d1-normal.jpg',ingredientes:['Verde','Queso fresco','Huevo','Aguacate','Cebolla blanca','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo de queso con huevo y aguacate, con café y jugo.'},
-    {nombre:'Tigrillo mixto de queso y chicharrón',img:'img/menu/d2-normal.jpg',ingredientes:['Verde','Queso fresco','Chicharrón','Huevo','Cebolla blanca'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo mixto de queso y chicharrón con huevo.'},
-    {nombre:'Bolón mixto de queso y chicharrón',img:'img/menu/d3-normal.jpg',ingredientes:['Verde','Queso fresco','Chicharrón','Huevo','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Majado a mano y dorado',descripcion:'Bolón mixto de queso y chicharrón con huevo.'},
-    {nombre:'Tigrillo de queso con huevo frito',img:'img/menu/d4-normal.jpg',ingredientes:['Verde','Queso fresco','Huevo','Aguacate','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo de queso con huevo frito y aguacate.'}],
+ /* desayunos (Daniel, 9-oct): plato principal bolón (A) o tigrillo (B); lo demás está en la mesa todos los días */
+ A:[{nombre:'Bolón mixto de queso y chicharrón',img:'img/menu/d3-normal.jpg',ingredientes:['Verde','Queso fresco','Chicharrón','Huevo','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Majado a mano y dorado',descripcion:'Bolón de verde majado a mano con queso y chicharrón, dorado, con huevo al gusto.'},{nombre:'Bolón mixto de queso y chicharrón',img:'img/menu/d3-normal.jpg',ingredientes:['Verde','Queso fresco','Chicharrón','Huevo','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Majado a mano y dorado',descripcion:'Bolón de verde majado a mano con queso y chicharrón, dorado, con huevo al gusto.'},{nombre:'Bolón mixto de queso y chicharrón',img:'img/menu/d3-normal.jpg',ingredientes:['Verde','Queso fresco','Chicharrón','Huevo','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Majado a mano y dorado',descripcion:'Bolón de verde majado a mano con queso y chicharrón, dorado, con huevo al gusto.'},{nombre:'Bolón mixto de queso y chicharrón',img:'img/menu/d3-normal.jpg',ingredientes:['Verde','Queso fresco','Chicharrón','Huevo','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Majado a mano y dorado',descripcion:'Bolón de verde majado a mano con queso y chicharrón, dorado, con huevo al gusto.'}],
+ B:[{nombre:'Tigrillo de queso con huevo',img:'img/menu/d1-normal.jpg',ingredientes:['Verde','Queso fresco','Huevo','Aguacate','Cebolla blanca','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo de verde con queso fresco y huevo, con aguacate.'},{nombre:'Tigrillo de queso con huevo',img:'img/menu/d1-normal.jpg',ingredientes:['Verde','Queso fresco','Huevo','Aguacate','Cebolla blanca','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo de verde con queso fresco y huevo, con aguacate.'},{nombre:'Tigrillo de queso con huevo',img:'img/menu/d1-normal.jpg',ingredientes:['Verde','Queso fresco','Huevo','Aguacate','Cebolla blanca','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo de verde con queso fresco y huevo, con aguacate.'},{nombre:'Tigrillo de queso con huevo',img:'img/menu/d1-normal.jpg',ingredientes:['Verde','Queso fresco','Huevo','Aguacate','Cebolla blanca','Mantequilla'],tags:['#Costeño','#Tradicional'],estilo:'Costeño, en sartén',descripcion:'Tigrillo de verde con queso fresco y huevo, con aguacate.'}],
  alm:[{nombre:'Encocado de pescado',img:'img/menu/d1-almuerzo.jpg',ingredientes:['Pescado fresco','Leche de coco','Pimiento','Cebolla','Ajo','Achiote','Arroz blanco','Patacones','Ensalada fresca'],tags:['#Costeño','#SinMariscos'],estilo:'Esmeraldeño, de la cocinera',descripcion:'Encocado de pescado con arroz blanco, patacones y ensalada fresca.'},
     {nombre:'Seco de pollo',img:'img/menu/d2-almuerzo.jpg',ingredientes:['Pollo','Naranjilla','Culantro','Arroz amarillo','Maduro frito','Aguacate','Ensalada'],tags:['#Costeño','#SinMariscos','#Tradicional'],estilo:'Costeño, a fuego lento',descripcion:'Seco de pollo con arroz amarillo, maduro frito, aguacate y ensalada.'},
     {nombre:'Arroz marinero',img:'img/menu/d3-almuerzo.jpg',ingredientes:['Arroz','Camarón','Pescado fresco','Calamar','Pimiento','Patacones','Ensalada'],tags:['#Costeño'],estilo:'Costeño, en paila',descripcion:'Arroz marinero con camarón, pescado y calamar, patacones y ensalada.'},
     {nombre:'Carne asada con menestra',img:'img/menu/d4-almuerzo.jpg',ingredientes:['Carne de res','Menestra','Arroz','Patacones','Ensalada'],tags:['#Tradicional','#SinMariscos'],estilo:'A la plancha',descripcion:'Carne asada con menestra, arroz, patacones y ensalada.'}],
  estaciones:[
-   {nombre:'Café ilimitado',turno:'desayuno',ingredientes:['Café de altura molido','Agua'],tags:['#ZeroAlcohol'],estilo:'Filtrado o pasado, nunca soluble',descripcion:'Café de especialidad pasado todos los días. Regla de la casa: cero café soluble.'},
-   {nombre:'Fruta fresca del día',turno:'desayuno',ingredientes:['Mango','Piña','Papaya','Sandía'],tags:['#Healthy'],estilo:'Picada cada mañana',descripcion:'Fruta picada, siempre en la mesa.'},
-   {nombre:'Jugo de naranja y agua de coco',turno:'desayuno',ingredientes:['Naranja','Agua de coco'],tags:['#ZeroAlcohol'],estilo:'Natural',descripcion:'Jugo de naranja recién exprimido y agua de coco, todas las mañanas.'},
+   {nombre:'Café ilimitado',turno:'desayuno',ingredientes:['Café de altura molido','Agua'],tags:['#ZeroAlcohol'],estilo:'Filtrado o pasado, nunca soluble',descripcion:'Café pasado todos los días.'},
+   {nombre:'Ceviche de camarón y pescado',turno:'desayuno',ingredientes:['Camarón','Pescado fresco','Limón','Cebolla colorada','Tomate','Cilantro','Chifles','Canguil'],tags:['#Costeño','#Compartir'],estilo:'Bol grande para todos',descripcion:'Todos los días en el desayuno: ceviche de camarón y de pescado, con chifles y canguil.'},
+   {nombre:'Fruta picada: sandía, piña y papaya',turno:'desayuno',ingredientes:['Sandía','Piña','Papaya'],tags:['#Healthy'],estilo:'Para todo el día',descripcion:'Picada en la mañana y a la mano todo el día.'},
+   {nombre:'Jugo de naranja colado',turno:'desayuno',ingredientes:['Naranja'],tags:['#ZeroAlcohol'],estilo:'Natural',descripcion:'Recién exprimido y colado, para todos.'},
+   {nombre:'Jugo de coco',turno:'desayuno',ingredientes:['Coco'],tags:['#ZeroAlcohol'],estilo:'Natural',descripcion:'Agua y jugo de coco bien frío.'},
+   {nombre:'Yogurt con arándanos',turno:'desayuno',ingredientes:['Yogurt','Arándanos'],tags:['#Healthy'],estilo:'Para servirse',descripcion:'Yogurt natural con arándanos frescos.'},
    {nombre:'Ceviche bar',turno:'almuerzo',ingredientes:['Camarón','Pescado fresco','Limón','Cebolla colorada','Tomate','Cilantro','Chifles','Canguil'],tags:['#Costeño','#Compartir'],estilo:'Bol grande para todos',descripcion:'Ceviche mixto de camarón y pescado fresco: la entrada fija de todos los almuerzos.'}],
  cenas:{
   'Cena noche de estrellas y fogata':[
@@ -951,7 +960,7 @@ function generarMenuBase({dias,eventos,gente,autor,conEstaciones}){
   let k=0;
   dias.forEach((d,i)=>{
     if(i===0&&dias.length>1){ /* día de llegada: solo la cena */ }else{
-    const des=cm({dia:d,turno:'desayuno',titulo:'Desayuno internacional',modalidad:'dual',hora:'08:30',notas:'Incluye jugo de naranja, agua de coco, café ilimitado y fruta.'});
+    const des=cm({dia:d,turno:'desayuno',titulo:'Desayuno costeño',modalidad:'dual',hora:'08:30',notas:'Todos los días: ceviche de camarón y pescado, fruta picada, jugo de naranja colado, jugo de coco y yogurt con arándanos. Plato principal: bolón o tigrillo.'});
     comidas.push(des); const j=(i-(dias.length>1?1:0))%4; platos.push(mk(MENU_BASE.A[j],{comida_id:des.id,opcion:'A'})); platos.push(mk(MENU_BASE.B[j],{comida_id:des.id,opcion:'B'}));
     const alm=cm({dia:d,turno:'almuerzo',titulo:'Almuerzo costeño',modalidad:'cocinera',hora:'13:30',notas:'Lo prepara la cocinera local. Ceviche bar de entrada.'});
     comidas.push(alm); platos.push(mk(MENU_BASE.alm[j],{comida_id:alm.id}));
@@ -1013,16 +1022,16 @@ function seedDemo(){
   const eqq=n=>equipo.find(e=>e.nombre===n); Object.assign(eqq('Parlante'),{responsable:id('Kevin López'),estado:'empacado'}); Object.assign(eqq('Micrófonos'),{responsable:id('Alegría'),estado:'confirmado',evento_id:evT('Karaoke y Talent Show').id});
   Object.assign(eqq('Proyector'),{evento_id:evT('Karaoke y Talent Show').id}); Object.assign(eqq('Monopoly'),{responsable:id('Kevin López'),estado:'empacado'}); Object.assign(eqq('Risk'),{responsable:id('Kevin López'),estado:'empacado'});
   Object.assign(eqq('Coolers'),{responsable:id('Natalia Vásquez'),estado:'confirmado'}); Object.assign(eqq('Trípode'),{responsable:id('Ana Cristina Grijalva'),estado:'confirmado',evento_id:evT('Sesión de fotos Freaky Monkey').id});
-  const vehiculos=[{id:uid(),nombre:'Lexus',conductor:id('Kevin López'),puestos:5,maletas:5,salida:'Cumbayá · casa de la Ale · 8:00 a.m.',nota:'Maneja Kevin',creado_por:autor},{id:uid(),nombre:'Amarok',conductor:id('Amelia Camacho'),puestos:5,maletas:6,salida:'Cumbayá · casa de la Ale · 8:00 a.m.',nota:'Copiloto: Daniel',creado_por:autor}];
+  const vehiculos=[{id:uid(),nombre:'Lexus',conductor:autor,puestos:5,maletas:5,salida:'Cumbayá · casa de la Ale · 8:00 a.m.',nota:'Maneja Daniel · van las chicas',creado_por:autor},{id:uid(),nombre:'Amarok',conductor:id('Kevin López'),puestos:5,maletas:6,salida:'Cumbayá · casa de la Ale · 8:00 a.m.',nota:'Van los chicos',creado_por:autor}];
   const pasajeros=[]; const sube=(v,ns,t)=>ns.forEach(n=>pasajeros.push({vehiculo_id:vehiculos[v].id,persona_id:id(n),trayecto:t,maletas:1}));
-  ['ida','regreso'].forEach(t=>{sube(0,['Alegría','Domenika Pérez','Natalia Vásquez','Ana Paula'],t);sube(1,['Daniel Martínez','Ana Cristina Grijalva'],t)});
+  ['ida','regreso'].forEach(t=>{sube(0,['Alegría','Domenika Pérez','Natalia Vásquez','Ana Paula'],t);sube(1,['Ana Cristina Grijalva','Amelia Camacho'],t)});
   return {personas,config:{nombre:'Casablanca',lugar:'Same, Esmeraldas',desde,hasta,moneda:'USD',ejemplo:true,info:{...CASA_AIRBNB,casa_fotos:[],direccion:'Condominio Alcazaba del Río, Casablanca · Same, Esmeraldas',mapa_url:'',checkin:'15:00',checkout:'12:00',wifi_red:'',wifi_clave:'',
     que_llevar:['Protector solar y repelente','Traje de baño y toalla de playa','Todo blanco para la Welcome White Night','Pijama elegante para la Pizza & Game Night','Look dorado o beige para la Golden Hour (día 2)','Camisa hawaiana o look boho para el Tiki Boho Funny (día 3)','Algo elegante para la Restaurant Night','Tu número para el Talent Show','Medicinas personales'], /* las gafas de la sesión las pone Freaky Monkey */
     reglas:['Cero café soluble: se pasa café de verdad','Cada quien lava lo que usa en las cenas colaborativas','Todo gasto se sube con foto a la app','Silencio después de la 1 a.m. por los vecinos'],
     contactos:[{nombre:'Daniel',rol:'Organiza el viaje',tel:''}],
     faq:[{p:'¿Cómo se dividen los gastos?',r:'Cada gasto se sube a la app y se reparte entre quienes participan. Al final la app dice quién le paga a quién con el menor número de transferencias.'},{p:'¿Qué pasa si no como mariscos?',r:'Márcalo en tu ficha. La carta te avisa qué platos no son para ti y puedes pedir una variante.'},{p:'¿Hay que llevar comida?',r:'No. La despensa inicial se compra entre todos y los almuerzos los hace la cocinera.'}]}},gastos,tareas,eventos:ev,votos,etiquetas,historial:[],
     comidas:menu.comidas,platos:menu.platos,asistencia,presupuesto,inspiracion:[],equipo,vehiculos,pasajeros,comercios:[{clave:'n:supermercado ejemplo',nombre:'Supermercado (ejemplo)',ruc:null,categoria:'despensa',alcance:'fijo',etiquetas:['despensa'],veces:1}],
-    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:17};
+    mensajes:[['Ana Paula','¡Ya confirmé la cocinera! Va a estar increíble',-180],['Kevin López','¿Llevamos parlante grande?',-120],['Daniel Martínez','Sí, el de la camioneta. Y el proyector para el karaoke',-110],['Alegría','Así nos espera Same 😍',-30]].map(([n,t,m])=>({id:uid(),persona_id:id(n),texto:t,foto:null,created_at:new Date(Date.now()+m*60000).toISOString()})),v:18};
 }
 /* se entra con el CELULAR + clave = día y mes del cumpleaños (DDMM). Mismas reglas que marea-admin-personas */
 function normTel(t){let d=String(t??'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);if(d.length===10&&d.startsWith('0'))d='593'+d.slice(1);else if(d.length===9&&d.startsWith('9'))d='593'+d;else if(d.length===10&&d.startsWith('3'))d='57'+d;return /^[0-9]{11,15}$/.test(d)?d:null}
@@ -1039,7 +1048,7 @@ function waUrl(tel,msg){const t=String(tel||'').replace(/\D/g,'');return t?`http
 
 const Demo={
   d:null,
-  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==17){this.d=seedDemo();this.save()}},
+  init(){const s=lsGet(DEMO_KEY);if(s){try{this.d=JSON.parse(s)}catch(e){}} if(!this.d||this.d.v!==18){this.d=seedDemo();this.save()}},
   save(){lsSet(DEMO_KEY,JSON.stringify(this.d))},
   async restore(){const id=lsGet(DEMO_SES);const p=this.d.personas.find(x=>x.id===id&&x.activo);return p?{...p}:null},
   async login(tel){const p=this.d.personas.find(x=>x.telefono&&x.telefono===tel);if(!p)throw new Error('Ese celular no está en la lista del viaje. Escríbele a Daniel.');if(!p.activo)throw new Error('Tu cuenta está bloqueada. Escríbele a Daniel.');p.ultimo_acceso=new Date().toISOString();this.save();lsSet(DEMO_SES,p.id);return{...p}},
@@ -1097,6 +1106,8 @@ const Demo={
   async saveKaraoke(k,n){this.up(this.d.karaoke=this.d.karaoke||[],k,n)},
   async borrarKaraoke(id){this.d.karaoke=(this.d.karaoke||[]).filter(k=>k.id!==id);this.save()},
   async votarJuego(v){const L=this.d.votos_juego=(this.d.votos_juego||[]).filter(x=>!(x.clave===v.clave&&x.persona_id===v.persona_id));L.push({...v});this.save()},
+  async loadGuias(){return [...(this.d.look_guias||[])]},
+  async saveGuia(g){const L=this.d.look_guias=(this.d.look_guias||[]).filter(x=>x.clave!==g.clave);L.push({...g,updated_at:new Date().toISOString()});this.save()},
   async quitarVotoJuego(clave){this.d.votos_juego=(this.d.votos_juego||[]).filter(x=>!(x.clave===clave&&x.persona_id===ME.id));this.save()},
   reiniciar(){this.d=seedDemo();this.save()}
 };
@@ -1180,6 +1191,8 @@ const Sb={
   async saveKaraoke(k,n){return this.up('karaoke',['id','persona_id','cantantes','titulo','artista','portada','preview','itunes_id','estado','orden'],k,n)},
   async borrarKaraoke(id){this.ok(await this.t('karaoke').delete().eq('id',id))},
   async votarJuego(v){this.ok(await this.t('votos_juego').upsert({clave:v.clave,persona_id:ME.id,opcion:v.opcion},{onConflict:'clave,persona_id'}))},
+  async loadGuias(){const{data,error}=await this.t('look_guias').select('*');if(error)throw new Error(error.message);return data||[]},
+  async saveGuia(g){this.ok(await this.t('look_guias').upsert({clave:g.clave,descripcion:g.descripcion,guia:g.guia,actualizado_por:ME.id,updated_at:new Date().toISOString()},{onConflict:'clave'}))},
   async quitarVotoJuego(clave){this.ok(await this.t('votos_juego').delete().eq('clave',clave).eq('persona_id',ME.id))},
   async enriquecer(p){try{const j=await this.fn('marea-menu',{plato:{nombre:p.nombre,ingredientes:p.ingredientes||[],descripcion:p.descripcion||'',estilo:p.estilo||''}});return j.plato}catch(e){const r=enriquecerLocal(p);toast('La IA no respondió: '+e.message);return r}}
 };
@@ -1311,7 +1324,7 @@ async function boot(){
   TAB=(location.hash||'#hoy').slice(1).replace(/-m$/,'');if(!tabsVisibles().some(x=>x[0]===TAB))TAB='hoy';
   render();
 }
-async function cargar(){try{await API.loadAll();indexar()}catch(e){toast('No pude cargar los datos: '+e.message)}await cargarJuegos()}
+async function cargar(){try{await API.loadAll();indexar()}catch(e){toast('No pude cargar los datos: '+e.message)}await Promise.all([cargarJuegos(),cargarGuias()])}
 async function refrescar(){if(!ME)return;await cargar();if($('#sheet').hidden)render()}
 if(MODO==='supabase'){setInterval(()=>{if(document.visibilityState==='visible')refrescar()},45000);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refrescar()})}
 
@@ -1705,8 +1718,28 @@ function vBalances(){
     ${desgloseGastos()||'<div class="card flat empty">Todavía no hay gastos.</div>'}
     <div class="sec-h"><h2>Fondo común</h2><button class="link" onclick="nuevoAporte()">Registrar aporte</button></div>
     <div class="card"><div class="grid2"><div><div class="eyebrow">Aportado</div><div class="amt">${money(f.aportado)}</div></div><div><div class="eyebrow">Gastado</div><div class="amt">${money(f.gastado)}</div></div></div>
-      <div style="margin-top:10px" class="row"><div class="grow muted tiny">Lo que se paga con el fondo no entra a las cuentas de nadie: ya se repartió al aportar.</div><span class="pill ${f.disponible<0?'bad':'ok'}">Queda ${money(f.disponible)}</span></div></div>`;
+      <div style="margin-top:10px" class="row"><div class="grow muted tiny">Lo que se paga con el fondo no entra a las cuentas de nadie: ya se repartió al aportar.</div><span class="pill ${f.disponible<0?'bad':'ok'}">Queda ${money(f.disponible)}</span></div></div>
+    ${D.length?`<div class="sec-h"><h2>Al final del viaje</h2></div><div class="card liq-c"><b>Liquidar con menos transferencias</b><div class="muted tiny" style="margin:4px 0 10px">Hoy son ${D.length} deuda${D.length===1?'':'s'} entre parejas. Se pueden cerrar con solo ${simplificar(balances()).length} transferencia${simplificar(balances()).length===1?'':'s'}, y todos quedan en $0 igual.</div><button class="btn primary block" onclick="abrirLiquidar()">Ver cómo liquidar y por qué</button></div>`:''}`;
 }
+/* ── LIQUIDAR: el mismo saldo de cada uno, con el menor número de transferencias, explicado paso a paso ── */
+function abrirLiquidar(){const bs=balances().filter(b=>Math.abs(b.saldo)>0.009).sort((a,b)=>a.saldo-b.saldo),T=simplificar(balances()),D=deudasGrupo();
+  if(!T.length){openSheet(sheetH('Liquidar')+'<div class="card flat empty">Todos están a paz y salvo.</div>');return}
+  const directo=(de,a)=>(D.find(x=>x.de===de&&x.a===a)||{}).monto||0;
+  const por=t=>{const deb=-(bs.find(b=>b.id===t.de)||{saldo:0}).saldo,rec=(bs.find(b=>b.id===t.a)||{saldo:0}).saldo,dir=directo(t.de,t.a);
+    return dir>0.009&&Math.abs(dir-t.monto)<0.02?`${esc(nom(t.de))} le debía exactamente esto a ${esc(nom(t.a))}.`
+      :`${esc(nom(t.de))} debe ${money(deb)} en total y ${esc(nom(t.a))} tiene que recibir ${money(rec)}${dir>0.009?` (de eso, ${money(dir)} se lo debía directo)`:''}: se junta en un solo pago${T.filter(x=>x.de===t.de).length>1?' (el resto lo paga a otra persona)':''}.`};
+  const txt=['💸 Cerrar cuentas del viaje',`Son ${T.length} transferencias y todos quedamos en $0:`,...T.map(t=>`• ${nom(t.de)} → ${nom(t.a)}: ${money(t.monto)}`)].join('\n');
+  openSheet(`${sheetH('Liquidar con menos transferencias')}<div class="stack">
+    <div class="banner tide"><div><b>Cómo funciona.</b> No importa a quién le debes cada gasto: importa cuánto debes <b>en total</b> y cuánto tiene que <b>recibir</b> cada uno. Si las deudas se pagan así, en vez de ${D.length} pagos son ${T.length}, y cada persona termina exactamente igual: en $0.</div></div>
+    <div class="sec-h" style="margin-top:4px"><h2>1 · El saldo de cada uno</h2></div>
+    <div class="card" style="padding:6px 14px">${bs.map(b=>`<div class="liq-s">${av(b.id,'xs')}<span class="grow"><b>${esc(nom(b.id))}</b><span class="tiny muted"> · pagó ${money(b.pagado)}, le tocaba ${money(b.toca)}</span></span><span class="amt ${b.saldo>0?'pos':'neg'}">${b.saldo>0?'recibe '+money(b.saldo):'paga '+money(-b.saldo)}</span></div>`).join('')}</div>
+    <div class="sec-h"><h2>2 · Las ${T.length} transferencias</h2></div>
+    ${T.map((t,i)=>`<div class="card liq-t"><div class="liq-h"><span class="liq-n">${i+1}</span>${av(t.de)}<span class="liq-fl">→</span>${av(t.a)}<span class="grow"><b>${esc(nom(t.de))}</b> le pasa a <b>${esc(nom(t.a))}</b></span><b class="amt">${money(t.monto)}</b></div>
+      <div class="tiny muted liq-p">Por qué: ${por(t)}</div><button class="btn sm block" onclick="closeSheet();registrarPago('${t.de}','${t.a}',${t.monto})">Ya se hizo: registrar este pago</button></div>`).join('')}
+    <div class="sec-h"><h2>3 · Comprobado</h2></div>
+    <div class="card tiny">${bs.map(b=>{const sale=T.filter(t=>t.de===b.id).reduce((a,t)=>a+t.monto,0),entra=T.filter(t=>t.a===b.id).reduce((a,t)=>a+t.monto,0);return `<div class="liq-s">${av(b.id,'xs')}<span class="grow">${esc(nom(b.id))}: ${saldoTxt(b.saldo)} ${sale?' + '+money(sale)+' que paga':''}${entra?' − '+money(entra)+' que recibe':''}</span><b>= ${money(Math.abs(r2(b.saldo+sale-entra)))}</b></div>`}).join('')}</div>
+    <p class="muted tiny" style="margin:0">Si prefieren pagar deuda por deuda, sigan «Quién le debe a quién»: los dos caminos dejan a todos en $0. Cada pago que se registra aquí descuenta solo.</p>
+    <a class="btn sun block" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">${ic('wa')} Mandar el plan al grupo</a></div>`)}
 /* ---------- formulario de gasto (mismo para texto, foto y manual) ---------- */
 let F=null;
 function nuevoForm(base={}){
@@ -2585,14 +2618,14 @@ function vMenu(){
 function chipsDias(dias){const DS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];return `<div class="dch">${dias.map(d=>`<button aria-pressed="${DIA_MENU===d}" onclick="DIA_MENU='${d}';render()">${DS[new Date(d+'T12:00').getDay()]} ${+d.slice(8)}</button>`).join('')}</div>`}
 /* el menú completo de un vistazo, como el que armó Kevin: por día, desayuno healthy / normal, almuerzo y cena */
 /* el menú completo de un vistazo, cada comida como un evento: qué incluye, qué opciones hay y si vas o no */
-const SEM_COL={A:['Healthy','#5E8B5A'],B:['Normal','#B8902F'],alm:['Almuerzo','#C8643F'],cena:['Cena','#1F4466']};
-const INCLUYE_DES=['Jugo de naranja','Agua de coco','Café ilimitado','Fruta fresca'];
+const SEM_COL={A:['Bolón','#C8643F'],B:['Tigrillo','#B8902F'],alm:['Almuerzo','#C8643F'],cena:['Cena','#1F4466']};
+const INCLUYE_DES=['Ceviche de camarón y pescado','Fruta picada: sandía, piña y papaya','Jugo de naranja colado','Jugo de coco','Yogurt con arándanos','Café'];
 const visPlato=p=>p&&(fotoUrl(p.foto)||imgPlato(p));
 function rsvpRow(c){const yo=miAsis(c.id),van=vanA(c.id);return `<div class="rsvp"><button class="${yo.va!==false?'si':''}" onclick="setAsis('${c.id}',{va:true})">${ic('tareas')} Voy</button><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:false})">No voy</button><span class="rsvp-n">${van.length} de ${activos().length} van</span></div>`}
 function cartaDesayuno(c){const ps=platosDe(c.id),A=ps.find(p=>p.opcion==='A'),B=ps.find(p=>p.opcion==='B'),yo=miAsis(c.id),as=ASIST.filter(a=>a.comida_id===c.id&&a.va!==false),van=vanA(c.id);
   const opt=(k,p)=>!p?'':`<div class="opt ${yo.va!==false&&yo.opcion===k?'sel':''}"><button class="opt-img" onclick="abrirPlato('${p.id}')">${imgTag(visPlato(p))}<span class="opt-ok">${ic('tareas')}</span></button><span class="sem-l" style="background:${SEM_COL[k][1]}">${SEM_COL[k][0]}</span><span class="opt-n">${esc(p.nombre)}</span><span class="opt-c">${as.filter(a=>a.opcion===k).length} la eligen</span>
     <button class="opt-go" onclick="setAsis('${c.id}',{opcion:'${k}'})">${yo.va!==false&&yo.opcion===k?ic('tareas')+' Elegido':'Elegir'}</button></div>`;
-  return `<article class="cev carta" id="c-${c.id}"><div class="cev-h"><div class="grow"><div class="eyebrow">Desayuno · ${esc(String(c.hora||'08:30').slice(0,5))}</div><h3 class="carta-t">Desayuno internacional</h3></div><span class="pill ok">${van.length} van</span></div>
+  return `<article class="cev carta" id="c-${c.id}"><div class="cev-h"><div class="grow"><div class="eyebrow">Desayuno · ${esc(String(c.hora||'08:30').slice(0,5))}</div><h3 class="carta-t">${esc(c.titulo&&!/internacional/i.test(c.titulo)?c.titulo:'Desayuno costeño')}</h3></div><span class="pill ok">${van.length} van</span></div>
     <div class="incl">${INCLUYE_DES.map(x=>`<span>${esc(x)}</span>`).join('')}</div>
     <div class="opts" style="margin-top:12px">${opt('A',A)}${opt('B',B)}</div>
     <div class="rsvp"><button class="${yo.va===false?'no':''}" onclick="setAsis('${c.id}',{va:${yo.va===false?'true':'false'}})">${yo.va===false?'No desayuno · cambiar':'Hoy no desayuno'}</button>${cartaAcc(c)}</div></article>`}
@@ -2856,6 +2889,38 @@ function lookImg(nombre){const f=(LOOK_IMG.find(([re])=>re.test(nombre||''))||[]
 function outfitsListos(nombre){const f=(LOOK_IMG.find(([re])=>re.test(nombre||''))||[])[1];if(!f)return '';
   const L=[['el','Para él'],['ella','Para ella']].map(([k,t])=>[arteUrl('look-'+f+'-'+k),t]).filter(([u])=>u);if(!L.length)return '';
   return `<div class="out2">${L.map(([u,t])=>`<button class="out2-i" onclick="verImagen('${u}')"><img src="${u}" alt="${t}" loading="lazy" onerror="this.parentNode.remove()"><span>${t}</span></button>`).join('')}</div>`}
+/* ── INSPIRACIÓN DE INSTA en cada look: Alegría sube las capturas y escribe la idea; la IA mira las fotos y arma la guía para todos ── */
+let LOOKG=[];
+const guiaDe=clave=>LOOKG.find(g=>g.clave===clave)||{};
+async function cargarGuias(){try{LOOKG=await API.loadGuias()}catch(e){LOOKG=LOOKG||[]}}
+function lookInsta(evs,clave){const fotos=INSPI.filter(x=>evs.some(v=>v.id===x.evento_id)),G=guiaDe(clave),g=G.guia,k=slugTxt(clave),ev=evs[0];
+  return `<div class="lk-insta"><div class="row" style="align-items:center;gap:8px"><div class="grow"><b>Inspiración de Insta</b><div class="tiny muted">Alegría sube capturas de Instagram y cuenta la idea; la IA arma la guía para todos.</div></div>
+      <label class="btn sm primary">${ic('cam')} Subir fotos<input type="file" accept="image/*" multiple hidden onchange="subirInsta('${ev.id}',${esc(JSON.stringify(clave))},this)"></label></div>
+    ${fotos.length?`<div class="lk-fotos">${fotos.map(f=>{const u=fotoUrl(f.foto);return u?`<button onclick="verImagen('${esc(u)}','Inspiración de ${esc(nom(f.persona_id))}')"><img src="${esc(u)}" alt="" loading="lazy"><span>${esc(nom(f.persona_id))}</span></button>`:''}).join('')}</div>`:''}
+    <textarea id="lkd-${k}" class="in" rows="2" maxlength="1500" placeholder="Describe el look para la IA. Ej.: todos de blanco; ellas con dorado y algo de crochet, ellos lino y sandalias">${esc(G.descripcion||'')}</textarea>
+    <button class="btn block out-b" id="lkb-${k}" onclick="armarGuia(${esc(JSON.stringify(clave))})">${GEM_SVG} ${g?'Volver a armar la guía con IA':'Armar la guía con IA'}${fotos.length?` (con ${fotos.length} foto${fotos.length===1?'':'s'})`:''}</button>
+    ${g?guiaHTML(g,G):''}</div>`}
+function guiaHTML(g,G){const lst=L=>(L||[]).map(x=>`<li><b>${esc(x.parte)}:</b> ${esc(x.idea)}</li>`).join('');
+  return `<div class="card out-card ia-llena lk-guia"><div class="ia-sello">${GEM_SVG} ${esc(g.titulo||'Guía del look')}</div>${g.resumen?`<p style="margin:6px 0">${esc(g.resumen)}</p>`:''}
+    ${(g.colores||[]).length?`<div class="chips">${g.colores.map(c=>`<span class="pill sun">${esc(c)}</span>`).join('')}</div>`:''}
+    <div class="lk-2">${g.el&&g.el.length?`<div><div class="lbl">Para él</div><ul>${lst(g.el)}</ul></div>`:''}${g.ella&&g.ella.length?`<div><div class="lbl">Para ella</div><ul>${lst(g.ella)}</ul></div>`:''}</div>
+    ${(g.tips||[]).length?`<div class="tiny muted">${g.tips.map(esc).join(' · ')}</div>`:''}${G.actualizado_por?`<div class="tiny muted" style="margin-top:6px">Armada con lo que subió ${esc(nom(G.actualizado_por))}</div>`:''}</div>`}
+async function subirInsta(evId,clave,inp){const fs=[...(inp.files||[])].slice(0,8);if(!fs.length)return;toast(`Subiendo ${fs.length} foto${fs.length===1?'':'s'}…`);
+  try{for(const f of fs){const{blob,dataUrl}=await achicar(f,1100,.82);const ref=MODO==='demo'?dataUrl:await API.subirFoto('marea-muro',blob,dataUrl);if(MODO!=='demo')FOTOS[ref]=dataUrl;await API.addInspiracion({id:uid(),evento_id:evId,persona_id:ME.id,foto:ref,nota:'insta'})}
+    await cargar();render();toast('Fotos subidas · la IA está armando la guía');armarGuia(clave)}catch(e){toast(e.message)}}
+async function fotoDataUrl(ref){if(String(ref).startsWith('data:'))return ref;if(FOTOS[ref]&&String(FOTOS[ref]).startsWith('data:'))return FOTOS[ref];
+  const u=FOTOS[ref]||await API.urlFoto(ref);const b=await (await fetch(u)).blob();return (await achicar(b,768,.75)).dataUrl}
+async function armarGuia(clave){const k=slugTxt(clave),ta=$('#lkd-'+k),desc=String(ta&&ta.value||guiaDe(clave).descripcion||'').trim(),b=$('#lkb-'+k);
+  const evs=EVENTOS.filter(e=>((e.estilo||{}).nombre||e.dress_code||'').replace(/ · Día \d+$/,'')===clave),e=evs[0];if(!e)return;const look=lookDe(e);
+  if(b){b.disabled=true;b.innerHTML=`${GEM_SVG} Mirando las fotos y armando la guía…`}
+  let guia=null;
+  try{const fotos=INSPI.filter(x=>evs.some(v=>v.id===x.evento_id)).slice(-6),imgs=[];for(const f of fotos){try{imgs.push(await fotoDataUrl(f.foto))}catch(err){}}
+    if(IA_URL){if(!IA.probada)await probarIA();if(IA.ok){let auth={};if(MODO==='supabase'){const{data}=await Sb.c.auth.getSession();if(data&&data.session)auth={authorization:'Bearer '+data.session.access_token}}
+      const r=await fetch(IA_URL,{method:'POST',headers:{'content-type':'application/json',...auth},body:JSON.stringify({modo:'guia',texto:desc,imagenes:imgs,contexto:{look}})});const j=await r.json().catch(()=>({}));if(r.ok&&j.guia)guia=j.guia;else toast(j.error||'La IA no respondió: te dejo una guía con el look.')}}
+  }catch(err){toast('La IA no respondió: te dejo una guía con el look.')}
+  if(!guia){const deEl=x=>!/bikini|vestido|falda|crochet|enterizo|blusa|top|arete|tac[oó]n|cartera/i.test(x.idea),deElla=x=>!/guayabera|bermuda|corbat/i.test(x.idea),el0=outfitLocal(look,'el'),ella=outfitLocal(look,'ella'),el={...el0,piezas:el0.piezas.filter(deEl)};ella.piezas=ella.piezas.filter(deElla);guia={titulo:look.nombre,resumen:desc||look.descripcion,colores:[],el:el.piezas,ella:ella.piezas,tips:[el.tip]}}
+  try{await API.saveGuia({clave,descripcion:desc||null,guia,actualizado_por:ME.id});await cargarGuias();toast('Guía del look lista')}catch(err){toast(err.message)}
+  if(TAB==='planes'&&SUBE==='dress'&&$('#sheet').hidden)render()}
 async function verCreditos(){let c={};try{const r=await fetch('img/playa/creditos.json',{cache:'no-store'});if(r.ok)c=await r.json()}catch(e){}
   const L=Object.entries(c);openSheet(sheetH('Créditos de las fotos')+`<div class="stack"><p class="muted tiny" style="margin:0">Menú: Kevin. Looks: collages del grupo. Condominio: @sameclubcasablanca.</p>${L.length?`<div class="card"><div class="list">${L.map(([k,x])=>`<a class="item" href="${esc(x.pagina||x.url)}" target="_blank" rel="noopener"><div class="grow"><div class="t">${esc(x.titulo||k)}</div><div class="s">${esc(x.autor)} · ${esc(x.licencia)}${x.fuente?' · '+esc(x.fuente):''}</div></div></a>`).join('')}</div></div>`:'<p class="muted">Las fotos de ambiente se bajan con scripts/fotos-stock.mjs.</p>'}</div>`)}
 function verLook(src){verImagen(src)}
@@ -2881,8 +2946,8 @@ function vDress(){
       ${st.descripcion?`<p style="margin:0">${esc(st.descripcion)}</p>`:''}
       ${pal.length?`<div class="row" style="gap:8px;margin-top:12px">${pal.map(c=>`<span class="swatch lg" style="background:${c}" title="${c}"></span>`).join('')}</div>`:''}
       ${(st.ideas||[]).length?`<div class="chips" style="margin-top:12px">${st.ideas.map(i=>`<span class="pill sun">${esc(i)}</span>`).join('')}</div>`:''}
-      ${fotos.length?`<div class="insp">${fotos.map(f=>{const u=fotoUrl(f.foto);return u?`<img src="${esc(u)}" alt="Inspiración de ${esc(nom(f.persona_id))}" title="${esc(nom(f.persona_id))}" onclick="verLook(this.src)">`:''}).join('')}</div>`:''}
-      ${outfitsListos(st.nombre||e.dress_code)}</div></article>`}).join('')+(dia.length?`<div class="sec-h"><h2>De día</h2></div><div class="card"><div class="list">${dia.map(({evs})=>{const e=evs[0],st=e.estilo||{};return `<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(st.nombre||e.dress_code)}</div><div class="s">${evs.map(v=>esc(v.titulo)).join(' + ')}${e.dia?' · '+nomDia(diasViaje().indexOf(e.dia)):''}</div></div></div>`}).join('')}</div></div>`:'')
+      ${outfitsListos(st.nombre||e.dress_code)}
+      ${lookInsta(evs,(st.nombre||e.dress_code||'').replace(/ · Día \d+$/,''))}</div></article>`}).join('')+(dia.length?`<div class="sec-h"><h2>De día</h2></div><div class="card"><div class="list">${dia.map(({evs})=>{const e=evs[0],st=e.estilo||{};return `<div class="item" style="cursor:default"><div class="grow"><div class="t">${esc(st.nombre||e.dress_code)}</div><div class="s">${evs.map(v=>esc(v.titulo)).join(' + ')}${e.dia?' · '+nomDia(diasViaje().indexOf(e.dia)):''}</div></div></div>`}).join('')}</div></div>`:'')
     ||`<div class="card flat empty" style="margin-top:14px">Cuando haya noches en el itinerario, aquí sale el dress code de cada una.</div>`;
 }
 /* ── OUTFIT CON IA: para él o para ella, con lo que ya tengas; la IA arma las piezas con la paleta de la noche ── */
@@ -3163,7 +3228,7 @@ const arteUrl=k=>k&&ARTE_OK.has(k)?'/api/arte/'+k:'';
 async function cargarArte(){if(!/^https?:$/.test(location.protocol))return;try{const r=await fetch('/api/arte',{cache:'no-store'});if(!r.ok)return;const j=await r.json();ARTE_OK=new Set(j.claves||[]);if(ME&&$('#sheet').hidden)render()}catch(e){}}
 const ARTE_EV=[[/almuerzo de camino/,'ev-almuerzo'],[/salida desde|salimos de/,'ev-salida'],[/check-?out|regreso|despedida/,'ev-checkout'],[/ceviche|recepcion|llegada/,'ev-ceviche'],[/check-?in|cuartos/,'ev-checkin'],[/michelada/,'ev-micheladas'],[/atardecer/,'ev-atardecer'],[/cine/,'ev-cine'],[/estrellas|fogata|intenciones/,'ev-fogata'],[/yoga/,'ev-yoga'],[/panzazo|piscina/,'ev-panzazos'],[/bbq|grill|parrill|taco|cocktail/,'ev-bbq'],[/karaoke|talent/,'ev-karaoke'],[/spike|paletas|\bred\b/,'ev-spikeball'],[/fotos|gafas|freaky/,'ev-fotos'],[/tapas|vino|wine/,'ev-tapas'],[/pizza|board|game night|juegos de mesa/,'ev-pizza'],[/restaurant/,'ev-restaurante'],[/2000|throwback/,'ev-throwback'],[/tesoro/,'ev-tesoro'],[/olimpiada/,'ev-olimpiadas']];
 const arteEvento=e=>{const t=norm(e.titulo+' '+(e.tematica||''));const x=ARTE_EV.find(([re])=>re.test(t));return x?arteUrl(x[1]):''};
-const ARTE_PLATO=[[/ceviche/,'plato-ceviche'],[/sin alcohol|virgen/,'plato-sin-alcohol'],[/cafe/,'plato-cafe'],[/fruta/,'plato-fruta'],[/jugo de naranja/,'plato-jugos'],[/agua de coco/,'plato-coco'],[/cerveza/,'plato-cerveza'],[/chimichurri/,'plato-chimichurri'],[/coctel|mojito|margarita/,'plato-cocteles'],[/quesos|embutidos/,'plato-quesos'],[/sangria/,'plato-sangria'],[/vino/,'plato-vino'],[/hamburgues/,'plato-hamburguesas'],[/papas/,'plato-papas'],[/patacon/,'plato-patacones'],[/pescado a la plancha/,'plato-pescado']];
+const ARTE_PLATO=[[/ceviche/,'plato-ceviche'],[/sin alcohol|virgen/,'plato-sin-alcohol'],[/cafe/,'plato-cafe'],[/fruta/,'plato-fruta'],[/jugo de naranja/,'plato-jugos'],[/coco/,'plato-coco'],[/yogur/,'plato-yogurt'],[/cerveza/,'plato-cerveza'],[/chimichurri/,'plato-chimichurri'],[/coctel|mojito|margarita/,'plato-cocteles'],[/quesos|embutidos/,'plato-quesos'],[/sangria/,'plato-sangria'],[/vino/,'plato-vino'],[/hamburgues/,'plato-hamburguesas'],[/papas/,'plato-papas'],[/patacon/,'plato-patacones'],[/pescado a la plancha/,'plato-pescado']];
 const artePlato=p=>{const t=norm(p.nombre);const x=ARTE_PLATO.find(([re])=>re.test(t));return x?arteUrl(x[1]):''};
 const opcional=u=>!/^img\/(playa|eventos|gente)\//.test(u)||FOTOS_GEN.has(u);
 const slugTxt=t=>norm(t).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -3303,14 +3368,16 @@ function jugadores(j){return [...new Set(respDe(j.id).map(r=>r.persona_id))]}
 
 /* ── la vista ── */
 function vJuegos(){
-  const seg=`<div class="seg seg4 jseg"><button aria-pressed="${JSUB==='trivia'}" onclick="JSUB='trivia';render()">Trivia</button><button aria-pressed="${JSUB==='probable'}" onclick="JSUB='probable';render()">¿Quién es más…?</button><button aria-pressed="${JSUB==='karaoke'}" onclick="JSUB='karaoke';render()">Karaoke</button><button aria-pressed="${JSUB==='playa'}" onclick="JSUB='playa';render()">Playa</button></div>`;
-  if(!JUEGOS_OK)return seg+`<div class="card flat empty" style="margin-top:14px">${ic('juegos')}<div>Los juegos se activan al publicar la versión nueva (Daniel: corre <b>listo.sh</b>).</div></div>`;
+  const T=[['trivia','Trivia'],['probable','¿Quién…?'],['karaoke','Karaoke'],['carro','Carro'],['playa','Playa']];
+  const seg=`<div class="seg jseg">${T.map(([k,l])=>`<button aria-pressed="${JSUB===k}" onclick="JSUB='${k}';render()">${l}</button>`).join('')}</div>`;
+  if(JSUB==='carro')return seg+vCarro();   // sin internet también: no necesita la base
+  if(!JUEGOS_OK)return seg+`<div class="card flat empty" style="margin-top:14px">${ic('juegos')}<div>Sin conexión o falta publicar la versión nueva. Mientras tanto, los <button class="link" onclick="JSUB='carro';render()">juegos de carro</button> funcionan sin internet.</div></div>`;
   if(JSUB==='playa')return seg+vPlaya();
-  if(JSUB==='karaoke')return seg+`<div id="jdin">${karaokeDin()}</div>${karaokeBuscar()}<div id="jprem">${premiosHTML()}</div>`;
+  if(JSUB==='karaoke')return seg+`<div id="jdin">${karaokeDin()}</div>${karaokeBuscar()}<div id="jsug">${ksugHTML()}</div><div id="jprem">${premiosHTML()}</div>`;
   return seg+`<div id="jdin">${JSUB==='probable'?probableDin():triviaDin()}</div>`;
 }
 /* lo que cambia con los datos se repinta solo (sin tocar el buscador: nunca se repinta un campo desde su propio oninput) */
-function pintarJuegos(){if(TAB!=='juegos')return;const d=$('#jdin');if(d)d.innerHTML=JSUB==='karaoke'?karaokeDin():JSUB==='probable'?probableDin():JSUB==='trivia'?triviaDin():d.innerHTML;const p=$('#jprem');if(p)p.innerHTML=premiosHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
+function pintarJuegos(){if(TAB!=='juegos')return;const d=$('#jdin');if(d)d.innerHTML=JSUB==='karaoke'?karaokeDin():JSUB==='probable'?probableDin():JSUB==='trivia'?triviaDin():d.innerHTML;const p=$('#jprem');if(p)p.innerHTML=premiosHTML();const sg=$('#jsug');if(sg)sg.innerHTML=ksugHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
 let JULT=0;
 async function sondearJuegos(){if(!ME||document.hidden||(TAB!=='juegos'&&TAB!=='hoy'))return;if(TAB==='hoy'&&Date.now()-JULT<20000)return;JULT=Date.now();
   await cargarJuegos();const h=JSON.stringify([JUEGOS,JRESP.length,KARAOKE,VJ.length]);if(h===JHUELLA){if(TAB==='juegos')tickJuego();return}JHUELLA=h;
@@ -3432,13 +3499,69 @@ function verActividad(k){const a=ACTIVIDADES.find(x=>x[0]===k);if(!a)return;cons
 async function juguemos(k){const clave='playa:'+k,ya=VJ.find(v=>v.clave===clave&&v.persona_id===ME.id);
   try{if(ya){VJ=VJ.filter(v=>v!==ya);await API.quitarVotoJuego(clave)}else{const v={clave,persona_id:ME.id,opcion:'si'};VJ.push(v);await API.votarJuego(v)}const m=$('#main');if(m&&TAB==='juegos')m.innerHTML=vJuegos()}catch(e){toast(e.message)}}
 
+/* ── JUEGOS DE CARRO: todo vive en el celular, así que funcionan CON y SIN internet (en la vía se cae la señal) ── */
+const CJ_PREFIERES=['¿Playa sin celular o celular sin playa?','¿Ceviche todos los días o pizza todos los días?','¿Cantar sola en el karaoke o bailar sola en la sala?','¿Viajar siempre en carro o siempre en avión?','¿Madrugar para ver el amanecer o trasnochar para ver las estrellas?','¿Un mes sin redes o un mes sin música?','¿Ser el que maneja o el que pone la música?','¿Vivir en la playa o en la montaña?','¿Saber todos los idiomas o tocar todos los instrumentos?','¿Comer solo dulce o solo salado por un año?','¿Tener un yate o una casa en la playa?','¿Que te lean la mente o leerle la mente a los demás?','¿Ir al pasado o al futuro?','¿Perder el celular o la billetera en el viaje?','¿Viaje de un mes con estos amigos o una semana sola en Europa?','¿Bailar reguetón o salsa toda la noche?','¿Dormir en hamaca o en carpa en la playa?','¿Ser famoso o ser millonario sin que nadie sepa?','¿Michelada o mojito?','¿Nunca más café o nunca más chocolate?','¿Un perro o un gato?','¿Siempre llegar 20 minutos tarde o 2 horas antes?','¿Hablar con los animales o volar?','¿Cocinar para todos o lavar los platos de todos?','¿Cantar «Despacito» o «Bohemian Rhapsody» en el karaoke?'];
+const CJ_NUNCA=['Yo nunca nunca me he dormido en un viaje en carro','Yo nunca nunca he perdido algo en la playa','Yo nunca nunca he cantado en la ducha a todo pulmón','Yo nunca nunca me he quemado con el sol en un viaje','Yo nunca nunca he mandado un mensaje a la persona equivocada','Yo nunca nunca he fingido saberme una canción','Yo nunca nunca me he perdido manejando','Yo nunca nunca he llegado tarde a un vuelo','Yo nunca nunca me he caído en público','Yo nunca nunca he stalkeado a alguien en Instagram','Yo nunca nunca he comido algo del piso','Yo nunca nunca he llorado viendo una película animada','Yo nunca nunca he dicho que estaba llegando cuando apenas salía','Yo nunca nunca he bailado encima de una mesa','Yo nunca nunca he olvidado el cumpleaños de un amigo','Yo nunca nunca he usado la ropa de otra persona del grupo','Yo nunca nunca he tenido miedo en el mar','Yo nunca nunca he hecho un TikTok','Yo nunca nunca me he quedado dormido en una fiesta','Yo nunca nunca he roto algo y no he dicho nada','Yo nunca nunca he mentido sobre mi edad','Yo nunca nunca he ido a un concierto solo'];
+const CJ_VERDAD=['¿Cuál es tu recuerdo favorito con alguien de este carro?','¿Qué es lo más vergonzoso que te ha pasado en un viaje?','¿A quién del grupo llamarías a las 3 a.m.?','¿Cuál es tu canción culposa favorita?','¿Qué es lo que más te gusta de la persona de tu derecha?','¿Cuál fue tu peor corte de pelo?','¿Qué es lo más loco que has hecho por amor?','¿Qué te da más miedo de verdad?','¿Cuál es tu talento escondido?','¿Qué es lo primero que pensaste de quien va manejando?','¿Cuál ha sido tu mejor viaje y por qué?','¿Qué app abres más en el día?','¿Qué mentira piadosa dices seguido?','¿Qué harías si te ganas la lotería mañana?','¿A quién del carro le copiarías el estilo?'];
+const CJ_RETO=['Canta el coro de la próxima canción que suene (el que maneja NO hace retos)','Imita a alguien del grupo hasta que adivinen quién es','Manda un audio cantando al chat del viaje','Cuenta un chiste; si nadie se ríe, otro reto','Habla con acento argentino hasta la próxima parada','Haz la mejor cara de foto de pasaporte y que te tomen una foto','Di un trabalenguas tres veces sin equivocarte','Elige la próxima canción… y tienes que cantarla','Cuenta una historia que empiece con «Una vez en la playa…»','Haz 10 sentadillas en la próxima parada','Responde solo con preguntas durante 3 minutos','Saluda a los del otro carro por el chat con un poema de 4 versos','Imita a un locutor de radio narrando el paisaje','Deja que el grupo te ponga un apodo para todo el viaje','Haz un comercial de 30 segundos vendiendo el ceviche'];
+const CJ_PERSONAJES=['Shakira','Messi','Bad Bunny','Enner Valencia','Antonio Valencia','Jefferson Pérez','Spider-Man','Shrek','Bob Esponja','Harry Potter','Frida Kahlo','Mickey Mouse','Daddy Yankee','Taylor Swift','Cristiano Ronaldo','Barbie','Batman','La Mona Lisa','Darth Vader','Dora la exploradora','Elsa de Frozen','Pikachu','Michael Jackson','Chespirito (El Chavo)','Selena Quintanilla','Juan Gabriel','Simba','Superman','Mario Bros','Iron Man','Rapunzel','Pocahontas','La reina Isabel','Albert Einstein','Cantinflas','Thalía','Maluma','J Balvin','Karol G','Ricky Martin'];
+const CJ_CANCIONES=[['Despacito','Luis Fonsi'],['La bicicleta','Carlos Vives y Shakira'],['Gasolina','Daddy Yankee'],['Bohemian Rhapsody','Queen'],['Vivir mi vida','Marc Anthony'],['Bailando','Enrique Iglesias'],['Waka Waka','Shakira'],['La gozadera','Gente de Zona'],['Livin\' la vida loca','Ricky Martin'],['Rayando el sol','Maná'],['Tusa','Karol G y Nicki Minaj'],['Felices los 4','Maluma'],['Danza kuduro','Don Omar'],['Hips don\'t lie','Shakira'],['Thriller','Michael Jackson'],['Dancing queen','ABBA'],['Macarena','Los del Río'],['Persiana americana','Soda Stereo'],['Ella es así','Gloria Trevi'],['Corazón espinado','Santana y Maná'],['La camisa negra','Juanes'],['Suavemente','Elvis Crespo'],['Pepas','Farruko'],['Provenza','Karol G'],['Mayores','Becky G'],['Chantaje','Shakira y Maluma'],['Baila conmigo','Selena Gomez'],['El taxi','Pitbull'],['Can\'t stop the feeling','Justin Timberlake'],['Shape of you','Ed Sheeran'],['Uptown funk','Bruno Mars'],['La negra tiene tumbao','Celia Cruz'],['Mi gente','J Balvin'],['Ojitos lindos','Bad Bunny'],['Rata de dos patas','Paquita la del Barrio'],['Amor eterno','Rocío Dúrcal'],['Lamento boliviano','Enanitos Verdes'],['Clavado en un bar','Maná'],['Labios compartidos','Maná'],['Como la flor','Selena']];
+const CJ_LETRAS='ABCDEFGHIJLMNOPRSTUV';
+const CJ_CATS=['Nombre','Apellido','Ciudad o país','Fruta o comida','Animal','Cosa','Canción o cantante','Marca','Algo de la playa','Película o serie','Profesión','Color'];
+const CJ_BINGO=['Vaca','Caballo','Perro en la vía','Palmera','Camión de bananos','Bus interprovincial','Peaje','Puesto de frutas','Bandera del Ecuador','Moto con 3 personas','Iglesia','Río','Puente','Letrero de Esmeraldas','Carro rojo','Gasolinera','Policía de tránsito','Cascada','Palma africana','Chancho','Gallina','Burro','Letrero de encebollado','Hamaca','Venta de cocos','Montaña con nubes','Carro con tabla de surf','Alguien en bici','Escuela','Antena'];
+const CJ_PLACAS=[['P','Pichincha'],['E','Esmeraldas'],['G','Guayas'],['I','Imbabura'],['T','Tungurahua'],['M','Manabí'],['J','Santo Domingo'],['A','Azuay'],['L','Loja'],['C','Carchi'],['X','Cotopaxi'],['H','Chimborazo'],['R','Los Ríos'],['O','El Oro'],['U','Cañar'],['B','Bolívar'],['Y','Santa Elena'],['N','Napo'],['Q','Orellana'],['K','Sucumbíos'],['S','Pastaza'],['V','Morona Santiago'],['Z','Zamora Chinchipe'],['W','Galápagos']];
+const CJUEGOS=[['stop','Stop (Basta)','Letra al azar y categorías: el primero que llena todo grita ¡STOP!'],['prefieres','¿Qué prefieres?','Dos opciones, todos eligen y se explican'],['nunca','Yo nunca nunca','El que lo ha hecho levanta la mano'],['verdad','Verdad o reto','Versión carro: el que maneja no hace retos'],['personaje','Adivina el personaje','20 preguntas de sí o no'],['tararea','Tararea la canción','Uno tararea y los demás adivinan'],['bingo','Bingo de carretera','Marca lo que veas por la ventana'],['placas','Placas de las 24 provincias','Encuentra una placa de cada provincia']];
+let CJ=null,CJT=null;
+const lsJ=(k,d)=>{try{const v=JSON.parse(localStorage.getItem('marea_cj_'+k));return v==null?d:v}catch(e){return d}};
+const lsJset=(k,v)=>{try{localStorage.setItem('marea_cj_'+k,JSON.stringify(v))}catch(e){}};
+const azar=L=>L[Math.floor(Math.random()*L.length)];
+function vCarro(){if(CJ)return cjJuego();
+  return `<div class="card jg-hero">${imgTag([arteUrl('juego-carro'),arteUrl('carro-lexus')],'jg-img')}<div class="jg-in"><div class="jg-k">Para las 6 horas de camino</div><h2>Juegos de carro</h2><p>Funcionan con y sin internet: todo está en el celular. Uno lee en voz alta y juegan todos.</p></div></div>
+    <div class="cj-g">${CJUEGOS.map(([k,t,d])=>`<button class="card cj-i" onclick="cjAbrir('${k}')"><b>${t}</b><span class="tiny muted">${d}</span></button>`).join('')}</div>`}
+function cjAbrir(k){clearInterval(CJT);CJ={k,i:0,ver:false};if(k==='stop')cjStop();else if(['prefieres','nunca','personaje','tararea'].includes(k))CJ.orden=mezclar(k==='prefieres'?CJ_PREFIERES:k==='nunca'?CJ_NUNCA:k==='personaje'?CJ_PERSONAJES:CJ_CANCIONES);
+  if(k==='bingo'&&!lsJ('bingo',null))lsJset('bingo',{c:mezclar(CJ_BINGO).slice(0,16),m:[]});pintarCarro()}
+function cjSalir(){clearInterval(CJT);CJ=null;pintarCarro()}
+function pintarCarro(){const m=$('#main');if(m&&TAB==='juegos'&&JSUB==='carro')m.innerHTML=vJuegos()}
+function cjStop(){CJ.letra=azar(CJ_LETRAS);CJ.cats=mezclar(CJ_CATS).slice(0,6);CJ.fin=0}
+function cjReloj(seg){clearInterval(CJT);CJ.fin=Date.now()+seg*1000;CJT=setInterval(()=>{const el=$('#cjr');const r=Math.max(0,Math.ceil((CJ&&CJ.fin-Date.now())/1000));if(el)el.textContent=r?r+' s':'¡Tiempo!';if(!r){clearInterval(CJT);try{navigator.vibrate&&navigator.vibrate(300)}catch(e){}}},250);pintarCarro()}
+function cjSig(){CJ.i++;CJ.ver=false;clearInterval(CJT);CJ.fin=0;pintarCarro()}
+function cjJuego(){const[k,t,d]=CJUEGOS.find(x=>x[0]===CJ.k),cab=`<div class="row" style="margin-top:14px;gap:8px"><button class="x" aria-label="Volver" onclick="cjSalir()">${ic('back')}</button><div class="grow"><b style="font-size:18px">${t}</b><div class="tiny muted">${d}</div></div></div>`;
+  const reloj=CJ.fin?`<div class="cj-reloj" id="cjr">${Math.max(0,Math.ceil((CJ.fin-Date.now())/1000))} s</div>`:'';
+  if(k==='stop')return cab+`<div class="card cj-card"><div class="jg-k">La letra es</div><div class="cj-letra">${CJ.letra}</div>${reloj}<div class="cj-cats">${CJ.cats.map(c=>`<span>${c}</span>`).join('')}</div></div>
+    <div class="grid2" style="margin-top:10px"><button class="btn primary" onclick="cjReloj(60)">${ic('play')} 60 segundos</button><button class="btn" onclick="cjStop();clearInterval(CJT);pintarCarro()">Otra letra</button></div><p class="tiny muted">Cada uno en su cabeza (o en una servilleta): una palabra por categoría con esa letra. Las repetidas valen 5, las únicas 10.</p>`;
+  if(k==='verdad'){return cab+`<div class="card cj-card ${CJ.tipo==='reto'?'reto':''}"><div class="jg-k">${CJ.tipo==='reto'?'Reto':CJ.tipo?'Verdad':'Elige'}</div><div class="cj-txt">${CJ.tipo?esc(CJ.txt):'¿Verdad o reto?'}</div></div>
+    <div class="grid2" style="margin-top:10px"><button class="btn primary" onclick="CJ.tipo='verdad';CJ.txt=azar(CJ_VERDAD);pintarCarro()">Verdad</button><button class="btn sun" onclick="CJ.tipo='reto';CJ.txt=azar(CJ_RETO);pintarCarro()">Reto</button></div><p class="tiny muted">Seguridad primero: el que maneja solo responde verdades. Después se pasa el celular.</p>`}
+  if(k==='bingo'){const B=lsJ('bingo',{c:[],m:[]});const linea=[[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15],[0,4,8,12],[1,5,9,13],[2,6,10,14],[3,7,11,15],[0,5,10,15],[3,6,9,12]].some(L=>L.every(i=>B.m.includes(i)));
+    return cab+`${linea?'<div class="banner tide" style="margin-top:10px"><b>¡BINGO! Grítalo en el carro 🎉</b></div>':''}<div class="cj-bingo">${B.c.map((x,i)=>`<button class="${B.m.includes(i)?'on':''}" onclick="cjBingo(${i})">${esc(x)}</button>`).join('')}</div><button class="btn ghost block sm" style="margin-top:8px" onclick="lsJset('bingo',{c:mezclar(CJ_BINGO).slice(0,16),m:[]});pintarCarro()">Cartón nuevo</button><p class="tiny muted">Cada uno con su celular y su cartón. Gana el primero con una línea (fila, columna o diagonal).</p>`}
+  if(k==='placas'){const M=lsJ('placas',[]);return cab+`<div class="card cj-card"><div class="cj-letra" style="font-size:44px">${M.length} / 24</div><div class="tiny muted">provincias encontradas</div></div><div class="cj-placas">${CJ_PLACAS.map(([l,p])=>`<button class="${M.includes(l)?'on':''}" onclick="cjPlaca('${l}')"><b>${l}</b><span>${p}</span></button>`).join('')}</div><p class="tiny muted">La primera letra de la placa dice la provincia (P = Pichincha, E = Esmeraldas…). Toca cuando la veas.</p><button class="btn ghost block sm" onclick="lsJset('placas',[]);pintarCarro()">Empezar de nuevo</button>`}
+  const L=CJ.orden||[],x=L[CJ.i%L.length];
+  if(k==='personaje'||k==='tararea'){const tx=k==='tararea'?`${esc(x[0])}<span class="cj-sub">${esc(x[1])}</span>`:esc(x);
+    return cab+`<div class="card cj-card"><div class="jg-k">${k==='tararea'?'Tararea (sin decir la letra)':'Eres…'}</div>${CJ.ver?`<div class="cj-txt">${tx}</div>`:`<button class="btn primary" onclick="CJ.ver=true;pintarCarro()">Solo tú: toca para ver</button>`}${reloj}</div>
+      <div class="grid2" style="margin-top:10px"><button class="btn" onclick="cjReloj(${k==='tararea'?30:120})">${ic('play')} ${k==='tararea'?'30 s':'2 min'}</button><button class="btn primary" onclick="cjSig()">Siguiente</button></div><p class="tiny muted">${k==='tararea'?'Quien tiene el celular tararea; el primero que adivina gana el punto y le toca.':'Los demás preguntan solo cosas de sí o no. Máximo 20 preguntas.'}</p>`}
+  return cab+`<div class="card cj-card"><div class="cj-txt">${esc(x)}</div><div class="tiny muted">${CJ.i%L.length+1} de ${L.length}</div></div><button class="btn primary block" style="margin-top:10px" onclick="cjSig()">Siguiente</button>`}
+function cjBingo(i){const B=lsJ('bingo',{c:[],m:[]});B.m=B.m.includes(i)?B.m.filter(x=>x!==i):[...B.m,i];lsJset('bingo',B);pintarCarro()}
+function cjPlaca(l){const M=lsJ('placas',[]);lsJset('placas',M.includes(l)?M.filter(x=>x!==l):[...M,l]);pintarCarro()}
+
+/* ── CANCIONES PARA EL KARAOKE: la lista para escoger (se vota la que más queremos oír) ── */
+const KSUG=CJ_CANCIONES;
+const ksugClave=i=>'ksug:'+slugTxt(KSUG[i][0]+' '+KSUG[i][1]);
+function ksugHTML(){const L=KSUG.map((c,i)=>({c,i,V:vjDe(ksugClave(i)).filter(v=>v.opcion==='si')})).sort((a,b)=>b.V.length-a.V.length||a.i-b.i);const ver=KSUG_TODO?L:L.slice(0,10);
+  return `<div class="sec-h"><h2>Canciones para el karaoke</h2></div><p class="muted tiny" style="margin-top:-4px">Vota las que quieres oír esta noche (las más votadas suben) y pídela para cantarla.</p>
+    <div class="card kq">${ver.map(({c,i,V})=>{const yo=V.some(v=>v.persona_id===ME.id);return `<div class="kq-i"><button class="heart ${yo?'on':''}" aria-label="${yo?'Quitar voto':'Votar'}" onclick="votarSug(${i})">${ic('heart')}</button><div class="grow" style="min-width:0"><b>${esc(c[0])}</b><span class="tiny muted">${esc(c[1])}${V.length?` · ${V.length} voto${V.length===1?'':'s'}`:''}</span></div><button class="btn sm" onclick="pedirSug(${i})">Pedir</button></div>`}).join('')}</div>
+    ${KSUG_TODO?'':`<button class="btn ghost block sm" style="margin-top:6px" onclick="KSUG_TODO=true;pintarJuegos()">Ver las ${KSUG.length}</button>`}`}
+let KSUG_TODO=false;
+async function votarSug(i){const clave=ksugClave(i),ya=VJ.find(v=>v.clave===clave&&v.persona_id===ME.id);
+  try{if(ya){VJ=VJ.filter(v=>v!==ya);pintarJuegos();await API.quitarVotoJuego(clave)}else{const v={clave,persona_id:ME.id,opcion:'si'};VJ.push(v);pintarJuegos();await API.votarJuego(v)}}catch(e){toast(e.message);await cargarJuegos();pintarJuegos()}}
+function pedirSug(i){const[t,a]=KSUG[i];KRES=[{titulo:t,artista:a,portada:'',preview:''}];pedirCancion(0);
+  fetch('/api/canciones?q='+encodeURIComponent(t+' '+a)).then(r=>r.ok?r.json():null).then(j=>{const c=j&&j.canciones&&j.canciones[0];if(c&&KRES&&KRES[0]&&KRES[0].titulo===t)KRES[0]={...c,titulo:t,artista:a}}).catch(()=>{})}
+
 /* ── en el inicio: la tarjeta de juegos (con lo que está pasando en vivo) ── */
 function juegosCard(){const vivo=JUEGOS.find(j=>j.estado!=='fin'),ahora=KARAOKE.find(k=>k.estado==='cantando'),fila=KARAOKE.filter(k=>k.estado==='fila').length;
   const t=(k,img,tit,sub)=>`<button class="jc-t" onclick="JSUB='${k}';irA('juegos')">${imgTag([arteUrl(img)],'')}<span><b>${tit}</b><em>${sub}</em></span></button>`;
   return `<div class="card jc" id="jcard"><div class="row" style="gap:10px;align-items:center"><span class="subir-ic jc-ic">${ic('juegos')}</span><div class="grow"><b>Juegos</b><div class="muted tiny">Trivia, karaoke y juegos de playa</div></div></div>
     ${vivo?`<button class="btn primary block jc-vivo" onclick="JSUB='${vivo.tipo}';irA('juegos')">● ${vivo.tipo==='trivia'?'¡Trivia en vivo!':'¿Quién es más probable…? en vivo'} · entrar</button>`:''}
     ${ahora?`<button class="btn block jc-vivo" onclick="JSUB='karaoke';irA('juegos')">🎤 Ahora canta ${esc(cantantesDe(ahora).map(nom).join(' y '))}: ${esc(ahora.titulo)}</button>`:''}
-    <div class="jc-g">${t('trivia','juego-trivia','Trivia','Como Kahoot')}${t('probable','juego-probable','¿Quién es más…?','Para reír')}${t('karaoke','juego-karaoke','Karaoke',fila?fila+' en la fila':'Pide tu canción')}${t('playa','act-voley','Playa','12 ideas')}</div></div>`}
+    <div class="jc-g">${t('trivia','juego-trivia','Trivia','Como Kahoot')}${t('probable','juego-probable','¿Quién es más…?','Para reír')}${t('karaoke','juego-karaoke','Karaoke',fila?fila+' en la fila':'Pide tu canción')}${t('playa','act-voley','Playa','12 ideas')}</div><button class="btn block jc-car" onclick="JSUB='carro';irA('juegos')">${ic('transporte')} Juegos de carro · sin internet</button></div>`}
 
 /* ---------- instalar la app en el teléfono ---------- */
 let PROMPT_INSTALAR=null;

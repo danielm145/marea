@@ -381,9 +381,38 @@ async function outfitDe(env, motor, cuerpo) {
   return { status: 200, cuerpo: { outfit: { titulo: txt(o.titulo, 60) || look.nombre, piezas, tip: txt(o.tip, 160) || null }, motor: res.motor.nombre, modelo: res.motor.modelo } };
 }
 
+// ── GUÍA DEL LOOK: Alegría sube las fotos de Instagram (y cuenta la idea); la IA las mira y arma la guía para todos ──
+const ESQUEMA_GUIA = O({
+  titulo: S(), resumen: S(), colores: A(S()),
+  el: A(O({ parte: S(), idea: S() }, ["parte", "idea"])), ella: A(O({ parte: S(), idea: S() }, ["parte", "idea"])), tips: A(S()),
+}, ["titulo", "resumen", "el", "ella"]);
+const SISTEMA_GUIA = `Eres el estilista de un viaje de amigos a la playa en Same, Esmeraldas (Ecuador): calor húmedo, arena y noches con brisa.
+Te dan el LOOK de una noche (nombre, descripción, paleta), las FOTOS de inspiración que subió el grupo (capturas de Instagram) y lo que quiere quien las subió.
+Mira las fotos con cuidado: colores, telas, cortes, accesorios, peinados. Arma una guía clara para que cada quien se vista con lo que tiene:
+- titulo: 3 a 6 palabras con gracia. resumen: 2 o 3 frases que expliquen el look como lo diría una amiga (qué se repite en las fotos y cómo lograrlo).
+- colores: de 3 a 6 colores en palabras ("blanco hueso", "dorado", "arena").
+- el y ella: de 4 a 6 piezas cada uno ("Arriba", "Abajo" o "Vestido", "Zapatos", "Accesorios", "Pelo y maquillaje" solo para ella, "Si refresca"); idea corta y concreta (máx. 80 caracteres), ropa fácil de conseguir, sin marcas.
+- tips: 2 o 3 frases prácticas (arena, humedad, la foto del grupo).
+Si no hay fotos, usa solo el look y lo que pidieron. Español colombiano, cálido, sin emojis.`;
+async function guiaDe(env, motor, cuerpo) {
+  const L = (cuerpo.contexto && cuerpo.contexto.look) || {};
+  const look = { nombre: txt(L.nombre, 80), descripcion: txt(L.descripcion, 400), paleta: (Array.isArray(L.paleta) ? L.paleta : []).slice(0, 6).map((c) => txt(c, 9)), ideas: (Array.isArray(L.ideas) ? L.ideas : []).slice(0, 10).map((i) => txt(i, 60)) };
+  const imgs = (Array.isArray(cuerpo.imagenes) ? cuerpo.imagenes : []).slice(0, 6).map(partirDataUrl).filter(Boolean);
+  const partes = [...imgs.map((img) => ({ inlineData: img })), { text: `LOOK:\n${JSON.stringify(look)}\nFOTOS DE INSPIRACIÓN: ${imgs.length}\nLO QUE QUIERE QUIEN LAS SUBIÓ: ${txt(cuerpo.texto, 600) || "(nada más)"}` }];
+  const res = await consultar(env, motor, { sistema: SISTEMA_GUIA, esquema: ESQUEMA_GUIA, temperatura: 0.6, maxTokens: 3072,
+    forma: '{"titulo":"","resumen":"","colores":[""],"el":[{"parte":"Arriba","idea":""}],"ella":[{"parte":"Vestido","idea":""}],"tips":[""]}', partes });
+  if (!res.ok) return { status: res.status === 429 ? 429 : 502, cuerpo: { error: res.status === 402 ? "La llave de la IA no tiene saldo." : "La IA no respondió.", detalle: res.msg } };
+  const o = res.j || {}, pz = (L2) => (Array.isArray(L2) ? L2 : []).slice(0, 7).map((x) => ({ parte: txt(x?.parte, 30), idea: txt(x?.idea, 100) })).filter((x) => x.parte && x.idea);
+  const guia = { titulo: txt(o.titulo, 60) || look.nombre, resumen: txt(o.resumen, 500), colores: (Array.isArray(o.colores) ? o.colores : []).slice(0, 6).map((c) => txt(c, 30)).filter(Boolean),
+    el: pz(o.el), ella: pz(o.ella), tips: (Array.isArray(o.tips) ? o.tips : []).slice(0, 3).map((t) => txt(t, 160)).filter(Boolean), fotos: imgs.length };
+  if (!guia.resumen && !guia.el.length && !guia.ella.length) return { status: 502, cuerpo: { error: "La IA no armó la guía. Prueba otra vez." } };
+  return { status: 200, cuerpo: { guia, motor: res.motor.nombre, modelo: res.motor.modelo } };
+}
+
 async function pensar(env, motorIni, cuerpo) {
   let motor = motorIni;
   if (cuerpo.modo === "outfit") return outfitDe(env, motor, cuerpo);
+  if (cuerpo.modo === "guia") return guiaDe(env, motor, cuerpo);
   const ctx = cuerpo.contexto || {};
   const contexto = {
     autor_id: txt(ctx.autor_id, 64), autor: txt(ctx.autor, 60), hoy: fechaOk(ctx.hoy), moneda: txt(ctx.moneda, 5) || "USD",

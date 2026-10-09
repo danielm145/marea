@@ -255,3 +255,12 @@ await caso("v51 · /api/canciones: busca en iTunes y entrega título, artista, p
   assert.equal((await (await w.fetch(new Request("https://x/api/canciones?q=a"), { ASSETS })).json()).canciones.length, 0);
 });
 console.log(`${ok} casos OK (v51 catálogo de imágenes y canciones)`);
+
+await caso("v52 · modo guia: la IA mira las fotos de Insta del look y arma la guía (él y ella)", async () => {
+  let visto = null; globalThis.fetch = async (url, init) => { visto = JSON.parse(init.body); return gem({ titulo: "Blanco y oro", resumen: "Todo blanco con toques dorados.", colores: ["blanco", "dorado"], el: [{ parte: "Arriba", idea: "Camisa de lino blanca" }], ella: [{ parte: "Vestido", idea: "Vestido largo blanco" }], tips: ["Sandalias planas para la arena"] })(); };
+  const foto = "data:image/jpeg;base64," + btoa("FOTO");
+  const r = await w.fetch(new Request("https://x/api/ia", { method: "POST", headers: { "content-type": "application/json", "cf-connecting-ip": "19.0.0.1" }, body: JSON.stringify({ modo: "guia", texto: "todos de blanco", imagenes: [foto, foto], contexto: { look: { nombre: "Welcome White Night", paleta: ["#FFFFFF"] } } }) }), { GEMINI_API_KEY: "AIza" + "g".repeat(35), ASSETS });
+  const j = await r.json(); assert.equal(r.status, 200, JSON.stringify(j)); assert.equal(j.guia.el[0].idea, "Camisa de lino blanca"); assert.equal(j.guia.fotos, 2);
+  assert.equal(visto.contents[0].parts.filter((p) => p.inlineData).length, 2, "manda las 2 fotos"); assert.ok(visto.contents[0].parts.at(-1).text.includes("todos de blanco"));
+});
+console.log(`${ok} casos OK (v52 guía del look)`);

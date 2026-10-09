@@ -48,6 +48,7 @@ export const ARTE = {
   "juego-trivia": act("Amigos en la sala de la casa de playa jugando trivia con sus celulares en la mano, emocionados, una pantalla grande con botones de colores rojo, azul, amarillo y verde, ambiente de competencia divertida."),
   "juego-probable": act("Amigos sentados en círculo en la terraza señalándose unos a otros entre carcajadas, como en el juego ¿quién es más probable que…?, cocteles en la mano, atardecer."),
   "juego-karaoke": act("Primer plano de un micrófono dorado sobre un fondo de luces de neón moradas y rosadas, con amigos desenfocados cantando atrás en la sala de la casa de playa."),
+  "juego-carro": `${FOTO} Amigos riendo dentro de una SUV blanca en un viaje por carretera hacia la costa de Ecuador, uno con el celular en la mano jugando, palmeras por la ventana, luz de mañana. Formato horizontal 16:9.`,
   "juego-premios": act("Pequeños trofeos dorados y medallas sobre una mesa con luces de fiesta después del karaoke, amigos aplaudiendo al fondo."),
 
   // ── actividades de playa ──
@@ -88,6 +89,7 @@ export const ARTE = {
   "plato-hamburguesas": `${COMIDA} Hamburguesas caseras con queso derretido, lechuga y tomate en pan brioche.`,
   "plato-papas": `${COMIDA} Papas rústicas al horno con romero y ajo en una sartén de hierro.`,
   "plato-patacones": `${COMIDA} Patacones crocantes con queso fresco rallado.`,
+  "plato-yogurt": `${COMIDA} Yogurt natural cremoso en un bol de cerámica con arándanos frescos y un poco de granola, desayuno frente al mar.`,
   "plato-pescado": `${COMIDA} Pescado a la plancha con ensalada de pepino y aguacate y limón.`,
 };
 

@@ -449,3 +449,22 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - Pruebas: tests/e2e-juegos.mjs (dos teléfonos a la vez), e2e-voto, e2e-carros, e2e-outfit, e2e-portadas,
   worker-ia (31). Siguen rotas desde antes (igual en v50): album, comida-y-planes, gasto-ia, invitados, logistica,
   planes-ia, programa-4-dias.
+
+## v52 · liquidar, juegos de carro, desayunos, carros y looks con Insta (9-oct-2026)
+- **Liquidar con menos transferencias** (al final de Saldos → «Ver cómo liquidar y por qué»): `abrirLiquidar()` usa
+  `simplificar()` y lo explica en 3 pasos: el saldo de cada uno, las transferencias (cada una con su «por qué» y
+  «Ya se hizo: registrar este pago» → `registrarPago`) y la comprobación de que todos quedan en $0. Se manda por WhatsApp.
+  «Quién le debe a quién» sigue arriba: los dos caminos dan lo mismo.
+- **Juegos de carro** (Juegos → Carro): Stop, ¿Qué prefieres?, Yo nunca nunca, Verdad o reto (el que maneja no hace
+  retos), Adivina el personaje, Tararea la canción, Bingo de carretera y Placas de las 24 provincias. Todo vive en el
+  celular (bingo y placas se guardan en el teléfono): funcionan con y sin internet, aunque no carguen las tablas.
+- **Canciones para el karaoke**: lista de 40 clásicas con votos (`votos_juego`, clave `ksug:<canción>`); la más votada
+  sube y «Pedir» la manda a la fila (busca la portada en iTunes si hay señal).
+- **sql/021_desayunos_carros_looks.sql**: desayuno costeño todos los días (bolón = A, tigrillo = B; en la mesa:
+  ceviche de camarón y pescado, fruta picada todo el día, jugo de naranja colado, jugo de coco, yogurt con arándanos;
+  se dejó el café). Carros: Daniel maneja el Lexus con las chicas; la Amarok, los chicos (maneja Lenin; van Kevin,
+  Jhon y Esteban). Tabla nueva `look_guias` (clave = nombre del look, descripción y la guía de la IA).
+- **Looks · Inspiración de Insta**: cada look tiene «Subir fotos» (varias), un cuadro para describir la idea y la guía
+  de la IA (modo `guia` en `/api/ia`: mira hasta 6 fotos + la descripción y devuelve resumen, colores, piezas para él y
+  para ella y tips). Se arma sola al subir fotos y se puede volver a armar. Sin IA, queda una guía con el look.
+- Pruebas: tests/e2e-v52.mjs, worker-ia (32).
