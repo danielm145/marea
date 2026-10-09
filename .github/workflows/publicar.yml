@@ -26,6 +26,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: 0 · Cómo está hoy la IA y la página (diagnóstico, no cambia nada)
+        continue-on-error: true
+        run: |
+          for U in https://casablanca.fieldbuil.ai https://marea.daniel-martinez9094.workers.dev; do
+            echo "== $U"
+            echo "versión publicada: $(curl -s -m 15 "$U/?v=$RANDOM" | grep -oE "BUILD_TAG='[^']+'" | head -1)"
+            echo "IA: $(curl -s -m 15 "$U/api/ia/salud")"
+            echo "IA (prueba real): $(curl -s -m 40 "$U/api/ia/salud?probar=1")"
+          done
       - name: 1 · Base de datos
         if: env.SUPABASE_ACCESS_TOKEN != ''
         run: node scripts/conectar.mjs --ci
@@ -44,6 +53,10 @@ jobs:
             sleep 10
           done
           echo "::warning::La página todavía no muestra la $TAG (puede ser caché, revisa en unos minutos)"
+      - name: 5 · Prueba real de la IA ya publicada
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        continue-on-error: true
+        run: echo "$(curl -s -m 40 "https://casablanca.fieldbuil.ai/api/ia/salud?probar=1")"
       - name: Resumen
         if: always()
         run: |

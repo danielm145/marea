@@ -285,7 +285,19 @@ export default {
     }
     if (url.pathname === "/api/ia/salud") {
       const m = motorDe(env);
-      return json(200, { ok: !!m, motor: m ? m.nombre : null, modelo: m ? m.modelo : null });
+      const base = { ok: !!m, motor: m ? m.nombre : null, modelo: m ? m.modelo : null, llaves: { GOOGLE_SA_B64: !!env.GOOGLE_SA_B64, VERTEX_API_KEY: !!env.VERTEX_API_KEY, GEMINI_API_KEY: !!env.GEMINI_API_KEY } };
+      // ?probar=1 → prueba DE VERDAD (pide token y le hace una pregunta mínima al modelo) y dice por qué falla
+      if (!m || !url.searchParams.has("probar")) return json(200, base);
+      if (frenado(req.headers.get("cf-connecting-ip") || "?")) return json(429, { ...base, prueba: "espera unos minutos" });
+      try {
+        if (m.sa) base.proyecto = JSON.parse(atob(env.GOOGLE_SA_B64)).project_id;
+        const auth = m.sa ? { authorization: "Bearer " + await vertexToken(env) } : { "x-goog-api-key": m.key };
+        const r = await fetch(m.url, { method: "POST", headers: { "content-type": "application/json", ...auth },
+          body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: "Responde solo: ok" }] }], generationConfig: { maxOutputTokens: 5 } }) });
+        const t = await r.text();
+        if (!r.ok) { let msg = t; try { msg = JSON.parse(t).error.message; } catch { /* texto plano */ } return json(200, { ...base, ok: false, prueba: `el modelo respondió ${r.status}: ${String(msg).slice(0, 300)}` }); }
+        return json(200, { ...base, prueba: "ok" });
+      } catch (e) { return json(200, { ...base, ok: false, prueba: String(e.message || e).slice(0, 300) }); }
     }
     if (url.pathname === "/api/ia") {
       if (req.method !== "POST") return json(405, { error: "Usa POST" });

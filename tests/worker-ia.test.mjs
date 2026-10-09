@@ -12,7 +12,7 @@ const ctx = { autor_id: "p1", autor: "Daniel", hoy: "2026-10-28", personas: [{ i
 let ok = 0; const caso = async (n, f) => { await f(); ok++; console.log("✓", n); };
 
 await caso("salud sin llave → ok:false", async () => {
-  const r = await w.fetch(new Request("https://x/api/ia/salud"), { ASSETS }); assert.deepEqual(await r.json(), { ok: false, motor: null, modelo: null });
+  const r = await w.fetch(new Request("https://x/api/ia/salud"), { ASSETS }); const j = await r.json(); assert.deepEqual({ ok: j.ok, motor: j.motor, modelo: j.modelo }, { ok: false, motor: null, modelo: null }); assert.equal(j.llaves.GOOGLE_SA_B64, false);
 });
 await caso("salud con Vertex manda sobre Gemini", async () => {
   const r = await w.fetch(new Request("https://x/api/ia/salud"), { ASSETS, VERTEX_API_KEY: "v", GEMINI_API_KEY: "g" }); assert.equal((await r.json()).motor, "vertex");
