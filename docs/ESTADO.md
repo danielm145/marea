@@ -358,3 +358,7 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 ## v39 · versión a la vista y botón Actualizar
 - Pie del inicio: «Versión vNN · Buscar actualización». `/api/version` (worker) lee `marea-vNN` del sw.js publicado; `revisarVersion()` al entrar, al volver a la app y cada 5 min; si hay una más nueva sale el banner «Hay una versión nueva · Actualizar». `actualizarApp()` desregistra el SW, borra cachés y recarga con `?v=`.
 - 9-oct: IA confirmada funcionando con la llave `casablanca` (gemini).
+
+## v40 · cabecera y Más
+- Logo de la cabecera interior más grande y nítido (118 → ~73 px de alto). En «Más»: fuera el sticker que se salía; entra el álbum con «Subir fotos» debajo del título.
+- El botón flotante «+» ya no sale en el inicio (tapaba «Del carrete»).

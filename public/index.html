@@ -430,7 +430,7 @@ a.item{text-decoration:none;color:inherit}
 .chat-in{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(68px + env(safe-area-inset-bottom,0px));width:min(680px,100%);padding:8px 12px;display:flex;gap:8px;align-items:center;background:var(--bg);border-top:1px solid var(--line);z-index:30}
 .chat-in .send{background:var(--tide);color:#fff}
 .check-h{display:flex;align-items:center;gap:12px;margin-top:14px}
-.logo-cb{display:block;margin:0 auto;max-width:100%;border-radius:0!important}.top2-t .logo-cb{margin:0 auto 2px}
+.logo-cb{display:block;margin:0 auto;max-width:100%;border-radius:0!important}.top2-t .logo-cb{margin:0 auto 2px;filter:drop-shadow(0 2px 6px rgba(11,37,71,.18))}
 .hh-logo{display:inline-block;background:rgba(255,253,247,.0)}.hh-logo .logo-cb{filter:drop-shadow(0 8px 20px rgba(0,0,0,.35))}
 .evtabs{margin-top:4px}.evt[hidden]{display:none}.ev-q{text-align:center;font-size:22px;color:var(--ink-2);background:var(--surface-2);border-radius:18px;padding:14px}
 .hh-c{display:inline-block;margin-top:8px;background:rgba(255,255,255,.9);color:var(--ink);font-weight:800;font-size:13px;padding:5px 12px;border-radius:999px}
@@ -545,7 +545,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v39';
+const BUILD_TAG='v40';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1229,10 +1229,10 @@ function render(){
   const enHoy=TAB==='hoy', activa=EN_MAS.includes(TAB)?'mas':TAB;
   $('#app').innerHTML=`<div class="wrap ${enHoy?'en-hoy':''}">
     ${enHoy?'':`<header class="top2"><button class="x" onclick="${EN_MAS.includes(TAB)&&TAB!=='mas'?"irA('mas')":"irA('hoy')"}" aria-label="Atrás">${ic('back')}</button>
-      <div class="top2-t">${logo(58)}<small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
+      <div class="top2-t">${logo(118)}<small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
     <main id="main">${(views[TAB]||vHoy)()}</main>
     <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Casablanca ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
-    ${TAB==='chat'?'':`<button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>`}
+    ${TAB==='chat'||TAB==='hoy'?'':`<button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>`}
     <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l])=>`<button class="tab" ${k===activa?'aria-current="page"':''} onclick="irA('${k}')">${ic(TAB_IC[k]||k)}<span>${l}</span></button>`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
   if(TAB==='chat'){const c=$('#chatL');if(c)c.scrollTop=c.scrollHeight;window.scrollTo(0,document.body.scrollHeight)}
@@ -1272,7 +1272,8 @@ function vMas(){
   const L=TAREAS, listas=L.filter(t=>estadoAuto(t)==='listo').length, pct=L.length?Math.round(listas/L.length*100):0;
   const t=(k,click,img,tit,sub)=>`<button class="mas-t" onclick="${click}">${imgTag(img,'mas-img')}<span class="mas-ov"><b>${tit}</b><span>${sub}</span></span></button>`;
   const ult=MENSAJES[MENSAJES.length-1];
-  return `<div class="row" style="align-items:center"><h2 class="pg-t grow">Más</h2>${stk('amigas','',70)}</div>
+  return `<h2 class="pg-t">Más</h2>
+    ${albumCard()}
     <button class="card chat-c" onclick="irA('chat')"><span class="cat-dot">${ic('chat')}</span><div class="grow"><b>Chat del grupo</b><div class="muted tiny">${ult?esc(nom(ult.persona_id))+': '+esc(ult.texto||'📷 Foto'):'Escribe el primero'}</div></div>${ic('chev')}</button>
     <button class="card chat-c" onclick="irA('check')"><span class="cat-dot">${ic('tareas')}</span><div class="grow"><b>Mi checklist</b><div class="muted tiny">${checkHechos()} de ${checkItems().length} listos para la maleta</div></div>${ic('chev')}</button>
     <div class="mas-g" style="margin-top:12px">
