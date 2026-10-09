@@ -215,3 +215,15 @@ await caso("v46 · outfit: la IA arma las piezas del look para ella (sin texto n
   assert.ok(visto.systemInstruction.parts[0].text.includes("estilista") && visto.contents[0].parts[0].text.includes("ella (mujer)"));
 });
 console.log(`${ok} casos OK (v46 outfit)`);
+
+await caso("v47 · /api/arte/salida: dibuja con la llave de Gemini (salta la llave sin saldo) y devuelve la imagen", async () => {
+  const BUENA = "AIza" + "c".repeat(35), MALA = "AIza" + "d".repeat(35); const png = btoa("PNGFALSO");
+  globalThis.fetch = async (url, init) => { const k = init.headers["x-goog-api-key"];
+    if (k === MALA) return new Response(JSON.stringify({ error: { message: "depleted" } }), { status: 402 });
+    if (String(url).includes("gemini-3-pro-image")) return new Response(JSON.stringify({ error: { message: "no longer available" } }), { status: 404 });
+    return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ inlineData: { mimeType: "image/png", data: png } }] } }] }), { status: 200 }); };
+  const r = await w.fetch(new Request("https://x/api/arte/salida", { headers: { "cf-connecting-ip": "15.0.0.1" } }), { GEMINI_API_KEY: MALA, otra: BUENA, ASSETS });
+  assert.equal(r.status, 200); assert.equal(r.headers.get("content-type"), "image/png"); assert.equal(await r.text(), "PNGFALSO");
+  const no = await w.fetch(new Request("https://x/api/arte/otracosa"), { GEMINI_API_KEY: BUENA, ASSETS }); assert.equal(no.status, 404);
+});
+console.log(`${ok} casos OK (v47 arte)`);

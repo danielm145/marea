@@ -71,6 +71,10 @@ else echo "(sin .env: me salto este paso)"; fi
 linea "3/4 · Publicar la página"
 scripts/deploy.sh "$CFG" 2>&1 | grep -E "publicado|✘|ERROR|error" || true
 
+# la ilustración de la salida: se dibuja una vez con la IA y queda guardada (así nadie espera al abrir la app)
+A=$(curl -s -m 90 -o /dev/null -w "%{http_code} %{content_type}" "$URL/api/arte/salida")
+case "$A" in 200\ image/*) echo "✓ Ilustración de la salida lista (dibujada con IA)";; *) echo "  (la ilustración de la salida no se pudo dibujar todavía: $A · la alerta sale igual con colores)";; esac
+
 linea "4/4 · Prueba real de la IA"
 sleep 3
 R=$(curl -s -m 40 "$URL/api/ia/salud?probar=1")

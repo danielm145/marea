@@ -389,3 +389,8 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 ## v46 · el look de cada noche: «Armar mi outfit con IA» en vez de «Subir inspiración»
 - En cada look (Itinerario → Dress code) se quitó la caja «Subir inspiración» (las fotos que ya hubiera se siguen viendo). Entra el botón «Armar mi outfit con IA» → hoja con la paleta, «Para ella / Para él», cajita opcional «lo que ya tienes en la maleta» y «Armar mi outfit» / «Otra idea».
 - Worker: `modo:'outfit'` (`outfitDe`, `SISTEMA_OUTFIT`, esquema chico) → `{titulo, piezas:[{parte, idea}], tip}`; temperatura 0.8 para que «Otra idea» cambie. Sin IA o si falla, `outfitLocal` arma uno con las ideas del look.
+
+## v47 · alerta de salida + «Todo del viaje» + arte con IA
+- **Alerta de salida** en el inicio (`salidaCard`): sale 48 h antes y hasta 3 h después: «🚗 ¡Nos vamos a Same! · Hoy · 8:00 a.m. · 📍 Salimos desde Cumbayá · casa de la Ale · ⏰ en 6 h 20 min», con «Cómo llegar» y «Todo del viaje». Datos editables por el admin en Lo esencial: `salida_hora`, `salida_lugar`, `salida_mapa` (por defecto 08:00 y Cumbayá · casa de la Ale; fecha = primer día del viaje).
+- **Todo del viaje** (`hojaTodo`, tarjeta fija en el inicio): salida con mapa, el departamento (nombre, dirección para copiar, check-in/out, Google Maps y Waze), fechas, WiFi, contactos y «Mandar todo por WhatsApp».
+- **Arte con IA** (`/api/arte/salida` en el worker): ilustración fija de la salida dibujada por Imagen (si hay cuenta de servicio de Vertex) o por los modelos de imagen de Gemini con las llaves guardadas (salta las sin saldo); se guarda en el caché de Cloudflare 30 días. `listo.sh` la dibuja al publicar. Si no se puede, la alerta sale con un degradado de colores.

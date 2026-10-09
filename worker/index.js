@@ -461,7 +461,56 @@ export default {
       const sb = env.SB_URL && env.SB_ANON ? { url: env.SB_URL, anon: env.SB_ANON } : null;
       return new Response("window.MAREA_SB=" + JSON.stringify(sb) + ";\n", { headers: { "content-type": "text/javascript; charset=utf-8", "cache-control": "no-store" } });
     }
-    // la versión publicada (la lee del sw.js, que lleva CACHE='marea-vNN'): la app la compara con la suya
+    // ── ARTE con la IA de imágenes (Gemini / Vertex): ilustraciones fijas del viaje, generadas UNA vez y guardadas en el caché de Cloudflare ──
+const ARTE = {
+  salida: "Ilustración vibrante estilo póster retro de viaje por carretera: un carro blanco con tablas de surf y maletas en la parrilla saliendo al amanecer de un barrio con montañas verdes de los Andes de Ecuador, la carretera baja hacia la costa con palmeras y el mar Pacífico al fondo, sol naranja grande, cielo rosado y turquesa, sensación de aventura y amigos. Sin texto, sin letras, sin logos. Formato horizontal 16:9, colores cálidos y saturados, estilo ilustración plana moderna.",
+};
+const MODELOS_IMG = ["gemini-3-pro-image", "gemini-3.1-flash-image", "gemini-2.5-flash-image", "gemini-2.5-flash-image-preview"];
+async function generarArte(env, prompt) {
+  const fallas = [];
+  // 1) con la cuenta de servicio de Vertex: Imagen
+  if (env.GOOGLE_SA_B64) {
+    try {
+      const sa = JSON.parse(atob(env.GOOGLE_SA_B64)), loc = env.VERTEX_LOCATION || "us-central1";
+      const r = await fetch(`https://${loc}-aiplatform.googleapis.com/v1/projects/${sa.project_id}/locations/${loc}/publishers/google/models/imagen-4.0-generate-001:predict`, {
+        method: "POST", headers: { "content-type": "application/json", authorization: "Bearer " + await vertexToken(env) },
+        body: JSON.stringify({ instances: [{ prompt }], parameters: { sampleCount: 1, aspectRatio: "16:9" } }) });
+      const j = await r.json().catch(() => ({})); const b64 = j?.predictions?.[0]?.bytesBase64Encoded;
+      if (b64) return { bytes: Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)), tipo: j.predictions[0].mimeType || "image/png" };
+      fallas.push("imagen-4: " + r.status);
+    } catch (e) { fallas.push("vertex: " + (e.message || e)); }
+  }
+  // 2) con las llaves de Gemini: los modelos que dibujan
+  for (const k of llavesGemini(env)) {
+    for (const m of MODELOS_IMG) {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`, {
+        method: "POST", headers: { "content-type": "application/json", "x-goog-api-key": k },
+        body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: { responseModalities: ["IMAGE"] } }) });
+      const j = await r.json().catch(() => ({}));
+      const parte = (j?.candidates?.[0]?.content?.parts || []).find((p) => p.inlineData && p.inlineData.data);
+      if (parte) return { bytes: Uint8Array.from(atob(parte.inlineData.data), (c) => c.charCodeAt(0)), tipo: parte.inlineData.mimeType || "image/png" };
+      fallas.push(`${m}: ${r.status}`);
+      if (sinSaldo(r.status)) break;   // esta llave no sirve: la siguiente
+    }
+  }
+  throw new Error(fallas.join(" · ").slice(0, 300) || "sin llave");
+}
+
+// la versión publicada (la lee del sw.js, que lleva CACHE='marea-vNN'): la app la compara con la suya
+    const mArte = url.pathname.match(/^\/api\/arte\/([a-z]+)$/);
+    if (mArte) {
+      const prompt = ARTE[mArte[1]]; if (!prompt) return json(404, { error: "No existe" });
+      const clave = new Request(new URL("/api/arte/" + mArte[1] + "?v=1", req.url).toString());
+      const cache = typeof caches !== "undefined" ? caches.default : null;
+      if (cache) { const hit = await cache.match(clave); if (hit) return hit; }
+      if (frenado(req.headers.get("cf-connecting-ip") || "?")) return json(429, { error: "Espera un momento" });
+      try {
+        const img = await generarArte(env, prompt);
+        const resp = new Response(img.bytes, { headers: { "content-type": img.tipo, "cache-control": "public, max-age=2592000, immutable" } });
+        if (cache) await cache.put(clave, resp.clone());
+        return resp;
+      } catch (e) { return json(502, { error: "No pude dibujarla", detalle: txt(String(e.message || e), 300) }); }
+    }
     if (url.pathname === "/api/version") {
       let v = null; try { const t = await (await env.ASSETS.fetch(new Request(new URL("/sw.js", req.url)))).text(); v = (t.match(/marea-(v\d+)/) || [])[1] || null; } catch { /* sin assets */ }
       return json(200, { v });
