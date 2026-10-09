@@ -6,6 +6,7 @@
 //   guardar  → { endpoint, p256dh, auth, ua }  este teléfono quiere avisos (upsert, de quien llama)
 //   quitar   → { endpoint }
 //   enviar   → { avisos: [{ para_id, titulo, cuerpo, url }] }  → { enviados, fallidos }
+//   probar   → { endpoint }  → un aviso de prueba a ESTE teléfono
 // Nunca se avisa a quien llama. Un teléfono que falla 3 veces seguidas (o responde 404/410) se borra.
 // Mismo cifrado que el Portal EC (worker.js «NOTIFICACIONES PUSH»), portado a Deno.
 // ============================================================================
@@ -127,6 +128,14 @@ Deno.serve(async (req) => {
         }
       }
       return reply(req, 200, { enviados, fallidos });
+    }
+    // probar → un aviso a ESTE teléfono (el de quien llama), para comprobar que los avisos llegan
+    if (action === "probar") {
+      const endpoint = txt(body.endpoint, 1000);
+      const { data: s } = await admin.from("push_subs").select("id,persona_id,endpoint,p256dh,auth,fallos").eq("endpoint", endpoint).eq("persona_id", yo.id).maybeSingle();
+      if (!s) return reply(req, 404, { error: "Este teléfono no tiene avisos activados" });
+      let st = 0; try { st = await enviarUno(s, { titulo: "🏖️ ¡Los avisos funcionan!", cuerpo: `Hola ${yo.apodo || yo.nombre}: así te van a llegar los gastos, el chat y los juegos.`, url: "/#hoy" }); } catch { st = 0; }
+      return reply(req, st >= 200 && st < 300 ? 200 : 502, st >= 200 && st < 300 ? { ok: true } : { error: "El servicio de avisos del teléfono no respondió (" + st + ")" });
     }
     return reply(req, 400, { error: "acción desconocida: " + action });
   } catch (e) { return reply(req, 500, { error: (e as Error).message || String(e) }); }

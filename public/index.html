@@ -638,7 +638,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v55';
+const BUILD_TAG='v56';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1430,6 +1430,7 @@ function vMas(){
     ${t('equipo',"SUBT='gente';irA('tareas')",LOOK_SRC['golden-hour'],'Equipo','Quién hace qué · cosas · carros')}</div>
     <div class="card" style="margin-top:14px"><div class="list">
       <button class="item" onclick="abrirMiPerfil()">${av(ME.id,'xs')}<div class="grow"><div class="t">Mi ficha</div></div>${ic('chev')}</button>
+      ${pushOk()?`<button class="item" onclick="probarAvisos(this.querySelector('.t'))"><span class="cat-dot">${ic('bell')}</span><div class="grow"><div class="t">Probar avisos en este celular</div></div></button>`:''}
       ${esAdmin()?`<button class="item" onclick="irA('admin')"><span class="cat-dot">${ic('admin')}</span><div class="grow"><div class="t">Administrar</div></div>${ic('chev')}</button>`:''}
       <button class="item" onclick="salir()"><span class="cat-dot">${ic('out')}</span><div class="grow"><div class="t">Salir</div></div></button></div></div>`;
 }
@@ -1498,6 +1499,13 @@ async function sincronizarPush(forzar){if(!pushOk()||Notification.permission!=='
   if(!sub){const{publica}=await API.fn('marea-avisar',{action:'vapid'});const raw=Uint8Array.from(atob(publica.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:raw})}
   const j=sub.toJSON();await API.fn('marea-avisar',{action:'guardar',endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth,ua:navigator.userAgent.slice(0,200)});
   try{sessionStorage.setItem('marea_push_ok','1')}catch(e){}}
+/* probar los avisos en ESTE teléfono (llega en segundos si todo está bien) */
+async function probarAvisos(b){if(!pushOk()){toast(/iphone|ipad/i.test(navigator.userAgent)&&!yaInstalada()?'En iPhone los avisos solo llegan con la app instalada en la pantalla de inicio':'Este navegador no recibe avisos');return}
+  if(b){b.disabled=true;b.textContent='Enviando…'}
+  try{if(Notification.permission!=='granted'){const p=await Notification.requestPermission();if(p!=='granted')throw new Error('No diste permiso para los avisos')}
+    await sincronizarPush(true);const reg=await navigator.serviceWorker.ready,sub=await reg.pushManager.getSubscription();if(!sub)throw new Error('No se pudo activar en este teléfono');
+    await API.fn('marea-avisar',{action:'probar',endpoint:sub.toJSON().endpoint});toast('Listo: en unos segundos te llega el aviso de prueba')}catch(e){toast('No llegó: '+e.message)}
+  if(b){b.disabled=false;b.textContent='Probar avisos en este celular'}}
 /* avisar a otros (nunca a uno mismo); si falla, lo que se guardó ya quedó guardado */
 function avisar(avisos){if(MODO!=='supabase'||!avisos||!avisos.length)return;const L=avisos.filter(a=>a&&a.para_id&&a.para_id!==ME.id);if(L.length)API.fn('marea-avisar',{action:'enviar',avisos:L}).catch(()=>{})}
 /* el álbum en el inicio: las últimas fotos (se abren en grande al tocarlas) y subir las tuyas con un toque */

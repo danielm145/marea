@@ -489,3 +489,7 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   no está; «Terminar la partida» para quien conduce la trivia o ¿quién es más probable?; prueba del álbum al día.
 - v55: visor de fotos con «toca para acercar» (facturas, álbum, looks), la foto del álbum abre el visor; freno de la IA
   a 100 por IP cada 10 min (todos salen por el WiFi de la casa); textos viejos de presupuesto fuera.
+- v56: «Probar avisos en este celular» (Más): la función `marea-avisar` tiene la acción `probar`, que manda un aviso a
+  ESE teléfono; así se comprueba en segundos que los avisos llegan. Se sube con `scripts/listo.sh`.
+- `listo.sh` termina con «5/5 · Revisión final»: versión publicada, catálogo de imágenes, buscador de canciones y
+  tablas nuevas en la base, con ✓ o ✗.
