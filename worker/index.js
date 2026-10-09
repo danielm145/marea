@@ -396,6 +396,9 @@ async function pensar(env, motorIni, cuerpo) {
   // ── el recibo manda: si el modelo perdió ítems, cambió el total o no armó gasto, se corrige con lo leído ──
   if (recibo) {
     if (!out.gastos.length && !out.album && !out.portada && !out.viaje && !out.eventos.length) out.gastos.push(limpiar({ gastos: [gastoDesdeRecibo(recibo, contexto)] }, contexto).gastos[0]);
+    // UNA factura = UN gasto: si el intérprete la partió en dos (o repitió el mismo), se queda el primero
+    if (out.gastos.length > 1) out.gastos = [out.gastos[0]];
+    if (recibo.tipo_documento !== "transferencia") out.album = null;   // un comprobante no va al álbum
     const g = out.gastos[0];
     if (g) {
       const suyos = g.factura && g.factura.items ? g.factura.items : [];

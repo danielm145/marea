@@ -377,3 +377,8 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - «Mis cuentas» ya no muestra el plan simplificado (que ruteaba deudas de terceros y confundía: Naty «debía» más a Alegría de lo que compartieron). Ahora `deudasDirectas(me)`: con cada persona, lo que de verdad se deben por los gastos compartidos (yo pagué → me debe su parte; ella pagó → le debo la mía; los pagos entre los dos restan). La suma cuadra con el saldo total (probado).
 - Tocar a alguien → `verDeuda`: gasto por gasto (quién pagó, qué parte, verde/rojo), total, y «Pagarle… y registrarlo» / «Ya me pagó: registrar».
 - El plan de mínimas transferencias sigue en «Ver cómo se calculó» (vBalances).
+
+## v44 · quién le debe a quién (clarísimo) · fotos en grande en todas partes · una factura = un gasto
+- **Saldos**: explicación de una línea («como en Splitwise»), luego **Quién le debe a quién**: por deudor, cada persona a la que le debe y cuánto (`deudasGrupo`: deudas directas de todo el grupo, cuadran con los saldos), tocar → `verDeuda(a, desde)` gasto por gasto entre dos personas cualesquiera, botón «Pagado». Saldo de cada uno con leyenda. El plan simplificado queda plegado abajo como «Atajo para el final» con su explicación.
+- **Fotos**: visor a pantalla completa `verImagen(src, título)` (fondo oscuro, ✕, «Abrir en grande»): foto de la factura en la confirmación y en el detalle del gasto, foto del evento (toque sobre la cabecera, `zoomEvento`), chat (`verLook`). Si el gasto no tiene foto: «Agregar foto de la factura» ahí mismo.
+- Worker: con comprobante leído, UNA factura = UN gasto (si el intérprete la parte en dos, queda el primero) y nunca va al álbum. Front: dedupe por descripción+monto por si acaso.

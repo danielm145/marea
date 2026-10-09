@@ -197,3 +197,13 @@ await caso("v42 · la foto no es comprobante → el intérprete la ve y arma el 
   respuesta = antes; assert.equal(j.propuesta.album.pie, "Atardecer en Same"); assert.ok(vioFoto, "el intérprete debe recibir la foto cuando no es comprobante");
 });
 console.log(`${ok} casos OK (v42 lector de comprobantes)`);
+
+await caso("v44 · una factura = un gasto (si el intérprete la parte en dos, queda uno) y no va al álbum", async () => {
+  globalThis.fetch = fetchBase;
+  recibo = { es_comprobante: true, tipo_documento: "ticket", comercio: "Tía", items: [{ descripcion: "Hielo", total: 6 }, { descripcion: "Cervezas", total: 10 }], total: 16, confianza: 0.9 };
+  const antes = respuesta; respuesta = gem({ resumen: "x", gastos: [{ descripcion: "Hielo", monto: 6, categoria: "bebidas", alcance: "fijo", pagador_ids: ["p1"], participante_ids: [], modo: "igual", etiquetas: [], confianza: .9, dudas: [] }, { descripcion: "Cervezas", monto: 10, categoria: "bebidas", alcance: "fijo", pagador_ids: ["p1"], participante_ids: [], modo: "igual", etiquetas: [], confianza: .9, dudas: [] }], tareas: [], eventos: [], album: { pie: "Compras", evento_id: null } });
+  const j = await (await pedir({ imagen: "data:image/jpeg;base64,QUJD", modo: "auto", contexto: ctx }, { ip: "13.0.0.1" })).json();
+  respuesta = antes; recibo = { es_comprobante: false };
+  assert.equal(j.propuesta.gastos.length, 1); assert.equal(j.propuesta.gastos[0].monto, 16); assert.equal(j.propuesta.gastos[0].factura.items.length, 2); assert.equal(j.propuesta.album, null);
+});
+console.log(`${ok} casos OK (v44)`);

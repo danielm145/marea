@@ -1,0 +1,20 @@
+import { chromium } from 'playwright';
+const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
+await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')?r.continue():r.abort()});
+await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>localStorage.clear());await pg.reload();await pg.waitForTimeout(400);
+await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
+await pg.evaluate(()=>{SUBG='bal';irA('gastos')});await pg.waitForTimeout(300);
+const r=await pg.evaluate(()=>{const D=deudasGrupo();const bs=balances();const porPersona={};D.forEach(x=>{porPersona[x.de]=(porPersona[x.de]||0)-x.monto;porPersona[x.a]=(porPersona[x.a]||0)+x.monto});
+  const cuadra=bs.every(b=>Math.abs((porPersona[b.id]||0)-b.saldo)<0.02);return {deudas:D.length,cuadra,deudores:document.querySelectorAll('.qq').length,filas:document.querySelectorAll('.qq-r').length,ejemplo:D.slice(0,2).map(x=>nom(x.de)+' → '+nom(x.a)+' '+x.monto)}});
+console.log(JSON.stringify(r));
+await pg.screenshot({path:'/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/saldos.png'});
+await pg.locator('.qq-r').first().click();await pg.waitForTimeout(300);
+console.log('detalle entre dos:',await pg.locator('#sheetBody .eyebrow').first().innerText(),'·',await pg.locator('#sheetBody b').nth(0).innerText(),'· filas:',await pg.locator('.dd-row').count());
+await pg.screenshot({path:'/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/deuda2.png'});
+await pg.evaluate(()=>closeSheet());
+// visor de imagen: evento
+await pg.evaluate(()=>{abrirEvento(EVENTOS.find(e=>/panzazo/i.test(e.titulo)).id)});await pg.waitForTimeout(300);
+console.log('botón zoom del evento:',await pg.locator('.evh-zoom').count());await pg.evaluate(()=>document.querySelector('.evh-zoom').click());await pg.waitForTimeout(300);
+console.log('visor abierto:',await pg.locator('.visor-img.on img').count());
+console.log('errores JS:',errs.length?errs:'ninguno');await b.close();
