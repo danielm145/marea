@@ -17,9 +17,11 @@ const act = (s) => `${FOTO} ${LUGAR} ${GENTE} ${s} Formato horizontal 16:9.`;
 
 export const ARTE = {
   // ── los carros (los dos son BLANCOS) y la salida ──
-  "carro-lexus": `${FOTO} Una SUV Lexus BLANCA perlada, limpia y brillante, con maletas y una tabla de surf en la parrilla del techo, estacionada en una carretera costera de Ecuador con palmeras y el mar Pacífico al fondo, sol de mañana. Sin personas. Formato horizontal 16:9.`,
+  // nombre nuevo = imagen nueva (el caché guarda por nombre): la camioneta es una Lexus GX 460
+  "carro-lexus-gx460": `${FOTO} Una Lexus GX 460 BLANCA perlada (SUV grande y cuadrada, de las de 2014 a 2023, con la parrilla grande en forma de reloj de arena, faros LED en L y llanta de repuesto atrás), limpia y brillante, con maletas y una tabla de surf en la parrilla del techo, estacionada en una carretera costera de Ecuador con palmeras y el mar Pacífico al fondo, sol de mañana. Que se vea exactamente como una Lexus GX 460 real. Sin personas, sin placas legibles. Formato horizontal 16:9.`,
   "carro-amarok": `${FOTO} Una camioneta pickup Volkswagen Amarok BLANCA, doble cabina, con hieleras, un parlante y tablas de surf en el balde, en una carretera de los Andes de Ecuador que baja hacia la costa entre montañas verdes, palmeras y el mar a lo lejos. Sin personas. Formato horizontal 16:9.`,
-  salida: `${FOTO} Dos carros blancos, una SUV Lexus y una camioneta Volkswagen Amarok, listos para un viaje de playa al amanecer frente a una casa con jardín en Cumbayá, con las montañas verdes de los Andes de Ecuador al fondo, maletas, hieleras y tablas de surf. Cielo rosado y dorado. Sin personas. Formato horizontal 16:9.`,
+  "salida-gx": `${FOTO} Dos camionetas blancas, una Lexus GX 460 (SUV grande y cuadrada, parrilla en forma de reloj de arena) y una Volkswagen Amarok doble cabina, listas para un viaje de playa al amanecer frente a una casa con jardín en Cumbayá, con las montañas verdes de los Andes de Ecuador al fondo, maletas, hieleras y tablas de surf. Cielo rosado y dorado. Sin personas, sin placas legibles. Formato horizontal 16:9.`,
+  salida: `${FOTO} Dos camionetas blancas, una Lexus GX 460 y una Volkswagen Amarok, listas para un viaje de playa al amanecer frente a una casa con jardín en Cumbayá, con las montañas de los Andes al fondo. Sin personas. Formato horizontal 16:9.`,
 
   // ── el itinerario ──
   "ev-salida": ev("Amigos subiendo maletas, hieleras y gafas de sol a una SUV blanca y a una camioneta blanca al amanecer en un barrio con montañas verdes de los Andes, emoción de viaje por carretera."),

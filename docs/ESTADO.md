@@ -496,3 +496,5 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
 - v57 (Daniel ya publicó; el karaoke funciona): «Sigue en cantar» en grande con portada, canción, artista y caras de
   quienes cantan; la fila de después también con portada. Las canciones escritas a mano o pedidas de la lista buscan
   su portada en iTunes solas (al pedirlas y, si faltara, al abrir el karaoke) y la guardan.
+- v58: el carro es una **Lexus GX 460** blanca: imagen nueva (`carro-lexus-gx460`, `salida-gx`; clave nueva = se dibuja
+  de nuevo), nombre en la app y `sql/022_lexus_gx460.sql` (renombra el carro en la base).

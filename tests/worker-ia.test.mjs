@@ -241,7 +241,7 @@ await caso("v51 · /api/arte: catálogo (carros blancos, itinerario, juegos) y n
   let prompt = ""; globalThis.fetch = async (url, init) => { prompt = JSON.parse(init.body).contents[0].parts[0].text; return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ inlineData: { mimeType: "image/png", data: btoa("PNG") } }] } }] }), { status: 200 }); };
   const env = { GEMINI_API_KEY: "AIza" + "f".repeat(35), ASSETS };
   const l = await (await w.fetch(new Request("https://x/api/arte"), env)).json();
-  for (const k of ["carro-lexus", "carro-amarok", "ev-salida", "ev-ceviche", "ev-micheladas", "ev-fogata", "juego-trivia", "act-voley", "look-welcome-white-ella"]) assert.ok(l.claves.includes(k), k);
+  for (const k of ["carro-lexus-gx460", "salida-gx", "carro-amarok", "ev-salida", "ev-ceviche", "ev-micheladas", "ev-fogata", "juego-trivia", "act-voley", "look-welcome-white-ella"]) assert.ok(l.claves.includes(k), k);
   const r = await w.fetch(new Request("https://x/api/arte/carro-amarok", { headers: { "cf-connecting-ip": "17.0.0.1" } }), env);
   assert.equal(r.status, 200); assert.ok(/Amarok BLANCA/.test(prompt), "la Amarok es blanca");
   assert.equal((await w.fetch(new Request("https://x/api/arte/ev-inventado"), env)).status, 404);

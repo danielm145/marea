@@ -641,7 +641,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v57';
+const BUILD_TAG='v58';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1522,7 +1522,7 @@ function salidaDe(){const I=infoV();if(!CFG.desde)return null;const h=/^\d{1,2}:
 function cuantoFalta(ms){const m=Math.round(ms/60000);if(m<=0)return '';const h=Math.floor(m/60),mm=m%60;return h>=24?`en ${Math.round(h/24)} día${Math.round(h/24)===1?'':'s'}`:h?`en ${h} h${mm?' '+mm+' min':''}`:`en ${mm} min`}
 function salidaCard(){const S=salidaDe();if(!S)return '';const ms=S.t-new Date();if(ms>48*3600e3||ms<-3*3600e3)return '';
   const hoy=hoyISO(),cuando=CFG.desde===hoy?'Hoy':CFG.desde===addDias(hoy,1)?'Mañana':diaSem(CFG.desde);const hora12=(()=>{const[H,M]=S.h.split(':').map(Number);return `${((H+11)%12)+1}:${String(M).padStart(2,'0')} ${H<12?'a.m.':'p.m.'}`})();
-  return `<div class="card sal">${arteUrl('salida')?`<img class="sal-img" src="${arteUrl('salida')}" alt="" onerror="this.remove()">`:''}<div class="sal-in">
+  return `<div class="card sal">${arteUrl('salida-gx')?`<img class="sal-img" src="${arteUrl('salida-gx')}" alt="" onerror="this.remove()">`:''}<div class="sal-in">
     <div class="sal-k">${ms>0?'🚗 ¡Nos vamos a Same!':'🌴 ¡Ya vamos en camino!'}</div>
     <div class="sal-h">${cuando} · ${hora12}</div>
     <div class="sal-l">📍 Salimos desde ${esc(S.lugar||'el punto de encuentro')}</div>
@@ -1586,9 +1586,9 @@ async function crearFotosIA(q,b){const L=q==='eventos'?EVENTOS.filter(e=>e.estad
       if(q==='eventos')await API.saveEvento({...x,foto:ref},false);else await API.savePlato({...x,foto:ref},false);ok++}catch(e){mal++;if(/saldo|muchas|espera/i.test(e.message)){toast(e.message);break}}}
   await cargar();toast(`Listo: ${ok} foto${ok===1?'':'s'} nueva${ok===1?'':'s'}${mal?` · ${mal} no se pudo`:''}`);render()}
 /* ── LOS CARROS: cada uno con su ilustración hecha con IA, quién maneja, copiloto y quién va atrás ── */
-function arteCarro(v){const t=norm(v.nombre);return /lexus/.test(t)?'carro-lexus':/amarok|camioneta|pickup/.test(t)?'carro-amarok':''}
+function arteCarro(v){const t=norm(v.nombre);return /lexus/.test(t)?'carro-lexus-gx460':/amarok|camioneta|pickup/.test(t)?'carro-amarok':''}
 /* el carro se llama por el carro, no por el dueño («Lexus de Kevin» → «Lexus»); quién maneja va aparte */
-const nomCarro=v=>String(v&&v.nombre||'Carro').replace(/\s+de\s+[A-ZÁÉÍÓÚÑ][^,]*$/,'').trim()||'Carro';
+const nomCarro=v=>{const n=String(v&&v.nombre||'Carro').replace(/\s+de\s+[A-ZÁÉÍÓÚÑ][^,]*$/,'').trim()||'Carro';return /^lexus$/i.test(n)?'Lexus GX 460':n};
 function copilotoDe(v){const cop=(String(v.nota||'').match(/copiloto:\s*([^·,]+)/i)||[])[1];if(!cop)return null;const c=norm(cop.trim());return activos().find(p=>norm(nom(p.id))===c||norm(p.nombre).startsWith(c))||null}
 function carrosCard(){const V=VEHICULOS||[];if(!V.length)return '';const P=PASAJEROS.filter(p=>p.trayecto==='ida');
   return `<div class="sec-h"><h2>Los carros</h2><button class="link" onclick="SUBT='carros';irA('tareas')">Cambiar</button></div><div class="carros">${V.map(v=>{const a=arteCarro(v),copId=copilotoDe(v);
@@ -3557,7 +3557,7 @@ const lsJ=(k,d)=>{try{const v=JSON.parse(localStorage.getItem('marea_cj_'+k));re
 const lsJset=(k,v)=>{try{localStorage.setItem('marea_cj_'+k,JSON.stringify(v))}catch(e){}};
 const azar=L=>L[Math.floor(Math.random()*L.length)];
 function vCarro(){if(CJ)return cjJuego();
-  return `<div class="card jg-hero">${imgTag([arteUrl('juego-carro'),arteUrl('carro-lexus')],'jg-img')}<div class="jg-in"><div class="jg-k">Para las 6 horas de camino</div><h2>Juegos de carro</h2><p>Funcionan con y sin internet: todo está en el celular. Uno lee en voz alta y juegan todos.</p></div></div>
+  return `<div class="card jg-hero">${imgTag([arteUrl('juego-carro'),arteUrl('carro-lexus-gx460')],'jg-img')}<div class="jg-in"><div class="jg-k">Para las 6 horas de camino</div><h2>Juegos de carro</h2><p>Funcionan con y sin internet: todo está en el celular. Uno lee en voz alta y juegan todos.</p></div></div>
     <div class="cj-g">${CJUEGOS.map(([k,t,d])=>`<button class="card cj-i" onclick="cjAbrir('${k}')"><b>${t}</b><span class="tiny muted">${d}</span></button>`).join('')}</div>`}
 function cjAbrir(k){clearInterval(CJT);CJ={k,i:0,ver:false};if(k==='stop')cjStop();else if(['prefieres','nunca','personaje','tararea'].includes(k))CJ.orden=mezclar(k==='prefieres'?CJ_PREFIERES:k==='nunca'?CJ_NUNCA:k==='personaje'?CJ_PERSONAJES:CJ_CANCIONES);
   if(k==='bingo'&&!lsJ('bingo',null))lsJset('bingo',{c:mezclar(CJ_BINGO).slice(0,16),m:[]});pintarCarro()}

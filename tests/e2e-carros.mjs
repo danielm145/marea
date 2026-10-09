@@ -13,5 +13,5 @@ await pg.evaluate(()=>{const id=n=>activos().find(p=>norm(p.nombre).startsWith(n
 await pg.waitForTimeout(300);
 console.log('carros:',await pg.locator('.carro2').count(),'·',(await pg.locator('.carro2').allInnerTexts()).map(t=>t.replace(/\n+/g,' | ')),'· sin dueño en el nombre:',!(await pg.locator('.carro2-t').allInnerTexts()).some(x=>/ de /.test(x)),'· fotos:',await pg.locator('.carro2-img img').count());
 await pg.locator('.carros').scrollIntoViewIfNeeded();await pg.screenshot({path:'/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/carros.png'});
-await pg.click('.todo-c');await pg.waitForTimeout(300);console.log('en Todo del viaje:',await pg.locator('#sheetBody .carro2').count(),'· WhatsApp lleva carros:',decodeURIComponent(await pg.getAttribute('#sheetBody a:has-text("WhatsApp")','href')).includes('🚙 Lexus: maneja'));
+await pg.click('.todo-c');await pg.waitForTimeout(300);console.log('en Todo del viaje:',await pg.locator('#sheetBody .carro2').count(),'· WhatsApp lleva carros:',decodeURIComponent(await pg.getAttribute('#sheetBody a:has-text("WhatsApp")','href')).includes('🚙 Lexus GX 460: maneja'));
 console.log('errores JS:',errs.length?errs:'ninguno');await b.close();
