@@ -5,7 +5,7 @@ const srv=spawn('python3',['-m','http.server','8099','--bind','127.0.0.1','-d','
 const S='/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/';
 const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});const ctx=await b.newContext({viewport:{width:390,height:844}});
 await ctx.route('**/*',r=>{const u=r.request().url();
-  if(u.includes('/api/canciones'))return r.fulfill({contentType:'application/json',body:JSON.stringify({canciones:[{id:1,titulo:'Bailando',artista:'Enrique Iglesias',portada:'',preview:'',anio:'2014'},{id:2,titulo:'Vivir mi vida',artista:'Marc Anthony',portada:'',preview:''}]})});
+  if(u.includes('/api/canciones'))return r.fulfill({contentType:'application/json',body:JSON.stringify({canciones:[{id:1,titulo:'Bailando',artista:'Enrique Iglesias',portada:'http://127.0.0.1:8099/img/menu/d1-cena.jpg',preview:'',anio:'2014'},{id:2,titulo:'Vivir mi vida',artista:'Marc Anthony',portada:'',preview:''}]})});
   if(u.includes('/api/'))return r.fulfill({status:404,body:'{}'});
   return u.startsWith('http://127.0.0.1:8099')?r.continue():r.abort()});
 const abrir=async(tel)=>{const pg=await ctx.newPage();pg.on('pageerror',e=>errs.push(e.message));await pg.goto('http://127.0.0.1:8099/index.html');await pg.waitForTimeout(400);
@@ -38,7 +38,9 @@ await A.evaluate(()=>{JSUB='karaoke';render()});await B.evaluate(()=>{JSUB='kara
 await A.fill('#kq','bailando');await A.click('.kbus >> text=Buscar');await A.waitForSelector('.kr-i');console.log('resultados iTunes:',await A.locator('.kr-i').count());
 await A.locator('.kr-i').first().locator('text=Pedir').click();await A.waitForTimeout(200);
 await A.locator('#kpick .avp').nth(1).click();await A.click('text=Agregar a la fila');await A.waitForTimeout(300);
-await B.waitForSelector('.kq-i',{timeout:5000});console.log('B ve la fila:',await B.locator('.kq-i').count(),'·',await B.locator('.kq-i b').first().innerText());
+await B.waitForSelector('.k-sigue',{timeout:5000});console.log('B ve quién sigue:',(await B.locator('.k-sigue').innerText()).replace(/\n+/g,' | '),'· con portada:',await B.locator('.k-sigue img.k-sig-img').count());
+await A.evaluate(()=>pedirCancion(null));await A.fill('#kt','Vivir mi vida');await A.fill('#ka','Marc Anthony');await A.click('text=Agregar a la fila');await A.waitForTimeout(500);
+await B.waitForSelector('#jdin .kq-i',{timeout:5000});console.log('canción escrita a mano · busca su portada sola:',await B.locator('#jdin .kq-i img').count(),'·',(await B.locator('#jdin .kq-i').first().innerText()).replace(/\n+/g,' | '));
 await B.click('text=Que empiece');await A.waitForSelector('.k-ahora',{timeout:5000});console.log('A ve «Ahora canta»:',(await A.locator('.k-ahora h2').innerText()));
 await A.screenshot({path:S+'karaoke.png',fullPage:true});
 await A.click('text=✓ Terminó');await B.waitForSelector('.prem',{timeout:5000});console.log('premios visibles en B:',await B.locator('.prem').count());

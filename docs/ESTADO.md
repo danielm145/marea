@@ -493,3 +493,6 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   ESE teléfono; así se comprueba en segundos que los avisos llegan. Se sube con `scripts/listo.sh`.
 - `listo.sh` termina con «5/5 · Revisión final»: versión publicada, catálogo de imágenes, buscador de canciones y
   tablas nuevas en la base, con ✓ o ✗.
+- v57 (Daniel ya publicó; el karaoke funciona): «Sigue en cantar» en grande con portada, canción, artista y caras de
+  quienes cantan; la fila de después también con portada. Las canciones escritas a mano o pedidas de la lista buscan
+  su portada en iTunes solas (al pedirlas y, si faltara, al abrir el karaoke) y la guardan.

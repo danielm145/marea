@@ -435,6 +435,9 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .lk-fotos span{position:absolute;left:4px;bottom:4px;background:rgba(255,255,255,.92);font-size:10.5px;font-weight:700;border-radius:99px;padding:2px 7px;color:var(--ink)}.lk-2{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}.lk-2 ul{margin:4px 0 0;padding-left:18px;font-size:14px}.lk-2 li{margin:3px 0}
 @media(min-width:520px){.lk-2{grid-template-columns:1fr 1fr}}
 .sinred{margin:10px 0 0;background:#FFF4D6;border:1px solid #F2C14E;color:#6B4E00;border-radius:12px;padding:10px 12px;font-size:13.5px}
+.k-sigue{display:flex;gap:12px;padding:12px;margin-top:12px;align-items:flex-start;border:2px solid #F2C14E}.k-sig-img{width:96px;height:96px;border-radius:14px;object-fit:cover;flex:none;cursor:zoom-in;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.k-sig-ph{display:grid;place-items:center;background:linear-gradient(135deg,#2A0E5C,#B0186B);color:#fff}.k-sig-ph svg{width:36px;height:36px}.k-sig-in{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}.k-sig-t{font-size:19px;line-height:1.2}.k-sig-a{color:var(--ink-3);font-size:14px}
+.k-sig-c{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:6px}.k-sig-p{display:inline-flex;align-items:center;gap:6px}.k-sig-p b{font-size:14px}
 .tl3{display:grid;gap:14px;margin-top:12px}.tl3-c{display:block;width:100%;padding:0;border:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit}
 .tl3-i.now .tl3-c{box-shadow:0 0 0 2.5px #14A37F,var(--shadow)}.tl3-img{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#ffe3c2,#cfe8f5)}.tl3-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tl3-h{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.95);color:var(--ink);font-weight:800;font-size:14px;padding:5px 11px;border-radius:99px;font-variant-numeric:tabular-nums;box-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -638,7 +641,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v56';
+const BUILD_TAG='v57';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -3402,7 +3405,7 @@ function vJuegos(){
   return seg+`<div id="jdin">${JSUB==='probable'?probableDin():triviaDin()}</div>`;
 }
 /* lo que cambia con los datos se repinta solo (sin tocar el buscador: nunca se repinta un campo desde su propio oninput) */
-function pintarJuegos(){if(TAB!=='juegos')return;const d=$('#jdin');if(d)d.innerHTML=JSUB==='karaoke'?karaokeDin():JSUB==='probable'?probableDin():JSUB==='trivia'?triviaDin():d.innerHTML;const p=$('#jprem');if(p)p.innerHTML=premiosHTML();const sg=$('#jsug');if(sg)sg.innerHTML=ksugHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
+function pintarJuegos(){if(TAB!=='juegos')return;if(JSUB==='karaoke')setTimeout(completarPortadas,50);const d=$('#jdin');if(d)d.innerHTML=JSUB==='karaoke'?karaokeDin():JSUB==='probable'?probableDin():JSUB==='trivia'?triviaDin():d.innerHTML;const p=$('#jprem');if(p)p.innerHTML=premiosHTML();const sg=$('#jsug');if(sg)sg.innerHTML=ksugHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
 let JULT=0;
 async function sondearJuegos(){if(!ME||document.hidden||(TAB!=='juegos'&&TAB!=='hoy'))return;if(TAB==='hoy'&&Date.now()-JULT<20000)return;JULT=Date.now();
   await cargarJuegos();const h=JSON.stringify([JUEGOS,JRESP.length,KARAOKE,VOTJ.length]);if(h===JHUELLA){if(TAB==='juegos')tickJuego();return}JHUELLA=h;
@@ -3478,9 +3481,20 @@ function karaokeDin(){const ahora=KARAOKE.find(k=>k.estado==='cantando'),fila=kO
   return `${!ahora&&!fila.length?`<div class="card jg-hero">${imgTag([arteUrl('juego-karaoke')],'jg-img')}<div class="jg-in"><div class="jg-k">Karaoke</div><h2>Pide tu canción</h2><p>Búscala abajo, elige quién la canta y queda en la fila. La letra sale en YouTube para el proyector.</p></div></div>`:''}
     ${ahora?`<div class="card k-ahora">${ahora.portada?`<img class="k-port" src="${esc(ahora.portada)}" alt="">`:''}<div class="k-in"><div class="jg-k">🎤 Ahora canta</div><div class="k-cant">${cantantesDe(ahora).map(id=>av(id)).join('')}<b>${cantantesDe(ahora).map(id=>esc(nom(id))).join(' y ')}</b></div><h2>${esc(ahora.titulo)}</h2><div class="muted">${esc(ahora.artista||'')}</div>
       <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><a class="btn sm" href="${ytKaraoke(ahora)}" target="_blank" rel="noopener">${ic('yt')} Letra en YouTube</a>${ahora.preview?`<button class="btn sm" onclick="oirMuestra('${ahora.id}')">${ic(AUDIO_ID===ahora.id?'pausa':'play')} Muestra</button>`:''}<button class="btn sm primary" onclick="terminoCancion('${ahora.id}')">✓ Terminó</button></div></div></div>`
-      :fila.length?`<button class="btn primary block" onclick="siguienteCancion()">${ic('mic')} Que empiece: ${esc(fila[0].titulo)}</button>`:''}
-    ${fila.length?`<div class="sec-h"><h2>La fila · ${fila.length}</h2></div><div class="card kq">${fila.map(fila1).join('')}</div>`:''}
+      :''}
+    ${fila.length?kSigue(fila[0],!ahora):''}
+    ${fila.length>1?`<div class="sec-h"><h2>Después · ${fila.length-1}</h2></div><div class="card kq">${fila.slice(1).map((k,i)=>fila1(k,i+1)).join('')}</div>`:''}
     ${ya?`<div class="tiny muted" style="margin-top:8px">${ya} ${ya===1?'canción cantada':'canciones cantadas'} esta noche.</div>`:''}`}
+/* el que sigue en cantar: portada grande, canción, artista y la cara de quien canta */
+function kSigue(k,empezar){const C=cantantesDe(k);return `<div class="card k-sigue">${k.portada?`<img class="k-sig-img" src="${esc(k.portada)}" alt="" onclick="verImagen('${esc(k.portada.replace('300x300bb','600x600bb'))}',${esc(JSON.stringify(k.titulo))})">`:`<span class="k-sig-img k-sig-ph">${ic('mic')}</span>`}
+  <div class="k-sig-in"><div class="jg-k">${empezar?'Primera en la fila':'Sigue en cantar'}</div><b class="k-sig-t">${esc(k.titulo)}</b><span class="k-sig-a">${esc(k.artista||'')}</span>
+    <div class="k-sig-c">${C.map(id=>`<span class="k-sig-p">${av(id)}<b>${esc(nom(id))}</b></span>`).join('')}</div>
+    <div class="row" style="gap:6px;margin-top:8px;flex-wrap:wrap">${empezar?`<button class="btn sm primary" onclick="siguienteCancion()">${ic('mic')} Que empiece</button>`:''}${k.preview?`<button class="btn sm" onclick="oirMuestra('${k.id}')">${ic(AUDIO_ID===k.id?'pausa':'play')} Muestra</button>`:''}${k.persona_id===ME.id||esAdmin()?`<button class="btn sm ghost" onclick="quitarCancion('${k.id}')">Quitar</button>`:''}</div></div></div>`}
+/* las canciones que entraron sin portada (escritas a mano o pedidas sin señal) la buscan solas en iTunes, una vez */
+const KPORT_VISTO=new Set();let KPORT_T=null;
+function completarPortadas(){if(KPORT_T||MODO!=='supabase'&&!/^https?:/.test(location.protocol))return;const k=KARAOKE.find(x=>!x.portada&&x.estado!=='cantada'&&!KPORT_VISTO.has(x.id));if(!k)return;KPORT_VISTO.add(k.id);
+  KPORT_T=fetch('/api/canciones?q='+encodeURIComponent(k.titulo+' '+(k.artista||''))).then(r=>r.ok?r.json():null).then(async j=>{const c=j&&j.canciones&&j.canciones[0];if(!c||!c.portada)return;
+    const cambio={id:k.id,portada:c.portada,preview:k.preview||c.preview||null,artista:k.artista||c.artista,itunes_id:k.itunes_id||c.id||null};await API.saveKaraoke(cambio,false);Object.assign(k,cambio);pintarJuegos()}).catch(()=>{}).finally(()=>{KPORT_T=null;setTimeout(completarPortadas,300)})}
 function karaokeBuscar(){return `<div class="sec-h"><h2>Pedir una canción</h2></div><div class="card kbus"><div class="row" style="gap:8px"><input id="kq" class="in grow" type="search" placeholder="Canción o artista (ej. Bailando)" value="${esc(KQ)}" oninput="KQ=this.value;buscarCancionLuego()" onkeydown="if(event.key==='Enter')buscarCancion()"><button class="btn primary" onclick="buscarCancion()">Buscar</button></div><div id="kres">${kResHTML()}</div></div>`}
 function kResHTML(){if(KBUSCANDO)return '<div class="muted tiny" style="margin-top:10px">Buscando…</div>';if(KRES===null)return '<div class="tiny muted" style="margin-top:8px">Las canciones vienen de iTunes, con su portada y 30 segundos para oírla.</div>';
   if(KRES==='error')return `<div class="tiny muted" style="margin-top:10px">No pude buscar ahora. <button class="link" onclick="pedirCancion(null)">Escríbela tú</button></div>`;
@@ -3495,7 +3509,9 @@ function pedirCancion(i){const c=i==null?null:KRES[i];KCANT=[ME.id];
     <div class="lbl">Toca quién canta (dúo o grupo: toca varios)</div><div class="av-pick" id="kpick">${kPick()}</div>
     <button class="btn primary block" onclick="guardarCancion(${i==null?'null':i})">${ic('mic')} Agregar a la fila</button></div>`)}
 function kPick(){return activos().map(p=>`<button class="avp ${KCANT.includes(p.id)?'on':'off'}" onclick="KCANT=KCANT.includes('${p.id}')?KCANT.filter(x=>x!=='${p.id}'):[...KCANT,'${p.id}'];$('#kpick').innerHTML=kPick()">${av(p.id)}<span>${esc(nom(p.id))}</span></button>`).join('')}
-async function guardarCancion(i){const c=i==null?{titulo:String(($('#kt')||{}).value||'').trim(),artista:String(($('#ka')||{}).value||'').trim()}:KRES[i];if(!c.titulo){toast('Escribe el nombre de la canción');return}if(!KCANT.length){toast('Toca quién la canta');return}
+async function portadaDe(t,a){try{const ctl=new AbortController();setTimeout(()=>ctl.abort(),3000);const r=await fetch('/api/canciones?q='+encodeURIComponent(t+' '+(a||'')),{signal:ctl.signal});const j=r.ok?await r.json():null;return (j&&j.canciones&&j.canciones[0])||null}catch(e){return null}}
+async function guardarCancion(i){const c0=i==null?{titulo:String(($('#kt')||{}).value||'').trim(),artista:String(($('#ka')||{}).value||'').trim()}:KRES[i];let c=c0;if(!c.titulo){toast('Escribe el nombre de la canción');return}
+  if(!c.portada&&/^https?:/.test(location.protocol)){const x=await portadaDe(c.titulo,c.artista);if(x)c={...x,titulo:c.titulo,artista:c.artista||x.artista}}if(!KCANT.length){toast('Toca quién la canta');return}
   const k={id:uid(),persona_id:ME.id,cantantes:KCANT.slice(),titulo:c.titulo.slice(0,200),artista:(c.artista||'').slice(0,120),portada:c.portada||null,preview:c.preview||null,itunes_id:c.id||null,estado:'fila',orden:Date.now()/1000};
   try{await API.saveKaraoke(k,true);KARAOKE.push(k);closeSheet();toast('¡En la fila! 🎤');avisar(KCANT.filter(id=>id!==ME.id).map(id=>({para_id:id,titulo:'🎤 Te anotaron en el karaoke',cuerpo:`«${k.titulo}» con ${KCANT.map(nom).join(' y ')}`,url:'/#juegos'})));pintarJuegos()}catch(e){toast(e.message)}}
 async function siguienteCancion(){const s=kOrden()[0];if(!s)return;try{await API.saveKaraoke({id:s.id,estado:'cantando'},false);s.estado='cantando';avisar(cantantesDe(s).map(id=>({para_id:id,titulo:'🎤 ¡Te toca cantar!',cuerpo:`«${s.titulo}» · al micrófono`,url:'/#juegos'})));pintarJuegos()}catch(e){toast(e.message)}}
