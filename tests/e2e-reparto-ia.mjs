@@ -12,10 +12,10 @@ await pg.evaluate(()=>{const ids=activos().map(p=>p.id);LECT={dataUrl:'data:imag
     factura:{tipo_documento:'ticket',comercio:'Tía',items:[{descripcion:'Hielo 5kg',cantidad:2,total:6,para_ids:[]},{descripcion:'Bloqueador solar',cantidad:1,total:15,para_ids:[]},{descripcion:'Cervezas six pack',cantidad:1,total:10,para_ids:[]}],subtotal:31,impuestos:0,total:31},
     etiquetas:['despensa'],confianza:.9,dudas:['¿Quién pidió qué? Toca las caras en cada producto.']}],tareas:[],eventos:[],album:null},null,'foto')});
 await pg.waitForTimeout(300);
-console.log('supermercado → por platos:',await pg.evaluate(()=>F.por_platos),'· chips rápidos:',await pg.locator('.ia-sec .chip:has-text("Para todos"), .ia-sec .chip:has-text("Todos excepto"), .ia-sec .chip:has-text("Por platos")').count());
+console.log('supermercado para todos → iguales (por platos solo si alguien pidió algo):',await pg.evaluate(()=>F.por_platos),'· se puede pasar a por platos:',await pg.locator('.ia-sec .chip:has-text("Por platos")').count(),'· chips rápidos:',await pg.locator('.ia-sec .chip:has-text("Para todos"), .ia-sec .chip:has-text("Todos excepto"), .ia-sec .chip:has-text("Por platos")').count());
 // explicarle a la IA (la IA se simula: devuelve los mismos ítems con las caras)
 await pg.evaluate(()=>{const ids=activos().map(p=>p.id);API.leer=async(o)=>({gastos:[{descripcion:'Compra en Tía',monto:31,factura:{items:[{descripcion:'Hielo 5kg',total:6,para_ids:[]},{descripcion:'Bloqueador solar',total:15,para_ids:[ids[1]]},{descripcion:'Cervezas six pack',total:10,para_ids:[ids[0],ids[2]]}]}}]})});
-await pg.fill('#plx','el bloqueador es de Ana Paula y las cervezas mías y de Alegría');await pg.click('#plxb');await pg.waitForTimeout(400);
+await pg.click('.ia-sec .chip:has-text("Por platos")');await pg.waitForTimeout(300);await pg.fill('#plx','el bloqueador es de Ana Paula y las cervezas mías y de Alegría');await pg.click('#plxb');await pg.waitForTimeout(400);
 const r=await pg.evaluate(()=>{const ids=activos().map(p=>p.id);return {blo:F.factura.items[1].para_ids.length,cerv:F.factura.items[2].para_ids.length,anaPaula:F.valores[ids[1]],yo:F.valores[ids[0]],suma:Object.values(F.valores).reduce((a,b)=>a+b,0).toFixed(2)}});
 console.log('tras explicar:',JSON.stringify(r),'· esperado Ana Paula = 15 + 6/8 = 15.75');
 await pg.screenshot({path:'/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/reparto-ia.png'});

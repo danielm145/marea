@@ -377,7 +377,7 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .qa button{border:0;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);padding:14px 4px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;font-weight:700;font-size:13px;color:var(--ink);cursor:pointer}
 .qa button span{width:42px;height:42px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center}.qa svg{width:22px;height:22px}
-.saldo-c{display:flex;align-items:center;gap:10px;width:100%;margin-top:14px;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.saldo-c{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;border:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
 .quote{text-align:center;font-size:24px;color:var(--ink-2);margin:22px 0 6px}.quote svg{width:18px;height:18px;color:#B98B4E;vertical-align:-2px}
 .quote.card{background:var(--surface-2);box-shadow:none}
 /* ITINERARIO */
@@ -440,6 +440,10 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .k-sig-c{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:6px}.k-sig-p{display:inline-flex;align-items:center;gap:6px}.k-sig-p b{font-size:14px}
 .kr-i img{width:64px!important;height:64px!important;border-radius:10px;cursor:zoom-in}.kr-ph{width:64px;height:64px;border-radius:10px;flex:none;display:grid;place-items:center;background:#eee}.kr-a{display:block;font-size:14px;color:var(--ink-2);font-weight:600}.kr-d{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .kq-i .heart{flex:none}.kr-ph svg,.kq-ph svg{width:24px;height:24px}.kr-i,.kq-i{min-width:0;max-width:100%}.kr-i>.btn,.kq-i>.btn,.kr-i>.x{flex:none}.kres-l,.kq{min-width:0;overflow:hidden}.kbus{overflow:hidden}
+.modos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}.modo{display:flex;flex-direction:column;gap:2px;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:10px 12px;font:inherit;color:inherit;cursor:pointer}.modo[aria-pressed="true"]{border-color:#46178F;background:#F3EEFF}.modo b{font-size:15px}.modo span{font-size:12px;color:var(--ink-3)}
+.jg-mando{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13.5px;color:var(--ink-2)}.jg-tag{margin-left:auto;background:#FFF1D6;color:#8A5A0B;border-radius:99px;padding:3px 9px;font-size:12px}.jg-reloj.rap{background:#E21B3C}.jg-reloj.poco{background:#E21B3C;animation:pulso .6s infinite alternate}@keyframes pulso{to{transform:scale(1.12)}}
+.jg-caras{display:flex;align-items:center;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}.jg-caras .av{margin-right:-6px;box-shadow:0 0 0 2px #fff}.jg-caras .tiny{margin-left:10px}
+.jc{display:flex;align-items:center;gap:12px;padding:10px;text-align:left;width:100%;border:0;font:inherit;color:inherit;cursor:pointer}.jc>svg,.saldo-c>svg,.todo-c>svg{width:20px;height:20px;flex:none;color:var(--ink-3)}.saldo-c .grow,.jc-in{min-width:0}.saldo-c .eyebrow{white-space:nowrap}.jc-img{width:92px;height:72px;object-fit:cover;border-radius:12px;flex:none;background:linear-gradient(135deg,#46178F,#E21B3C)}.jc-in{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}.jc-k{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#46178F}.jc-in b{font-size:16px}
 .tl3{display:grid;gap:14px;margin-top:12px}.tl3-c{display:block;width:100%;padding:0;border:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit}
 .tl3-i.now .tl3-c{box-shadow:0 0 0 2.5px #14A37F,var(--shadow)}.tl3-img{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#ffe3c2,#cfe8f5)}.tl3-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tl3-h{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.95);color:var(--ink);font-weight:800;font-size:14px;padding:5px 11px;border-radius:99px;font-variant-numeric:tabular-nums;box-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -643,7 +647,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v59';
+const BUILD_TAG='v60';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1324,12 +1328,12 @@ const sheetH=(t,extra='')=>`<div class="sheet-h"><h2 id="sheetTitle">${t}</h2>${
    ARRANQUE
    ============================================================================ */
 /* SIN SEÑAL (en la vía se cae): lo último que se cargó queda en el teléfono y la app abre igual, solo para ver;
-   los juegos de carro funcionan completos. Cuando vuelve la señal, se recarga sola. */
+   Cuando vuelve la señal, se recarga sola. */
 let SIN_RED=false;
 const CACHE_KEY='marea_cache_v1';
 function guardarCache(){if(MODO!=='supabase'||!ME)return;try{lsSet(CACHE_KEY,JSON.stringify({t:Date.now(),ME,PERSONAS,CFG,GASTOS,TAREAS,EVENTOS,VOTOS,ETIQUETAS,COMIDAS,PLATOS,ASIST,INSPI,EQUIPO,VEHICULOS,PASAJEROS,MENSAJES:MENSAJES.slice(-40),KARAOKE,LOOKG}))}catch(e){}}
 function usarCache(){let c=null;try{c=JSON.parse(lsGet(CACHE_KEY)||'null')}catch(e){}if(!c||!c.ME)return false;
-  ({ME,PERSONAS,CFG,GASTOS,TAREAS,EVENTOS,VOTOS,ETIQUETAS,COMIDAS,PLATOS,ASIST,INSPI,EQUIPO,VEHICULOS,PASAJEROS,MENSAJES}=c);KARAOKE=c.KARAOKE||[];LOOKG=c.LOOKG||[];indexar();SIN_RED=c.t||true;return true}
+  ({ME,PERSONAS,CFG,GASTOS,TAREAS,EVENTOS,VOTOS,ETIQUETAS,COMIDAS,PLATOS,ASIST,INSPI,EQUIPO,VEHICULOS,PASAJEROS,MENSAJES}=c);KARAOKE=c.KARAOKE||[];LOOKG=c.LOOKG||[];JUEGOS_OK=false;indexar();SIN_RED=c.t||true;return true}
 const sinRed=e=>!navigator.onLine||/fetch|network|load failed|conexi/i.test(String(e&&e.message||e));
 window.addEventListener('online',async()=>{if(!SIN_RED)return;try{ME=await API.restore()}catch(e){return}if(!ME)return;SIN_RED=false;await cargar();render();toast('Volvió la señal: todo al día')});
 async function boot(){
@@ -1378,7 +1382,7 @@ function render(){
   $('#app').innerHTML=`<div class="wrap ${enHoy?'en-hoy':''}">
     ${enHoy?'':`<header class="top2"><button class="x" onclick="${EN_MAS.includes(TAB)&&TAB!=='mas'?"irA('mas')":"irA('hoy')"}" aria-label="Atrás">${ic('back')}</button>
       <div class="top2-t">${logo(118)}<small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
-    ${SIN_RED?`<div class="sinred">Sin señal: estás viendo lo último guardado${typeof SIN_RED==='number'?' ('+new Date(SIN_RED).toLocaleTimeString('es-EC',{hour:'numeric',minute:'2-digit'})+')':''}. Los <button class="link" onclick="JSUB='carro';irA('juegos')">juegos de carro</button> funcionan igual.</div>`:''}
+    ${SIN_RED?`<div class="sinred">Sin señal: estás viendo lo último guardado${typeof SIN_RED==='number'?' ('+new Date(SIN_RED).toLocaleTimeString('es-EC',{hour:'numeric',minute:'2-digit'})+')':''}. Cuando vuelva la señal se pone al día sola.</div>`:''}
     <main id="main">${(views[TAB]||vHoy)()}</main>
     <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Casablanca ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     ${TAB==='chat'||TAB==='hoy'||TAB==='juegos'?'':`<button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>`}
@@ -1462,22 +1466,20 @@ function vHoy(){
     ${miDiaCard()}
     ${salidaCard()}
     ${votoAlmuerzoCard()}
-    ${carrosCard()}
-    <button class="card todo-c" onclick="hojaTodo()"><span class="todo-ic">${ic('pin')}</span><span class="grow"><b>Todo del viaje</b><span class="muted tiny">Dirección del depa, salida, mapa, WiFi y contactos</span></span>${ic('chev')}</button>
+    <div class="sec-h"><h2>Plata</h2><button class="link" onclick="SUBG='bal';irA('gastos')">Saldos</button></div>
     ${iaCard()}
+    <button class="card saldo-c" onclick="SUBG='bal';irA('gastos')"><div class="grow"><div class="eyebrow">Mis cuentas</div><div class="muted tiny">${b.saldo>0.009?'En total te deben':b.saldo<-0.009?'En total debes':'Estás a paz y salvo'}</div></div><span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span>${ic('chev')}</button>
+    <div class="sec-h"><h2>Para jugar</h2></div>
     ${juegosCard()}
+    <div class="sec-h"><h2>Fotos y chat</h2></div>
     ${albumCard()}
     ${chatCard()}
+    ${nocheCard(hoy)}
+    ${(()=>{const d=dias.indexOf(hoy);return d===0||d===dias.length-1?carrosCard():''})()}
+    <button class="card todo-c" onclick="hojaTodo()"><span class="todo-ic">${ic('pin')}</span><span class="grow"><b>Todo del viaje</b><span class="muted tiny">Dirección del depa, carros, mapa, WiFi y contactos</span></span>${ic('chev')}</button>
     ${avisosCard()}
     ${instalarCard()}
-    ${prox&&!diaDeMiDia()?`<div class="card lp"><div class="lp-r"><div class="grow"><div class="lp-t">Lo próximo</div><div class="muted tiny">${esc(cuando)}</div>
-        <div class="lp-e"><b class="num">${esc(String(prox.hora||'').slice(0,5))}</b><span>${esc(prox.titulo)}</span></div>${prox.lugar?`<span class="pill sun">${ic('pin')} ${esc(prox.lugar.charAt(0).toUpperCase()+prox.lugar.slice(1))}</span>`:''}</div>
-        <button class="lp-img" onclick="abrirEvento('${prox.id}')">${imgTag(imgEvento(prox))}</button></div>
-      <button class="btn navy block" onclick="DIA_PLAN='${prox.dia}';SUBE='programa';irA('planes')">Ver itinerario completo ${ic('chev')}</button></div>`:''}
-    ${nocheCard(hoy)}
-    <button class="card saldo-c" onclick="SUBG='mov';irA('gastos')"><div class="grow"><div class="eyebrow">Mis cuentas</div><div class="muted tiny">${b.saldo>0.009?'En total te deben':b.saldo<-0.009?'En total debes':'Estás a paz y salvo'}</div></div><span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span></button>
     ${VER_NUEVA?`<div class="banner tide" style="margin-top:12px"><div class="grow"><b>Hay una versión nueva (${esc(VER_NUEVA)})</b><br><span class="tiny">Tú tienes la ${BUILD_TAG}.</span></div><button class="btn sm primary" onclick="actualizarApp()">Actualizar</button></div>`:''}
-    <div style="text-align:center;margin-top:18px">${stk('beachEra','',230)}</div>
     <div class="ver-pie">Versión ${BUILD_TAG} · <button class="link" onclick="actualizarApp()">Buscar actualización</button></div>`;
 }
 /* ── versión: la app sabe cuál tiene y pregunta cuál está publicada; «Actualizar» limpia el caché y recarga ── */
@@ -1549,7 +1551,7 @@ function miDiaCard(){const d=diaDeMiDia();if(!d)return '';const hoy=hoyISO(),dia
     ${L.length?`<div class="md-l">${L.map(x=>`<button class="md-i${x===act?' now':''}${x===sig?' next':''}${x.voto?' md-vt':''}" onclick="${x.on}"><span class="md-hr">${h12(x.m)}</span><span class="md-th">${imgTag(x.img,'')}</span><span class="grow md-tx"><b>${esc(x.t)}</b>${x.l?`<span class="tiny muted">${esc(x.l.charAt(0).toUpperCase()+x.l.slice(1))}</span>`:''}${x===act?'<span class="md-pill">Ahora</span>':x===sig?`<span class="md-pill sig">${esHoy?cuantoFalta((x.m-ahora)*60000).replace(/^en /,'En '):'Primero'}</span>`:''}</span></button>`).join('')}</div>`:'<div class="muted tiny">Día libre: playa y siesta.</div>'}
     <button class="btn ghost block sm" style="margin-top:8px" onclick="DIA_PLAN='${d}';SUBE='programa';irA('planes')">Ver el itinerario completo ${ic('chev')}</button></div>`}
 /* ── BIENVENIDA del viaje: el saludo, el ceviche que espera y la regla de oro (todo gasto a la app). Se puede cerrar ── */
-function bienvenidaCard(){if(!CFG.desde||lsGet('marea_bienv_'+CFG.desde))return '';const hoy=hoyISO();if(hoy<addDias(CFG.desde,-1)||hoy>CFG.hasta)return '';
+function bienvenidaCard(){if(!CFG.desde||lsGet('marea_bienv_'+CFG.desde))return '';const hoy=hoyISO();if(hoy<addDias(CFG.desde,-1)||hoy>CFG.desde)return '';
   return `<div class="card bienv"><button class="x bienv-x" aria-label="Cerrar" onclick="lsSet('marea_bienv_'+CFG.desde,'1');render()">${ic('x')}</button>
     <div class="bienv-t">🏖️ ¡Bienvenidos al viaje a la playa!</div>
     <div class="bienv-r">🦐 <span>En la casa nos espera <b>ceviche</b>.</span></div>
@@ -1622,13 +1624,13 @@ const GEM_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient
 function iaCard(){return `<div class="card iac2">
   <div class="cam-ia">
     <span class="cam-ic">${ic('cam')}<span class="cam-gem">${GEM_SVG}</span></span>
-    <span class="grow"><b>Foto de la factura</b><span class="tiny">Tómale una foto o escógela del carrete: Gemini llena el gasto solo, el total, quién pagó y para quién.</span></span>
+    <span class="grow"><b>Registrar un gasto</b><span class="tiny">Foto a la factura y la IA la lee: total, productos, quién pagó y entre quiénes se divide. Tú solo confirmas.</span></span>
   </div>
   <div class="cam-bs">
     <label class="btn primary cam-b"><input type="file" accept="image/*" capture="environment" hidden onchange="camaraIA(this)">${ic('cam')} Tomar foto</label>
     <label class="btn cam-b"><input type="file" accept="image/*" hidden onchange="camaraIA(this)">${ic('galeria')} Del carrete</label>
   </div>
-  <button class="iac-mas" onclick="abrirLector()">${GEM_SVG}<span class="grow">O cuéntaselo a la IA: un gasto, un pendiente o un plan</span>${ic('chev')}</button>
+  <button class="iac-mas" onclick="abrirLector(null,null,null,'gasto')">${GEM_SVG}<span class="grow">Sin factura: escríbelo («pagué 12 de hielo para todos»)</span>${ic('chev')}</button>
 </div>`}
 /* cámara del inicio: foto → hoja de registrar con la foto puesta → la IA la lee sin tocar nada más */
 async function camaraIA(inp,modo){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;
@@ -1784,7 +1786,8 @@ function formDesdePropuesta(pg,respaldo,lectura,origen){
   const pe=pg.pago_entre; if(pe&&PMAP[pe.de_id]&&PMAP[pe.a_id]) return nuevoForm({tipo:'pago',descripcion:`Pago de ${nom(pe.de_id)} a ${nom(pe.a_id)}`,monto:pg.monto||'',fecha:pg.fecha||hoyISO(),pagador:pe.de_id,part:[pe.a_id],modo:'porcentaje',valores:{[pe.a_id]:100},respaldo:respaldo||null,origen,lectura_ia:lectura,factura:pg.factura||null,dudas:pg.dudas||[],baja});
   const cat=pg.categoria==='mercado'?'despensa':pg.categoria==='comida'?'restaurantes':pg.categoria;
   const its=(pg.factura&&pg.factura.items)||[], conPrecio=its.filter(i=>i.total!=null&&+i.total>0);
-  const porPlatos=conPrecio.length>=2||its.some(i=>(i.para_ids||[]).length);
+  /* «por platos» solo cuando importa quién pidió qué: la IA ya asignó ítems a personas, o es restaurante/bar. Una despensa para todos va en partes iguales (la factura se ve igual, plegada). */
+  const porPlatos=its.some(i=>(i.para_ids||[]).length)||(conPrecio.length>=2&&/restaurant|comida|bebidas|bar/.test(String(pg.categoria||'')));
   return aplicarHistorial(nuevoForm({por_platos:porPlatos,etq_ia:pg.etiquetas||[],factura:pg.factura||null,alcance:pg.alcance||(part.length===activos().length?'fijo':'consumo'),descripcion:pg.descripcion||'',monto:pg.monto||'',fecha:pg.fecha||hoyISO(),categoria:CATN[cat]?cat:'otros',pagador:(pg.pagador_ids||[])[0]&&PMAP[pg.pagador_ids[0]]?pg.pagador_ids[0]:ME.id,part,modo:pg.modo||'igual',valores,evento_id:pg.evento_id&&EVENTOS.some(e=>e.id===pg.evento_id)?pg.evento_id:'',respaldo:respaldo||null,origen,lectura_ia:lectura,dudas:pg.dudas||[],baja}));
 }
 /* lo que armó la IA, en limpio. Todo se cambia TOCANDO (quién pagó, entre quiénes, de qué es, con qué plan);
@@ -3397,18 +3400,12 @@ function puntaje(j){const M={};respDe(j.id).forEach(r=>{M[r.persona_id]=(M[r.per
 function jugadores(j){return [...new Set(respDe(j.id).map(r=>r.persona_id))]}
 
 /* ── la vista ── */
-function vJuegos(){
-  const T=[['trivia','Trivia'],['probable','¿Quién…?'],['karaoke','Karaoke'],['carro','Carro'],['playa','Playa']];
-  const seg=`<div class="seg jseg">${T.map(([k,l])=>`<button aria-pressed="${JSUB===k}" onclick="JSUB='${k}';render()">${l}</button>`).join('')}</div>`;
-  if(JSUB==='carro')return seg+vCarro();   // sin internet también: no necesita la base
-  if(!JUEGOS_OK)return seg+`<div class="card flat empty" style="margin-top:14px">${ic('juegos')}<div>Sin conexión o falta publicar la versión nueva. Mientras tanto, los <button class="link" onclick="JSUB='carro';render()">juegos de carro</button> funcionan sin internet.</div></div>`;
-  if(JSUB==='playa')return seg+vPlaya();
-  if(JSUB==='karaoke'){setTimeout(portadasSug,80);setTimeout(completarPortadas,60)}
-  if(JSUB==='karaoke')return seg+`<div id="jdin">${karaokeDin()}</div>${karaokeBuscar()}<div id="jsug">${ksugHTML()}</div><div id="jprem">${premiosHTML()}</div>`;
-  return seg+`<div id="jdin">${JSUB==='probable'?probableDin():triviaDin()}</div>`;
+function vJuegos(){JSUB='trivia';
+  if(!JUEGOS_OK)return `<div class="card flat empty" style="margin-top:14px">${ic('juegos')}<div>Sin conexión o falta publicar la versión nueva. Vuelve a intentar en un momento.</div></div>`;
+  return `<div id="jdin">${triviaDin()}</div>`;
 }
 /* lo que cambia con los datos se repinta solo (sin tocar el buscador: nunca se repinta un campo desde su propio oninput) */
-function pintarJuegos(){if(TAB!=='juegos')return;if(JSUB==='karaoke'){setTimeout(completarPortadas,50);setTimeout(portadasSug,80)}const d=$('#jdin');if(d)d.innerHTML=JSUB==='karaoke'?karaokeDin():JSUB==='probable'?probableDin():JSUB==='trivia'?triviaDin():d.innerHTML;const p=$('#jprem');if(p)p.innerHTML=premiosHTML();const sg=$('#jsug');if(sg)sg.innerHTML=ksugHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
+function pintarJuegos(){if(TAB!=='juegos')return;JSUB='trivia';const d=$('#jdin');if(d)d.innerHTML=triviaDin();const p=$('#jprem');if(p)p.innerHTML=premiosHTML();const sg=$('#jsug');if(sg)sg.innerHTML=ksugHTML();if(JSUB==='playa'){const m=$('#main');if(m)m.innerHTML=vJuegos()}}
 let JULT=0;
 async function sondearJuegos(){if(!ME||document.hidden||(TAB!=='juegos'&&TAB!=='hoy'))return;if(TAB==='hoy'&&Date.now()-JULT<20000)return;JULT=Date.now();
   await cargarJuegos();const h=JSON.stringify([JUEGOS,JRESP.length,KARAOKE,VOTJ.length]);if(h===JHUELLA){if(TAB==='juegos')tickJuego();return}JHUELLA=h;
@@ -3416,45 +3413,56 @@ async function sondearJuegos(){if(!ME||document.hidden||(TAB!=='juegos'&&TAB!=='
 setInterval(()=>{sondearJuegos().catch(()=>{})},2000);
 /* ── TRIVIA ── */
 let TEMA='mix';
+let TMODO='normal';
+const MODOS=[['normal','Trivia','20 s por pregunta · 1.000 puntos'],['rapido','Responder rápido','8 s por pregunta · el doble de puntos']];
 function triviaDin(){const j=JUEGOS.find(x=>x.tipo==='trivia'&&x.estado!=='fin');
-  if(!j){const ult=JUEGOS.find(x=>x.tipo==='trivia'&&x.estado==='fin');return `<div class="card jg-hero">${imgTag([arteUrl('juego-trivia')],'jg-img')}<div class="jg-in"><div class="jg-k">Como Kahoot, desde el celular</div><h2>Trivia del viaje</h2><p>Todos juegan a la vez: sale la pregunta, cada uno toca su respuesta y gana quien acierte más rápido.</p></div></div>
-    <div class="card"><div class="lbl">Tema</div><div class="chips" style="margin-top:6px">${TEMAS.map(([k,l])=>`<button class="chip" aria-pressed="${TEMA===k}" onclick="TEMA='${k}';pintarJuegos()">${l}</button>`).join('')}</div>
-    <button class="btn primary block" style="margin-top:12px" onclick="nuevaTrivia(this)">${ic('play')} Empezar una trivia de 10 preguntas</button><div class="tiny muted" style="margin-top:6px">Quien la empieza la conduce (pasa de pregunta). Ideal con el proyector o en la sala.</div></div>
+  if(!j){const ult=JUEGOS.find(x=>x.tipo==='trivia'&&x.estado==='fin');return `<div class="card jg-hero">${imgTag([arteUrl('juego-trivia')],'jg-img')}<div class="jg-in"><div class="jg-k">Como Kahoot, desde el celular</div><h2>Trivia del viaje</h2><p>Sale la pregunta en todos los celulares a la vez, cada uno toca su respuesta y gana quien acierte más rápido.</p></div></div>
+    <div class="card"><div class="lbl">Cómo jugamos</div><div class="modos">${MODOS.map(([k,t,d])=>`<button class="modo" aria-pressed="${TMODO===k}" onclick="TMODO='${k}';pintarJuegos()"><b>${t}</b><span>${d}</span></button>`).join('')}</div>
+    <div class="lbl" style="margin-top:12px">Tema</div><div class="chips" style="margin-top:6px">${TEMAS.map(([k,l])=>`<button class="chip" aria-pressed="${TEMA===k}" onclick="TEMA='${k}';pintarJuegos()">${l}</button>`).join('')}</div>
+    <button class="btn primary block" style="margin-top:12px" onclick="nuevaTrivia(this)">${ic('play')} Empezar · 10 preguntas</button><div class="tiny muted" style="margin-top:6px"><b>Una sola persona lleva el mando:</b> quien empieza la partida. Los demás solo responden. Ideal en la sala con el proyector.</div></div>
     ${ult?`<div class="sec-h"><h2>La última partida</h2></div>${podio(puntaje(ult))}`:''}`}
-  const P2=j.preguntas||[],q=P2[j.idx],soyHost=j.host===ME.id||esAdmin(),R=respDe(j.id,j.idx),mia=R.find(r=>r.persona_id===ME.id);
-  const ctrl=(t,fn)=>soyHost?`<button class="btn primary block" style="margin-top:10px" onclick="${fn}">${t}</button><div class="jg-esp"><button class="link tiny" onclick="if(confirm('¿Terminar la partida para todos?'))cerrarJuego('${j.id}')">Terminar la partida</button></div>`:`<div class="tiny muted jg-esp">Conduce ${esc(nom(j.host))}. <button class="link" onclick="tomarControl('${j.id}')">Tomar el control</button></div>`;
-  if(j.estado==='espera')return `<div class="card jg-lobby">${imgTag([arteUrl('juego-trivia')],'jg-img sm')}<h2>¡Trivia lista!</h2><p>${P2.length} preguntas · ${j.segundos} segundos cada una. Todos atentos al celular.</p>${ctrl(`${ic('play')} ¡Empezar!`,`avanzarTrivia('${j.id}','pregunta',0)`)}${soyHost?`<button class="btn ghost block sm" style="margin-top:6px" onclick="cerrarJuego('${j.id}')">Cancelar</button>`:''}</div>`;
+  const P2=j.preguntas||[],q=P2[j.idx],soyHost=j.host===ME.id,R=respDe(j.id,j.idx),mia=R.find(r=>r.persona_id===ME.id),rapido=esRapida(j);
+  const mando=`<div class="jg-mando">${av(j.host,'xs')}<span>${soyHost?'Tú llevas el mando':'Lleva el mando '+esc(nom(j.host))}</span>${rapido?'<b class="jg-tag">⚡ Rápido</b>':''}</div>`;
+  const ctrl=(t,fn,auto)=>soyHost?`<button class="btn primary block" style="margin-top:10px" onclick="${fn}">${t}</button>${auto?`<div class="tiny muted" style="text-align:center;margin-top:4px" id="jauto"></div>`:''}<div class="jg-esp"><button class="link tiny" onclick="if(confirm('¿Terminar la partida para todos?'))cerrarJuego('${j.id}')">Terminar la partida</button></div>`
+    :`<div class="tiny muted jg-esp">Espera: ${esc(nom(j.host))} pasa a lo siguiente.${esAdmin()?` <button class="link" onclick="if(confirm('¿Terminar la partida para todos?'))cerrarJuego('${j.id}')">Terminar</button>`:''}</div>`;
+  if(j.estado==='espera')return mando+`<div class="card jg-lobby">${imgTag([arteUrl('juego-trivia')],'jg-img sm')}<h2>¡${rapido?'Responder rápido':'Trivia'} lista!</h2><p>${P2.length} preguntas · ${j.segundos} segundos cada una${rapido?' · el doble de puntos':''}. Todos con el celular en la mano.</p>${ctrl(`${ic('play')} ¡Empezar!`,`avanzarTrivia('${j.id}','pregunta',0)`)}</div>`;
   if(!q)return '';
-  const cab=`<div class="jg-cab"><span>Pregunta ${j.idx+1} de ${P2.length}</span><span id="jreloj" class="jg-reloj"></span></div><div class="card jg-q"><h2>${esc(q.q)}</h2></div>`;
+  const cab=mando+`<div class="jg-cab"><span>Pregunta ${j.idx+1} de ${P2.length}</span><span id="jreloj" class="jg-reloj${rapido?' rap':''}"></span></div><div class="card jg-q"><h2>${esc(q.q)}</h2></div>`;
+  const caras=R.length?`<div class="jg-caras">${R.map(r=>av(r.persona_id,'xs')).join('')}<span class="tiny muted">${R.length} ${R.length===1?'ya respondió':'ya respondieron'}</span></div>`:`<div class="tiny muted" style="text-align:center;margin-top:8px">Nadie ha respondido todavía</div>`;
   if(j.estado==='pregunta'){const k=j.id+':'+j.idx;if(!JVISTO[k])JVISTO[k]=Date.now();
-    if(mia)return cab+`<div class="card jg-ya"><div class="jg-big" style="background:${KCOL[mia.opcion]||'#888'}">${forma(mia.opcion)}</div><b>¡Respondiste!</b><div class="muted">Esperando a los demás… ${R.length} ${R.length===1?'respuesta':'respuestas'}</div></div>${ctrl('Ver la respuesta',`avanzarTrivia('${j.id}','resultado',${j.idx})`)}`;
-    return cab+`<div class="kgrid">${q.ops.map((o,i)=>`<button class="kbtn" style="background:${KCOL[i]}" onclick="responder('${j.id}',${j.idx},${i})">${forma(i)}<span>${esc(o)}</span></button>`).join('')}</div><div class="tiny muted" style="text-align:center;margin-top:8px">${R.length} ${R.length===1?'ya respondió':'ya respondieron'}</div>${soyHost?ctrl('Ver la respuesta',`avanzarTrivia('${j.id}','resultado',${j.idx})`):''}`}
+    if(mia)return cab+`<div class="card jg-ya"><div class="jg-big" style="background:${KCOL[mia.opcion]||'#888'}">${forma(mia.opcion)}</div><b>¡Respondiste!</b><div class="muted">Esperando a los demás…</div></div>${caras}${ctrl('Ver la respuesta',`avanzarTrivia('${j.id}','resultado',${j.idx})`)}`;
+    return cab+`<div class="kgrid">${q.ops.map((o,i)=>`<button class="kbtn" style="background:${KCOL[i]}" onclick="responder('${j.id}',${j.idx},${i})">${forma(i)}<span>${esc(o)}</span></button>`).join('')}</div>${caras}${soyHost?ctrl('Ver la respuesta',`avanzarTrivia('${j.id}','resultado',${j.idx})`):''}`}
   // resultado de la pregunta
   const cuenta=[0,1,2,3].map(i=>R.filter(r=>r.opcion===i).length),max=Math.max(1,...cuenta),acerto=R.filter(r=>r.opcion===q.ok),ultima=j.idx>=P2.length-1;
+  const kr=j.id+':'+j.idx+':res';if(!JVISTO[kr])JVISTO[kr]=Date.now();
   return cab+`<div class="kres">${q.ops.map((o,i)=>`<div class="kres-i ${i===q.ok?'ok':'no'}"><div class="kres-b" style="height:${Math.round(cuenta[i]/max*90)+8}px;background:${KCOL[i]}"></div><div class="kres-o" style="background:${KCOL[i]}">${forma(i)}<span>${esc(o)}</span>${i===q.ok?'<b>✓</b>':''}</div><b>${cuenta[i]}</b></div>`).join('')}</div>
-    ${mia?`<div class="banner ${mia.opcion===q.ok?'tide':'warn'}" style="margin-top:10px"><b>${mia.opcion===q.ok?'¡Correcto! +'+mia.puntos+' puntos':'Esta vez no 😅'}</b></div>`:''}
+    ${mia?`<div class="banner ${mia.opcion===q.ok?'tide':'warn'}" style="margin-top:10px"><b>${mia.opcion===q.ok?'¡Correcto! +'+mia.puntos+' puntos':'Esta vez no 😅'}</b></div>`:`<div class="banner warn" style="margin-top:10px"><b>No alcanzaste a responder</b></div>`}
     ${acerto.length?`<div class="tiny muted" style="margin-top:8px">Acertaron: ${acerto.map(r=>esc(nom(r.persona_id))).join(', ')}</div>`:''}
     <div class="sec-h"><h2>Tabla</h2></div>${tabla(puntaje(j).slice(0,5))}
-    ${ctrl(ultima?'Ver el podio':'Siguiente pregunta',ultima?`avanzarTrivia('${j.id}','fin',${j.idx})`:`avanzarTrivia('${j.id}','pregunta',${j.idx+1})`)}`}
+    ${ctrl(ultima?'Ver el podio':'Siguiente pregunta',ultima?`avanzarTrivia('${j.id}','fin',${j.idx})`:`avanzarTrivia('${j.id}','pregunta',${j.idx+1})`,!ultima)}`}
 function tabla(L,off=0){return L.length?`<div class="card"><div class="list">${L.map((x,i)=>`<div class="item" style="cursor:default"><b class="jg-pos">${i+1+off}</b>${av(x.id)}<div class="grow"><div class="t">${esc(nom(x.id))}</div></div><b class="num">${x.p}</b></div>`).join('')}</div></div>`:'<div class="muted tiny">Todavía nadie suma puntos.</div>'}
 function podio(L){if(!L.length)return '<div class="muted tiny">Nadie jugó.</div>';const t=[L[1],L[0],L[2]];
   return `<div class="card jg-podio"><div class="pod">${t.map((x,i)=>x?`<div class="pod-i p${[2,1,3][i]}">${av(x.id,'lg')}<b>${esc(nom(x.id))}</b><span>${x.p} pts</span><div class="pod-c">${[2,1,3][i]}</div></div>`:'<div class="pod-i"></div>').join('')}</div></div>${L.length>3?tabla(L.slice(3),3):''}`}
-async function nuevaTrivia(b){if(b)b.disabled=true;try{const j={id:uid(),tipo:'trivia',titulo:'Trivia · '+(TEMAS.find(t=>t[0]===TEMA)||['','Mezcla'])[1],estado:'espera',idx:0,preguntas:armarPreguntas(TEMA,10),segundos:20,host:ME.id,creado_por:ME.id};
-  await API.saveJuego(j,true);avisar(activos().map(p=>({para_id:p.id,titulo:'🎮 ¡Trivia en vivo!',cuerpo:`${nom(ME.id)} empezó una trivia. Entra para jugar.`,url:'/#juegos'})));await cargarJuegos();pintarJuegos()}catch(e){toast(e.message);if(b)b.disabled=false}}
-async function avanzarTrivia(id,estado,idx){const j=JUEGOS.find(x=>x.id===id);if(!j)return;if(j.estado===estado&&j.idx===idx)return;
-  try{await API.saveJuego({id,estado,idx,host:j.host===ME.id||esAdmin()?j.host:ME.id,updated_at:new Date().toISOString()},false);Object.assign(j,{estado,idx});pintarJuegos();if(estado==='fin')toast('¡Fin de la trivia!')}catch(e){toast(e.message)}}
-async function tomarControl(id){try{await API.saveJuego({id,host:ME.id},false);await cargarJuegos();pintarJuegos();toast('Ahora conduces tú')}catch(e){toast(e.message)}}
-async function cerrarJuego(id){try{await API.saveJuego({id,estado:'fin'},false);await cargarJuegos();pintarJuegos()}catch(e){toast(e.message)}}
+async function nuevaTrivia(b){if(b)b.disabled=true;try{const rapido=TMODO==='rapido';const j={id:uid(),tipo:'trivia',titulo:(rapido?'Responder rápido · ':'Trivia · ')+(TEMAS.find(t=>t[0]===TEMA)||['','Mezcla'])[1],estado:'espera',idx:0,preguntas:armarPreguntas(TEMA,10),segundos:rapido?8:20,host:ME.id,creado_por:ME.id};
+  await API.saveJuego({...j,preguntas:j.preguntas.map(q=>({...q,rapido}))},true);avisar(activos().map(p=>({para_id:p.id,titulo:rapido?'⚡ ¡Responder rápido en vivo!':'🎮 ¡Trivia en vivo!',cuerpo:`${nom(ME.id)} empezó una partida. Entra a jugar.`,url:'/#juegos'})));await cargarJuegos();pintarJuegos()}catch(e){toast(e.message);if(b)b.disabled=false}}
+const esRapida=j=>!!(j&&j.preguntas&&j.preguntas[0]&&j.preguntas[0].rapido);
+/* solo quien lleva el mando mueve la partida (sin «tomar el control»: así nadie se adelanta ni se pisan) */
+async function avanzarTrivia(id,estado,idx){const j=JUEGOS.find(x=>x.id===id);if(!j)return;if(j.host!==ME.id){toast('Solo '+nom(j.host)+' lleva el mando');return}if(j.estado===estado&&j.idx===idx)return;
+  try{await API.saveJuego({id,estado,idx,updated_at:new Date().toISOString()},false);Object.assign(j,{estado,idx});pintarJuegos();if(estado==='fin')toast('¡Fin de la partida!')}catch(e){toast(e.message)}}
+async function cerrarJuego(id){const j=JUEGOS.find(x=>x.id===id);if(j&&j.host!==ME.id&&!esAdmin()){toast('Solo '+nom(j.host)+' lleva el mando');return}try{await API.saveJuego({id,estado:'fin'},false);await cargarJuegos();pintarJuegos()}catch(e){toast(e.message)}}
 async function responder(id,idx,op){const j=JUEGOS.find(x=>x.id===id);if(!j||respDe(id,idx).some(r=>r.persona_id===ME.id))return;const q=j.preguntas[idx];
-  const ms=Math.min(Date.now()-(JVISTO[id+':'+idx]||Date.now()),j.segundos*1000),puntos=op===q.ok?Math.round(1000-500*ms/(j.segundos*1000)):0;
+  const ms=Math.min(Date.now()-(JVISTO[id+':'+idx]||Date.now()),j.segundos*1000),base=esRapida(j)?2000:1000,puntos=op===q.ok?Math.round(base-base/2*ms/(j.segundos*1000)):0;
   const r={juego_id:id,persona_id:ME.id,idx,opcion:op,ms,puntos};JRESP.push(r);pintarJuegos();
   try{await API.responder(r)}catch(e){JRESP=JRESP.filter(x=>x!==r);toast(e.message);pintarJuegos()}}
 /* el reloj de la pregunta; quien conduce pasa solo a la respuesta cuando se acaba el tiempo o ya respondieron todos los que juegan */
-function tickJuego(){const j=JUEGOS.find(x=>x.tipo==='trivia'&&x.estado==='pregunta');const el=$('#jreloj');if(!j)return;const k=j.id+':'+j.idx;if(!JVISTO[k])JVISTO[k]=Date.now();
-  const resta=Math.max(0,Math.ceil(j.segundos-(Date.now()-JVISTO[k])/1000));if(el)el.textContent=resta+' s';
+function tickJuego(){const j=JUEGOS.find(x=>x.tipo==='trivia'&&(x.estado==='pregunta'||x.estado==='resultado'));if(!j)return;
+  if(j.estado==='resultado'){const kr=j.id+':'+j.idx+':res';if(!JVISTO[kr])JVISTO[kr]=Date.now();const resta=Math.max(0,Math.ceil(12-(Date.now()-JVISTO[kr])/1000)),el=$('#jauto');if(el)el.textContent=resta?'Sigue sola en '+resta+' s':'';
+    if(j.host===ME.id&&resta<=0&&j.idx<(j.preguntas||[]).length-1)avanzarTrivia(j.id,'pregunta',j.idx+1);return}
+  const el=$('#jreloj'),k=j.id+':'+j.idx;if(!JVISTO[k])JVISTO[k]=Date.now();
+  const resta=Math.max(0,Math.ceil(j.segundos-(Date.now()-JVISTO[k])/1000));if(el){el.textContent=resta+' s';el.classList.toggle('poco',resta<=3)}
   const R=respDe(j.id,j.idx),antes=new Set(respDe(j.id).filter(r=>r.idx<j.idx).map(r=>r.persona_id));
   if(j.host===ME.id&&(resta<=0||(antes.size>=2&&[...antes].every(p=>R.some(r=>r.persona_id===p)))))avanzarTrivia(j.id,'resultado',j.idx)}
-setInterval(()=>{if(TAB==='juegos'&&JSUB==='trivia')tickJuego()},1000);
+setInterval(()=>{if(TAB==='juegos')tickJuego()},1000);
 
 /* ── ¿QUIÉN ES MÁS PROBABLE QUE…? ── */
 function probableDin(){const j=JUEGOS.find(x=>x.tipo==='probable'&&x.estado!=='fin');
@@ -3609,12 +3617,8 @@ function pedirSug(i){const[t,a]=KSUG[i],P=KSUG_PORT[ksugClave(i)]||{};KRES=[{tit
   fetch('/api/canciones?q='+encodeURIComponent(t+' '+a)).then(r=>r.ok?r.json():null).then(j=>{const c=j&&j.canciones&&j.canciones[0];if(c&&KRES&&KRES[0]&&KRES[0].titulo===t)KRES[0]={...c,titulo:t,artista:a}}).catch(()=>{})}
 
 /* ── en el inicio: la tarjeta de juegos (con lo que está pasando en vivo) ── */
-function juegosCard(){const vivo=JUEGOS.find(j=>j.estado!=='fin'),ahora=KARAOKE.find(k=>k.estado==='cantando'),fila=KARAOKE.filter(k=>k.estado==='fila').length;
-  const t=(k,img,tit,sub)=>`<button class="jc-t" onclick="JSUB='${k}';irA('juegos')">${imgTag([arteUrl(img)],'')}<span><b>${tit}</b><em>${sub}</em></span></button>`;
-  return `<div class="card jc" id="jcard"><div class="row" style="gap:10px;align-items:center"><span class="subir-ic jc-ic">${ic('juegos')}</span><div class="grow"><b>Juegos</b><div class="muted tiny">Trivia, karaoke y juegos de playa</div></div></div>
-    ${vivo?`<button class="btn primary block jc-vivo" onclick="JSUB='${vivo.tipo}';irA('juegos')">● ${vivo.tipo==='trivia'?'¡Trivia en vivo!':'¿Quién es más probable…? en vivo'} · entrar</button>`:''}
-    ${ahora?`<button class="btn block jc-vivo" onclick="JSUB='karaoke';irA('juegos')">🎤 Ahora canta ${esc(cantantesDe(ahora).map(nom).join(' y '))}: ${esc(ahora.titulo)}</button>`:''}
-    <div class="jc-g">${t('trivia','juego-trivia','Trivia','Como Kahoot')}${t('probable','juego-probable','¿Quién es más…?','Para reír')}${t('karaoke','juego-karaoke','Karaoke',fila?fila+' en la fila':'Pide tu canción')}${t('playa','act-voley','Playa','12 ideas')}</div><button class="btn block jc-car" onclick="JSUB='carro';irA('juegos')">${ic('transporte')} Juegos de carro · sin internet</button></div>`}
+function juegosCard(){const vivo=JUEGOS.find(j=>j.tipo==='trivia'&&j.estado!=='fin');
+  return `<button class="card jc" id="jcard" onclick="irA('juegos')">${imgTag([arteUrl('juego-trivia')],'jc-img')}<span class="jc-in"><span class="jc-k">Para jugar en la sala</span><b>Trivia · como Kahoot</b><span class="tiny">${vivo?'● ¡Hay una partida en vivo! Entra a jugar':'Normal o «responder rápido» · todos desde el celular'}</span></span>${ic('chev')}</button>`}
 
 /* ---------- instalar la app en el teléfono ---------- */
 let PROMPT_INSTALAR=null;

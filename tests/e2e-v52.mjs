@@ -15,21 +15,7 @@ console.log('liquidar:',JSON.stringify(r),'· explicaciones:',await pg.locator('
 await pg.screenshot({path:S+'liquidar.png',fullPage:true});
 await pg.locator('text=Ya se hizo: registrar este pago').first().click();await pg.waitForTimeout(300);console.log('abre el pago:',await pg.evaluate(()=>F&&F.tipo));
 await pg.evaluate(()=>closeSheet());
-// CARRO (sin base: simula que no hay tablas)
-await pg.evaluate(()=>{JUEGOS_OK=false;JSUB='carro';irA('juegos')});await pg.waitForTimeout(200);
-console.log('juegos de carro:',await pg.locator('.cj-i').count());
-await pg.click('.cj-i:has-text("Stop")');console.log('stop letra:',await pg.locator('.cj-letra').innerText(),'· categorías:',await pg.locator('.cj-cats span').count());
-await pg.click('text=60 segundos');await pg.waitForTimeout(1300);console.log('reloj:',await pg.locator('#cjr').innerText());
-await pg.evaluate(()=>cjAbrir('bingo'));for(const i of [0,1,2,3])await pg.locator('.cj-bingo button').nth(i).click();console.log('bingo línea:',await pg.locator('text=¡BINGO!').count());
-await pg.evaluate(()=>cjAbrir('tararea'));await pg.click('text=Solo tú: toca para ver');console.log('tararea:',(await pg.locator('.cj-txt').innerText()).replace(/\n/g,' — '));
-await pg.evaluate(()=>cjAbrir('placas'));await pg.click('.cj-placas button:has-text("Esmeraldas")');console.log('placas:',await pg.locator('.cj-card .cj-letra').innerText());
-await pg.evaluate(()=>cjAbrir('verdad'));await pg.click('button:has-text("Reto")');console.log('reto:',await pg.locator('.cj-txt').innerText());
-await pg.screenshot({path:S+'carro.png'});
-// KARAOKE: canciones sugeridas con votos
-await pg.evaluate(()=>{JUEGOS_OK=true;cjSalir();JSUB='karaoke';render()});await pg.waitForTimeout(200);
-console.log('sugeridas:',await pg.locator('#jsug .kq-i').count());await pg.locator('#jsug .heart').nth(3).click();await pg.waitForTimeout(300);
-console.log('la votada sube primero:',await pg.locator('#jsug .kq-i b').first().innerText(),'·',await pg.locator('#jsug .kq-i .tiny').first().innerText());
-await pg.locator('#jsug .kq-i').first().locator('text=Pedir').click();await pg.waitForTimeout(200);await pg.click('text=Agregar a la fila');await pg.waitForTimeout(300);console.log('en la fila:',await pg.locator('#jdin .kq-i, #jdin button:has-text("Que empiece")').count()>0);
+// (v60: los juegos de carro y el karaoke salieron de la app: solo trivia)
 // DESAYUNO
 await pg.evaluate(()=>{DIA_MENU=diasViaje()[1];SUBM='carta';irA('menu')});await pg.waitForTimeout(300);
 console.log('desayuno:',await pg.locator('.carta-t').first().innerText(),'·',(await pg.locator('.incl span').allInnerTexts()).join(' | '),'· opciones:',(await pg.locator('.opt-n').allInnerTexts()).join(' / '));

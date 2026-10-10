@@ -502,3 +502,20 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   repetir) y cada resultado trae portada grande (se abre en grande), nombre, artista, álbum, año, género y duración.
   La lista de canciones sugeridas también muestra su portada (se busca una vez y queda en el teléfono).
   Arreglado: los botones «Pedir» se salían del ancho de la pantalla.
+
+## v60 · menos cosas, más claro (10-oct-2026, Daniel: «la app está confusa»)
+- **Juegos = solo la trivia.** Dos modos: **Trivia** (20 s, 1.000 puntos) y **Responder rápido** (8 s, el doble de puntos).
+  Quedan en el código, pero sin entrada en la app: ¿quién es más probable?, karaoke, juegos de carro y playa.
+- **Un solo mando por partida:** quien la empieza. Los demás solo responden: no tienen «Empezar», «Ver la respuesta»
+  ni «Siguiente», y aunque lo intenten la base no se mueve (`avanzarTrivia` lo rechaza). Se ve quién lleva el mando,
+  las caras de los que ya respondieron, el reloj se pone rojo en los últimos 3 s, y en el resultado el mando pasa solo
+  a la siguiente pregunta a los 12 s si no toca nada. El admin solo puede terminar una partida trabada.
+- **Inicio claro**, en bloques: Mi día · **Plata** (Registrar un gasto + Mis cuentas) · **Para jugar** (trivia) ·
+  **Fotos y chat** · la noche · carros (solo el primer y el último día) · Todo del viaje. Fuera el sticker, la
+  bienvenida solo el día de la salida, y los íconos de flecha ya no salen gigantes.
+- **Facturas, revisadas de punta a punta** (tests/… y la prueba `fact.mjs` con la IA simulada, como Ana Paula):
+  foto → la IA la lee → confirmar → un solo gasto con sus 4 ítems y la foto → Saldos → Facturas → detalle. Cambio
+  para que no confunda: una compra **para todos** (despensa, transporte) queda en **partes iguales**; «por platos»
+  solo cuando la IA asignó ítems a personas o es restaurante/bar. La factura completa sigue plegada en «Lo que dice
+  la factura».
+- Sin señal: la pantalla de juegos dice «Sin conexión» en vez de dejar empezar una partida que no se puede guardar.

@@ -7,6 +7,8 @@ const ESQ=fs.readFileSync('/home/user/marea/tests/esquema-marea.json','utf8'), M
 const srv=spawn('python3',['-m','http.server','8098','--bind','127.0.0.1','-d','/home/user/marea/public'],{stdio:'ignore'});await new Promise(r=>setTimeout(r,800));
 const S='/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/';
 const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});const ctx=await b.newContext({viewport:{width:390,height:844}});
+// el día de la salida (9-oct a las 2 a.m.): así salen la votación del almuerzo y los carros en el inicio
+await ctx.addInitScript(()=>{const real=Date;const off=new real('2026-10-09T02:00:00-05:00').getTime()-real.now();class D extends real{constructor(...a){super(...(a.length?a:[real.now()+off]))}static now(){return real.now()+off}};window.Date=D});
 await ctx.addInitScript(`window.__ESQUEMA=${ESQ};\n${MOCK}`);
 await ctx.route('**/*',async r=>{const u=r.request().url();
   if(u.startsWith('https://mock.supabase.co/functions/v1/')){const body=JSON.parse(r.request().postData()||'{}');
@@ -69,7 +71,7 @@ await pg.screenshot({path:S+'supabase-hoy.png'});
 await pg.evaluate(()=>localStorage.setItem('__mock_offline','1'));await pg.reload();await pg.waitForTimeout(1500);
 console.log('sin señal · modo:',await pg.evaluate(()=>MODO),'· sin config del servidor:',await pg.evaluate(()=>!!window.MAREA_SB));
 console.log('sin señal · abre:',await pg.locator('.hh').count()===1,'· aviso:',await pg.locator('.sinred').count(),'· Mi día:',await pg.locator('.md').count(),'· carros:',await pg.locator('.carro2').count());
-await pg.click('.sinred >> text=juegos de carro');await pg.waitForTimeout(300);await pg.click('.cj-i:has-text("Stop")');console.log('juego de carro sin señal:',await pg.locator('.cj-letra').innerText());
+await pg.evaluate(()=>irA('juegos'));await pg.waitForTimeout(300);console.log('juegos sin señal · aviso claro:',(await pg.locator('#main').innerText()).includes('Sin conexión'));
 await pg.screenshot({path:S+'sin-senal.png'});
 await pg.evaluate(()=>{localStorage.removeItem('__mock_offline');window.dispatchEvent(new Event('online'))});await pg.waitForTimeout(1200);
 console.log('vuelve la señal · aviso quitado:',await pg.locator('.sinred').count()===0);
