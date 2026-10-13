@@ -542,3 +542,6 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   itinerario ni carros.
 - Barra de abajo después del viaje: **Inicio · Fotos al álbum · Cuentas · Álbum · Más**.
 - Las pruebas del viaje en curso se fijan en el sábado 10-oct (hoy el inicio ya es el de después).
+- **13-oct-2026 · PUBLICADA la v62** (Daniel corrió `scripts/listo.sh`: todo ✓ — versión publicada, catálogo de
+  imágenes, buscador de canciones y tablas nuevas en la base). La app en vivo tiene cerrar cuentas con comprobante,
+  el inicio de después del viaje y la trivia con un solo mando.
