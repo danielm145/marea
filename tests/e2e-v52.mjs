@@ -13,7 +13,7 @@ await pg.click('text=Ver cómo liquidar y por qué');await pg.waitForTimeout(300
 const r=await pg.evaluate(()=>{const T=simplificar(balances()),bs=balances();const M={};T.forEach(t=>{M[t.de]=(M[t.de]||0)+t.monto;M[t.a]=(M[t.a]||0)-t.monto});return {transf:T.length,deudas:deudasGrupo().length,todosEnCero:bs.every(b=>Math.abs(b.saldo+(M[b.id]||0))<0.02)}});
 console.log('liquidar:',JSON.stringify(r),'· explicaciones:',await pg.locator('.liq-p').count(),'· ceros comprobados:',(await pg.locator('#sheetBody .liq-s b').allInnerTexts()).filter(x=>x==='= $0,00').length);
 await pg.screenshot({path:S+'liquidar.png',fullPage:true});
-await pg.locator('text=Ya se hizo: registrar este pago').first().click();await pg.waitForTimeout(300);console.log('abre el pago:',await pg.evaluate(()=>F&&F.tipo));
+await pg.locator('.liq-t .btn').first().click();await pg.waitForTimeout(300);console.log('abre el pago:',await pg.locator('#sheetTitle').innerText());
 await pg.evaluate(()=>closeSheet());
 // (v60: los juegos de carro y el karaoke salieron de la app: solo trivia)
 // DESAYUNO

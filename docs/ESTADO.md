@@ -519,3 +519,18 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   solo cuando la IA asignó ítems a personas o es restaurante/bar. La factura completa sigue plegada en «Lo que dice
   la factura».
 - Sin señal: la pantalla de juegos dice «Sin conexión» en vez de dejar empezar una partida que no se puede guardar.
+
+## v61 · cerrar cuentas sin confusión (13-oct-2026, Daniel: «está confuso cerrar el pago y subir la transferencia»)
+- **Gastos → «Cerrar»** (primera pestaña; abre ahí sola cuando el viaje terminó, y en el inicio sale la tarjeta
+  «Cerrar las cuentas del viaje» con lo tuyo): barra de avance (cuántos pagos faltan y por cuánto), **Lo tuyo**
+  (te toca pagar / te van a llegar / a paz y salvo, con «pagaste X y te tocaba Y»), la lista de a quién pagarle con el
+  botón **«Ya transferí · subir comprobante»**, **Cómo vamos todos** (al día / debe / recibe), **los pagos que faltan**,
+  **pagos registrados** con la foto del comprobante, «Mandar el resumen al grupo» por WhatsApp y, para el admin,
+  «Recordarles a los que faltan» (aviso al celular con lo que debe cada uno).
+- **Un solo plan**: el de menos transferencias (`simplificar`). Cada pago registrado descuenta solo y el plan se rehace
+  con lo que falta; quien paga queda en $0 al instante.
+- **Registrar mi pago** (`pagarConComprobante`): monto prellenado, foto o captura del comprobante (se guarda como
+  respaldo del pago, se ve en el detalle y en la lista), nota opcional; al guardar, a quien recibe le llega el aviso
+  «X te pagó $…». Se puede registrar sin comprobante (el botón lo dice).
+- «Liquidar» y «entre dos personas» usan el mismo flujo cuando el que paga es uno mismo.
+- Prueba: tests/e2e-cerrar.mjs (Alegría paga con comprobante, Daniel lo ve con la foto).

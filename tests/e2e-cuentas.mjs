@@ -4,7 +4,7 @@ const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleF
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')?r.continue():r.abort()});
 await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>localStorage.clear());await pg.reload();await pg.waitForTimeout(400);
 await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');
-await pg.evaluate(()=>irA('gastos'));await pg.waitForTimeout(300);
+await pg.evaluate(()=>{SUBG='mov';irA('gastos')});await pg.waitForTimeout(300);
 const r=await pg.evaluate(()=>{const D=deudasDirectas(ME.id);const yo=balances().find(b=>b.id===ME.id);return {saldo:yo.saldo,sumaDirectas:+D.reduce((a,d)=>a+d.neto,0).toFixed(2),filas:document.querySelectorAll('.mc-b').length,lista:D.map(d=>nom(d.id)+' '+d.neto)}});
 console.log(JSON.stringify(r),'· cuadra con el saldo:',Math.abs(r.saldo-r.sumaDirectas)<0.011);
 await pg.screenshot({path:'/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/cuentas.png'});

@@ -444,6 +444,13 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .jg-mando{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13.5px;color:var(--ink-2)}.jg-tag{margin-left:auto;background:#FFF1D6;color:#8A5A0B;border-radius:99px;padding:3px 9px;font-size:12px}.jg-reloj.rap{background:#E21B3C}.jg-reloj.poco{background:#E21B3C;animation:pulso .6s infinite alternate}@keyframes pulso{to{transform:scale(1.12)}}
 .jg-caras{display:flex;align-items:center;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}.jg-caras .av{margin-right:-6px;box-shadow:0 0 0 2px #fff}.jg-caras .tiny{margin-left:10px}
 .jc{display:flex;align-items:center;gap:12px;padding:10px;text-align:left;width:100%;border:0;font:inherit;color:inherit;cursor:pointer}.jc>svg,.saldo-c>svg,.todo-c>svg{width:20px;height:20px;flex:none;color:var(--ink-3)}.saldo-c .grow,.jc-in{min-width:0}.saldo-c .eyebrow{white-space:nowrap}.jc-img{width:92px;height:72px;object-fit:cover;border-radius:12px;flex:none;background:linear-gradient(135deg,#46178F,#E21B3C)}.jc-in{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}.jc-k{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#46178F}.jc-in b{font-size:16px}
+.cc-head{padding:14px}.cc-prog{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:8px}.cc-prog i{display:block;height:100%;background:linear-gradient(90deg,#14A37F,#2F80ED);border-radius:99px;transition:width .4s}
+.cc-mio{padding:14px}.cc-big{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:14px;margin-bottom:10px}.cc-big b{font-size:34px;font-weight:800;letter-spacing:-.02em}.cc-big.neg{background:#FFE9E9;color:#8E1B1B}.cc-big.pos{background:#E3F6EF;color:#0B5C45}.cc-ok{background:#E3F6EF;color:#0B5C45;border-radius:14px;padding:14px;font-size:16px}
+.cc-t{display:flex;align-items:center;gap:10px;padding:10px 0 4px}.cc-n{width:22px;height:22px;border-radius:50%;background:var(--navy,#0B2547);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center;flex:none}.cc-b{margin:4px 0 10px}.cc-fl{color:var(--ink-3);font-weight:800}
+.cc-list{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}.cc-p{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line)}.cc-p:last-child{border-bottom:0}
+.cc-pg{display:flex;align-items:center;gap:10px;width:100%;padding:8px 0;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;font:inherit;color:inherit;cursor:pointer}.cc-pg:last-child{border-bottom:0}.cc-pg img,.cc-noimg{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none;display:grid;place-items:center;background:#eee}
+.cc-p .grow,.cc-t .grow,.cc-pg .grow,.cc-home .grow{display:flex;flex-direction:column;min-width:0}.cc-pay{padding:14px}.cc-pay .thumb{width:100%;max-height:260px;object-fit:cover;border-radius:12px}
+.cc-home{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;border:0;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:14px}.cc-home .grow{display:flex;flex-direction:column;gap:2px;min-width:0}.cc-home b{font-size:20px}.cc-home.neg{background:#FFE9E9}.cc-home.pos{background:#E3F6EF}.cc-home.ok{background:#E3F6EF}.cc-home>svg{width:20px;height:20px;flex:none;color:var(--ink-3)}
 .tl3{display:grid;gap:14px;margin-top:12px}.tl3-c{display:block;width:100%;padding:0;border:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit}
 .tl3-i.now .tl3-c{box-shadow:0 0 0 2.5px #14A37F,var(--shadow)}.tl3-img{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#ffe3c2,#cfe8f5)}.tl3-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tl3-h{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.95);color:var(--ink);font-weight:800;font-size:14px;padding:5px 11px;border-radius:99px;font-variant-numeric:tabular-nums;box-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -647,7 +654,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v60';
+const BUILD_TAG='v61';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1345,6 +1352,7 @@ async function boot(){
   await cargar();
   sincronizarPush().catch(()=>{});revisarVersion();setInterval(revisarVersion,5*60*1000);
   TAB=(location.hash||'#hoy').slice(1).replace(/-m$/,'');if(!tabsVisibles().some(x=>x[0]===TAB))TAB='hoy';
+  if(viajeTermino())SUBG='cerrar';
   render();
 }
 async function cargar(){let ok=false;try{await API.loadAll();indexar();ok=true}catch(e){if(sinRed(e)&&ME){SIN_RED=SIN_RED||true}else toast('No pude cargar los datos: '+e.message)}await Promise.all([cargarJuegos(),cargarGuias()]);if(ok){SIN_RED=false;guardarCache()}}
@@ -1365,7 +1373,7 @@ function pintarLogin(msg){
     ${MODO==='demo'?`<div class="banner tide"><div><b>Modo demo.</b> Los datos viven solo en este teléfono. Entra como Daniel con el celular <b class="num">${telLocal(demoTel(0))}</b>. Los demás: ${telLocal(demoTel(1))} … ${telLocal(demoTel(DEMO_GENTE.length-1))}.</div></div>`:''}
     <p class="foot">${BUILD_TAG} · ${MODO}</p></div>`;
   $('#lf').onsubmit=async e=>{e.preventDefault();const b=$('#lbtn');b.disabled=true;b.textContent='Entrando…';
-    try{const tel=normTel($('#lced').value);if(!tel)throw new Error('Escribe tu número de celular completo (ej. 098 557 6470).');ME=await API.login(tel);lsSet('marea_tel',tel);await cargar();TAB='hoy';try{history.replaceState(null,'','#hoy')}catch(x){}render()}
+    try{const tel=normTel($('#lced').value);if(!tel)throw new Error('Escribe tu número de celular completo (ej. 098 557 6470).');ME=await API.login(tel);lsSet('marea_tel',tel);await cargar();TAB='hoy';if(viajeTermino())SUBG='cerrar';try{history.replaceState(null,'','#hoy')}catch(x){}render()}
     catch(err){$('#lerr').hidden=false;$('#lerr').textContent=err.message;b.disabled=false;b.textContent='Entrar'}};
 }
 async function salir(){await API.logout();ME=null;closeSheet(true);pintarLogin()}
@@ -1466,7 +1474,8 @@ function vHoy(){
     ${miDiaCard()}
     ${salidaCard()}
     ${votoAlmuerzoCard()}
-    <div class="sec-h"><h2>Plata</h2><button class="link" onclick="SUBG='bal';irA('gastos')">Saldos</button></div>
+    <div class="sec-h"><h2>Plata</h2><button class="link" onclick="SUBG='bal';window.__SUBG_TOCADO=1;irA('gastos')">Saldos</button></div>
+    ${cerrarCard()}
     ${iaCard()}
     <button class="card saldo-c" onclick="SUBG='bal';irA('gastos')"><div class="grow"><div class="eyebrow">Mis cuentas</div><div class="muted tiny">${b.saldo>0.009?'En total te deben':b.saldo<-0.009?'En total debes':'Estás a paz y salvo'}</div></div><span class="amt ${b.saldo>0.009?'pos':b.saldo<-0.009?'neg':''}">${money(Math.abs(b.saldo))}</span>${ic('chev')}</button>
     <div class="sec-h"><h2>Para jugar</h2></div>
@@ -1675,7 +1684,7 @@ function gastosFiltrados(){
 }
 function vGastos(){
   const total=GASTOS.filter(g=>g.tipo==='gasto').reduce((s,g)=>s+(+g.monto||0),0);
-  return `<div class="seg sm4" role="tablist"><button aria-pressed="${SUBG==='mov'}" onclick="SUBG='mov';render()">Movimientos</button><button aria-pressed="${SUBG==='bal'}" onclick="SUBG='bal';render()">Saldos</button><button aria-pressed="${SUBG==='pres'}" onclick="SUBG='pres';render()">Dashboard</button><button aria-pressed="${SUBG==='fotos'}" onclick="SUBG='fotos';render()">Facturas</button></div>
+  return `<div class="seg sm4" role="tablist"><button aria-pressed="${SUBG==='cerrar'}" onclick="SUBG='cerrar';window.__SUBG_TOCADO=1;render()">Cerrar</button><button aria-pressed="${SUBG==='mov'}" onclick="SUBG='mov';window.__SUBG_TOCADO=1;render()">Movimientos</button><button aria-pressed="${SUBG==='bal'}" onclick="SUBG='bal';render()">Saldos</button><button aria-pressed="${SUBG==='pres'}" onclick="SUBG='pres';render()">Dashboard</button><button aria-pressed="${SUBG==='fotos'}" onclick="SUBG='fotos';render()">Facturas</button></div>
   ${SUBG==='mov'?`
     ${misCuentas()}
     <div class="stack" style="margin-top:14px;gap:10px">
@@ -1687,7 +1696,7 @@ function vGastos(){
     <div class="card flat" style="margin-top:14px"><div class="row"><div class="grow"><div class="eyebrow">Gastado en el viaje</div><div class="amt" style="font-size:22px">${money(total)}</div></div>
       <div style="text-align:right"><div class="eyebrow">Promedio por persona</div><div class="amt muted">${money(activos().length?total/activos().length:0)}</div></div></div></div>
     <div class="row wrap-ok" style="margin-top:14px"><button class="btn sm" onclick="exportarCSV()">${ic('copy')} Exportar CSV</button><button class="btn sm" onclick="abrirResumen()">${ic('receipt')} Resumen final</button></div>`
-  :SUBG==='pres'?vDashboard():SUBG==='fotos'?vFacturas():vBalances()}`;
+  :SUBG==='pres'?vDashboard():SUBG==='fotos'?vFacturas():SUBG==='cerrar'?vCerrar():vBalances()}`;
 }
 /* ── cuentas CLARAS, como Splitwise sin «simplificar»: con cada persona, lo que de verdad se deben por los gastos
    que compartieron (yo pagué y ella va → me debe su parte · ella pagó y yo voy → le debo la mía · pagos entre los dos).
@@ -1718,7 +1727,7 @@ function verDeuda(id,desde){desde=desde||ME.id;const yo=desde===ME.id;const d=de
     <div class="row" style="gap:12px"><span class="dd-avs">${av(desde)}${av(id)}</span><div class="grow"><div class="eyebrow">Entre ${esc(A)} y ${esc(B)}</div><b style="font-size:19px;font-family:var(--f-disp)">${esc(titulo)}</b></div><span class="amt ${d.neto>0.009?'pos':d.neto<-0.009?'neg':''}" style="font-size:24px">${money(Math.abs(d.neto))}</span></div>
     <div class="card" style="padding:4px 14px">${L.map(({g,v})=>{const tipoPago=g.tipo==='pago';const mio=v>0;const quien=mio?A:B;return `<button class="dd-row" onclick="abrirGasto('${g.id}')"><span class="grow"><b>${esc(g.descripcion)}</b><span class="tiny muted">${fechaCorta(g.fecha)} · ${tipoPago?(mio?`${esc(B)} le pagó a ${esc(A)}`:`${esc(A)} le pagó a ${esc(B)}`):`pagó ${esc(quien)}${!tipoPago&&g.reparto&&g.reparto.partes&&g.reparto.partes.length>1?' '+money(g.monto):''} · la parte de ${esc(mio?B:A)}`}</span></span><span class="amt ${mio?'pos':'neg'}">${mio?'+':'−'}${money(Math.abs(v))}</span></button>`}).join('')}
       <div class="dd-row dd-tot"><span class="grow"><b>${d.neto>0.009?`En total ${esc(B)} le debe a ${esc(A)}`:d.neto<-0.009?`En total ${esc(A)} le debe a ${esc(B)}`:'Quedan en cero'}</b></span><span class="amt ${d.neto>0.009?'pos':d.neto<-0.009?'neg':''}">${money(Math.abs(d.neto))}</span></div></div>
-    ${(yo||esAdmin())?(d.neto<-0.009?`<button class="btn primary block" onclick="registrarPago('${desde}','${id}',${Math.abs(d.neto)})">${yo?'Pagarle':esc(A)+' le pagó'} ${money(Math.abs(d.neto))}: registrarlo</button>`:d.neto>0.009?`<button class="btn block" onclick="registrarPago('${id}','${desde}',${d.neto})">${yo?'Ya me pagó':esc(B)+' ya pagó'}: registrar ${money(d.neto)}</button>`:''):''}
+    ${(yo||esAdmin())?(d.neto<-0.009?`<button class="btn primary block" onclick="closeSheet();${yo?`pagarConComprobante('${desde}','${id}',${Math.abs(d.neto)})`:`registrarPago('${desde}','${id}',${Math.abs(d.neto)})`}">${yo?'Ya le transferí '+money(Math.abs(d.neto))+' · subir comprobante':esc(A)+' le pagó '+money(Math.abs(d.neto))+': registrarlo'}</button>`:d.neto>0.009?`<button class="btn block" onclick="registrarPago('${id}','${desde}',${d.neto})">${yo?'Ya me pagó':esc(B)+' ya pagó'}: registrar ${money(d.neto)}</button>`:''):''}
     <p class="tiny muted" style="margin:0">Verde: ${esc(B)} debe su parte de algo que pagó ${esc(A)}. Rojo: ${esc(A)} debe su parte de algo que pagó ${esc(B)}. Se restan entre sí.</p></div>`)}
 function pintarListaGastos(){
   const el=$('#glist'); if(!el) return;
@@ -1751,6 +1760,54 @@ function vBalances(){
       <div style="margin-top:10px" class="row"><div class="grow muted tiny">Lo que se paga con el fondo no entra a las cuentas de nadie: ya se repartió al aportar.</div><span class="pill ${f.disponible<0?'bad':'ok'}">Queda ${money(f.disponible)}</span></div></div>
     ${D.length?`<div class="sec-h"><h2>Al final del viaje</h2></div><div class="card liq-c"><b>Liquidar con menos transferencias</b><div class="muted tiny" style="margin:4px 0 10px">Hoy son ${D.length} deuda${D.length===1?'':'s'} entre parejas. Se pueden cerrar con solo ${simplificar(balances()).length} transferencia${simplificar(balances()).length===1?'':'s'}, y todos quedan en $0 igual.</div><button class="btn primary block" onclick="abrirLiquidar()">Ver cómo liquidar y por qué</button></div>`:''}`;
 }
+/* ── CERRAR CUENTAS: lo que le toca a cada uno para quedar en $0, con el comprobante de la transferencia ──
+   Un solo plan (el de menos transferencias). Cada pago registrado descuenta solo: el plan se rehace con lo que falta. */
+const viajeTermino=()=>!!CFG.hasta&&hoyISO()>CFG.hasta;
+const pagosHechos=()=>GASTOS.filter(g=>g.tipo==='pago'&&!g.eliminado).map(g=>({g,de:((g.pagadores||[])[0]||{}).persona_id,a:(((g.reparto||{}).partes||[])[0]||{}).persona_id,monto:+g.monto||0})).filter(x=>x.de&&x.a);
+function vCerrar(){const bs=balances(),T=simplificar(bs),P=pagosHechos(),me=bs.find(b=>b.id===ME.id)||{saldo:0,pagado:0,toca:0};
+  const total=r2(GASTOS.filter(g=>g.tipo==='gasto'&&!g.eliminado&&!g.fondo).reduce((a,g)=>a+(+g.monto||0),0)),falta=r2(T.reduce((a,t)=>a+t.monto,0)),hecho=r2(P.reduce((a,x)=>a+x.monto,0));
+  const pct=hecho+falta>0?Math.round(hecho/(hecho+falta)*100):100;
+  const misPagos=T.filter(t=>t.de===ME.id),meLlegan=T.filter(t=>t.a===ME.id),recibidos=P.filter(x=>x.a===ME.id),enviados=P.filter(x=>x.de===ME.id);
+  const fila=(t,i)=>`<div class="cc-t"><span class="cc-n">${i+1}</span>${av(t.de===ME.id?t.a:t.de)}<span class="grow"><b>${t.de===ME.id?'Pagarle a '+esc(nom(t.a)):esc(nom(t.de))+' te paga'}</b><span class="tiny muted">${t.de===ME.id?'Transfiérele y sube el comprobante':'Pendiente · te llega un aviso cuando pague'}</span></span><b class="amt">${money(t.monto)}</b></div>${t.de===ME.id?`<button class="btn primary block cc-b" onclick="pagarConComprobante('${t.de}','${t.a}',${t.monto})">${ic('cam')} Ya transferí · subir comprobante</button>`:''}`;
+  const mio=Math.abs(me.saldo)<0.01?`<div class="cc-ok">✅ <b>Estás a paz y salvo.</b> No debes ni te deben nada.</div>`
+    :me.saldo<0?`<div class="cc-big neg"><span class="eyebrow">Te toca pagar en total</span><b>${money(-me.saldo)}</b><span class="tiny">Pagaste ${money(me.pagado)} y te tocaba ${money(me.toca)}</span></div>${misPagos.map(fila).join('')}${misPagos.length>1?`<p class="tiny muted" style="margin:6px 0 0">Son ${misPagos.length} pagos porque así cierra todo el grupo con menos transferencias.</p>`:''}`
+    :`<div class="cc-big pos"><span class="eyebrow">Te van a llegar en total</span><b>${money(me.saldo)}</b><span class="tiny">Pagaste ${money(me.pagado)} y te tocaba ${money(me.toca)}</span></div>${meLlegan.map(fila).join('')}`;
+  const estado=b=>Math.abs(b.saldo)<0.01?'<span class="pill ok">Al día</span>':b.saldo<0?`<span class="pill bad">Debe ${money(-b.saldo)}</span>`:`<span class="pill sun">Recibe ${money(b.saldo)}</span>`;
+  const txt=[`💸 Cierre de cuentas · ${CFG.nombre||'Casablanca'}`,`Total del viaje: ${money(total)}`,'',...T.map(t=>`• ${nom(t.de)} → ${nom(t.a)}: ${money(t.monto)}`),'',`Cada uno paga solo lo de su lista y todos quedamos en $0. El comprobante se sube en la app (Gastos → Cerrar).`].join('\n');
+  return `<div class="card cc-head"><div class="eyebrow">Cerrar las cuentas del viaje</div><div class="cc-prog"><i style="width:${pct}%"></i></div><div class="row tiny" style="margin-top:6px"><span class="grow">${falta>0.009?`Faltan <b>${T.length}</b> pago${T.length===1?'':'s'} por <b>${money(falta)}</b>`:'<b>¡Todo cerrado! 🎉</b>'}</span><span class="muted">Total del viaje ${money(total)}</span></div></div>
+    <div class="sec-h"><h2>Lo tuyo</h2><button class="link" onclick="abrirResumen()">De dónde sale</button></div>
+    <div class="card cc-mio">${mio}${enviados.length?`<div class="cc-list"><div class="lbl">Pagos que ya hiciste</div>${enviados.map(x=>pagoFila(x)).join('')}</div>`:''}${recibidos.length?`<div class="cc-list"><div class="lbl">Pagos que te llegaron</div>${recibidos.map(x=>pagoFila(x)).join('')}</div>`:''}</div>
+    <div class="sec-h"><h2>Cómo vamos todos</h2></div>
+    <div class="card" style="padding:4px 14px">${bs.slice().sort((a,b)=>a.saldo-b.saldo).map(b=>`<div class="cc-p">${av(b.id)}<span class="grow"><b>${esc(nom(b.id))}</b><span class="tiny muted">pagó ${money(b.pagado)} · le tocaba ${money(b.toca)}</span></span>${estado(b)}</div>`).join('')}</div>
+    ${T.length?`<div class="sec-h"><h2>Los ${T.length} pagos que faltan</h2></div><div class="card" style="padding:4px 14px">${T.map(t=>`<div class="cc-p">${av(t.de,'xs')}<span class="cc-fl">→</span>${av(t.a,'xs')}<span class="grow"><b>${esc(nom(t.de))}</b> le paga a <b>${esc(nom(t.a))}</b></span><b class="amt">${money(t.monto)}</b></div>`).join('')}</div>`:''}
+    ${P.length?`<div class="sec-h"><h2>Pagos registrados · ${P.length}</h2></div><div class="card" style="padding:4px 14px">${P.slice().sort((a,b)=>String(b.g.created_at||b.g.fecha).localeCompare(String(a.g.created_at||a.g.fecha))).map(x=>pagoFila(x)).join('')}</div>`:''}
+    <a class="btn sun block" style="margin-top:12px" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">${ic('wa')} Mandar el resumen al grupo</a>
+    ${esAdmin()&&T.length?`<button class="btn block" style="margin-top:8px" onclick="recordarPagos()">${ic('bell')} Recordarles a los que faltan</button>`:''}
+    <p class="muted tiny">Cada pago que se registra aquí descuenta solo. Si alguien pagó por fuera y no está, que lo registre con «Ya transferí» o avísale a ${esc(nom((PERSONAS.find(p=>p.rol==='admin')||ME).id))}.</p>`}
+function pagoFila(x){const u=fotoUrl(x.g.respaldo_path);return `<button class="cc-pg" onclick="abrirGasto('${x.g.id}')">${u?`<img src="${esc(u)}" alt="comprobante">`:`<span class="cc-noimg">${ic('pago')}</span>`}<span class="grow"><b>${esc(nom(x.de))} → ${esc(nom(x.a))}</b><span class="tiny muted">${fechaCorta(x.g.fecha)}${u?' · con comprobante':' · sin comprobante'}</span></span><b class="amt">${money(x.monto)}</b></button>`}
+let PAGO=null;
+function pagarConComprobante(de,a,monto){PAGO={de,a,monto:r2(monto),foto:null,nota:''};pintarPago()}
+function pintarPago(){const P=PAGO;openSheet(`${sheetH('Registrar mi pago')}<div class="stack">
+    <div class="card cc-pay"><div class="row" style="gap:10px;align-items:center">${av(P.de)}<span class="cc-fl">→</span>${av(P.a)}<span class="grow"><b>${esc(nom(P.de))} le paga a ${esc(nom(P.a))}</b></span></div>
+      <label class="lbl" for="pgm" style="margin-top:10px">Cuánto transferiste</label><div class="row"><span class="ia-cur">$</span><input id="pgm" class="in num" inputmode="decimal" value="${P.monto}" oninput="PAGO.monto=parseFloat(this.value.replace(',','.'))||0"></div>
+      <div class="lbl" style="margin-top:12px">Comprobante de la transferencia</div>
+      ${P.foto?`<img class="thumb" src="${esc(P.foto)}" alt="comprobante" style="cursor:zoom-in" onclick="verImagen(this.src,'Comprobante')"><label class="btn sm" style="margin-top:6px">Cambiar foto<input type="file" accept="image/*" hidden onchange="fotoPago(this)"></label>`
+      :`<div class="grid2"><label class="btn primary">${ic('cam')} Tomar foto<input type="file" accept="image/*" capture="environment" hidden onchange="fotoPago(this)"></label><label class="btn">${ic('galeria')} Captura de pantalla<input type="file" accept="image/*" hidden onchange="fotoPago(this)"></label></div><div class="tiny muted" style="margin-top:6px">La captura del banco o del Deuna. Así ${esc(nom(P.a))} lo ve sin preguntar.</div>`}
+      <div class="field" style="margin-top:10px"><label for="pgn">Nota (opcional)</label><input id="pgn" class="in" placeholder="Ej. Transferencia Pichincha · Deuna" oninput="PAGO.nota=this.value"></div></div>
+    <button class="btn primary block" id="pgok" onclick="guardarPago()">${P.foto?'Registrar el pago':'Registrar sin comprobante'}</button>
+    <p class="tiny muted" style="margin:0">Al registrarlo, ${esc(nom(P.a))} recibe un aviso y tu deuda baja al instante.</p></div>`)}
+async function fotoPago(inp){const f=inp.files&&inp.files[0];if(!f)return;try{const{blob,dataUrl}=await achicar(f,1600,.82);PAGO.foto=dataUrl;PAGO.blob=blob;pintarPago()}catch(e){toast(e.message)}}
+async function guardarPago(){const P=PAGO;if(!(P.monto>0)){toast('Escribe cuánto transferiste');return}const b=$('#pgok');b.disabled=true;b.textContent='Guardando…';
+  try{let ref=null;if(P.foto)ref=MODO==='demo'?P.foto:await API.subirFoto('marea-respaldos',P.blob,P.foto);
+    const g={id:uid(),tipo:'pago',descripcion:`Pago de ${nom(P.de)} a ${nom(P.a)}`,monto:r2(P.monto),moneda:CFG.moneda||'USD',fecha:hoyISO(),categoria:'otros',evento_id:null,etiquetas:[],fondo:false,pagadores:[{persona_id:P.de,monto:r2(P.monto)}],reparto:{modo:'porcentaje',partes:[{persona_id:P.a,valor:100}]},respaldo_path:ref,origen:'manual',lectura_ia:null,nota:P.nota||(ref?'Transferencia con comprobante':''),eliminado:false,alcance:null,factura:null,creado_por:ME.id};
+    await API.saveGasto(g,true);if(ref&&MODO!=='demo')FOTOS[ref]=P.foto;
+    avisar([{para_id:P.a,titulo:`💸 ${nom(P.de)} te pagó ${money(g.monto)}`,cuerpo:ref?'Subió el comprobante · míralo en Gastos → Cerrar':'Lo registró sin comprobante · Gastos → Cerrar',url:'/#gastos'}]);
+    await cargar();closeSheet();toast('Pago registrado ✓');render()}catch(e){b.disabled=false;b.textContent='Registrar el pago';toast('No se pudo guardar: '+e.message)}}
+function recordarPagos(){const T=simplificar(balances());const por={};T.forEach(t=>{por[t.de]=(por[t.de]||[]);por[t.de].push(t)});
+  avisar(Object.entries(por).map(([id,L])=>({para_id:id,titulo:'💸 Falta cerrar tus cuentas del viaje',cuerpo:L.map(t=>`${money(t.monto)} a ${nom(t.a)}`).join(' · ')+' · entra a Gastos → Cerrar',url:'/#gastos'})));toast('Aviso enviado a '+Object.keys(por).length+' persona'+(Object.keys(por).length===1?'':'s'))}
+/* la tarjeta del inicio cuando el viaje terminó */
+function cerrarCard(){if(!viajeTermino())return '';const me=balances().find(b=>b.id===ME.id)||{saldo:0},T=simplificar(balances()),mios=T.filter(t=>t.de===ME.id);
+  return `<button class="card cc-home ${Math.abs(me.saldo)<0.01?'ok':me.saldo<0?'neg':'pos'}" onclick="SUBG='cerrar';window.__SUBG_TOCADO=1;irA('gastos')"><span class="grow"><span class="eyebrow">Cerrar las cuentas del viaje</span><b>${Math.abs(me.saldo)<0.01?'Estás a paz y salvo ✅':me.saldo<0?'Te toca pagar '+money(-me.saldo):'Te van a llegar '+money(me.saldo)}</b><span class="tiny">${mios.length?mios.map(t=>money(t.monto)+' a '+nom(t.a)).join(' · ')+' · toca para subir el comprobante':T.length?`Faltan ${T.length} pago${T.length===1?'':'s'} del grupo`:'Todo cerrado 🎉'}</span></span>${ic('chev')}</button>`}
 /* ── LIQUIDAR: el mismo saldo de cada uno, con el menor número de transferencias, explicado paso a paso ── */
 function abrirLiquidar(){const bs=balances().filter(b=>Math.abs(b.saldo)>0.009).sort((a,b)=>a.saldo-b.saldo),T=simplificar(balances()),D=deudasGrupo();
   if(!T.length){openSheet(sheetH('Liquidar')+'<div class="card flat empty">Todos están a paz y salvo.</div>');return}
@@ -1765,7 +1822,7 @@ function abrirLiquidar(){const bs=balances().filter(b=>Math.abs(b.saldo)>0.009).
     <div class="card" style="padding:6px 14px">${bs.map(b=>`<div class="liq-s">${av(b.id,'xs')}<span class="grow"><b>${esc(nom(b.id))}</b><span class="tiny muted"> · pagó ${money(b.pagado)}, le tocaba ${money(b.toca)}</span></span><span class="amt ${b.saldo>0?'pos':'neg'}">${b.saldo>0?'recibe '+money(b.saldo):'paga '+money(-b.saldo)}</span></div>`).join('')}</div>
     <div class="sec-h"><h2>2 · Las ${T.length} transferencias</h2></div>
     ${T.map((t,i)=>`<div class="card liq-t"><div class="liq-h"><span class="liq-n">${i+1}</span>${av(t.de)}<span class="liq-fl">→</span>${av(t.a)}<span class="grow"><b>${esc(nom(t.de))}</b> le pasa a <b>${esc(nom(t.a))}</b></span><b class="amt">${money(t.monto)}</b></div>
-      <div class="tiny muted liq-p">Por qué: ${por(t)}</div><button class="btn sm block" onclick="closeSheet();registrarPago('${t.de}','${t.a}',${t.monto})">Ya se hizo: registrar este pago</button></div>`).join('')}
+      <div class="tiny muted liq-p">Por qué: ${por(t)}</div>${t.de===ME.id?`<button class="btn sm block primary" onclick="closeSheet();pagarConComprobante('${t.de}','${t.a}',${t.monto})">Ya transferí · subir comprobante</button>`:`<button class="btn sm block" onclick="closeSheet();registrarPago('${t.de}','${t.a}',${t.monto})">Registrar este pago</button>`}</div>`).join('')}
     <div class="sec-h"><h2>3 · Comprobado</h2></div>
     <div class="card tiny">${bs.map(b=>{const sale=T.filter(t=>t.de===b.id).reduce((a,t)=>a+t.monto,0),entra=T.filter(t=>t.a===b.id).reduce((a,t)=>a+t.monto,0);return `<div class="liq-s">${av(b.id,'xs')}<span class="grow">${esc(nom(b.id))}: ${saldoTxt(b.saldo)} ${sale?' + '+money(sale)+' que paga':''}${entra?' − '+money(entra)+' que recibe':''}</span><b>= ${money(Math.abs(r2(b.saldo+sale-entra)))}</b></div>`}).join('')}</div>
     <p class="muted tiny" style="margin:0">Si prefieren pagar deuda por deuda, sigan «Quién le debe a quién»: los dos caminos dejan a todos en $0. Cada pago que se registra aquí descuenta solo.</p>
