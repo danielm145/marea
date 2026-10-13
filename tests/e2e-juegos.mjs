@@ -5,7 +5,8 @@ const srv=spawn('python3',['-m','http.server','8099','--bind','127.0.0.1','-d','
 const S='/tmp/claude-0/-home-user/5853f958-644c-5d2f-baa4-3130bae7435e/scratchpad/';
 const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});const ctx=await b.newContext({viewport:{width:390,height:844}});
 await ctx.route('**/*',r=>{const u=r.request().url();if(u.includes('/api/'))return r.fulfill({status:404,body:'{}'});return u.startsWith('http://127.0.0.1:8099')?r.continue():r.abort()});
-const abrir=async(tel)=>{const pg=await ctx.newPage();pg.on('pageerror',e=>errs.push(e.message));pg.on('dialog',d=>d.accept());await pg.goto('http://127.0.0.1:8099/index.html');await pg.waitForTimeout(400);
+const abrir=async(tel)=>{const pg=await ctx.newPage();pg.on('pageerror',e=>errs.push(e.message));pg.on('dialog',d=>d.accept());await pg.addInitScript(()=>{const real=Date;const off=new real('2026-10-10T09:00:00-05:00').getTime()-real.now();class D extends real{constructor(...a){super(...(a.length?a:[real.now()+off]))}static now(){return real.now()+off}};window.Date=D});
+await pg.goto('http://127.0.0.1:8099/index.html');await pg.waitForTimeout(400);
   if(!(await pg.locator('#lced').count())){await pg.evaluate(()=>{localStorage.removeItem('marea_demo_sesion')});await pg.reload();await pg.waitForTimeout(400)}
   await pg.fill('#lced',tel);await pg.click('#lbtn');await pg.waitForSelector('.hh');return pg};
 const A=await abrir('0990000001');await A.evaluate(()=>{localStorage.removeItem('marea_demo_v1')});await A.reload();await A.waitForTimeout(300);

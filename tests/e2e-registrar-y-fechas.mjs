@@ -2,6 +2,7 @@ import { chromium } from 'playwright';
 const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
 const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
+await pg.addInitScript(()=>{const real=Date;const off=new real('2026-10-10T09:00:00-05:00').getTime()-real.now();class D extends real{constructor(...a){super(...(a.length?a:[real.now()+off]))}static now(){return real.now()+off}};window.Date=D});
 await pg.goto('file:///home/user/marea/public/index.html');
 // un teléfono con la demo vieja y fechas raras (2 oct – 9 nov) se re-siembra con las reales
 await pg.evaluate(()=>{try{localStorage.clear();localStorage.setItem('marea_demo_v1',JSON.stringify({v:14,config:{desde:'2026-10-02',hasta:'2026-11-09'}}))}catch(e){}});await pg.reload();await pg.waitForTimeout(500);

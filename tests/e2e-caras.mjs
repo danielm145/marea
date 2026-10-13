@@ -2,6 +2,7 @@ import { chromium } from 'playwright';
 const errs=[];const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
 const pg=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();pg.on('pageerror',e=>errs.push(e.message));
 await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')||/fonts\.(googleapis|gstatic)/.test(u)?r.continue():r.abort()});
+await pg.addInitScript(()=>{const real=Date;const off=new real('2026-10-10T09:00:00-05:00').getTime()-real.now();class D extends real{constructor(...a){super(...(a.length?a:[real.now()+off]))}static now(){return real.now()+off}};window.Date=D});
 await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>{try{localStorage.clear()}catch(e){}});await pg.reload();await pg.waitForTimeout(500);
 await pg.fill('#lced','0990000001');await pg.click('#lbtn');await pg.waitForSelector('.hh');await pg.waitForTimeout(500);
 await pg.screenshot({path:'z-1-hoy.png'});

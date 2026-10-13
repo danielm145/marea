@@ -10,9 +10,9 @@ await pg.route('**/*',r=>{const u=r.request().url();return u.startsWith('file:')
 const entrar=async tel=>{await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>localStorage.removeItem('marea_demo_sesion'));await pg.reload();await pg.waitForTimeout(400);await pg.fill('#lced',tel);await pg.click('#lbtn');await pg.waitForSelector('.hh')};
 await pg.goto('file:///home/user/marea/public/index.html');await pg.evaluate(()=>localStorage.clear());
 await entrar('0990000003');   // Alegría: debe
-console.log('inicio · tarjeta cerrar:',(await pg.locator('.cc-home').innerText()).replace(/\n+/g,' | '));
-await pg.locator('.cc-home').screenshot({path:S+'cc-home.png'});
-await pg.click('.cc-home');await pg.waitForTimeout(300);
+console.log('inicio · tarjeta cerrar:',(await pg.locator('.dp-c').innerText()).replace(/\n+/g,' | ').slice(0,150));
+await pg.locator('.dp-c').screenshot({path:S+'cc-home.png'});
+await pg.click('.dp-c button:has-text("Ver cómo vamos todos")');await pg.waitForTimeout(300);
 console.log('Gastos abre en:',await pg.locator('.seg button[aria-pressed=true]').first().innerText(),'· lo tuyo:',(await pg.locator('.cc-big').innerText()).replace(/\n+/g,' | '),'· pagos que me tocan:',await pg.locator('.cc-t').count(),'· botones comprobante:',await pg.locator('.cc-b').count());
 await pg.screenshot({path:S+'cc-1.png',fullPage:true});
 const antes=await pg.evaluate(()=>({saldo:balances().find(b=>b.id===ME.id).saldo,plan:simplificar(balances()).length,pagos:GASTOS.filter(g=>g.tipo==='pago').length}));

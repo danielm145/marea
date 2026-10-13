@@ -451,6 +451,8 @@ button.fact{cursor:pointer}.fact-i{color:var(--sun)}.fact-i svg{width:20px;heigh
 .cc-pg{display:flex;align-items:center;gap:10px;width:100%;padding:8px 0;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;font:inherit;color:inherit;cursor:pointer}.cc-pg:last-child{border-bottom:0}.cc-pg img,.cc-noimg{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:none;display:grid;place-items:center;background:#eee}
 .cc-p .grow,.cc-t .grow,.cc-pg .grow,.cc-home .grow{display:flex;flex-direction:column;min-width:0}.cc-pay{padding:14px}.cc-pay .thumb{width:100%;max-height:260px;object-fit:cover;border-radius:12px}
 .cc-home{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;border:0;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:14px}.cc-home .grow{display:flex;flex-direction:column;gap:2px;min-width:0}.cc-home b{font-size:20px}.cc-home.neg{background:#FFE9E9}.cc-home.pos{background:#E3F6EF}.cc-home.ok{background:#E3F6EF}.cc-home>svg{width:20px;height:20px;flex:none;color:var(--ink-3)}
+.hh-chica{min-height:220px}.dp-c{padding:16px;display:flex;flex-direction:column;gap:4px}.dp-c.neg{background:#FFF0F0}.dp-c.pos{background:#E8F8F1}.dp-c.ok{background:#E8F8F1}.dp-n{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.dp-t{display:flex;align-items:center;gap:10px;margin-top:12px}.dp-t .grow{display:flex;flex-direction:column;min-width:0}
 .tl3{display:grid;gap:14px;margin-top:12px}.tl3-c{display:block;width:100%;padding:0;border:0;background:var(--surface);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;text-align:left;cursor:pointer;font:inherit;color:inherit}
 .tl3-i.now .tl3-c{box-shadow:0 0 0 2.5px #14A37F,var(--shadow)}.tl3-img{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#ffe3c2,#cfe8f5)}.tl3-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tl3-h{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.95);color:var(--ink);font-weight:800;font-size:14px;padding:5px 11px;border-radius:99px;font-variant-numeric:tabular-nums;box-shadow:0 2px 8px rgba(0,0,0,.15)}
@@ -654,7 +656,7 @@ a.item{text-decoration:none;color:inherit}
    Para conectar Supabase: pegar SB_URL y SB_ANON abajo (son públicas por diseño;
    la seguridad la hace RLS en sql/001_esquema.sql). La service_role JAMÁS va aquí.
    ============================================================================ */
-const BUILD_TAG='v61';
+const BUILD_TAG='v62';
 /* la casa, tal cual la publica el Airbnb (Daniel la pegó el 7-oct) */
 const CASA_AIRBNB={casa_titulo:'Precioso departamento en Casablanca (frente a la playa)',airbnb_url:'https://www.airbnb.cl/rooms/49074368',
   casa_desc:'Planta baja del Condominio Alcazaba del Río, en Casablanca (Same). A pocos metros de la piscina y el jacuzzi y a 10 gradas de la playa.\n\nSala, cocina, lavandería, 3 habitaciones y 2 baños completos. Terraza amplia y jardín con vista al mar: ideal para desayunar afuera y para las noches temáticas.\n\n¿Dónde dormimos?\n· Habitación 1: cama principal\n· Habitación 2: 2 camas individuales (literas)\n· Habitación 3: 4 camas individuales (literas)\n\nEl Airbnb dice 8 huéspedes · 7 camas · 2 baños · 4,83 ★ (35 reseñas).\nOjo: la casa no tiene detector de humo ni de monóxido.',
@@ -1386,7 +1388,7 @@ function render(){
   if(!ME){pintarLogin();return}
   const sub=CFG.lugar?esc(CFG.lugar):(CFG.desde?`${fechaCorta(CFG.desde)} – ${fechaCorta(CFG.hasta)}`:'El viaje a la playa');
   const views={hoy:vHoy,gastos:vGastos,menu:vMenu,tareas:vTareas,planes:vPlanes,nosotros:vNosotros,admin:vAdmin,mas:vMas,chat:vChat,check:vCheck,juegos:vJuegos};
-  const enHoy=TAB==='hoy', activa=EN_MAS.includes(TAB)?'mas':TAB;
+  const enHoy=TAB==='hoy', activa=viajeTermino()&&TAB==='nosotros'?'nosotros':EN_MAS.includes(TAB)?'mas':TAB;
   $('#app').innerHTML=`<div class="wrap ${enHoy?'en-hoy':''}">
     ${enHoy?'':`<header class="top2"><button class="x" onclick="${EN_MAS.includes(TAB)&&TAB!=='mas'?"irA('mas')":"irA('hoy')"}" aria-label="Atrás">${ic('back')}</button>
       <div class="top2-t">${logo(118)}<small>${sub}</small></div><button class="x" onclick="abrirMenuMas()" aria-label="Más opciones">${ic('dots')}</button></header>`}
@@ -1394,7 +1396,7 @@ function render(){
     <main id="main">${(views[TAB]||vHoy)()}</main>
     <p class="foot"><button class="link-x" onclick="verCreditos()">Créditos de las fotos</button> · Casablanca ${BUILD_TAG}${MODO==='demo'?' · modo demo':''}</p></div>
     ${TAB==='chat'||TAB==='hoy'||TAB==='juegos'?'':`<button class="fab" onclick="abrirAgregar()" aria-label="Agregar">${ic('plus')}</button>`}
-    <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${TABS_BARRA.map(([k,l],i)=>`<button class="tab" ${k===activa?'aria-current="page"':''} onclick="irA('${k}')">${ic(TAB_IC[k]||k)}<span>${l}</span></button>${i===0?`<label class="tab tab-cam" title="Subir fotos al álbum del viaje"><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"><span class="tab-cam-b">${ic('cam')}</span><span>Fotos al álbum</span></label>`:''}`).join('')}</div></nav>`;
+    <nav class="tabs" aria-label="Secciones"><div class="tabs-in">${(viajeTermino()?[['hoy','Inicio'],['gastos','Cuentas'],['nosotros','Álbum'],['mas','Más']]:TABS_BARRA).map(([k,l],i)=>`<button class="tab" ${k===activa?'aria-current="page"':''} onclick="irA('${k}')">${ic(TAB_IC[k]||k)}<span>${l}</span></button>${i===0?`<label class="tab tab-cam" title="Subir fotos al álbum del viaje"><input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"><span class="tab-cam-b">${ic('cam')}</span><span>Fotos al álbum</span></label>`:''}`).join('')}</div></nav>`;
   if(TAB==='gastos'&&SUBG==='mov')pintarListaGastos();
   if(TAB==='chat'){const c=$('#chatL');if(c)c.scrollTop=c.scrollHeight;window.scrollTo(0,document.body.scrollHeight)}
 }
@@ -1453,7 +1455,7 @@ function vMas(){
 }
 
 /* ---------- HOY ---------- */
-function vHoy(){
+function vHoy(){if(viajeTermino())return vDespues();
   const hoy=hoyISO(), dias=diasViaje();
   /* portada de Hoy: la ilustración «beach era» de la IA si ya se generó (scripts/generar-imagenes.mjs portada-hero),
      si no, el atardecer de la piscina del video retocado en tono vintage */
@@ -1491,6 +1493,27 @@ function vHoy(){
     ${VER_NUEVA?`<div class="banner tide" style="margin-top:12px"><div class="grow"><b>Hay una versión nueva (${esc(VER_NUEVA)})</b><br><span class="tiny">Tú tienes la ${BUILD_TAG}.</span></div><button class="btn sm primary" onclick="actualizarApp()">Actualizar</button></div>`:''}
     <div class="ver-pie">Versión ${BUILD_TAG} · <button class="link" onclick="actualizarApp()">Buscar actualización</button></div>`;
 }
+/* ── DESPUÉS DEL VIAJE: el inicio es solo dos cosas, cerrar las cuentas y las fotos ── */
+function vDespues(){const bs=balances(),me=bs.find(b=>b.id===ME.id)||{saldo:0,pagado:0,toca:0},T=simplificar(bs),mios=T.filter(t=>t.de===ME.id),P=pagosHechos();
+  const total=r2(GASTOS.filter(g=>g.tipo==='gasto'&&!g.eliminado&&!g.fondo).reduce((a,g)=>a+(+g.monto||0),0)),falta=r2(T.reduce((a,t)=>a+t.monto,0));
+  const L=MURO.slice().sort((a,b)=>String(b.created_at||'').localeCompare(String(a.created_at||''))).slice(0,6);
+  return `<section class="hh hh-chica">${imgTag(['img/casa/atardecer.jpg','img/casa/playa.jpg'],'hh-img')}<div class="hh-in"><div class="hh-logo">${logo(150)}</div><div class="hh-l">${esc(CFG.lugar||'')}</div><span class="hh-c">¡Gracias por venir! 🌴</span></div></section>
+    <div class="sec-h"><h2>1 · Cerrar las cuentas</h2></div>
+    <div class="card dp-c ${Math.abs(me.saldo)<0.01?'ok':me.saldo<0?'neg':'pos'}">
+      <div class="eyebrow">${Math.abs(me.saldo)<0.01?'Lo tuyo':me.saldo<0?'Te toca pagar':'Te van a llegar'}</div>
+      <b class="dp-n">${Math.abs(me.saldo)<0.01?'A paz y salvo ✅':money(Math.abs(me.saldo))}</b>
+      <div class="tiny">Pagaste ${money(me.pagado)} · te tocaba ${money(me.toca)}${P.filter(x=>x.de===ME.id).length?` · ya registraste ${P.filter(x=>x.de===ME.id).length} pago${P.filter(x=>x.de===ME.id).length===1?'':'s'}`:''}</div>
+      ${mios.map((t,i)=>`<div class="dp-t">${av(t.a)}<span class="grow"><b>Pagarle a ${esc(nom(t.a))}</b><span class="tiny muted">Transfiérele y sube la captura</span></span><b class="amt">${money(t.monto)}</b></div><button class="btn primary block" onclick="pagarConComprobante('${t.de}','${t.a}',${t.monto})">${ic('cam')} Ya transferí · subir comprobante</button>`).join('')}
+      <button class="btn ${mios.length?'ghost':'block'} block" style="margin-top:8px" onclick="SUBG='cerrar';irA('gastos')">Ver cómo vamos todos${falta>0.009?` · faltan ${T.length} pago${T.length===1?'':'s'}`:' · ¡todo cerrado! 🎉'} ${ic('chev')}</button></div>
+    <div class="sec-h"><h2>2 · Las fotos del viaje</h2>${MURO.length?`<button class="link" onclick="SUBN='album';FALB='';irA('nosotros')">Ver las ${MURO.length}</button>`:''}</div>
+    <div class="card hm-alb"><div class="muted tiny" style="margin-bottom:8px">${MURO.length?MURO.length+' foto'+(MURO.length===1?'':'s')+' en el álbum · sube las tuyas para que las tengan todos':'Todavía no hay fotos: sube las tuyas, varias a la vez'}</div>
+      ${L.length?`<div class="alb hm-alb-g">${L.map(f=>{const u=fotoUrl(f.foto_path);return `<button onclick="FALB='';verFoto('${f.id}')" aria-label="Ver foto">${u?`<img src="${esc(u)}" alt="" loading="lazy">`:''}</button>`}).join('')}</div>`:''}
+      <label class="btn primary block hm-alb-b">${ic('cam')} Subir mis fotos<input type="file" accept="image/*" multiple hidden onchange="elegirFotos(this)"></label></div>
+    ${chatCard()}
+    <div class="card" style="margin-top:12px"><div class="eyebrow">El viaje en números</div><div class="row" style="margin-top:4px"><span class="grow">Total gastado</span><b class="amt">${money(total)}</b></div><div class="row"><span class="grow">Por persona (promedio)</span><b class="amt">${money(r2(total/(activos().length||1)))}</b></div><button class="btn ghost block sm" style="margin-top:8px" onclick="abrirResumen()">Ver el resumen del viaje</button></div>
+    ${avisosCard()}
+    ${VER_NUEVA?`<div class="banner tide" style="margin-top:12px"><div class="grow"><b>Hay una versión nueva (${esc(VER_NUEVA)})</b><br><span class="tiny">Tú tienes la ${BUILD_TAG}.</span></div><button class="btn sm primary" onclick="actualizarApp()">Actualizar</button></div>`:''}
+    <div class="ver-pie">Versión ${BUILD_TAG} · <button class="link" onclick="actualizarApp()">Buscar actualización</button></div>`}
 /* ── versión: la app sabe cuál tiene y pregunta cuál está publicada; «Actualizar» limpia el caché y recarga ── */
 let VER_NUEVA='',VER_T=0;
 async function revisarVersion(){if(!/fieldbuil\.ai$|workers\.dev$/.test(location.hostname)||Date.now()-VER_T<60000)return;VER_T=Date.now();

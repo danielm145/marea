@@ -534,3 +534,11 @@ Validado en Postgres 16 local: los 8 SQL corren dos veces sin error, 20 tablas e
   «X te pagó $…». Se puede registrar sin comprobante (el botón lo dice).
 - «Liquidar» y «entre dos personas» usan el mismo flujo cuando el que paga es uno mismo.
 - Prueba: tests/e2e-cerrar.mjs (Alegría paga con comprobante, Daniel lo ve con la foto).
+
+## v62 · después del viaje, el inicio es solo dos cosas (13-oct-2026, Daniel: «quita todo el resto»)
+- Cuando el viaje terminó (`viajeTermino()`), el inicio (`vDespues`) muestra: **1 · Cerrar las cuentas** (lo tuyo en
+  grande, a quién pagarle con «Ya transferí · subir comprobante», «Ver cómo vamos todos») y **2 · Las fotos del viaje**
+  (subir varias, las últimas, ver el álbum); abajo el chat, «El viaje en números» y los avisos. Nada de Mi día, trivia,
+  itinerario ni carros.
+- Barra de abajo después del viaje: **Inicio · Fotos al álbum · Cuentas · Álbum · Más**.
+- Las pruebas del viaje en curso se fijan en el sábado 10-oct (hoy el inicio ya es el de después).
